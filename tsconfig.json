@@ -16,7 +16,7 @@
     ]
   },
   "files": [
-    "src/material.ts"
+    "src/material.module.ts"
   ],
   "compileOnSave": false,
   "buildOnSave": false,
@@ -26,7 +26,7 @@
     "strictMetadataEmit": true,
     "skipTemplateCodegen": true,
     "flatModuleOutFile": "material.js",
-    "flatModuleId": "@blox/material",
+    "flatModuleId": "material",
     "annotateForClosureCompiler": true
   }
 }
