@@ -4,8 +4,10 @@ import { AfterViewInit, Component, ContentChild, ContentChildren, Directive, Ele
 import { NgControl } from '@angular/forms';
 import { MDCTextfieldFoundation } from '@material/textfield';
 import { MdcTextfieldAdapter } from './mdc.textfield.adapter';
-import { AbstractMdcInput, AbstractMdcLabel } from '../abstract';
-import { asBoolean, MdcEventRegistry } from '../../utils';
+import { AbstractMdcInput } from '../abstract/abstract.mdc.input';
+import { AbstractMdcLabel } from '../abstract/abstract.mdc.label';
+import { asBoolean } from '../../utils/value.utils';
+import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
 let nextId = 1;
 

@@ -3,9 +3,11 @@ import { AfterContentInit, ContentChild, ContentChildren, forwardRef, QueryList,
 import { NgControl } from '@angular/forms';
 import { MDCFormFieldFoundation } from '@material/form-field';
 import { MdcFormfieldAdapter } from './mdc.formfield.adapter';
-import { AbstractMdcRipple } from '../ripple';
-import { AbstractMdcInput, AbstractMdcLabel } from '../abstract';
-import { asBoolean, MdcEventRegistry } from '../../utils';
+import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
+import { AbstractMdcInput } from '../abstract/abstract.mdc.input';
+import { AbstractMdcLabel } from '../abstract/abstract.mdc.label';
+import { asBoolean } from '../../utils/value.utils';
+import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
 let nextId = 1;
 

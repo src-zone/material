@@ -3,8 +3,9 @@ import { AfterContentInit, Component, ContentChild, Directive, ElementRef, Event
 import { NgControl } from '@angular/forms';
 import { MDCRadioFoundation } from '@material/radio';
 import { MdcRadioAdapter } from './mdc.radio.adapter';
-import { AbstractMdcInput } from '../abstract';
-import { asBoolean, MdcEventRegistry } from '../../utils';
+import { AbstractMdcInput } from '../abstract/abstract.mdc.input';
+import { asBoolean } from '../../utils/value.utils';
+import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
 @Directive({
     selector: 'input[mdcRadioInput][type=radio]',

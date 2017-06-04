@@ -4,7 +4,8 @@ import { NgControl } from '@angular/forms';
 import { MDCSnackbarFoundation  } from '@material/snackbar';
 import { getCorrectEventName } from '@material/animation';
 import { MdcSnackbarAdapter } from './mdc.snackbar.adapter';
-import { asBoolean, MdcEventRegistry } from '../../utils';
+import { asBoolean } from '../../utils/value.utils';
+import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 import { SnackbarMessage } from './snackbar.message';
 
 @Directive({

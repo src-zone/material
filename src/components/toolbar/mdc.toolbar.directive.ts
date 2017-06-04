@@ -5,7 +5,8 @@ import { NgControl } from '@angular/forms';
 import { MDCToolbar, MDCToolbarFoundation, util } from '@material/toolbar';
 import { cssClasses, strings } from '@material/toolbar/constants';
 import { MdcToolbarAdapter } from './mdc.toolbar.adapter';
-import { asBoolean, MdcEventRegistry } from '../../utils';
+import { asBoolean } from '../../utils/value.utils';
+import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
 @Directive({
     selector: '[mdcToolbarRow]'

@@ -1,7 +1,7 @@
 import { AfterContentInit, Directive, ElementRef, HostBinding, Input, OnDestroy, forwardRef } from '@angular/core';
 import { MDCRipple } from '@material/ripple';
-import { asBoolean } from '../../utils';
-import { AbstractMdcRipple } from '../ripple';
+import { asBoolean } from '../../utils/value.utils';
+import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 
 @Directive({
     selector: '[mdcFabIcon]'

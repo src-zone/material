@@ -1,7 +1,7 @@
 import { AfterContentInit, AfterViewInit, Component, ContentChild, ContentChildren, Directive, ElementRef, HostBinding, HostListener,
   Input, OnDestroy, QueryList, Renderer2, ViewEncapsulation } from '@angular/core';
-import { asBoolean } from '../../utils';
-import { MdcButtonDirective } from '../button';
+import { asBoolean } from '../../utils/value.utils';
+import { MdcButtonDirective } from '../button/mdc.button.directive';
 
 @Directive({
     selector: '[mdcCardPrimary]'
