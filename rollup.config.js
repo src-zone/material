@@ -1,15 +1,11 @@
-//import resolve from 'rollup-plugin-node-resolve';
-//import commonjs from 'rollup-plugin-commonjs';
-import includePaths from 'rollup-plugin-includepaths';
+import resolve from 'rollup-plugin-node-resolve';
+import sourcemaps from 'rollup-plugin-sourcemaps';
 
 export default {
     entry: 'build/material.js',
     plugins: [
-        //resolve({jsnext: true, module: true, main: true, browser: true, exclude: 'node_modules/**'}),
-        //commonjs({
-        //    include: 'node_modules/rxjs/**'
-        //}),
-        includePaths({})
+        resolve(),
+        sourcemaps()
     ],
     onwarn: function(warning) {
         // Suppress known error message caused by TypeScript compiled code with Rollup
