@@ -1,6 +1,20 @@
 import resolve from 'rollup-plugin-node-resolve';
 import sourcemaps from 'rollup-plugin-sourcemaps';
 
+const globals = {
+    '@angular/common': 'ng.common',
+    '@angular/core': 'ng.core',
+    '@angular/forms': 'ng.forms',
+    '@material/animation': 'material.animation',
+    '@material/checkbox': 'material.checkbox',
+    '@material/form-field': 'material.formfield',
+    '@material/radio': 'material.radio',
+    '@material/ripple': 'material.ripple',
+    '@material/snackbar': 'material.snackbar',
+    '@material/textfield': 'material.textfield',
+    '@material/toolbar': 'material.toolbar'
+};
+
 export default {
     entry: 'build/material.js',
     plugins: [
@@ -15,20 +29,9 @@ export default {
     },
     sourceMap: true,
     targets: [
-        //{dest: 'dist/material.umd.js' , format: 'umd', moduleName: 'blox.material'},
+        {dest: 'dist/material.umd.js', format: 'umd', moduleName: 'blox.material'},
         {dest: 'dist/material.es5.js', format: 'es'}
     ],
-    external: [
-        '@angular/common',
-        '@angular/core',
-        '@angular/forms',
-        '@material/animation',
-        '@material/checkbox',
-        '@material/form-field',
-        '@material/radio',
-        '@material/ripple',
-        '@material/snackbar',
-        '@material/textfield',
-        '@material/toolbar'
-    ]
+    external: Object.keys(globals),
+    globals: globals
 };
