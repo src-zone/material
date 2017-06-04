@@ -13,6 +13,7 @@ export default {
         if (warning.code !== 'THIS_IS_UNDEFINED')
             console.log("Rollup warning: ", warning.message);
     },
+    sourceMap: true,
     targets: [
         //{dest: 'dist/material.umd.js' , format: 'umd', moduleName: 'blox.material'},
         {dest: 'dist/material.es5.js', format: 'es'}
