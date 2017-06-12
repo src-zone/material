@@ -12,13 +12,15 @@ const globals = {
     '@material/ripple': 'material.ripple',
     '@material/snackbar': 'material.snackbar',
     '@material/textfield': 'material.textfield',
-    '@material/toolbar': 'material.toolbar'
+    '@material/toolbar': 'material.toolbar',
+    '@material/tabs': 'material.tabs',
+    'rxjs': 'Rx'
 };
 
 export default {
     entry: 'build/material.js',
     plugins: [
-        resolve(),
+        resolve({jail: '/src'}),
         sourcemaps()
     ],
     onwarn: function(warning) {

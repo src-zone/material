@@ -22,6 +22,15 @@ import { MdcRadioDirective,
 import { MdcSnackbarDirective,
     MdcSnackbarTextDirective,
     MdcSnackbarActionDirective } from './components/snackbar/mdc.snackbar.directive';
+import { MdcTabDirective,
+    MdcTabIconDirective,
+    MdcTabIconTextDirective } from './components/tabs/mdc.tab.directive';
+import { MdcTabBarDirective } from './components/tabs/mdc.tab.bar.directive';
+import { MdcTabBarScrollerDirective,
+    MdcTabBarScrollerInnerDirective,
+    MdcTabBarScrollerBackDirective,
+    MdcTabBarScrollerForwardDirective,
+    MdcTabBarScrollerFrameDirective } from './components/tabs/mdc.tab.bar.scroller.directive';
 import { MdcTextfieldDirective,
     MdcTextfieldInputDirective,
     MdcTextfieldLabelDirective,
@@ -55,6 +64,15 @@ export { MdcRadioDirective,
 export { MdcSnackbarDirective,
     MdcSnackbarTextDirective,
     MdcSnackbarActionDirective } from './components/snackbar/mdc.snackbar.directive';
+export { MdcTabDirective,
+    MdcTabIconDirective,
+    MdcTabIconTextDirective } from './components/tabs/mdc.tab.directive';
+export { MdcTabBarDirective } from './components/tabs/mdc.tab.bar.directive';
+export { MdcTabBarScrollerDirective,
+    MdcTabBarScrollerInnerDirective,
+    MdcTabBarScrollerBackDirective,
+    MdcTabBarScrollerForwardDirective,
+    MdcTabBarScrollerFrameDirective }
 export { MdcTextfieldDirective,
     MdcTextfieldInputDirective,
     MdcTextfieldLabelDirective,
@@ -79,6 +97,9 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcFormfieldDirective, MdcFormfieldInputDirective, MdcFormfieldLabelDirective,
         MdcRadioDirective, MdcRadioInputDirective,
         MdcSnackbarDirective, MdcSnackbarTextDirective, MdcSnackbarActionDirective,
+        MdcTabDirective, MdcTabIconDirective, MdcTabIconTextDirective,
+        MdcTabBarDirective,
+        MdcTabBarScrollerDirective, MdcTabBarScrollerInnerDirective, MdcTabBarScrollerBackDirective, MdcTabBarScrollerForwardDirective, MdcTabBarScrollerFrameDirective,
         MdcTextfieldDirective, MdcTextfieldInputDirective, MdcTextfieldLabelDirective, MdcTextfieldHelptextDirective,
         MdcToolbarDirective, MdcToolbarRowDirective, MdcToolbarSectionDirective, MdcToolbarTitleDirective, MdcToolbarFixedAdjustDirective
     ],
@@ -94,6 +115,9 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcFormfieldDirective, MdcFormfieldInputDirective, MdcFormfieldLabelDirective,
         MdcRadioDirective, MdcRadioInputDirective,
         MdcSnackbarDirective, MdcSnackbarTextDirective, MdcSnackbarActionDirective,
+        MdcTabDirective, MdcTabIconDirective, MdcTabIconTextDirective,
+        MdcTabBarDirective,
+        MdcTabBarScrollerDirective, MdcTabBarScrollerInnerDirective, MdcTabBarScrollerBackDirective, MdcTabBarScrollerForwardDirective, MdcTabBarScrollerFrameDirective,
         MdcTextfieldDirective, MdcTextfieldInputDirective, MdcTextfieldLabelDirective, MdcTextfieldHelptextDirective,
         MdcToolbarDirective, MdcToolbarRowDirective, MdcToolbarSectionDirective, MdcToolbarTitleDirective, MdcToolbarFixedAdjustDirective
     ]

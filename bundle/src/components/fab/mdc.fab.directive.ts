@@ -4,12 +4,20 @@ import { asBoolean } from '../../utils/value.utils';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 
 @Directive({
-    selector: 'button[mdcButton],a[mdcButton]',
-    providers: [{provide: AbstractMdcRipple, useExisting: forwardRef(() => MdcButtonDirective) }]
+    selector: '[mdcFabIcon]'
 })
-export class MdcButtonDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-button') _hasHostClass = true;
-    private _compact = false;
+export class MdcFabIconDirective {
+    @HostBinding('class.mdc-fab__icon') _hasHostClass = true;
+}
+
+@Directive({
+    selector: '[mdcFab]',
+    providers: [{provide: AbstractMdcRipple, useExisting: forwardRef(() => MdcFabDirective) }]
+})
+export class MdcFabDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
+    @HostBinding('class.mdc-fab') _hasHostClass = true;
+    private _mini = false;
+    private _plain = false;
     private _ripple: { destroy: Function, activate: Function, deactivate: Function };
 
     constructor(private elementRef: ElementRef) {
@@ -25,13 +33,22 @@ export class MdcButtonDirective extends AbstractMdcRipple implements AfterConten
             this._ripple.destroy();
     }
 
-    @HostBinding('class.mdc-button--compact') @Input()
-    get mdcCompact() {
-        return this._compact;
+    @HostBinding('class.mdc-fab--mini') @Input()
+    get mdcMini() {
+        return this._mini;
     }
 
-    set mdcCompact(val: any) {
-        this._compact = asBoolean(val);
+    set mdcMini(val: any) {
+        this._mini = asBoolean(val);
+    }
+
+    @HostBinding('class.mdc-fab--plain') @Input()
+    get mdcPlain() {
+        return this._plain;
+    }
+
+    set mdcPlain(val: any) {
+        this._plain = asBoolean(val);
     }
 
     activateInputRipple() {

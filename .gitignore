@@ -1,6 +1,6 @@
 /.settings
-/build
-/compiled
-/dist
-/node_modules
+/bundle/build/
+/bundle/compiled/
+/bundle/dist/
+/bundle/node_modules/
 /.project
