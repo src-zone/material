@@ -3,4 +3,6 @@
 /bundle/compiled/
 /bundle/dist/
 /bundle/node_modules/
+/site/dist/
+/site/node_modules/
 /.project
