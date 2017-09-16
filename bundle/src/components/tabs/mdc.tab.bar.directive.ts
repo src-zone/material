@@ -8,6 +8,7 @@ import { asBoolean } from '../../utils/value.utils';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 import { MdcTabDirective } from './mdc.tab.directive';
 
+const CLASS_TAB_BAR = 'mdc-tab-bar';
 const CLASS_INDICATOR = 'mdc-tab-bar__indicator';
 const CLASS_ICONS_BAR = 'mdc-tab-bar--icon-tab-bar';
 const CLASS_ICONS_WITH_TEXT_BAR = 'mdc-tab-bar--icons-with-text';
@@ -16,7 +17,7 @@ const CLASS_ICONS_WITH_TEXT_BAR = 'mdc-tab-bar--icons-with-text';
     selector: '[mdcTabBar]'
 })
 export class MdcTabBarDirective {
-    @HostBinding('class' + MDCTabBarFoundation.strings.TAB_SELECTOR) _hostClass = true;
+    @HostBinding('class.' + CLASS_TAB_BAR) _hostClass = true;
     @HostBinding('class' + MDCTabBarScrollerFoundation.strings.TABS_SELECTOR) _insideScrollFrame = false;
     @ContentChildren(MdcTabDirective, {descendants: false}) _tabs: QueryList<MdcTabDirective>;
     @Output() mdcChange: EventEmitter<{activeTabIndex: number}> = new EventEmitter();
