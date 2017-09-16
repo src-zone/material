@@ -4,7 +4,7 @@ and `@angular` (https://angular.io).
 
 The components and directives are designed with the following design principles:
 
-* Every &#64; &#64; &#x40; &commat; `@material` component will get a directive binding as angular integration,
+* Every &#9835; &#64; &#64; &#x40; &commat; `@material` component will get a directive binding as angular integration,
   such as mdcTextfield, mdcTextfieldLabel, mdcCard, etc. Thus there are directives
   for top level `@material` components (components that have their own foundation class inside
   `@material` such as mdc-textfield, see
