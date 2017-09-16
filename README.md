@@ -38,6 +38,7 @@ The components and directives are designed with the following design principles:
 ## Status 
 
 Component                | Directives | Comments
+------------------------ | ---------- |
 button                   | mdcButton   |
 card                     | mdcCard, mdcCardHorizontal, mdcCardPrimary, mdcCardTitle, mdcCardSubtitle, mdcCardText, mdcCardMedia mdcCardMediaItem, mdcCardActions |
 checkbox                 | mdcCheckbox, mdcCheckboxInput |
@@ -62,4 +63,5 @@ The following are sass/css only elements, and therefore not implemented as angul
 sass mixins (recommended), or if that's not possible, use the css classes:
 
 Component | Sass-Mixins
+--------- | -----------
 elevation | mdc-elevation, mdc-elevation-transition-rule
