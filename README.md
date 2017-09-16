@@ -37,29 +37,29 @@ The components and directives are designed with the following design principles:
 
 ## Status 
 
-| Component                | Directives | Comments |
-| button                   | mdcButton   | |
-| card                     | mdcCard, mdcCardHorizontal, mdcCardPrimary, mdcCardTitle, mdcCardSubtitle, mdcCardText, mdcCardMedia mdcCardMediaItem, mdcCardActions | |
-| checkbox                 | mdcCheckbox, mdcCheckboxInput | |
-| dialog                   |        | |
-| drawer                   |        | |
-| fab                      | mdcFab, mdcFabIcon | |
-| form-field               | mdcFormfield, mdcFormfieldInput, mdcFormfieldLabel | |
-| grid-list                |        | |
-| icon-toggle              |        | |
-| layout-grid              |        | |
-| list                     |        | |
-| menu (simple-menu)       |        | |
-| radio                    | mdcRadio, mdcRadioInput | |
-| ripple                   |        | See AbstractMdcRipple for attaching ripples to other components/directives |
-| select                   |        |
-| snackbar                 | mdcSnackbar, mdcSnackbarText, mdcSnackbarActionWrapper |
-| switch                   |        |
-| textfield                | mdcTextfield, mdcTextfieldInput, mdcTextfieldLabel, mdcTextfieldHelptext |
-| toolbar                  | mdcToolbar, mdcToolbarRow, mdcToolbarSection, mdcToolbarTitle, mdcToolbarFixedAdjust |
+Component                | Directives | Comments
+button                   | mdcButton   |
+card                     | mdcCard, mdcCardHorizontal, mdcCardPrimary, mdcCardTitle, mdcCardSubtitle, mdcCardText, mdcCardMedia mdcCardMediaItem, mdcCardActions |
+checkbox                 | mdcCheckbox, mdcCheckboxInput |
+dialog                   |        |
+drawer                   |        |
+fab                      | mdcFab, mdcFabIcon |
+form-field               | mdcFormfield, mdcFormfieldInput, mdcFormfieldLabel |
+grid-list                |        |
+icon-toggle              |        |
+layout-grid              |        |
+list                     |        |
+menu (simple-menu)       |        |
+radio                    | mdcRadio, mdcRadioInput |
+ripple                   |        | See AbstractMdcRipple for attaching ripples to other components/directives
+select                   |        |
+snackbar                 | mdcSnackbar, mdcSnackbarText, mdcSnackbarActionWrapper
+switch                   |        |
+textfield                | mdcTextfield, mdcTextfieldInput, mdcTextfieldLabel, mdcTextfieldHelptext
+toolbar                  | mdcToolbar, mdcToolbarRow, mdcToolbarSection, mdcToolbarTitle, mdcToolbarFixedAdjust
 
 The following are sass/css only elements, and therefore not implemented as angular directives/components. You should use the appropriate
 sass mixins (recommended), or if that's not possible, use the css classes:
 
-| Component | Sass-Mixins |
-| elevation | mdc-elevation, mdc-elevation-transition-rule |
+Component | Sass-Mixins
+elevation | mdc-elevation, mdc-elevation-transition-rule
