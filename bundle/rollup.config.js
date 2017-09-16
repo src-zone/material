@@ -31,7 +31,7 @@ export default {
     },
     sourceMap: true,
     targets: [
-        {dest: 'dist/material.umd.js', format: 'umd', moduleName: 'blox.material'},
+        {dest: 'dist/material.umd.js', format: 'umd', name: 'blox.material'},
         {dest: 'dist/material.es5.js', format: 'es'}
     ],
     external: Object.keys(globals),
