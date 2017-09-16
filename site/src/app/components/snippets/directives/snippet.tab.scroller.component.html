@@ -1,0 +1,20 @@
+<div class="blox-snippet snippet-skip-line">
+<div mdcTabBarScroller>
+  <div mdcTabBarScrollerBack>
+    <a mdcTabBarScrollerInner class="material-icons" href="#/directives/tab" aria-label="scroll back button">
+      navigate_before
+    </a>
+  </div>
+  <div mdcTabBarScrollerFrame>
+    <nav mdcTabBar>
+      <a *ngFor="let tab of tabs; let i = index" mdcTab (mdcSelect)="activate(i)">{{tab.name}}</a>
+    </nav>
+  </div>
+  <div mdcTabBarScrollerForward>
+    <a mdcTabBarScrollerInner class="material-icons" href="#/directives/tab" aria-label="scroll forward button">
+      navigate_next
+    </a>
+  </div>
+</div>
+<div class="blox-tab-sample-content">{{tabs[active].content}}</div>
+</div><div class="snippet-skip-line"></div>

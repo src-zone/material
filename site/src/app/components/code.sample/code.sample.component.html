@@ -1,0 +1,6 @@
+<nav mdcTabBar class="blox-sample-tab-bar">
+  <a mdcTab (mdcSelect)="activate(null)"><ng-content select="[bloxSampleTitle]"></ng-content></a>
+  <a *ngFor="let name of snippetNames" mdcTab (mdcSelect)="activate(name)">{{name}}</a>
+</nav>
+<pre *ngIf="active"><code mwlHighlightJs [source]="snippet.code[active]" [language]="active"></code></pre>
+<ng-content *ngIf="!active" select="[bloxSample]"></ng-content>

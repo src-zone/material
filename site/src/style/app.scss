@@ -1,0 +1,126 @@
+@charset "UTF-8";
+
+@import "variables";
+@import "~normalize.css/normalize.css";
+@import "neat";
+@import "mdc";
+@import "mixins";
+@import "~highlight.js/styles/default.css";
+
+body, html {
+  color: rgba(0,0,0,.87);
+  background-color: $mdc-theme-background;
+}
+
+body {
+  display: flex;
+}
+blox-app {
+  display: flex;
+  flex-flow: column nowrap;
+  flex: 1 1 auto;
+  min-height: 100vh;
+  min-width: 0;
+}
+main {
+  flex: 1 1 auto;
+}
+
+.blox-container {
+  @include blox-container;
+}
+
+header .blox-material-logo {
+  padding-right: 24px;
+  img {
+    width: 32px;
+    height: 32px;
+  }
+}
+footer {
+  @include mdc-typography(caption);
+  text-align: center;
+  background: #fafafa;
+  padding-top: 12px;
+}
+
+$blox-component-list-grid: (
+  columns: 1,
+  gutter: 24px
+);
+$blox-component-list-grid-l: (
+  columns: 2,
+  gutter: 24px,
+  media: $media-l-min-width
+);
+
+ul.blox-component-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    @include grid-column(1, $blox-component-list-grid);
+    @include grid-media($blox-component-list-grid-l) {
+      @include grid-column(1);
+    }
+    a {
+      @include mdc-theme-prop(color, text-primary-on-light);
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      //color: $mdc
+
+      .blox-component-list-item-img img {
+        min-width: 72px;
+        height: 72px;
+        margin-right: 24px;
+      }
+      h2 {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+fieldset.blox-snippet {
+  margin: 0;
+  padding: 16px;
+  border: 0;
+
+  .mdc-button {
+    margin-right: 16px;
+    margin-bottom: 16px;
+  }
+
+  .mdc-fab {
+    margin-right: 16px;
+    margin-bottom: 16px;
+  }
+}
+
+blox-code-sample {
+  display: block;
+  background-color: rgba(0, 0, 0, 0.05);
+  .blox-sample-tab-bar {
+    background-color: rgba(0, 0, 0, 0.10);
+  }
+  pre {
+    overflow-x: auto;
+    padding: 16px;
+    margin: 0;
+  }
+  nav.mdc-tab-bar {
+    margin: 0;
+  }
+}
+
+.mdc-toolbar a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.blox-tab-sample-content {
+  padding: 16px;
+}

@@ -1,0 +1,15 @@
+// conatiner mixin for responsive page margins:
+@mixin blox-container {
+  margin: 0 auto;
+  max-width: $container-max-width;
+  width: $container-s-width;
+  @media only screen and (min-width: $media-m-min-width) {
+    width: $container-m-width;
+  }
+  @media only screen and (min-width: $media-l-min-width) {
+    width: $container-l-width;
+  }
+  @media only screen and (min-width: $media-xl-min-width) {
+    width: $container-xl-width;
+  }
+}

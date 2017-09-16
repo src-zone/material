@@ -1,0 +1,6 @@
+<div class="blox-snippet snippet-skip-line">
+<nav mdcTabBar>
+  <a *ngFor="let tab of tabs; let i = index" mdcTab (mdcSelect)="activate(i)">{{tab.name}}</a>
+</nav>
+<div class="blox-tab-sample-content">{{tabs[active].content}}</div>
+</div><div class="snippet-skip-line"></div>

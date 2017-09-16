@@ -1,0 +1,62 @@
+[
+    {
+        "title": "Button",
+        "description": "Material Design-styles buttons",
+        "img": "/img/mdc-icons/button.svg",
+        "href": "/directives/button"
+    },
+    {
+        "title": "Card",
+        "description": "Cards for displaying content composed of different elements",
+        "img": "/img/mdc-icons/card.svg",
+        "href": "/directives"
+    },
+    {
+        "title": "Checkbox",
+        "description": "Multi selection controls",
+        "img": "/img/mdc-icons/checkbox.svg",
+        "href": "/directives/checkbox"
+    },
+    {
+        "title": "Floating Action Button",
+        "description": "Circular buttons for the primary action in an application",
+        "img": "/img/mdc-icons/button.svg",
+        "href": "/directives/fab"
+    },
+    {
+        "title": "Radio Button",
+        "description": "Single selection controls",
+        "img": "/img/mdc-icons/radio.svg",
+        "href": "/directives"
+    },
+    {
+        "title": "Ripple",
+        "description": "Ink ripple touch feedback effect",
+        "img": "/img/mdc-icons/ripple.svg",
+        "href": "/directives"
+    },
+    {
+        "title": "Snackbar",
+        "description": "Brief feedback for an action through a message at the bottom of the screen",
+        "img": "/img/mdc-icons/snackbar.svg",
+        "href": "/directives"
+    },
+    {
+        "title": "Tabs",
+        "description": "Tab navigation components",
+        "img": "/img/mdc-icons/tabs.svg",
+        "href": "/directives/tab"
+    },
+    {
+        "title": "Textfield",
+        "description": "Single and multiline text inputs",
+        "img": "/img/mdc-icons/textfield.svg",
+        "href": "/directives"
+    },
+    {
+        "title": "Toolbar",
+        "description": "A container for multiple rows of items such as application title, navigation menu, or tabs",
+        "img": "/img/mdc-icons/toolbar.svg",
+        "href": "/directives"
+    }
+]
