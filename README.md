@@ -1,4 +1,4 @@
-The @blox/material angular library provides an integration between
+The &#64;blox/material angular library provides an integration between
 @material from google (https://github.com/material-components/material-components-web
 and @angular (https://angular.io).
 
