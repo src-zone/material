@@ -4,8 +4,8 @@ and `@angular` (https://angular.io).
 
 The components and directives are designed with the following design principles:
 
-* Every `@material` component will get a directive binding as angular integration,
-  such as mdcTextfield, mdcTextFieldLabel, mdcCard, etc. Thus there are directives
+* Every \@material component will get a directive binding as angular integration,
+  such as mdcTextfield, mdcTextfieldLabel, mdcCard, etc. Thus there are directives
   for top level `@material` components (components that have their own foundation class inside
   `@material` such as mdc-textfield, see
   https://material.io/components/web/catalog/input-controls/text-fields/), and
