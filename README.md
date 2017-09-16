@@ -1,6 +1,6 @@
-The @ blox/material angular library provides an integration between
-@ material` from google (https://github.com/material-components/material-components-web
-and @ angular` (https://angular.io).
+The @blox/material angular library provides an integration between
+@material` from google (https://github.com/material-components/material-components-web
+and @angular` (https://angular.io).
 
 The components and directives are designed with the following design principles:
 
