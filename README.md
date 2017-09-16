@@ -1,13 +1,13 @@
-The &#64;blox/material angular library provides an integration between
-@material from google (https://github.com/material-components/material-components-web
-and @angular (https://angular.io).
+The `@blox/material` angular library provides an integration between
+`@material` from google (https://github.com/material-components/material-components-web
+and `@angular` (https://angular.io).
 
 The components and directives are designed with the following design principles:
 
-* Every @material component will get a directive binding as angular integration,
+* Every `@material` component will get a directive binding as angular integration,
   such as mdcTextfield, mdcTextFieldLabel, mdcCard, etc. Thus there are directives
-  for top level @material components (components that have their own foundation class inside
-  @material such as mdc-textfield, see
+  for top level `@material` components (components that have their own foundation class inside
+  `@material` such as mdc-textfield, see
   https://material.io/components/web/catalog/input-controls/text-fields/), and
   their child components such as the label for an mdc-textfield.
 
@@ -18,10 +18,10 @@ The components and directives are designed with the following design principles:
   the functionality of the directives, but in a more concise (shorter)
   structure. This is still being discussed.
 
-* Features that @material exposes by requiring css classes on html elements
+* Features that `@material` exposes by requiring css classes on html elements
   (such as mdc-textfield-helptext--persistent) will get directive based equivalents
   in this library. It should not be necessary to work directly with the mdc-** css
-  classes from @material when using our mdc** directives in angular.
+  classes from `@material` when using our mdc** directives in angular.
   The mdc** directives should control which mdc-** classes are present on an
   element.
 
@@ -29,8 +29,8 @@ The components and directives are designed with the following design principles:
   (e.g. the SVG inside mdcCheckbox)?
 
 * None of the provided components will import any of the stylesheets/sass-files
-  from @material. Your application should include the stylesheets
-  they want to use from @material. This gives the application designer more flexibility
+  from `@material`. Your application should include the stylesheets
+  they want to use from `@material`. This gives the application designer more flexibility
   in the final css that components use.
   It also reduces style duplication in your code bundles, that will inevitabily occur
   when each component ships with it's own styles.
