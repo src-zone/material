@@ -18,7 +18,7 @@ const CLASS_ICONS_WITH_TEXT_BAR = 'mdc-tab-bar--icons-with-text';
 })
 export class MdcTabBarDirective {
     @HostBinding('class.' + CLASS_TAB_BAR) _hostClass = true;
-    @HostBinding('class' + MDCTabBarScrollerFoundation.strings.TABS_SELECTOR) _insideScrollFrame = false;
+    @HostBinding('class.mdc-tab-bar-scroller__scroll-frame__tabs') _insideScrollFrame = false;
     @ContentChildren(MdcTabDirective, {descendants: false}) _tabs: QueryList<MdcTabDirective>;
     @Output() mdcChange: EventEmitter<{activeTabIndex: number}> = new EventEmitter();
     private _indicator: HTMLElement;

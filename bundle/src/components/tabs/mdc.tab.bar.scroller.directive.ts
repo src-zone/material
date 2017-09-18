@@ -11,6 +11,9 @@ import { MdcTabBarDirective } from './mdc.tab.bar.directive';
 const CLASS_SCROLLER = 'mdc-tab-bar-scroller';
 const CLASS_INDICATOR = 'mdc-tab-bar-scroller__indicator';
 const CLASS_INDICATOR_INNER = 'mdc-tab-bar-scroller__indicator__inner';
+const CLASS_INDICATOR_BACK = 'mdc-tab-bar-scroller__indicator--back';
+const CLASS_INDICATOR_FORWARD = 'mdc-tab-bar-scroller__indicator--forward';
+const CLASS_SCROLLER_FRAME = 'mdc-tab-bar-scroller__scroll-frame';
 
 @Directive({
     selector: '[mdcTabBarScrollerInner]'
@@ -24,7 +27,7 @@ export class MdcTabBarScrollerInnerDirective {
 })
 export class MdcTabBarScrollerBackDirective {
     @HostBinding('class.' + CLASS_INDICATOR) _hostClass = true;
-    @HostBinding('class.' +  MDCTabBarScrollerFoundation.cssClasses.INDICATOR_BACK) _back = true;
+    @HostBinding('class.' + CLASS_INDICATOR_BACK) _back = true;
 
     constructor(public _el: ElementRef) {
     }
@@ -35,7 +38,7 @@ export class MdcTabBarScrollerBackDirective {
 })
 export class MdcTabBarScrollerForwardDirective {
     @HostBinding('class.' + CLASS_INDICATOR) _hostClass = true;
-    @HostBinding('class.' +  MDCTabBarScrollerFoundation.cssClasses.INDICATOR_FORWARD) _forward = true;
+    @HostBinding('class.' + CLASS_INDICATOR_FORWARD) _forward = true;
 
     constructor(public _el: ElementRef) {
     }
@@ -45,7 +48,7 @@ export class MdcTabBarScrollerForwardDirective {
     selector: '[mdcTabBarScrollerFrame]'
 })
 export class MdcTabBarScrollerFrameDirective implements AfterContentInit {
-    @HostBinding('class' + MDCTabBarScrollerFoundation.strings.FRAME_SELECTOR) _hostClass = true;
+    @HostBinding('class.' + CLASS_SCROLLER_FRAME) _hostClass = true;
     @ContentChild(MdcTabBarDirective) _tabBar: MdcTabBarDirective;
 
     constructor(public _el: ElementRef) {
