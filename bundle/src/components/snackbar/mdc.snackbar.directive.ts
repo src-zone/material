@@ -32,7 +32,7 @@ export class MdcSnackbarActionDirective {
     selector: '[mdcSnackbar]'
 })
 export class MdcSnackbarDirective implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-snackbar') hasHostClass = true;
+    @HostBinding('class.mdc-snackbar') _hostClass = true;
     @ContentChild(MdcSnackbarTextDirective) text: MdcSnackbarTextDirective;
     @ContentChild(MdcSnackbarActionDirective) action: MdcSnackbarActionDirective;
 
