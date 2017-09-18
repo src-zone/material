@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ContentChild, ContentChildren, Directive, ElementRef, EventEmitter, forwardRef, HostBinding,
+import { AfterContentInit, AfterViewInit, Component, ContentChild, ContentChildren, Directive, ElementRef, EventEmitter, forwardRef, HostBinding,
   HostListener, Input, OnDestroy, OnInit, Optional, Output, Provider, QueryList, Renderer2, Self, ViewChild,
   ViewEncapsulation } from '@angular/core';
 import { NgControl } from '@angular/forms';
@@ -8,6 +8,8 @@ import { AbstractMdcInput } from '../abstract/abstract.mdc.input';
 import { AbstractMdcLabel } from '../abstract/abstract.mdc.label';
 import { asBoolean } from '../../utils/value.utils';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
+
+const CLASS_BOTTOM_LINE = 'mdc-textfield__bottom-line';
 
 let nextId = 1;
 
@@ -22,7 +24,7 @@ export class MdcTextfieldInputDirective extends AbstractMdcInput implements OnIn
     private _required = false;
     private cachedId: string;
     private focused = false;
-    @HostBinding('class.mdc-textfield__input') hasHostClass = true;
+    @HostBinding('class.mdc-textfield__input') _hostClass = true;
 
     constructor(public elementRef: ElementRef, private renderer: Renderer2, @Optional() @Self() public ngControl: NgControl) {
         super();
@@ -158,12 +160,16 @@ export class MdcTextfieldHelptextDirective {
 @Directive({
     selector: '[mdcTextfield]'
 })
-export class MdcTextfieldDirective implements OnInit, OnDestroy {
+export class MdcTextfieldDirective implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-textfield') hasHostClass = true;
     @ContentChild(MdcTextfieldInputDirective) mdcInput: MdcTextfieldInputDirective;
     @ContentChild(MdcTextfieldLabelDirective) mdcLabel: MdcTextfieldLabelDirective;
     @ContentChildren('label', {descendants: true, read: ElementRef}) labels: QueryList<ElementRef>;
     @Input() mdcHelptext: MdcTextfieldHelptextDirective;
+    private _initialized = false;
+    private _box = false;
+    private _dense = false;
+    private _bottomLineElm: HTMLElement = null;
     private valid: boolean = null;
     private mdcAdapter: MdcTextfieldAdapter = {
         addClass: (className: string) => {
@@ -237,19 +243,45 @@ export class MdcTextfieldDirective implements OnInit, OnDestroy {
             };
         }
     };
-    private foundation: { init: Function, destroy: Function } = new MDCTextfieldFoundation(this.mdcAdapter);
+    private foundation: {
+        init: Function,
+        destroy: Function,
+        useCustomValidityChecking_: boolean,
+        setValid(isValid: boolean),
+        changeValidity_(isValid: boolean)
+    } = new MDCTextfieldFoundation(this.mdcAdapter);
 
     constructor(private renderer: Renderer2, private root: ElementRef, private registry: MdcEventRegistry) {
     }
 
-    ngOnInit() {
+    ngAfterContentInit() {
         if (this.mdcLabel && this.mdcInput && !this.mdcLabel.for)
             this.mdcLabel.for = this.mdcInput.id;
+        this._initialized = true;
+        if (this._box)
+            this.toggleBottomLine();
         this.foundation.init();
     }
 
     ngOnDestroy() {
         this.foundation.destroy();
+    }
+
+    private toggleBottomLine() {
+        if (this._initialized) {
+            // otherwise component still before ngAfterContentInit, so we can't
+            // track the availability of a pre-added line yet.
+            if (this._box !== !!this._bottomLineElm) {
+                if (this._box) {
+                    this._bottomLineElm = this.renderer.createElement('div');
+                    this.renderer.addClass(this._bottomLineElm, CLASS_BOTTOM_LINE);
+                    this.renderer.appendChild(this.root.nativeElement, this._bottomLineElm);
+                } else {
+                    this._bottomLineElm.parentNode.removeChild(this._bottomLineElm);
+                    this._bottomLineElm = null;
+                }
+            }
+        }
     }
 
     /**
@@ -265,19 +297,36 @@ export class MdcTextfieldDirective implements OnInit, OnDestroy {
      * <code>mdcValid="myControl.valid || !myControl.touched"</code>.
      */
     @Input() set mdcValid(value: boolean) {
-        let isValid = null;
         if (value == null) {
             this.valid = null; // reset to null, validity now managed by the input control.
-            isValid = this.mdcAdapter.getNativeInput().checkValidity();
-        } else if (value !== this.valid)
-            this.valid = isValid = asBoolean(value);
-        if (isValid)
-            this.renderer.removeClass(this.root.nativeElement, 'mdc-textfield--invalid');
-        else
-            this.renderer.addClass(this.root.nativeElement, 'mdc-textfield--invalid');
+            this.foundation.useCustomValidityChecking_ = false;
+            this.foundation.changeValidity_(this.mdcAdapter.getNativeInput().checkValidity());
+        } else if (value !== this.valid) {
+            this.valid = asBoolean(value);
+            this.foundation.setValid(this.valid);
+        }
     }
 
     @HostBinding('class.mdc-textfield--multiline') get mdcMultiline(): boolean {
         return this.mdcInput.isTextarea();
+    }
+
+    @HostBinding('class.mdc-textfield--box') @Input()
+    get mdcBox() {
+        return this._box;
+    }
+
+    set mdcBox(val: any) {
+        this._box = asBoolean(val);
+        this.toggleBottomLine();
+    }
+
+    @HostBinding('class.mdc-textfield--dense') @Input()
+    get mdcDense() {
+        return this._dense;
+    }
+
+    set mdcDense(val: any) {
+        this._dense = asBoolean(val);
     }
 }
