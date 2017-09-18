@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './overview.component.html'
 })
 export class OverviewComponent {
-    components = require('./pages.directives.json');
+    components = <Array<Object>>require('./pages.directives.json').filter(o => o.href != null);
     
     constructor() {
     }

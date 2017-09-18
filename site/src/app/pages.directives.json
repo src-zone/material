@@ -8,8 +8,7 @@
     {
         "title": "Card",
         "description": "Cards for displaying content composed of different elements",
-        "img": "/img/mdc-icons/card.svg",
-        "href": "/directives"
+        "img": "/img/mdc-icons/card.svg"
     },
     {
         "title": "Checkbox",
@@ -27,19 +26,17 @@
         "title": "Radio Button",
         "description": "Single selection controls",
         "img": "/img/mdc-icons/radio.svg",
-        "href": "/directives"
+        "href": "/directives/radio"
     },
     {
         "title": "Ripple",
         "description": "Ink ripple touch feedback effect",
-        "img": "/img/mdc-icons/ripple.svg",
-        "href": "/directives"
+        "img": "/img/mdc-icons/ripple.svg"
     },
     {
         "title": "Snackbar",
         "description": "Brief feedback for an action through a message at the bottom of the screen",
-        "img": "/img/mdc-icons/snackbar.svg",
-        "href": "/directives"
+        "img": "/img/mdc-icons/snackbar.svg"
     },
     {
         "title": "Tabs",
@@ -51,12 +48,12 @@
         "title": "Textfield",
         "description": "Single and multiline text inputs",
         "img": "/img/mdc-icons/textfield.svg",
-        "href": "/directives"
+        "href": "/directives/textfield"
     },
     {
         "title": "Toolbar",
         "description": "A container for multiple rows of items such as application title, navigation menu, or tabs",
         "img": "/img/mdc-icons/toolbar.svg",
-        "href": "/directives"
+        "href": "/directives/toolbar"
     }
 ]

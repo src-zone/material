@@ -10,6 +10,7 @@ import { AbstractSnippetComponent } from '../abstract.snippet.component';
   templateUrl: './snippet.button.component.html'
 })
 export class SnippetButtonComponent/*snip:skip*/extends AbstractSnippetComponent/*snip:endskip*/ {
+    disabled = false;
     //snip:skip
     constructor() {
         super({

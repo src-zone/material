@@ -4,7 +4,10 @@ import {
     ButtonDirectivesComponent,
     CheckboxDirectivesComponent,    
     FabDirectivesComponent,
-    TabDirectivesComponent } from './components';
+    RadioDirectivesComponent,
+    TabDirectivesComponent,
+    TextfieldDirectivesComponent,
+    ToolbarDirectivesComponent } from './components';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'directives', pathMatch: 'full'},
@@ -13,7 +16,10 @@ export const routes: Routes = [
         {path: 'button', component: ButtonDirectivesComponent},
         {path: 'checkbox', component: CheckboxDirectivesComponent},
         {path: 'fab', component: FabDirectivesComponent},
-        {path: 'tab', component: TabDirectivesComponent}
+        {path: 'radio', component: RadioDirectivesComponent},
+        {path: 'tab', component: TabDirectivesComponent},
+        {path: 'textfield', component: TextfieldDirectivesComponent},
+        {path: 'toolbar', component: ToolbarDirectivesComponent}
     ]}
 ];
 

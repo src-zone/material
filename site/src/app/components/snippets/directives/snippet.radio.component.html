@@ -1,0 +1,18 @@
+<fieldset class="blox-snippet snippet-skip-line">
+<div mdcFormfield [mdcAlignEnd]="alignEnd">
+  <div mdcRadio>
+    <input mdcRadioInput type="radio" name="example1" value="radio1" [(ngModel)]="value" [disabled]="disabled"/>
+  </div>
+  <label mdcFormfieldLabel>Radio 1</label>
+</div>
+<div mdcFormfield [mdcAlignEnd]="alignEnd">
+  <div mdcRadio>
+    <input mdcRadioInput type="radio" name="example1" value="radio2" [(ngModel)]="value" [disabled]="disabled"/>
+  </div>
+  <label mdcFormfieldLabel>Radio 2</label>
+</div>
+<div>value: {{value}}</div><br/>
+
+<button mdcButton mdcRaised (click)="toggleAlignEnd()">Toggle Align End</button>
+<button mdcButton mdcRaised (click)="toggleDisabled()">Toggle Disabled</button>
+</fieldset><div class="snippet-skip-line"></div>

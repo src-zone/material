@@ -1,0 +1,13 @@
+.mdc-toolbar__row:first-child::after {
+    background-image: url(/img/banners/purple-header-design.jpg);
+    background-size: cover;
+    background-position: bottom;
+}
+
+.mdc-toolbar__title {
+    color: black;
+}
+
+.mdc-toolbar--flexible-space-minimized .mdc-toolbar__title {
+    color: white;
+}

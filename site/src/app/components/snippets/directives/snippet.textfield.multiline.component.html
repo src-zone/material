@@ -1,0 +1,46 @@
+<fieldset class="blox-snippet snippet-skip-line">
+<div [dir]="dir">
+  <h3>Multiline input:</h3>
+  <div mdcTextfield [mdcHelptext]="input1Help" [mdcBox]="box" [mdcDense]="dense">
+    <textarea mdcTextfieldInput type="text" #input1="ngModel" [(ngModel)]="field1" [disabled]="disabled"
+      minlength="8" [required]="required" rows="8" cols="40"></textarea>
+    <label mdcTextfieldLabel>Multiline Input</label>
+  </div>
+  <p mdcTextfieldHelptext #input1Help="mdcHelptext" mdcValidation [mdcPersistent]="persistent">
+    <span *ngIf="input1.errors?.required">Input is required</span>
+    <span *ngIf="input1.errors?.minlength">Input requires at least 8 characters</span>
+  </p>
+
+  <h3>Modify behaviour of textfield:</h3>
+  <div mdcFormfield>
+    <div mdcCheckbox>
+      <input mdcCheckboxInput type="checkbox" [(ngModel)]="dense"/>
+    </div>
+    <label mdcFormfieldLabel>Dense</label>
+  </div>
+  <div mdcFormfield>
+    <div mdcCheckbox>
+      <input mdcCheckboxInput type="checkbox" [(ngModel)]="disabled"/>
+    </div>
+    <label mdcFormfieldLabel>Disabled</label>
+  </div>
+  <div mdcFormfield>
+    <div mdcCheckbox>
+      <input mdcCheckboxInput type="checkbox" [(ngModel)]="required"/>
+    </div>
+    <label mdcFormfieldLabel>Required</label>
+  </div>
+  <div mdcFormfield>
+    <div mdcCheckbox>
+      <input mdcCheckboxInput type="checkbox" [(ngModel)]="persistent"/>
+    </div>
+    <label mdcFormfieldLabel>Make helper text persistent</label>
+  </div>
+  <div mdcFormfield>
+    <div mdcCheckbox>
+      <input mdcCheckboxInput type="checkbox" [(ngModel)]="rtl"/>
+    </div>
+    <label mdcFormfieldLabel>RTL</label>
+  </div>
+</div>
+</fieldset><div class="snippet-skip-line"></div>

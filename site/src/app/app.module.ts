@@ -11,17 +11,24 @@ import { CodeSampleComponent,
   ButtonDirectivesComponent,
   CheckboxDirectivesComponent,
   FabDirectivesComponent,
+  RadioDirectivesComponent,
   TabDirectivesComponent,
+  TextfieldDirectivesComponent,
+  ToolbarDirectivesComponent,
 
   SnippetButtonComponent,
   SnippetCheckboxComponent,
+  SnippetRadioComponent,
   SnippetFabComponent,
   SnippetTabSimpleComponent,
-  SnippetTabScrollerComponent } from './components';
+  SnippetTabScrollerComponent,
+  SnippetTextfieldComponent, SnippetTextfieldMultilineComponent,
+  SnippetToolbarComponent, SnippetToolbarFlexibleComponent } from './components';
 
 const hljs: any = require('highlight.js/lib/highlight');
 hljs.registerLanguage('typescript', require('highlight.js/lib/languages/typescript'));
 hljs.registerLanguage('html', require('highlight.js/lib/languages/xml'));
+hljs.registerLanguage('scss', require('highlight.js/lib/languages/scss'))
 export function highlightJsFactory() {
   return hljs;
 }
@@ -45,13 +52,19 @@ export function highlightJsFactory() {
     ButtonDirectivesComponent,
     CheckboxDirectivesComponent,
     FabDirectivesComponent,
+    RadioDirectivesComponent,
     TabDirectivesComponent,
+    TextfieldDirectivesComponent,
+    ToolbarDirectivesComponent,
 
     SnippetButtonComponent,
     SnippetCheckboxComponent,
     SnippetFabComponent,
+    SnippetRadioComponent,
     SnippetTabSimpleComponent,
-    SnippetTabScrollerComponent
+    SnippetTabScrollerComponent,
+    SnippetTextfieldComponent, SnippetTextfieldMultilineComponent,
+    SnippetToolbarComponent, SnippetToolbarFlexibleComponent
   ],
   providers: [
     appRoutingProviders,
