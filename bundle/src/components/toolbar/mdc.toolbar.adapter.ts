@@ -9,7 +9,7 @@ export interface MdcToolbarAdapter {
     getViewportWidth: () => number;
     getViewportScrollY: () => number;
     getOffsetHeight: () => number;
-    getFlexibleRowElementOffsetHeight: () => number;
+    getFirstRowElementOffsetHeight: () => number;
     notifyChange: (evtData: {flexibleExpansionRatio: number}) => void;
     setStyle: (property: string, value: number) => void;
     setStyleForTitleElement: (property: string, value: number) => void;
