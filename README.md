@@ -53,5 +53,5 @@ toolbar                  | Available |
   The Directives approach taken by Blox Material makes it possible to share the same markup
   and styling between both Angular and non-Angular applications.
 
-#### Quick Links
+## Quick Links
 *  [Demo, documentation and examples](https://blox.source.zone/material.html)
