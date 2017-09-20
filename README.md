@@ -14,12 +14,12 @@ is done by providing Angular Directives.
 
 Component                | Directives | Comments
 ------------------------ | --------- |
-button                   | [demo](https://blox.source.zone/material.html#//directives/button) |
+button                   | [See demo](https://blox.source.zone/material.html#//directives/button) |
 card                     | Available |
-checkbox                 | [demo](https://blox.source.zone/material.html#//directives/checkbox) |
+checkbox                 | [See demo](https://blox.source.zone/material.html#//directives/checkbox) |
 dialog                   |           |
 drawer                   |           |
-fab                      | [demo](https://blox.source.zone/material.html#//directives/fab) |
+fab                      | [See demo](https://blox.source.zone/material.html#//directives/fab) |
 form-field               | Available |
 grid-list                |           |
 icon-toggle              |           |
@@ -34,7 +34,7 @@ selection-control        |           |
 slider                   |           |
 snackbar                 | Available |
 switch                   |           |
-tabs                     | [demo](https://blox.source.zone/material.html#//directives/tab) |
+tabs                     | [See demo](https://blox.source.zone/material.html#//directives/tab) |
 textfield                | Available |
 toolbar                  | Available |
 
