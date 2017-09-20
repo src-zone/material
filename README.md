@@ -14,12 +14,12 @@ is done by providing Angular Directives.
 
 Component                | Directives | Comments
 ------------------------ | --------- |
-button                   | [See demo](https://blox.source.zone/material.html#//directives/button) |
+button                   | [See demo](https://blox.source.zone/material.html#/directives/button) |
 card                     | Available |
-checkbox                 | [See demo](https://blox.source.zone/material.html#//directives/checkbox) |
+checkbox                 | [See demo](https://blox.source.zone/material.html#/directives/checkbox) |
 dialog                   |           |
 drawer                   |           |
-fab                      | [See demo](https://blox.source.zone/material.html#//directives/fab) |
+fab                      | [See demo](https://blox.source.zone/material.html#/directives/fab) |
 form-field               | Available |
 grid-list                |           |
 icon-toggle              |           |
@@ -27,16 +27,16 @@ layout-grid              |           |
 linear-progress          |           |
 list                     |           |
 menu                     |           |
-radio                    | Available |
+radio                    | [See demo](http://srcblox.src.zone/material.html#/directives/radio) |
 ripple                   |           | See AbstractMdcRipple for attaching ripples to other components/directives
 select                   |           |
 selection-control        |           |
 slider                   |           |
 snackbar                 | Available |
 switch                   |           |
-tabs                     | [See demo](https://blox.source.zone/material.html#//directives/tab) |
-textfield                | Available |
-toolbar                  | Available |
+tabs                     | [See demo](https://blox.source.zone/material.html#/directives/tab) |
+textfield                | [See demo](https://blox.src.zone/material.html#/directives/textfield) |
+toolbar                  | [See demo](https://blox.src.zone/material.html#/directives/toolbar) |
 
 ## Alternatives
 * [Material2](https://material.angular.io):
