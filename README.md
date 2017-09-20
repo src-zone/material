@@ -50,8 +50,8 @@ toolbar                  | Available |
   applications. The angular-mdc-web integration is mostly based upon Angular Components.
   Blox Material uses Angular Directives for the integration.
   There are advantages to both approaches.
-  The Directives approach taken by Blox Material makes it possible to share the same markup between
-  both Angular and non-Angular applications.
+  The Directives approach taken by Blox Material makes it possible to share the same markup
+  and styling between both Angular and non-Angular applications.
 
 #### Quick Links
 *  [Demo, documentation and examples](https://blox.source.zone/material.html)
