@@ -39,7 +39,7 @@ textfield                | Available |
 toolbar                  | Available |
 
 ## Alternatives
-* [Material Design components for Angular](https://material.angular.io):
+* [Material2](https://material.angular.io):
   The Angular team's Material Design components built for and with Angular.
   When you use Angular exclusively this is a nice alternative for creating a Material
   Design UI.
@@ -47,10 +47,10 @@ toolbar                  | Available |
   applications, as you can leverage the same Material Components and Styling in both cases.
 * [angular-mdc-web](https://github.com/trimox/angular-mdc-web):
   Another integration library for leveraging Material Components for the Web in Angular
-  applications. The angular-mdc-web integration is mostly based upon Angular components.
-  Blox Material made the choice to use Angular Directives for the integration.
+  applications. The angular-mdc-web integration is mostly based upon Angular Components.
+  Blox Material uses Angular Directives for the integration.
   There are advantages to both approaches.
-  The Directives approach taken by us makes it possible to share the same markup between
+  The Directives approach taken by Blox Material makes it possible to share the same markup between
   both Angular and non-Angular applications.
 
 #### Quick Links
