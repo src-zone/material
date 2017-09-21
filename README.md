@@ -1,4 +1,4 @@
-Demo and Documention: https://blox.src.zone/material.html
+Demo and Documention: http://blox.src.zone/material.html
 
 The Blox Material angular library provides an integration between
 [Google's Material Components for the Web](https://github.com/material-components/material-components-web)
@@ -14,12 +14,12 @@ is done by providing Angular Directives.
 
 Component                | Directives | Comments
 ------------------------ | --------- |
-button                   | [See demo](https://blox.src.zone/material.html#/directives/button) |
+button                   | [See demo](http://blox.src.zone/material.html#/directives/button) |
 card                     | Available |
-checkbox                 | [See demo](https://blox.src.zone/material.html#/directives/checkbox) |
+checkbox                 | [See demo](http://blox.src.zone/material.html#/directives/checkbox) |
 dialog                   |           |
 drawer                   |           |
-fab                      | [See demo](https://blox.src.zone/material.html#/directives/fab) |
+fab                      | [See demo](http://blox.src.zone/material.html#/directives/fab) |
 form-field               | Available |
 grid-list                |           |
 icon-toggle              |           |
@@ -27,16 +27,16 @@ layout-grid              |           |
 linear-progress          |           |
 list                     |           |
 menu                     |           |
-radio                    | [See demo](https://blox.src.zone/material.html#/directives/radio) |
+radio                    | [See demo](http://blox.src.zone/material.html#/directives/radio) |
 ripple                   |           | See AbstractMdcRipple for attaching ripples to other components/directives
 select                   |           |
 selection-control        |           |
 slider                   |           |
 snackbar                 | Available |
 switch                   |           |
-tabs                     | [See demo](https://blox.src.zone/material.html#/directives/tab) |
-textfield                | [See demo](https://blox.src.zone/material.html#/directives/textfield) |
-toolbar                  | [See demo](https://blox.src.zone/material.html#/directives/toolbar) |
+tabs                     | [See demo](http://blox.src.zone/material.html#/directives/tab) |
+textfield                | [See demo](http://blox.src.zone/material.html#/directives/textfield) |
+toolbar                  | [See demo](http://blox.src.zone/material.html#/directives/toolbar) |
 
 ## Alternatives
 * [Material2](https://material.angular.io):
@@ -54,4 +54,4 @@ toolbar                  | [See demo](https://blox.src.zone/material.html#/direc
   and styling between both Angular and non-Angular applications.
 
 ## Quick Links
-*  [Demo, documentation and examples](https://blox.src.zone/material.html)
+*  [Demo, documentation and examples](http://blox.src.zone/material.html)
