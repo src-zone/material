@@ -62,7 +62,7 @@ module.exports = function makeWebpackConfig(env) {
     {name: 'rxjs', filter: /.*\/node_modules\/rxjs\/.*\.(js|ts)$/, forRoot: ['app'], build: 'prod'},
     {name: 'ngc', filter: /.\/node_modules\/@angular\/c.*\.(js|ts)$/, forRoot: ['app'], build: 'prod'},
     {name: 'ngx', filter: /.\/node_modules\/@angular\/.*\.(js|ts)$/, forRoot: ['app'], build: 'prod'},
-    {name: 'app', src: './src/main.ts', template: './src/html/index.html', filename: 'index.html'}
+    {name: 'app', src: './src/main.ts', template: './src/html/material.html', filename: 'material.html'}
   ];
   const allEntries = entries.filter(function(e) {
     return isProd ? (e.build == null || e.build === 'prod') : (e.build == null || e.build === 'debug');
@@ -381,7 +381,12 @@ module.exports = function makeWebpackConfig(env) {
    */
   config.devServer = {
     contentBase: './src/public',
-    historyApiFallback: true,
+    index: 'material.html',
+    historyApiFallback: {
+      rewrites: [
+        { from: /^\/material$/, to: '/material.html' }
+      ]
+    },
     quiet: true,
     stats: 'minimal' // none (or false), errors-only, minimal, normal (or true) and verbose
   };
