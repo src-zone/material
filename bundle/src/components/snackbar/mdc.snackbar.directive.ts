@@ -49,14 +49,6 @@ export class MdcSnackbarDirective implements AfterContentInit, OnDestroy {
         unsetAriaHidden: () => {
             this.renderer.removeAttribute(this.root.nativeElement, 'aria-hidden');
         },
-        setMessageText: (message: string) => {
-            if (this.text)
-                this.text.elementRef.nativeElement.textContent = message;
-        },
-        setActionText: (actionText: string) => {
-            if (this.action)
-                this.action.elementRef.nativeElement.textContent = actionText;
-        },
         setActionAriaHidden: () => {
             if (this.action)
                 this.renderer.setAttribute(this.action.elementRef.nativeElement, 'aria-hidden', 'true');
@@ -64,6 +56,36 @@ export class MdcSnackbarDirective implements AfterContentInit, OnDestroy {
         unsetActionAriaHidden: () => {
             if (this.action)
                 this.renderer.removeAttribute(this.action.elementRef.nativeElement, 'aria-hidden');
+        },
+        setActionText: (actionText: string) => {
+            if (this.action)
+                this.action.elementRef.nativeElement.textContent = actionText;
+        },
+        setMessageText: (message: string) => {
+            if (this.text)
+                this.text.elementRef.nativeElement.textContent = message;
+        },
+        setFocus: () => {
+            // TODO
+        },
+        visibilityIsHidden: () => false, // TODO
+        registerCapturedBlurHandler: (handler: EventListener) => {
+            // TODO
+        },
+        deregisterCapturedBlurHandler: (handler: EventListener) => void {
+            // TODO
+        },
+        registerVisibilityChangeHandler: (handler: EventListener) => {
+            // TODO
+        },
+        deregisterVisibilityChangeHandler: (handler: EventListener) => {
+            // TODO
+        },
+        registerCapturedInteractionHandler: (evtType: string, handler: EventListener) => {
+            // TODO
+        },
+        deregisterCapturedInteractionHandler: (evtType: string, handler: EventListener) =>  {
+            // TODO
         },
         registerActionClickHandler: (handler: EventListener) => {
             if (this.action)
