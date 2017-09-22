@@ -1,6 +1,7 @@
 {
   "name": "material-demo",
   "version": "0.1.3",
+  "private": true,
   "license": "MIT",
   "scripts": {
     "clean": "rimraf dist build compiled",
