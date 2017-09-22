@@ -1,4 +1,5 @@
 /.settings
+/node_modules/
 /bundle/build/
 /bundle/compiled/
 /bundle/dist/
