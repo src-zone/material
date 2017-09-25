@@ -53,11 +53,13 @@ header {
         }
       }
     }
-    .mdc-toolbar__section .mdc-tab-bar {
-      position: absolute;
-      bottom: 0px;
+    .mdc-toolbar__section--align-end {
       @media only screen and (max-width: $media-m-min-width - 1px) {
         display: none;
+      }
+      .mdc-tab-bar {
+        position: absolute;
+        bottom: 0px;
       }
     }
   }
