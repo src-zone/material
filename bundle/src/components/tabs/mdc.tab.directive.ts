@@ -20,26 +20,23 @@ export class MdcTabIconTextDirective {
     @HostBinding('class.mdc-tab__icon-text') _hostClass = true;
 }
 
-@Directive({
-    selector: '[mdcTab]'
-})
-export class MdcTabDirective {
+export class AbstractMdcTabDirective implements OnDestroy, AfterContentInit {
     @HostBinding('class.mdc-tab') _hostClass = true;
     @ContentChild(MdcTabIconDirective) _mdcTabIcon: MdcTabIconDirective;
     @ContentChild(MdcTabIconTextDirective) _mdcTabIconText: MdcTabIconTextDirective;
-    @Output() mdcSelect: EventEmitter<{tab: MdcTabDirective}> = new EventEmitter();
-    private _adapter: MdcTabAdapter = {
+    @Output() mdcSelect: EventEmitter<{tab: AbstractMdcTabDirective}> = new EventEmitter();
+    protected _adapter: MdcTabAdapter = {
         addClass: (className: string) => this._rndr.addClass(this._root.nativeElement, className),
         removeClass: (className: string) => this._rndr.removeClass(this._root.nativeElement, className),
         registerInteractionHandler: (type: string, handler: EventListener) => this._registry.listen(this._rndr, type, handler, this._root),
         deregisterInteractionHandler: (type: string, handler: EventListener) => this._registry.unlisten(type, handler),
         getOffsetWidth: () => this._root.nativeElement.offsetWidth,
         getOffsetLeft: () => this._root.nativeElement.offsetLeft,
-        notifySelected: () => this.mdcSelect.emit({tab: this})
+        notifySelected: () => this.mdcSelect.emit({tab: this}) // TODO don't pass the component itself (?)
     };
     _foundation = new MDCTabFoundation(this._adapter);
 
-    constructor(private _rndr: Renderer2, private _root: ElementRef, private _registry: MdcEventRegistry) {
+    constructor(protected _rndr: Renderer2, protected _root: ElementRef, protected _registry: MdcEventRegistry) {
     }
 
     ngAfterContentInit() {
@@ -62,5 +59,26 @@ export class MdcTabDirective {
 
     set _active(value: boolean) {
         this._foundation.setActive(value);
+    }
+}
+
+@Directive({
+    selector: '[mdcTab]',
+    providers: [{provide: AbstractMdcTabDirective, useExisting: forwardRef(() => MdcTabDirective) }]
+})
+export class MdcTabDirective extends AbstractMdcTabDirective {
+    constructor(rndr: Renderer2, root: ElementRef, registry: MdcEventRegistry) {
+        super(rndr, root, registry);
+    }
+
+    @Input()
+    get mdcActive() {
+        return this._active;
+    }
+
+    set mdcActive(value: boolean) {
+        this._active = value;
+        if (this._active)
+            this._adapter.notifySelected();
     }
 }

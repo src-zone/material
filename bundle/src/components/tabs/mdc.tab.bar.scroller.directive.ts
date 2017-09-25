@@ -2,7 +2,7 @@ import { AfterContentInit, ContentChild, ContentChildren, EventEmitter, forwardR
     HostBinding, HostListener, Input, OnDestroy, Optional, Output, Renderer2, Self } from '@angular/core';
 import { getCorrectPropertyName } from '@material/animation';
 import { MDCTabBarScrollerFoundation } from '@material/tabs';
-import { MdcTabDirective } from './mdc.tab.directive';
+import { AbstractMdcTabDirective } from './mdc.tab.directive';
 import { MdcTabBarScrollerAdapter } from './mdc.tab.bar.scroller.adapter';
 import { asBoolean } from '../../utils/value.utils';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';

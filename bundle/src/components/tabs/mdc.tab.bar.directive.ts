@@ -6,7 +6,7 @@ import { MDCTabBarFoundation, MDCTabBarScrollerFoundation } from '@material/tabs
 import { MdcTabBarAdapter } from './mdc.tab.bar.adapter';
 import { asBoolean } from '../../utils/value.utils';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
-import { MdcTabDirective } from './mdc.tab.directive';
+import { AbstractMdcTabDirective } from './mdc.tab.directive';
 
 const CLASS_TAB_BAR = 'mdc-tab-bar';
 const CLASS_INDICATOR = 'mdc-tab-bar__indicator';
@@ -19,7 +19,7 @@ const CLASS_ICONS_WITH_TEXT_BAR = 'mdc-tab-bar--icons-with-text';
 export class MdcTabBarDirective {
     @HostBinding('class.' + CLASS_TAB_BAR) _hostClass = true;
     @HostBinding('class.mdc-tab-bar-scroller__scroll-frame__tabs') _insideScrollFrame = false;
-    @ContentChildren(MdcTabDirective, {descendants: false}) _tabs: QueryList<MdcTabDirective>;
+    @ContentChildren(AbstractMdcTabDirective, {descendants: false}) _tabs: QueryList<AbstractMdcTabDirective>;
     @Output() mdcChange: EventEmitter<{activeTabIndex: number}> = new EventEmitter();
     private _indicator: HTMLElement;
     private _adapter: MdcTabBarAdapter = {
@@ -84,7 +84,7 @@ export class MdcTabBarDirective {
         this._subscriptions = null;
     }
 
-    private _setActive(tab: MdcTabDirective, notifyChange: boolean) {
+    private _setActive(tab: AbstractMdcTabDirective, notifyChange: boolean) {
         const index = this._tabs.toArray().indexOf(tab);
         this._foundation.switchToTabAtIndex(index, notifyChange);
     }

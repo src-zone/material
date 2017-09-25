@@ -22,9 +22,10 @@ import { MdcRadioDirective,
 import { MdcSnackbarDirective,
     MdcSnackbarTextDirective,
     MdcSnackbarActionDirective } from './components/snackbar/mdc.snackbar.directive';
-import { MdcTabDirective,
+import { AbstractMdcTabDirective, MdcTabDirective,
     MdcTabIconDirective,
     MdcTabIconTextDirective } from './components/tabs/mdc.tab.directive';
+import { MdcTabRouterDirective } from './components/tabs/mdc.tab.router.directive';
 import { MdcTabBarDirective } from './components/tabs/mdc.tab.bar.directive';
 import { MdcTabBarScrollerDirective,
     MdcTabBarScrollerInnerDirective,
@@ -66,9 +67,10 @@ export { MdcRadioDirective,
 export { MdcSnackbarDirective,
     MdcSnackbarTextDirective,
     MdcSnackbarActionDirective } from './components/snackbar/mdc.snackbar.directive';
-export { MdcTabDirective,
+export { AbstractMdcTabDirective, MdcTabDirective,
     MdcTabIconDirective,
     MdcTabIconTextDirective } from './components/tabs/mdc.tab.directive';
+export { MdcTabRouterDirective } from './components/tabs/mdc.tab.router.directive';
 export { MdcTabBarDirective } from './components/tabs/mdc.tab.bar.directive';
 export { MdcTabBarScrollerDirective,
     MdcTabBarScrollerInnerDirective,
@@ -102,6 +104,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcRadioDirective, MdcRadioInputDirective,
         MdcSnackbarDirective, MdcSnackbarTextDirective, MdcSnackbarActionDirective,
         MdcTabDirective, MdcTabIconDirective, MdcTabIconTextDirective,
+        MdcTabRouterDirective,
         MdcTabBarDirective,
         MdcTabBarScrollerDirective, MdcTabBarScrollerInnerDirective, MdcTabBarScrollerBackDirective, MdcTabBarScrollerForwardDirective, MdcTabBarScrollerFrameDirective,
         MdcTextfieldDirective, MdcTextfieldInputDirective, MdcTextfieldLabelDirective, MdcTextfieldHelptextDirective,
@@ -120,6 +123,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcRadioDirective, MdcRadioInputDirective,
         MdcSnackbarDirective, MdcSnackbarTextDirective, MdcSnackbarActionDirective,
         MdcTabDirective, MdcTabIconDirective, MdcTabIconTextDirective,
+        MdcTabRouterDirective,
         MdcTabBarDirective,
         MdcTabBarScrollerDirective, MdcTabBarScrollerInnerDirective, MdcTabBarScrollerBackDirective, MdcTabBarScrollerForwardDirective, MdcTabBarScrollerFrameDirective,
         MdcTextfieldDirective, MdcTextfieldInputDirective, MdcTextfieldLabelDirective, MdcTextfieldHelptextDirective,
