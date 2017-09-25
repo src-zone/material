@@ -8,7 +8,9 @@ import { AppComponent } from './app.component';
 import { OverviewComponent } from './overview.component';
 import { routing, appRoutingProviders } from './app.routes';
 import {
+  DocsComponent,
   GuidesComponent,
+  GettingstartedComponent,
 
   CodeSampleComponent,
   MDC_DIRECTIVE_DOC_COMPONENTS,
@@ -25,7 +27,8 @@ import {
 const hljs: any = require('highlight.js/lib/highlight');
 hljs.registerLanguage('typescript', require('highlight.js/lib/languages/typescript'));
 hljs.registerLanguage('html', require('highlight.js/lib/languages/xml'));
-hljs.registerLanguage('scss', require('highlight.js/lib/languages/scss'))
+hljs.registerLanguage('scss', require('highlight.js/lib/languages/scss'));
+hljs.registerLanguage('bash', require('highlight.js/lib/languages/bash'));
 export function highlightJsFactory() {
   return hljs;
 }
@@ -43,7 +46,11 @@ export function highlightJsFactory() {
   ],
   declarations: [
     AppComponent,
+
+    DocsComponent,
     GuidesComponent,
+    GettingstartedComponent,
+
     OverviewComponent,
 
     CodeSampleComponent,

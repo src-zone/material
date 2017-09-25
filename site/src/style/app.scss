@@ -15,6 +15,9 @@ body, html {
 body {
   display: flex;
 }
+code, kbd, samp, pre {
+    font-family: "Roboto Mono", monospace;
+}
 blox-app {
   display: flex;
   flex-flow: column nowrap;
@@ -142,7 +145,7 @@ ul.blox-component-list {
   overflow-y: auto;
 }
 
-blox-code-sample {
+blox-code-sample, .blox-code-sample {
   display: block;
   background-color: rgba(0, 0, 0, 0.05);
   .blox-sample-tab-bar {
