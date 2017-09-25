@@ -1,6 +1,8 @@
 import { Routes, RouterModule } from '@angular/router';
 import { OverviewComponent } from './overview.component';
 import {
+    GuidesComponent,
+
     ButtonDirectivesComponent,
     CheckboxDirectivesComponent,    
     FabDirectivesComponent,
@@ -10,7 +12,8 @@ import {
     ToolbarDirectivesComponent } from './components';
 
 export const routes: Routes = [
-    {path: '', redirectTo: 'directives', pathMatch: 'full'},
+    {path: '', redirectTo: 'guides', pathMatch: 'full'},
+    {path: 'guides', component: GuidesComponent},
     {path: 'directives', children: [
         {path: '', pathMatch: 'full', component: OverviewComponent},
         {path: ButtonDirectivesComponent.DOC_HREF, component: ButtonDirectivesComponent},

@@ -7,9 +7,11 @@ import { HighlightJsModule, HIGHLIGHT_JS } from 'angular-highlight-js';
 import { AppComponent } from './app.component';
 import { OverviewComponent } from './overview.component';
 import { routing, appRoutingProviders } from './app.routes';
-import { CodeSampleComponent,
-  MDC_DIRECTIVE_DOC_COMPONENTS,
+import {
+  GuidesComponent,
 
+  CodeSampleComponent,
+  MDC_DIRECTIVE_DOC_COMPONENTS,
 
   SnippetButtonComponent,
   SnippetCheckboxComponent,
@@ -41,7 +43,9 @@ export function highlightJsFactory() {
   ],
   declarations: [
     AppComponent,
+    GuidesComponent,
     OverviewComponent,
+
     CodeSampleComponent,
     
     ...MDC_DIRECTIVE_DOC_COMPONENTS,
