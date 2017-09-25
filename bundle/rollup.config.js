@@ -5,6 +5,7 @@ const globals = {
     '@angular/common': 'ng.common',
     '@angular/core': 'ng.core',
     '@angular/forms': 'ng.forms',
+    '@angular/router': 'ng.router',
     '@material/animation': 'material.animation',
     '@material/checkbox': 'material.checkbox',
     '@material/form-field': 'material.formfield',
@@ -18,7 +19,7 @@ const globals = {
 };
 
 export default {
-    entry: 'build/material.js',
+    input: 'build/material.js',
     plugins: [
         resolve({jail: '/src'}),
         sourcemaps()
@@ -29,10 +30,10 @@ export default {
         if (warning.code !== 'THIS_IS_UNDEFINED')
             console.log("Rollup warning: ", warning.message);
     },
-    sourceMap: true,
-    targets: [
-        {dest: 'dist/material.umd.js', format: 'umd', name: 'blox.material'},
-        {dest: 'dist/material.es5.js', format: 'es'}
+    sourcemap: true,
+    output: [
+        {file: 'dist/material.umd.js', format: 'umd', name: 'blox.material'},
+        {file: 'dist/material.es5.js', format: 'es'}
     ],
     external: Object.keys(globals),
     globals: globals
