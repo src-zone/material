@@ -266,10 +266,6 @@ module.exports = function makeWebpackConfig(env) {
           failOnHint: false
         },
       }
-    }),
-
-    new webpack.ProvidePlugin({
-      Hammer: "hammerjs/hammer"
     })
   ];
 
