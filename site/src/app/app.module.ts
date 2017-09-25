@@ -8,13 +8,8 @@ import { AppComponent } from './app.component';
 import { OverviewComponent } from './overview.component';
 import { routing, appRoutingProviders } from './app.routes';
 import { CodeSampleComponent,
-  ButtonDirectivesComponent,
-  CheckboxDirectivesComponent,
-  FabDirectivesComponent,
-  RadioDirectivesComponent,
-  TabDirectivesComponent,
-  TextfieldDirectivesComponent,
-  ToolbarDirectivesComponent,
+  MDC_DIRECTIVE_DOC_COMPONENTS,
+
 
   SnippetButtonComponent,
   SnippetCheckboxComponent,
@@ -49,13 +44,7 @@ export function highlightJsFactory() {
     OverviewComponent,
     CodeSampleComponent,
     
-    ButtonDirectivesComponent,
-    CheckboxDirectivesComponent,
-    FabDirectivesComponent,
-    RadioDirectivesComponent,
-    TabDirectivesComponent,
-    TextfieldDirectivesComponent,
-    ToolbarDirectivesComponent,
+    ...MDC_DIRECTIVE_DOC_COMPONENTS,
 
     SnippetButtonComponent,
     SnippetCheckboxComponent,

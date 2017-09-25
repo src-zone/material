@@ -121,7 +121,10 @@ module.exports = function makeWebpackConfig(env) {
    */
   config.resolve = {
     // only discover files that have those extensions
-    extensions: ['.ts', '.js', '.json', '.css', '.scss', '.html']
+    extensions: ['.ts', '.js', '.json', '.css', '.scss', '.html'],
+    alias: {
+      'assets': path.resolve(__dirname, 'src/assets/')
+    }
   };
 
   config.performance = {
@@ -167,8 +170,8 @@ module.exports = function makeWebpackConfig(env) {
 
       // copy those assets to output
       {
-        test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: 'file-loader?name=fonts/[name].[hash].[ext]?'
+        test: /\.(png|jpe?g|gif|svg|woff2?|ttf|eot|ico)$/,
+        loader: 'file-loader?name=assets/[name].[hash].[ext]'
       },
 
       // Support for CSS as raw text
@@ -191,11 +194,15 @@ module.exports = function makeWebpackConfig(env) {
         loader: isTest ? 'null-loader' : ExtractTextPlugin.extract({fallback: 'style-loader', use: [cssLoaderForExtract, postcssLoader, sassLoader]})
       },
       // all css required in src/app files will be merged in js files
-      {test: /\.(scss|sass)$/, exclude: root('src', 'style'), loaders: ['raw-loader', postcssLoader, sassLoader]},
+      {test: /\.(scss|sass)$/, exclude: root('src', 'style'), loaders: ['to-string-loader', 'css-loader', postcssLoader, sassLoader]},
 
-      // support for .html as raw text
-      // todo: change the loader to something that adds a hash to images
-      {test: /\.html$/, loader: 'raw-loader', exclude: root('src', 'public')}
+      // support for .html files:
+      {
+        test: /\.html$/,
+        loader: 'html-loader',
+        exclude: root('src', 'public'),
+        options: { minimize: false } // minimize doesn't play nice with angular templates
+      }
     ]
   };
 

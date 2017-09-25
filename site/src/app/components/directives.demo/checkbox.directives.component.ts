@@ -5,6 +5,10 @@ import { Component } from '@angular/core';
   templateUrl: './checkbox.directives.component.html'
 })
 export class CheckboxDirectivesComponent {
+    static DOC_SVG = require('assets/img/mdc-icons/checkbox.svg');
+    static DOC_TYPE = 'directives';
+    static DOC_HREF = 'checkbox';
+
     constructor() {
     }
 }

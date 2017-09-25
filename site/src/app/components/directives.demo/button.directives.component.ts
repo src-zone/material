@@ -5,6 +5,10 @@ import { Component } from '@angular/core';
   templateUrl: './button.directives.component.html'
 })
 export class ButtonDirectivesComponent {
+    static DOC_SVG = require('assets/img/mdc-icons/button.svg');
+    static DOC_TYPE = 'directives';
+    static DOC_HREF = 'button';
+
     constructor() {
     }
 }

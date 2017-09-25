@@ -13,13 +13,13 @@ export const routes: Routes = [
     {path: '', redirectTo: 'directives', pathMatch: 'full'},
     {path: 'directives', children: [
         {path: '', pathMatch: 'full', component: OverviewComponent},
-        {path: 'button', component: ButtonDirectivesComponent},
-        {path: 'checkbox', component: CheckboxDirectivesComponent},
-        {path: 'fab', component: FabDirectivesComponent},
-        {path: 'radio', component: RadioDirectivesComponent},
-        {path: 'tab', component: TabDirectivesComponent},
-        {path: 'textfield', component: TextfieldDirectivesComponent},
-        {path: 'toolbar', component: ToolbarDirectivesComponent}
+        {path: ButtonDirectivesComponent.DOC_HREF, component: ButtonDirectivesComponent},
+        {path: CheckboxDirectivesComponent.DOC_HREF, component: CheckboxDirectivesComponent},
+        {path: FabDirectivesComponent.DOC_HREF, component: FabDirectivesComponent},
+        {path: RadioDirectivesComponent.DOC_HREF, component: RadioDirectivesComponent},
+        {path: TabDirectivesComponent.DOC_HREF, component: TabDirectivesComponent},
+        {path: TextfieldDirectivesComponent.DOC_HREF, component: TextfieldDirectivesComponent},
+        {path: ToolbarDirectivesComponent.DOC_HREF, component: ToolbarDirectivesComponent}
     ]}
 ];
 
