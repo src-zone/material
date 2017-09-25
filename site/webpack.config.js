@@ -217,18 +217,19 @@ module.exports = function makeWebpackConfig(env) {
     });
   }
 
-  // if (!isTest || !isTestWatch) {
-  //   // tslint support
-  //   config.module.rules.push({
-  //     test: /\.ts$/,
-  //     enforce: 'pre',
-  //     loader: 'tslint-loader'//,
-  //     //options: {
-  //     //  typeCheck: true,
-  //     //  tsConfigFile: 'tsconfig.json'
-  //     //}
-  //   });
-  // }
+  // exclude prod builds, because tslint fails in combination with aot
+  if (!isTest && !isTestWatch && !isProd) {
+    // tslint support
+    config.module.rules.push({
+      test: /\.ts$/,
+      enforce: 'pre',
+      loader: 'tslint-loader'//,
+      //options: {
+      //  typeCheck: true,
+      //  tsConfigFile: 'tsconfig.json'
+      //}
+    });
+  }
 
   /**
    * Plugins
