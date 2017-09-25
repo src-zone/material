@@ -30,13 +30,46 @@ main {
   @include blox-container;
 }
 
-header .blox-material-logo {
-  padding-right: 24px;
-  img {
-    width: 32px;
-    height: 32px;
+header {
+  &.blox-header {
+    .mdc-toolbar__title {
+      font-family: "Roboto Mono", monospace;
+      &.blox-title-l {
+        display: none;
+        @media only screen and (min-width: $media-xl-min-width) {
+          display: block;
+        }
+      }
+      &.blox-title-m {
+        display: none;
+        @media only screen and (min-width: $media-l-min-width) and (max-width: $media-xl-min-width - 1px) {
+          display: block;
+        }
+      }
+      &.blox-title-s {
+        display: block;
+        @media only screen and (min-width: $media-l-min-width) {
+          display: none;
+        }
+      }
+    }
+    .mdc-toolbar__section .mdc-tab-bar {
+      position: absolute;
+      bottom: 0px;
+      @media only screen and (max-width: $media-m-min-width - 1px) {
+        display: none;
+      }
+    }
+  }
+  .blox-material-logo {
+    padding-right: 24px;
+    img {
+      width: 32px;
+      height: 32px;
+    }
   }
 }
+
 footer {
   @include mdc-typography(caption);
   text-align: center;
