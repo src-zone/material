@@ -5,6 +5,7 @@ export * from './snippet.radio.component';
 export * from './snippet.tab.simple.component';
 export * from './snippet.tab.scroller.component';
 export * from './snippet.textfield.component';
-export * from './snippet.textfield.multiline.component';
+export * from './snippet.textfield.icon.component';
+export * from './snippet.textfield.textarea.component';
 export * from './snippet.toolbar.component';
 export * from './snippet.toolbar.flexible.component';

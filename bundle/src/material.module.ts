@@ -34,6 +34,7 @@ import { MdcTabBarScrollerDirective,
     MdcTabBarScrollerFrameDirective } from './components/tabs/mdc.tab.bar.scroller.directive';
 import { MdcTextfieldDirective,
     MdcTextfieldInputDirective,
+    MdcTextfieldIconDirective,
     MdcTextfieldLabelDirective,
     MdcTextfieldHelptextDirective } from './components/textfield/mdc.textfield.directive';
 import { MdcToolbarDirective,
@@ -79,6 +80,7 @@ export { MdcTabBarScrollerDirective,
     MdcTabBarScrollerFrameDirective }
 export { MdcTextfieldDirective,
     MdcTextfieldInputDirective,
+    MdcTextfieldIconDirective,
     MdcTextfieldLabelDirective,
     MdcTextfieldHelptextDirective } from './components/textfield/mdc.textfield.directive';
 export { MdcToolbarDirective,
@@ -107,7 +109,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcTabRouterDirective,
         MdcTabBarDirective,
         MdcTabBarScrollerDirective, MdcTabBarScrollerInnerDirective, MdcTabBarScrollerBackDirective, MdcTabBarScrollerForwardDirective, MdcTabBarScrollerFrameDirective,
-        MdcTextfieldDirective, MdcTextfieldInputDirective, MdcTextfieldLabelDirective, MdcTextfieldHelptextDirective,
+        MdcTextfieldDirective, MdcTextfieldInputDirective, MdcTextfieldIconDirective, MdcTextfieldLabelDirective, MdcTextfieldHelptextDirective,
         MdcToolbarDirective, MdcToolbarRowDirective, MdcToolbarSectionDirective, MdcToolbarTitleDirective, MdcToolbarIcon, MdcToolbarIconMenu, MdcToolbarFixedAdjustDirective
     ],
     providers: [
@@ -126,7 +128,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcTabRouterDirective,
         MdcTabBarDirective,
         MdcTabBarScrollerDirective, MdcTabBarScrollerInnerDirective, MdcTabBarScrollerBackDirective, MdcTabBarScrollerForwardDirective, MdcTabBarScrollerFrameDirective,
-        MdcTextfieldDirective, MdcTextfieldInputDirective, MdcTextfieldLabelDirective, MdcTextfieldHelptextDirective,
+        MdcTextfieldDirective, MdcTextfieldInputDirective, MdcTextfieldIconDirective, MdcTextfieldLabelDirective, MdcTextfieldHelptextDirective,
         MdcToolbarDirective, MdcToolbarRowDirective, MdcToolbarSectionDirective, MdcToolbarTitleDirective, MdcToolbarIcon, MdcToolbarIconMenu, MdcToolbarFixedAdjustDirective
     ]
 })

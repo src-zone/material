@@ -1,0 +1,23 @@
+<fieldset class="blox-snippet snippet-skip-line">
+<div [dir]="dir">
+  <h3>Input with leading icon</h3>
+  <div mdcTextfield [mdcHelptext]="input1Help" mdcBox>
+    <i mdcTextfieldIcon class="material-icons">face</i>
+    <input mdcTextfieldInput type="text" #input1="ngModel" [(ngModel)]="field1"/>
+    <label mdcTextfieldLabel>Input 1</label>
+  </div>
+  <p mdcTextfieldHelptext #input1Help="mdcHelptext">
+    Help text
+  </p>
+
+  <h3>Input with trailing icon</h3>
+  <div mdcTextfield [mdcHelptext]="input2Help" mdcBox>
+    <input mdcTextfieldInput type="text" #input2="ngModel" [(ngModel)]="field2" minlength="8"/>
+    <label mdcTextfieldLabel>Input 2</label>
+    <i mdcTextfieldIcon (click)="clearField2()" tabindex="0" class="material-icons">delete</i>
+  </div>
+  <p mdcTextfieldHelptext #input2Help="mdcHelptext" mdcValidation>
+    <span *ngIf="input2.errors?.minlength">Input requires at least 8 characters</span>
+  </p>
+</div>
+</fieldset><div class="snippet-skip-line"></div>

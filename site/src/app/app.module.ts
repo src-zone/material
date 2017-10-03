@@ -21,7 +21,7 @@ import {
   SnippetFabComponent,
   SnippetTabSimpleComponent,
   SnippetTabScrollerComponent,
-  SnippetTextfieldComponent, SnippetTextfieldMultilineComponent,
+  SnippetTextfieldComponent, SnippetTextfieldIconComponent, SnippetTextfieldTextareaComponent,
   SnippetToolbarComponent, SnippetToolbarFlexibleComponent } from './components';
 
 const hljs: any = require('highlight.js/lib/highlight');
@@ -63,7 +63,7 @@ export function highlightJsFactory() {
     SnippetRadioComponent,
     SnippetTabSimpleComponent,
     SnippetTabScrollerComponent,
-    SnippetTextfieldComponent, SnippetTextfieldMultilineComponent,
+    SnippetTextfieldComponent, SnippetTextfieldIconComponent, SnippetTextfieldTextareaComponent,
     SnippetToolbarComponent, SnippetToolbarFlexibleComponent
   ],
   providers: [

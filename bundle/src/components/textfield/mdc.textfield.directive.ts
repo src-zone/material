@@ -2,11 +2,13 @@ import { AfterContentInit, AfterViewInit, Component, ContentChild, ContentChildr
   HostListener, Input, OnDestroy, OnInit, Optional, Output, Provider, QueryList, Renderer2, Self, ViewChild,
   ViewEncapsulation } from '@angular/core';
 import { NgControl } from '@angular/forms';
+import { MDCRipple } from '@material/ripple';
 import { MDCTextfieldFoundation } from '@material/textfield';
 import { MdcTextfieldAdapter } from './mdc.textfield.adapter';
 import { AbstractMdcInput } from '../abstract/abstract.mdc.input';
 import { AbstractMdcLabel } from '../abstract/abstract.mdc.label';
 import { asBoolean } from '../../utils/value.utils';
+import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
 const CLASS_BOTTOM_LINE = 'mdc-textfield__bottom-line';
@@ -123,6 +125,16 @@ export class MdcTextfieldInputDirective extends AbstractMdcInput implements OnIn
 }
 
 @Directive({
+    selector: '[mdcTextfieldIcon]'
+})
+export class MdcTextfieldIconDirective {
+    @HostBinding('class.mdc-textfield__icon') _hasHostClass = true;
+
+    constructor(public _el: ElementRef) {
+    }
+}
+
+@Directive({
     selector: 'label[mdcTextfieldLabel]',
     providers: [{provide: AbstractMdcLabel, useExisting: forwardRef(() => MdcTextfieldLabelDirective) }]
 })
@@ -158,10 +170,12 @@ export class MdcTextfieldHelptextDirective {
 }
 
 @Directive({
-    selector: '[mdcTextfield]'
+    selector: '[mdcTextfield]',
+    providers: [{provide: AbstractMdcRipple, useExisting: forwardRef(() => MdcTextfieldDirective) }]
 })
 export class MdcTextfieldDirective implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-textfield') hasHostClass = true;
+    @ContentChild(MdcTextfieldIconDirective) mdcTextfieldIcon: MdcTextfieldIconDirective;
     @ContentChild(MdcTextfieldInputDirective) mdcInput: MdcTextfieldInputDirective;
     @ContentChild(MdcTextfieldLabelDirective) mdcLabel: MdcTextfieldLabelDirective;
     @ContentChildren('label', {descendants: true, read: ElementRef}) labels: QueryList<ElementRef>;
@@ -171,6 +185,7 @@ export class MdcTextfieldDirective implements AfterContentInit, OnDestroy {
     private _dense = false;
     private _bottomLineElm: HTMLElement = null;
     private valid: boolean = null;
+    private _ripple: { destroy: Function, activate: Function, deactivate: Function };
     private mdcAdapter: MdcTextfieldAdapter = {
         addClass: (className: string) => {
             this.renderer.addClass(this.root.nativeElement, className);
@@ -186,6 +201,30 @@ export class MdcTextfieldDirective implements AfterContentInit, OnDestroy {
             if (this.mdcLabel)
                 this.renderer.removeClass(this.mdcLabel.elementRef.nativeElement, className);
         },
+        setIconAttr: (name: string, value: string) => {
+            if (this.mdcTextfieldIcon)
+                this.mdcTextfieldIcon._el.nativeElement.setAttribute(name, value);
+        },
+        eventTargetHasClass: (target: HTMLElement, className: string) => {
+            return target.classList.contains(className);
+        },
+        registerTextFieldInteractionHandler: (evtType: string, handler: EventListener) => {
+            this.registry.listen(this.renderer, evtType, handler, this.root);
+        },
+        deregisterTextFieldInteractionHandler: (evtType: string, handler: EventListener) => {
+            this.registry.unlisten(evtType, handler);
+        },
+        notifyIconAction: () => {
+            // TODO
+        },
+        addClassToBottomLine: (className: string) => {
+            if (this._bottomLineElm)
+                this.renderer.addClass(this._bottomLineElm, className);
+        },
+        removeClassFromBottomLine: (className: string) => {
+            if (this._bottomLineElm)
+                this.renderer.removeClass(this._bottomLineElm, className);
+        },
         addClassToHelptext: (className: string) => {
             if (this.mdcHelptext)
                 this.renderer.addClass(this.mdcHelptext.elementRef.nativeElement, className);
@@ -198,6 +237,24 @@ export class MdcTextfieldDirective implements AfterContentInit, OnDestroy {
             if (this.mdcHelptext)
                 return this.mdcHelptext.elementRef.nativeElement.classList.contains(className);
         },
+        registerInputInteractionHandler: (evtType: string, handler: EventListener) => {
+            if (this.mdcInput)
+                this.registry.listen(this.renderer, evtType, handler, this.mdcInput.elementRef);
+        },
+        deregisterInputInteractionHandler: (evtType: string, handler: EventListener) => {
+            this.registry.unlisten(evtType, handler);
+        },
+        registerTransitionEndHandler: (handler: EventListener) => {
+            if (this._bottomLineElm)
+                this.registry.listenElm(this.renderer, 'transitionend', handler, this._bottomLineElm);
+        },
+        deregisterTransitionEndHandler: (handler: EventListener) => {
+            this.registry.unlisten('transitionend', handler);
+        },
+        setBottomLineAttr: (attr: string, value: string) => {
+            if (this._bottomLineElm)
+                this._bottomLineElm.setAttribute(attr, value);
+        },
         setHelptextAttr: (name: string, value: string) => {
             if (this.mdcHelptext)
                 this.renderer.setAttribute(this.mdcHelptext.elementRef.nativeElement, name, value);
@@ -205,34 +262,6 @@ export class MdcTextfieldDirective implements AfterContentInit, OnDestroy {
         removeHelptextAttr: (name: string) => {
             if (this.mdcHelptext)
                 this.renderer.removeAttribute(this.mdcHelptext.elementRef.nativeElement, name);
-        },
-        registerInputFocusHandler: (handler: EventListener) => {
-            if (this.mdcInput)
-                this.registry.listen(this.renderer, 'focus', handler, this.mdcInput.elementRef);
-        },
-        deregisterInputFocusHandler: (handler: EventListener) => {
-            this.registry.unlisten('focus', handler);
-        },
-        registerInputBlurHandler: (handler: EventListener) => {
-            if (this.mdcInput)
-                this.registry.listen(this.renderer, 'blur', handler, this.mdcInput.elementRef);
-        },
-        deregisterInputBlurHandler: (handler: EventListener) => {
-            this.registry.unlisten('blur', handler);
-        },
-        registerInputInputHandler: (handler: EventListener) => {
-            if (this.mdcInput)
-                this.registry.listen(this.renderer, 'input', handler, this.mdcInput.elementRef);
-        },
-        deregisterInputInputHandler: (handler: EventListener) => {
-            this.registry.unlisten('input', handler);
-        },
-        registerInputKeydownHandler: (handler: EventListener) => {
-            if (this.mdcInput)
-                this.registry.listen(this.renderer, 'keydown', handler, this.mdcInput.elementRef);
-        },
-        deregisterInputKeydownHandler: (handler: EventListener) => {
-            this.registry.unlisten('keydown', handler);
         },
         getNativeInput: () => {
             return {
@@ -258,28 +287,26 @@ export class MdcTextfieldDirective implements AfterContentInit, OnDestroy {
         if (this.mdcLabel && this.mdcInput && !this.mdcLabel.for)
             this.mdcLabel.for = this.mdcInput.id;
         this._initialized = true;
-        if (this._box)
-            this.toggleBottomLine();
+        this._bottomLineElm = this.renderer.createElement('div');
+        this.renderer.addClass(this._bottomLineElm, CLASS_BOTTOM_LINE);
+        this.renderer.appendChild(this.root.nativeElement, this._bottomLineElm);
+        this.initBox();
         this.foundation.init();
     }
 
     ngOnDestroy() {
+        if (this._ripple)
+            this._ripple.destroy();
         this.foundation.destroy();
     }
 
-    private toggleBottomLine() {
-        if (this._initialized) {
-            // otherwise component still before ngAfterContentInit, so we can't
-            // track the availability of a pre-added line yet.
-            if (this._box !== !!this._bottomLineElm) {
-                if (this._box) {
-                    this._bottomLineElm = this.renderer.createElement('div');
-                    this.renderer.addClass(this._bottomLineElm, CLASS_BOTTOM_LINE);
-                    this.renderer.appendChild(this.root.nativeElement, this._bottomLineElm);
-                } else {
-                    this._bottomLineElm.parentNode.removeChild(this._bottomLineElm);
-                    this._bottomLineElm = null;
-                }
+    private initBox() {
+        if (this._box != !!this._ripple) {
+            if (this._box)
+                this._ripple = MDCRipple.attachTo(this.root.nativeElement);
+            else {
+                this._ripple.destroy();
+                this._ripple = null;
             }
         }
     }
@@ -307,7 +334,7 @@ export class MdcTextfieldDirective implements AfterContentInit, OnDestroy {
         }
     }
 
-    @HostBinding('class.mdc-textfield--multiline') get mdcMultiline(): boolean {
+    @HostBinding('class.mdc-textfield--textarea') get mdcTexterea(): boolean {
         return this.mdcInput.isTextarea();
     }
 
@@ -316,9 +343,17 @@ export class MdcTextfieldDirective implements AfterContentInit, OnDestroy {
         return this._box;
     }
 
+    @HostBinding('class.mdc-textfield--with-leading-icon') get mdcLeadingIcon(): boolean {
+        return this.mdcTextfieldIcon && !this.mdcTextfieldIcon._el.nativeElement.previousElementSibling;
+    }
+
+    @HostBinding('class.mdc-textfield--with-trailing-icon') get mdcTrailingIcon(): boolean {
+        return this.mdcTextfieldIcon && this.mdcTextfieldIcon._el.nativeElement.previousElementSibling;
+    }
+
     set mdcBox(val: any) {
         this._box = asBoolean(val);
-        this.toggleBottomLine();
+        this.initBox();
     }
 
     @HostBinding('class.mdc-textfield--dense') @Input()
@@ -328,5 +363,15 @@ export class MdcTextfieldDirective implements AfterContentInit, OnDestroy {
 
     set mdcDense(val: any) {
         this._dense = asBoolean(val);
+    }
+
+    activateInputRipple() {
+        if (this._ripple)
+            this._ripple.activate();
+    }
+    
+    deactivateInputRipple() {
+        if (this._ripple)
+            this._ripple.deactivate();
     }
 }

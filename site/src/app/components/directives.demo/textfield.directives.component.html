@@ -1,12 +1,20 @@
 <h1>Textfields</h1>
-<p>The <code>mdcTextfield</code> directive creates various types of textfields</p>
+<p>The <code>mdcTextfield</code> directive provides various types of textfields.
+A textfield is composed of a label, input element, line, helptext, and possibly a leading or trailing icon.
+The next code sample demonstrates some the behaviour of a single line textfield:</p>
 <blox-code-sample>
-  <span bloxSampleTitle>Demo</span>
+  <span bloxSampleTitle>Single Line</span>
   <blox-snippet-textfield bloxSample></blox-snippet-textfield>
 </blox-code-sample>
 
-<p>Multiline textfield:</p>
+<p>The next sample demonstrates textfields with leading or trailing icons:</p>
 <blox-code-sample>
-  <span bloxSampleTitle>Demo</span>
-  <blox-snippet-textfield-multiline bloxSample></blox-snippet-textfield-multiline>
+  <span bloxSampleTitle>With icons</span>
+  <blox-snippet-textfield-icon bloxSample></blox-snippet-textfield-icon>
+</blox-code-sample>
+
+<p>A textarea as input (for multiple lines of text) is also supported:</p>
+<blox-code-sample>
+  <span bloxSampleTitle>Textarea</span>
+  <blox-snippet-textfield-textarea bloxSample></blox-snippet-textfield-textarea>
 </blox-code-sample>

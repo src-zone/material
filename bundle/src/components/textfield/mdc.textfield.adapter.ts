@@ -3,18 +3,22 @@ export interface MdcTextfieldAdapter {
     removeClass: (className: string) => void;
     addClassToLabel: (className: string) => void;
     removeClassFromLabel: (className: string) => void;
+    setIconAttr: (name: string, value: string) => void,
+    eventTargetHasClass: (target: HTMLElement, className: string) => void,
+    registerTextFieldInteractionHandler: (evtType: string, handler: EventListener) => void,
+    deregisterTextFieldInteractionHandler: (evtType: string, handler: EventListener) => void,
+    notifyIconAction: () => void,
+    addClassToBottomLine: (className: string) => void;
+    removeClassFromBottomLine: (className: string) => void;
     addClassToHelptext: (className: string) => void;
     removeClassFromHelptext: (className: string) => void;
     helptextHasClass: (className: string) => boolean;
-    setHelptextAttr: (name: string, value: string) => void;
-    removeHelptextAttr: (name: string) => void;
-    registerInputFocusHandler: (handler: EventListener) => void;
-    deregisterInputFocusHandler: (handler: EventListener) => void;
-    registerInputBlurHandler: (handler: EventListener) => void;
-    deregisterInputBlurHandler: (handler: EventListener) => void;
-    registerInputInputHandler: (handler: EventListener) => void;
-    deregisterInputInputHandler: (handler: EventListener) => void;
-    registerInputKeydownHandler: (handler: EventListener) => void;
-    deregisterInputKeydownHandler: (handler: EventListener) => void;
-    getNativeInput: () => {value: string, disabled: boolean, badInput: boolean, checkValidity: () => boolean};
+    registerInputInteractionHandler: (evtType: string, handler: EventListener) => void,
+    deregisterInputInteractionHandler: (evtType: string, handler: EventListener) => void,
+    registerTransitionEndHandler: (handler: EventListener) => void,
+    deregisterTransitionEndHandler: (handler: EventListener) => void,
+    setBottomLineAttr: (attr: string, value: string) => void,
+    setHelptextAttr: (name: string, value: string) => void,
+    removeHelptextAttr: (name: string) => void,
+    getNativeInput: () => {value: string, disabled: boolean, badInput: boolean, checkValidity: () => boolean}
 }
