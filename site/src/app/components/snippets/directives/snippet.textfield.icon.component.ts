@@ -10,6 +10,11 @@ import { AbstractSnippetComponent } from '../abstract.snippet.component';
   templateUrl: './snippet.textfield.icon.component.html'
 })
 export class SnippetTextfieldIconComponent/*snip:skip*/extends AbstractSnippetComponent/*snip:endskip*/ {
+    box = true;
+    disabled = false;
+    required = false;
+    persistent = false;
+    dense = false;
     field1: string;
     field2: string;
 

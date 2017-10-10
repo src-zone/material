@@ -1,23 +1,52 @@
 <fieldset class="blox-snippet snippet-skip-line">
-<div [dir]="dir">
-  <h3>Input with leading icon</h3>
-  <div mdcTextfield [mdcHelptext]="input1Help" mdcBox>
-    <i mdcTextfieldIcon class="material-icons">face</i>
-    <input mdcTextfieldInput type="text" #input1="ngModel" [(ngModel)]="field1"/>
-    <label mdcTextfieldLabel>Input 1</label>
-  </div>
-  <p mdcTextfieldHelptext #input1Help="mdcHelptext">
-    Help text
-  </p>
+<div mdcTextfield [mdcHelptext]="input1Help" [mdcBox]="box" [mdcDense]="dense">
+  <i mdcTextfieldIcon class="material-icons">face</i>
+  <input mdcTextfieldInput type="text" #input1="ngModel" [(ngModel)]="field1" [disabled]="disabled"
+    [required]="required"/>
+  <label mdcTextfieldLabel>Input 1</label>
+</div>
+<p mdcTextfieldHelptext #input1Help="mdcHelptext" [mdcPersistent]="persistent">
+  Input with leading icon
+</p>
+<div mdcTextfield [mdcHelptext]="input2Help" [mdcBox]="box" [mdcDense]="dense">
+  <input mdcTextfieldInput type="text" #input2="ngModel" [(ngModel)]="field2" [disabled]="disabled"
+      [required]="required"/>
+  <label mdcTextfieldLabel>Input 2</label>
+  <i mdcTextfieldIcon (click)="clearField2()" tabindex="0" class="material-icons">delete</i>
+</div>
+<p mdcTextfieldHelptext #input2Help="mdcHelptext" [mdcPersistent]="persistent">
+  <span>Input with trailing action icon</span>
+</p>
 
-  <h3>Input with trailing icon</h3>
-  <div mdcTextfield [mdcHelptext]="input2Help" mdcBox>
-    <input mdcTextfieldInput type="text" #input2="ngModel" [(ngModel)]="field2" minlength="8"/>
-    <label mdcTextfieldLabel>Input 2</label>
-    <i mdcTextfieldIcon (click)="clearField2()" tabindex="0" class="material-icons">delete</i>
+<p>Modify behaviour of textfields:</p>
+<div mdcFormfield>
+  <div mdcCheckbox>
+    <input mdcCheckboxInput type="checkbox" [(ngModel)]="box"/>
   </div>
-  <p mdcTextfieldHelptext #input2Help="mdcHelptext" mdcValidation>
-    <span *ngIf="input2.errors?.minlength">Input requires at least 8 characters</span>
-  </p>
+  <label mdcFormfieldLabel>Box</label>
+</div>
+<div mdcFormfield>
+  <div mdcCheckbox>
+    <input mdcCheckboxInput type="checkbox" [(ngModel)]="dense"/>
+  </div>
+  <label mdcFormfieldLabel>Dense</label>
+</div>
+<div mdcFormfield>
+  <div mdcCheckbox>
+    <input mdcCheckboxInput type="checkbox" [(ngModel)]="disabled"/>
+  </div>
+  <label mdcFormfieldLabel>Disabled</label>
+</div>
+<div mdcFormfield>
+  <div mdcCheckbox>
+    <input mdcCheckboxInput type="checkbox" [(ngModel)]="required"/>
+  </div>
+  <label mdcFormfieldLabel>Required</label>
+</div>
+<div mdcFormfield>
+  <div mdcCheckbox>
+    <input mdcCheckboxInput type="checkbox" [(ngModel)]="persistent"/>
+  </div>
+  <label mdcFormfieldLabel>Make helper text persistent</label>
 </div>
 </fieldset><div class="snippet-skip-line"></div>

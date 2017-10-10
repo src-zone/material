@@ -1,27 +1,25 @@
 <fieldset class="blox-snippet snippet-skip-line">
 <div [dir]="dir">
-  <h3>Input with help text</h3>
   <div mdcTextfield [mdcHelptext]="input1Help" [mdcBox]="box" [mdcDense]="dense">
     <input mdcTextfieldInput type="text" #input1="ngModel" [(ngModel)]="field1" [disabled]="disabled"
       [required]="required"/>
-    <label mdcTextfieldLabel>Input 1</label>
+    <label mdcTextfieldLabel>Input with Helptext</label>
   </div>
   <p mdcTextfieldHelptext #input1Help="mdcHelptext" [mdcPersistent]="persistent">
     Help text
   </p>
 
-  <h3>Input with validation message as help text</h3>
   <div mdcTextfield [mdcHelptext]="input2Help" [mdcBox]="box" [mdcDense]="dense">
     <input mdcTextfieldInput type="text" #input2="ngModel" [(ngModel)]="field2" [disabled]="disabled"
       minlength="8" [required]="required"/>
-    <label mdcTextfieldLabel>Input 2</label>
+    <label mdcTextfieldLabel>Input with Validation</label>
   </div>
   <p mdcTextfieldHelptext #input2Help="mdcHelptext" mdcValidation [mdcPersistent]="persistent">
     <span *ngIf="input2.errors?.required">Input is required</span>
     <span *ngIf="input2.errors?.minlength">Input requires at least 8 characters</span>
   </p>
 
-  <h3>Modify behaviour of both textfields:</h3>
+  <p>Modify behaviour of textfields:</p>
   <div mdcFormfield>
     <div mdcCheckbox>
       <input mdcCheckboxInput type="checkbox" [(ngModel)]="box"/>
