@@ -1,0 +1,15 @@
+   Blox.Src.Zone - Tools for Developers
+   Copyright 2017 by Src.Zone (Amsterdam),
+   https://blox.src.zone/
+
+   This product includes software developed by The.Src.Zone
+   (http://the.src.zone/), licensed under the Apache
+   License Version 2.0.
+   
+   The images in src/assets/img/mdc-icons are developed by
+   Google Inc. Copyright 2017 Google Inc. Licensed under
+   the Apache License Version 2.0.
+   
+   Portions of the component descriptions are originally written
+   by Google Inc. Copyright 2017 Google Inc. Licensed under
+   the Apache License Version 2.0.

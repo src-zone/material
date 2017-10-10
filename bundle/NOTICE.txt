@@ -1,0 +1,7 @@
+   Blox.Src.Zone - Tools for Developers
+   Copyright 2017 by Src.Zone (Amsterdam),
+   https://blox.src.zone/
+
+   This product includes software developed by The.Src.Zone
+   (http://the.src.zone/), licensed under the Apache
+   License Version 2.0.
