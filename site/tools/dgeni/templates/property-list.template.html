@@ -1,0 +1,11 @@
+{%- if propertyList.length -%}
+  <table class="blox-docs-properties-table">
+    <tr class="blox-docs-properties-header-row">
+      <th class="blox-docs-properties-th">Property</th>
+      <th class="blox-docs-properties-th">Description</th>
+    </tr>
+    {% for p in propertyList %}
+      {$ property(p) $}
+    {% endfor %}
+  </table>
+{%- endif -%}

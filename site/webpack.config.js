@@ -201,7 +201,10 @@ module.exports = function makeWebpackConfig(env) {
         test: /\.html$/,
         loader: 'html-loader',
         exclude: root('src', 'public'),
-        options: { minimize: false } // minimize doesn't play nice with angular templates
+        options: {
+          minimize: false,        // minimize doesn't play nice with angular templates
+          interpolate: 'require'  // allow embedding the apidocs inside the component templates
+        }
       }
     ]
   };

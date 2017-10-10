@@ -1,0 +1,31 @@
+<tr class="blox-docs-properties-row">
+  <td class="blox-docs-properties-name-cell">
+    {%- if property.isDirectiveInput -%}
+      <div class="blox-docs-input-marker">
+        {%- if property.directiveInputAlias -%}
+        @Input(<span class="blox-docs-input-alias">{$ property.directiveInputAlias $}</span>)
+        {% else %}
+          @Input()
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    {%- if property.isDirectiveOutput -%}
+      <div class="blox-docs-output-marker">
+        {%- if property.directiveOutputAlias -%}
+        @Output(<span class="blox-docs-output-alias">{$ property.directiveOutputAlias $}</span>)
+        {% else %}
+          @Output()
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    {%- if property.isDeprecated -%}
+      <div class="blox-docs-deprecated-marker">Deprecated</div>
+    {%- endif -%}   
+
+    <p class="blox-docs-property-name">
+      {$ property.name $}
+    </p>
+    <code class="blox-docs-property-type">{$ property.type $}</code>
+  </td>
+  <td class="blox-docs-property-description">{$ property.description | marked | safe $}</td>
+</tr>

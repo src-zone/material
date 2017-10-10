@@ -1,0 +1,25 @@
+{%- if class.directiveSelectors -%}
+<p class="blox-docs-directive-selectors">
+  <span class="blox-docs-class-selector-label">Selector:</span>
+  {% for selector in class.directiveSelectors %}
+    <span class="blox-docs-class-selector-name">{$ selector $}</span>
+  {% endfor %}
+</p>
+{%- endif -%}
+
+{%- if class.directiveExportAs -%}
+<span class="blox-docs-class-export-label">Exported as:</span>
+<span class="blox-docs-class-export-name">{$ class.directiveExportAs $}</span>
+{%- endif -%}
+
+{%- if class.description -%}
+<p class="blox-docs-class-description">{$ class.description | safe $}</p>
+{%- endif -%}
+
+{%- if class.isDeprecated -%}
+<div class="blox-docs-class-deprecated-marker">Deprecated</div>
+{%- endif -%}
+
+{$ propertyList(class.properties) $}
+
+{$ methodList(class.methods) $}
