@@ -48,27 +48,6 @@ export class MdcButtonDirective extends AbstractMdcRipple implements AfterConten
         this._dense = asBoolean(val);
     }
 
-    @HostBinding('class.mdc-button--primary') @Input()
-    get mdcPrimary() {
-        return this._primary;
-    }
-
-    set mdcPrimary(val: any) {
-        this._primary = asBoolean(val);
-    }
-
-    /**
-     * deprecated: use mdcSecondary instead.
-     */
-    @HostBinding('class.mdc-button--accent') @Input()
-    get mdcAccent() {
-        return this._accent;
-    }
-
-    set mdcAccent(val: any) {
-        this._accent = asBoolean(val);
-    }
-
     @HostBinding('class.mdc-button--stroked') @Input()
     get mdcStroked() {
         return this._stroked;
@@ -76,15 +55,6 @@ export class MdcButtonDirective extends AbstractMdcRipple implements AfterConten
 
     set mdcStroked(val: any) {
         this._stroked = asBoolean(val);
-    }
-
-    @Input()
-    get mdcSecondary() {
-        return this._accent;
-    }
-
-    set mdcSecondary(val: any) {
-        this._accent = asBoolean(val);
     }
 
     @HostBinding('class.mdc-button--raised') @Input()
