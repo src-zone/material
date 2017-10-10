@@ -1,38 +1,26 @@
 <fieldset class="blox-snippet snippet-skip-line">
-<h3>Buttons:</h3>
-
+<div>Buttons:
+  <div mdcFormfield>
+    <div mdcCheckbox>
+      <input mdcCheckboxInput type="checkbox" [(ngModel)]="disabled"/>
+    </div>
+    <label mdcFormfieldLabel>Disable buttons</label>
+  </div>
+</div>
 <button mdcButton [disabled]="disabled">Default</button>
 <button mdcButton mdcRaised [disabled]="disabled">Raised</button>
 <button mdcButton mdcDense [disabled]="disabled">Dense Default</button>
 <button mdcButton mdcDense mdcRaised [disabled]="disabled">Dense Raised</button>
 <button mdcButton mdcCompact [disabled]="disabled">Compact</button>
 <button mdcButton mdcCompact mdcRaised [disabled]="disabled">Compact Raised</button>
-<button mdcButton mdcPrimary [disabled]="disabled">Default with Primary</button>
-<button mdcButton mdcRaised mdcPrimary [disabled]="disabled">Raised with Primary</button>
-<button mdcButton mdcAccent [disabled]="disabled">Default with Secondary</button>
-<button mdcButton mdcRaised mdcSecondary [disabled]="disabled">Raised with Secondary</button>
 <button mdcButton mdcStroked [disabled]="disabled">Stroked</button>
-<button mdcButton mdcStroked mdcSecondary [disabled]="disabled">Stroked with Secondary</button>
 
-<div mdcFormfield>
-  <div mdcCheckbox>
-    <input mdcCheckboxInput type="checkbox" [(ngModel)]="disabled"/>
-  </div>
-  <label mdcFormfieldLabel>Disable buttons</label>
-</div>
-
-<h3>Anchors:</h3>
-
+<div>Anchors:</div>
 <a href="javascript:void(0)" mdcButton>Anchor</a>
 <a href="javascript:void(0)" mdcButton mdcRaised>Raised</a>
 <a href="javascript:void(0)" mdcButton mdcDense>Dense Default</a>
 <a href="javascript:void(0)" mdcButton mdcDense mdcRaised>Dense Raised</a>
 <a href="javascript:void(0)" mdcButton mdcCompact>Compact</a>
 <a href="javascript:void(0)" mdcButton mdcCompact mdcRaised>Compact Raised</a>
-<a href="javascript:void(0)" mdcButton mdcPrimary>Default with Primary</a>
-<a href="javascript:void(0)" mdcButton mdcRaised mdcPrimary>Raised with Primary</a>
-<a href="javascript:void(0)" mdcButton mdcAccent>Default with Secondary</a>
-<a href="javascript:void(0)" mdcButton mdcRaised mdcSecondary>Raised with Secondary</a>
 <a href="javascript:void(0)" mdcButton mdcStroked>Stroked</a>
-<a href="javascript:void(0)" mdcButton mdcStroked mdcSecondary>Stroked with Secondary</a>
 </fieldset><div class="snippet-skip-line"></div>
