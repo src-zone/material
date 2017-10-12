@@ -23,12 +23,12 @@ export class MdcButtonDirective extends AbstractMdcRipple implements AfterConten
     private _stroked = false;
     private _ripple: { destroy: Function, activate: Function, deactivate: Function };
 
-    constructor(private elementRef: ElementRef) {
+    constructor(public _elm: ElementRef) {
         super();
     }
 
     ngAfterContentInit() {
-        this._ripple = MDCRipple.attachTo(this.elementRef.nativeElement);
+        this._ripple = MDCRipple.attachTo(this._elm.nativeElement);
     }
 
     ngOnDestroy() {

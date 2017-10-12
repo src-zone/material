@@ -63,28 +63,31 @@ export class MdcCardMediaDirective {
 })
 export class MdcCardActionsDirective implements AfterContentInit  {
     @HostBinding('class.mdc-card__actions') hasHostClass = true;
-    @ContentChildren(MdcButtonDirective, {descendants: false, read: ElementRef}) children: QueryList<ElementRef>;
+    @ContentChildren(MdcButtonDirective, {descendants: false}) _children: QueryList<MdcButtonDirective>;
+    private _initialized = false;
     private _compact: boolean;
     private _vertical = false;
 
     constructor(private renderer: Renderer2) {}
 
     ngAfterContentInit() {
-        this.initChildren();
-        this.children.changes.subscribe(() => {
-            this.initChildren();
+        this._initialized = true;
+        this._initChildren();
+        this._children.changes.subscribe(() => {
+            this._initChildren();
         });
     }
 
-    initChildren() {
-        this.children.forEach(elm => {
-            this.renderer.addClass(elm.nativeElement, 'mdc-card__action');
-            if (this._compact != null)
-                if (this._compact)
-                    this.renderer.addClass(elm.nativeElement, 'mdc-button--compact');
-                else
-                    this.renderer.removeClass(elm.nativeElement, 'mdc-button--compact');
-        });
+    private _initChildren() {
+        if (this._initialized)
+            this._children.forEach(btn => {
+                this.renderer.addClass(btn._elm.nativeElement, 'mdc-card__action');
+                if (this._compact != null)
+                    if (this._compact)
+                        btn.mdcCompact = true;
+                    else
+                        btn.mdcCompact = false;
+            });
     }
 
     @Input()
@@ -99,7 +102,7 @@ export class MdcCardActionsDirective implements AfterContentInit  {
             val = asBoolean(val);
             if (this._compact !== val) {
                 this._compact = val;
-                this.initChildren();
+                this._initChildren();
             }
         }
     }
@@ -137,11 +140,11 @@ export class MdcCardMediaItemDirective {
     }
 
     @HostBinding('class.mdc-card__media-item--2x') get size2() {
-        return this._size === 1.5;
+        return this._size === 2;
     }
 
     @HostBinding('class.mdc-card__media-item--3x') get size3() {
-        return this._size === 1.5;
+        return this._size === 3;
     }
 
     @Input()
@@ -150,7 +153,7 @@ export class MdcCardMediaItemDirective {
             this._size = 1.5;
         else if (+val === 2)
             this._size = 2;
-        else if (val === 3)
+        else if (+val === 3)
             this._size = 3;
         else
             this._size = 1;
