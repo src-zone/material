@@ -6,6 +6,7 @@ import {
     GettingstartedComponent,
 
     ButtonDirectivesComponent,
+    CardDirectivesComponent,
     CheckboxDirectivesComponent,    
     FabDirectivesComponent,
     RadioDirectivesComponent,
@@ -22,6 +23,7 @@ export const routes: Routes = [
     {path: 'directives', children: [
         {path: '', pathMatch: 'full', component: OverviewComponent},
         {path: ButtonDirectivesComponent.DOC_HREF, component: ButtonDirectivesComponent},
+        {path: CardDirectivesComponent.DOC_HREF, component: CardDirectivesComponent},
         {path: CheckboxDirectivesComponent.DOC_HREF, component: CheckboxDirectivesComponent},
         {path: FabDirectivesComponent.DOC_HREF, component: FabDirectivesComponent},
         {path: RadioDirectivesComponent.DOC_HREF, component: RadioDirectivesComponent},

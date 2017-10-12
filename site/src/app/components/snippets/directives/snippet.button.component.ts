@@ -7,7 +7,8 @@ import { AbstractSnippetComponent } from '../abstract.snippet.component';
   providers: [{provide: AbstractSnippetComponent, useExisting: forwardRef(() => SnippetButtonComponent)}],
   //snip:endskip
   selector: 'blox-snippet-button',
-  templateUrl: './snippet.button.component.html'
+  templateUrl: './snippet.button.component.html',
+  styleUrls: ['./snippet.button.component.scss']
 })
 export class SnippetButtonComponent/*snip:skip*/extends AbstractSnippetComponent/*snip:endskip*/ {
     disabled = false;
@@ -15,6 +16,7 @@ export class SnippetButtonComponent/*snip:skip*/extends AbstractSnippetComponent
     constructor() {
         super({
           'html': require('!raw-loader!./snippet.button.component.html'),
+          'scss': require('!raw-loader!./snippet.button.component.scss'),
           'typescript': require('!raw-loader!./snippet.button.component.ts')
         });
     }

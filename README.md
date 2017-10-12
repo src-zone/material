@@ -15,7 +15,7 @@ is done by providing Angular Directives.
 Component                | Directives | Comments
 ------------------------ | --------- |
 button                   | [See demo](https://blox.src.zone/material#/directives/button) |
-card                     | Available |
+card                     | [See demo](https://blox.src.zone/material#/directives/card) |
 checkbox                 | [See demo](https://blox.src.zone/material#/directives/checkbox) |
 dialog                   |           |
 drawer                   |           |

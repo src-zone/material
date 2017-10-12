@@ -7,13 +7,15 @@ import { AbstractSnippetComponent } from '../abstract.snippet.component';
   providers: [{provide: AbstractSnippetComponent, useExisting: forwardRef(() => SnippetFabComponent) }],
   //snip:endskip
   selector: 'blox-snippet-fab',
-  templateUrl: './snippet.fab.component.html'
+  templateUrl: './snippet.fab.component.html',
+  styleUrls: ['./snippet.fab.component.scss']
 })
 export class SnippetFabComponent/*snip:skip*/extends AbstractSnippetComponent/*snip:endskip*/ {
     //snip:skip
     constructor() {
         super({
           'html': require('!raw-loader!./snippet.fab.component.html'),
+          'scss': require('!raw-loader!./snippet.fab.component.scss'),
           'typescript': require('!raw-loader!./snippet.fab.component.ts')
         });
     }

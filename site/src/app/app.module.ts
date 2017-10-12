@@ -16,6 +16,7 @@ import {
   MDC_DIRECTIVE_DOC_COMPONENTS,
 
   SnippetButtonComponent,
+  SnippetCardComponent,
   SnippetCheckboxComponent,
   SnippetRadioComponent,
   SnippetFabComponent,
@@ -58,6 +59,7 @@ export function highlightJsFactory() {
     ...MDC_DIRECTIVE_DOC_COMPONENTS,
 
     SnippetButtonComponent,
+    SnippetCardComponent,
     SnippetCheckboxComponent,
     SnippetFabComponent,
     SnippetRadioComponent,

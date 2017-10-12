@@ -1,4 +1,5 @@
 export * from './snippet.button.component';
+export * from './snippet.card.component';
 export * from './snippet.checkbox.component';
 export * from './snippet.fab.component';
 export * from './snippet.radio.component';

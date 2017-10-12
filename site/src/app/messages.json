@@ -1,6 +1,8 @@
 {
     "directives.button.title": "Button",
     "directives.button.description": "Raised and flat buttons",
+    "directives.card.title": "Card",
+    "directives.card.description": "Cards for displaying content composed of different elements",
     "directives.checkbox.title": "Checkbox",
     "directives.checkbox.description": "Multi selection controls",
     "directives.fab.title": "Floating Action Button",
@@ -14,8 +16,6 @@
     "directives.toolbar.title": "Toolbar",
     "directives.toolbar.description": "A container for multiple rows of items such as application title, navigation menu, or tabs",
 
-    "directives.card.title": "Card",
-    "directives.card.description": "Cards for displaying content composed of different elements",
     "directives.ripple.title": "Ripple",
     "directives.ripple.description": "Ink ripple touch feedback effect",
     "directives.snackbar.title": "Snackbar",
