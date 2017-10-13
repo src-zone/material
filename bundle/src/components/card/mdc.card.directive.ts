@@ -212,6 +212,10 @@ export class MdcCardMediaItemDirective {
      * Any other value will reset <code>mdcSize</code> to 1, to have a 80px height.
      */
     @Input()
+    get mdcSize() {
+        return this._size;
+    }
+    
     set mdcSize(val: any) {
         if (+val === 1.5)
             this._size = 1.5;
@@ -221,10 +225,6 @@ export class MdcCardMediaItemDirective {
             this._size = 3;
         else
             this._size = 1;
-    }
-
-    get mdcSize() {
-        return this._size;
     }
 }
 
