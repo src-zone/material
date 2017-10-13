@@ -22,7 +22,7 @@ drawer                   |           |
 fab                      | [See demo](https://blox.src.zone/material#/directives/fab) |
 form-field               | Available |
 grid-list                |           |
-icon-toggle              |           |
+icon-toggle              | [See demo](https://blox.src.zone/material#/directives/icon-toggle) |
 layout-grid              |           |
 linear-progress          |           |
 list                     |           |
