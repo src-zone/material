@@ -1,0 +1,46 @@
+<fieldset class="blox-snippet snippet-skip-line">
+<div>
+  <i mdcIconToggle
+    class="material-icons"
+    mdcLabelOn="Remove from favorites"
+    mdcLabelOff="Add to favorites"
+    mdcIconOn="favorite"
+    mdcIconOff="favorite_border"
+    [mdcDisabled]="disabled"
+    [(mdcIsOn)]="favorite"></i>
+  <span>(Value: {{favorite}}. Uses an icon from Material Icons.)</span>
+</div>
+<div>
+  <span mdcIconToggle
+    mdcLabelOn="Do not like"
+    mdcLabelOff="Like"
+    mdcIconOn="fa-thumbs-up"
+    mdcIconOff="fa-thumbs-o-up"
+    [mdcDisabled]="disabled"
+    [(mdcIsOn)]="like">
+    <i mdcIconToggleIcon class="fa"></i>
+  </span>
+  <span>(Value: {{like}}. Uses an icon from Font Awesome.)</span>
+</div>
+<div>
+  <span mdcIconToggle
+    mdcLabelOn="Open envelope"
+    mdcLabelOff="Close envelope"
+    mdcIconOn="fa-envelope"
+    mdcIconOff="fa-envelope-open-o"
+    [mdcDisabled]="disabled"
+    [(ngModel)]="closed">
+    <i mdcIconToggleIcon class="fa"></i>
+  </span>
+  <span>(Value: {{closed}}. Used as a FormControl with [(ngModel)] support.)</span>
+</div>
+<p>Modify toggles:</p>
+<div mdcFormfield>
+  <div mdcCheckbox>
+    <input mdcCheckboxInput type="checkbox" [(ngModel)]="disabled"/>
+  </div>
+  <label mdcFormfieldLabel>Disable toggles</label>
+</div><br/>
+<button mdcButton mdcStroked (click)="toggleAll()">Toggle all Values</button>
+
+</fieldset><div class="snippet-skip-line"></div>
