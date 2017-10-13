@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.2.1"></a>
+## [0.2.1](https://bitbucket.org/src-zone/material/compare/v0.2.0...v0.2.1) (2017-10-13)
+
+
+### Features
+
+* **site:** document mdcCard and related directives ([577482f](https://bitbucket.org/src-zone/material/commits/577482f))
+
+
+
+
 <a name="0.2.0"></a>
 # [0.2.0](https://bitbucket.org/src-zone/material/compare/v0.1.4...v0.2.0) (2017-10-03)
 

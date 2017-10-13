@@ -3,7 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-<a name="0.2.0"></a>
+      <a name="0.2.1"></a>
+## [0.2.1](https://bitbucket.org/src-zone/material/compare/v0.2.0...v0.2.1) (2017-10-13)
+
+
+### Bug Fixes
+
+* **bundle:** exception when using mdcCompact on mdcCardActions fixed ([54bf6f9](https://bitbucket.org/src-zone/material/commits/54bf6f9))
+
+
+### Features
+
+* **bundle:** implement icon-toggle directives ([b76f8cd](https://bitbucket.org/src-zone/material/commits/b76f8cd))
+* **bundle:** refactor how ripples are added to directives ([db5dc2d](https://bitbucket.org/src-zone/material/commits/db5dc2d))
+* **bundle:** remove mdcPrimary/mdcSecondary/mdcAccent modifiers ([cafff95](https://bitbucket.org/src-zone/material/commits/cafff95))
+
+
+### BREAKING CHANGES
+
+* **bundle:** mdcPrimary/mdcSecondary/mdcAccent inputs no longer
+supported for mdcButton. (Following upstream changes in mdc-button).
+
+
+
+
+      <a name="0.2.0"></a>
 # [0.2.0](https://bitbucket.org/src-zone/material/compare/v0.1.4...v0.2.0) (2017-10-03)
 
 
