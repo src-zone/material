@@ -1,7 +1,8 @@
-import { AfterContentInit, Directive, ElementRef, HostBinding, Input, OnDestroy, forwardRef } from '@angular/core';
+import { AfterContentInit, Directive, ElementRef, HostBinding, Input, OnDestroy, Renderer2, forwardRef } from '@angular/core';
 import { MDCRipple } from '@material/ripple';
 import { asBoolean } from '../../utils/value.utils';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
+import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
 @Directive({
     selector: '[mdcFabIcon]'
@@ -18,19 +19,17 @@ export class MdcFabDirective extends AbstractMdcRipple implements AfterContentIn
     @HostBinding('class.mdc-fab') _hasHostClass = true;
     private _mini = false;
     private _plain = false;
-    private _ripple: { destroy: Function, activate: Function, deactivate: Function };
 
-    constructor(private elementRef: ElementRef) {
-        super();
+    constructor(private elementRef: ElementRef, renderer: Renderer2, registry: MdcEventRegistry) {
+        super(elementRef, renderer, registry);
     }
 
     ngAfterContentInit() {
-        this._ripple = MDCRipple.attachTo(this.elementRef.nativeElement);
+        this.initRipple();
     }
 
     ngOnDestroy() {
-        if (this._ripple)
-            this._ripple.destroy();
+        this.destroyRipple();
     }
 
     @HostBinding('class.mdc-fab--mini') @Input()
@@ -49,15 +48,5 @@ export class MdcFabDirective extends AbstractMdcRipple implements AfterContentIn
 
     set mdcPlain(val: any) {
         this._plain = asBoolean(val);
-    }
-
-    activateInputRipple() {
-        if (this._ripple)
-            this._ripple.activate();
-    }
-    
-    deactivateInputRipple() {
-        if (this._ripple)
-            this._ripple.deactivate();
     }
 }

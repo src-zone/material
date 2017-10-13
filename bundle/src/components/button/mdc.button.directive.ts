@@ -1,7 +1,10 @@
-import { AfterContentInit, Directive, ElementRef, HostBinding, Input, OnDestroy, forwardRef } from '@angular/core';
+import { AfterContentInit, Directive, ElementRef, HostBinding, Input, OnDestroy, Renderer2, forwardRef } from '@angular/core';
 import { MDCRipple } from '@material/ripple';
 import { asBoolean } from '../../utils/value.utils';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
+import { MdcEventRegistry } from '../../utils/mdc.event.registry';
+
+// TODO: mdc-button__icon
 
 /**
  * Material design button. Anchors can also be styled as buttons with this directive.
@@ -21,19 +24,17 @@ export class MdcButtonDirective extends AbstractMdcRipple implements AfterConten
     private _accent = false;
     private _raised = false;
     private _stroked = false;
-    private _ripple: { destroy: Function, activate: Function, deactivate: Function };
 
-    constructor(public _elm: ElementRef) {
-        super();
+    constructor(public _elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry) {
+        super(_elm, renderer, registry);
     }
 
     ngAfterContentInit() {
-        this._ripple = MDCRipple.attachTo(this._elm.nativeElement);
+        this.initRipple();
     }
 
     ngOnDestroy() {
-        if (this._ripple)
-            this._ripple.destroy();
+        this.destroyRipple();
     }
 
     /**
@@ -86,17 +87,5 @@ export class MdcButtonDirective extends AbstractMdcRipple implements AfterConten
 
     set mdcDense(val: any) {
         this._dense = asBoolean(val);
-    }
-
-    /** @docs-private TODO not stable */
-    activateInputRipple() {
-        if (this._ripple)
-            this._ripple.activate();
-    }
-    
-    /** @docs-private TODO not stable */
-    deactivateInputRipple() {
-        if (this._ripple)
-            this._ripple.deactivate();
     }
 }

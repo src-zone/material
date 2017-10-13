@@ -173,7 +173,7 @@ export class MdcTextfieldHelptextDirective {
     selector: '[mdcTextfield]',
     providers: [{provide: AbstractMdcRipple, useExisting: forwardRef(() => MdcTextfieldDirective) }]
 })
-export class MdcTextfieldDirective implements AfterContentInit, OnDestroy {
+export class MdcTextfieldDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-textfield') hasHostClass = true;
     @ContentChild(MdcTextfieldIconDirective) mdcTextfieldIcon: MdcTextfieldIconDirective;
     @ContentChild(MdcTextfieldInputDirective) mdcInput: MdcTextfieldInputDirective;
@@ -185,7 +185,6 @@ export class MdcTextfieldDirective implements AfterContentInit, OnDestroy {
     private _dense = false;
     private _bottomLineElm: HTMLElement = null;
     private valid: boolean = null;
-    private _ripple: { destroy: Function, activate: Function, deactivate: Function };
     private mdcAdapter: MdcTextfieldAdapter = {
         addClass: (className: string) => {
             this.renderer.addClass(this.root.nativeElement, className);
@@ -281,6 +280,7 @@ export class MdcTextfieldDirective implements AfterContentInit, OnDestroy {
     } = new MDCTextfieldFoundation(this.mdcAdapter);
 
     constructor(private renderer: Renderer2, private root: ElementRef, private registry: MdcEventRegistry) {
+        super(root, renderer, registry);
     }
 
     ngAfterContentInit() {
@@ -295,19 +295,16 @@ export class MdcTextfieldDirective implements AfterContentInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        if (this._ripple)
-            this._ripple.destroy();
+        this.destroyRipple();
         this.foundation.destroy();
     }
 
     private initBox() {
-        if (this._box != !!this._ripple) {
+        if (this._box != !!this.isRippleInitialized()) {
             if (this._box)
-                this._ripple = MDCRipple.attachTo(this.root.nativeElement);
-            else {
-                this._ripple.destroy();
-                this._ripple = null;
-            }
+                this.initRipple();
+            else
+                this.destroyRipple();
         }
     }
 
@@ -363,15 +360,5 @@ export class MdcTextfieldDirective implements AfterContentInit, OnDestroy {
 
     set mdcDense(val: any) {
         this._dense = asBoolean(val);
-    }
-
-    activateInputRipple() {
-        if (this._ripple)
-            this._ripple.activate();
-    }
-    
-    deactivateInputRipple() {
-        if (this._ripple)
-            this._ripple.deactivate();
     }
 }

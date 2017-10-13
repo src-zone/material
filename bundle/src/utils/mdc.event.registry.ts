@@ -8,18 +8,21 @@ export class MdcEventRegistry {
 
     constructor() {}
 
-    listen(renderer: Renderer2, type: string, listener: EventListener, ref: ElementRef) {
+    listen(renderer: Renderer2, type: string, listener: EventListener, ref: ElementRef, options?: any) {
         this.listenElm(renderer, type, listener, ref.nativeElement);
     }
 
-    listenElm(renderer: Renderer2, type: string, listener: EventListener, el: Element) {
+    listenElm(renderer: Renderer2, type: string, listener: EventListener, el: Element | Window, options?: any) {
         if (!this.unlisteners.has(type))
             this.unlisteners.set(type, new WeakMap<EventListener, Function>());
-        const unlistener = renderer.listen(el, type, listener);
+        el.addEventListener(type, listener, options);
+        const unlistener = function() {
+            el.removeEventListener(type, listener, options);
+        };
         this.unlisteners.get(type).set(listener, unlistener);
     }
 
-    unlisten(type: string, listener: EventListener) {
+    unlisten(type: string, listener: EventListener, options?: any) {
         if (!this.unlisteners.has(type))
             return;
         const unlisteners = this.unlisteners.get(type);

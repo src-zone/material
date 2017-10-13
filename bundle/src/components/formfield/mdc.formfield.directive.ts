@@ -73,11 +73,11 @@ export class MdcFormfieldDirective implements AfterContentInit, OnDestroy {
         },
         activateInputRipple: () => {
             if (this.rippleChild)
-                this.rippleChild.activateInputRipple();
+                this.rippleChild.activateRipple();
         },
         deactivateInputRipple: () => {
             if (this.rippleChild)
-                this.rippleChild.deactivateInputRipple();
+                this.rippleChild.deactivateRipple();
         }
     };
     private foundation: { init: Function, destroy: Function } = new MDCFormFieldFoundation(this.mdcAdapter);
