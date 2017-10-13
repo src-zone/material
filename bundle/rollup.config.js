@@ -9,6 +9,7 @@ const globals = {
     '@material/animation': 'material.animation',
     '@material/checkbox': 'material.checkbox',
     '@material/form-field': 'material.formfield',
+    '@material/icon-toggle': 'material.icontoggle',
     '@material/radio': 'material.radio',
     '@material/ripple': 'material.ripple',
     '@material/snackbar': 'material.snackbar',

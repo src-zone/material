@@ -17,6 +17,9 @@ import { MdcFabDirective,
 import { MdcFormfieldDirective,
     MdcFormfieldInputDirective,
     MdcFormfieldLabelDirective } from './components/formfield/mdc.formfield.directive';
+import { MdcIconToggleDirective,
+    MdcIconToggleIconDirective,
+    MdcFormsIconToggleDirective } from './components/icon-toggle/mdc.icon-toggle.directive';
 import { MdcRadioDirective,
     MdcRadioInputDirective } from './components/radio/mdc.radio.directive';
 import { MdcSnackbarDirective,
@@ -63,6 +66,9 @@ export { MdcFabDirective,
 export { MdcFormfieldDirective,
     MdcFormfieldInputDirective,
     MdcFormfieldLabelDirective } from './components/formfield/mdc.formfield.directive';
+export { MdcIconToggleDirective,
+    MdcIconToggleIconDirective,
+    MdcFormsIconToggleDirective } from './components/icon-toggle/mdc.icon-toggle.directive';
 export { MdcRadioDirective,
     MdcRadioInputDirective } from './components/radio/mdc.radio.directive';
 export { MdcSnackbarDirective,
@@ -103,6 +109,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcCheckboxDirective, MdcCheckboxInputDirective,
         MdcFabDirective, MdcFabIconDirective,
         MdcFormfieldDirective, MdcFormfieldInputDirective, MdcFormfieldLabelDirective,
+        MdcIconToggleDirective, MdcIconToggleIconDirective, MdcFormsIconToggleDirective,
         MdcRadioDirective, MdcRadioInputDirective,
         MdcSnackbarDirective, MdcSnackbarTextDirective, MdcSnackbarActionDirective,
         MdcTabDirective, MdcTabIconDirective, MdcTabIconTextDirective,
@@ -122,6 +129,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcCheckboxDirective, MdcCheckboxInputDirective,
         MdcFabDirective, MdcFabIconDirective,
         MdcFormfieldDirective, MdcFormfieldInputDirective, MdcFormfieldLabelDirective,
+        MdcIconToggleDirective, MdcIconToggleIconDirective, MdcFormsIconToggleDirective,
         MdcRadioDirective, MdcRadioInputDirective,
         MdcSnackbarDirective, MdcSnackbarTextDirective, MdcSnackbarActionDirective,
         MdcTabDirective, MdcTabIconDirective, MdcTabIconTextDirective,
