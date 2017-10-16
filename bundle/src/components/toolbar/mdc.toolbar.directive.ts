@@ -167,7 +167,7 @@ export class MdcToolbarDirective implements AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit() {
-        // Using ngAfterViewInit instead of ngAfterContentInit, because the MDCToolbarFoundation
+        // Using ngAfterViewInit instead of ngAfterContentInit, because the MDCToolbarFoundation.init
         // uses MdcToolbarAdapter.hasClass on classes that we bind in this component. Those classes are only
         // available after the view is fully initialized.
         this._initialized = true;
