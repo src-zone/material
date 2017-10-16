@@ -74,7 +74,7 @@ export class MdcSliderDirective implements AfterContentInit, OnChanges, OnDestro
 
     private mdcAdapter: MdcSliderAdapter = {
         hasClass: (className: string) => {
-            if (className === 'class.mdc-slider--discrete')
+            if (className === 'mdc-slider--discrete')
                 return this._discrete;
             if (className === 'mdc-slider--display-markers')
                 return this._markers;
