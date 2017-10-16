@@ -280,10 +280,11 @@ export class MdcSliderDirective implements AfterContentInit, OnChanges, OnDestro
             this.foundation.setMin(this._min);
         }
         this.foundation.setStep(this._step);
-        if (this.foundation.isDisabled() !== this._disabled)
+        if (this.foundation.isDisabled() !== this._disabled) {
             // without this check, MDCFoundation may remove the tabIndex incorrectly,
-            // preventing the slider from getting focus ny keyboard commands:
+            // preventing the slider from getting focus on keyboard commands:
             this.foundation.setDisabled(this._disabled);
+        }
         this.foundation.setValue(this._value);
         // value may have changed during setValue(), due to step settings:
         this._value = this.foundation.getValue();
