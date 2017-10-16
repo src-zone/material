@@ -30,7 +30,7 @@ export class MdcTabBarDirective {
         registerResizeHandler: (handler: EventListener) => window.addEventListener('resize', handler),
         deregisterResizeHandler: (handler: EventListener) => window.removeEventListener('resize', handler),
         getOffsetWidth: () => this._el.nativeElement.offsetWidth,
-        setStyleForIndicator: (propertyName: string, value: string) => this._indicator.style.setProperty(propertyName, value),
+        setStyleForIndicator: (propertyName: string, value: string) => this._rndr.setStyle(this._indicator, propertyName, value),
         getOffsetWidthForIndicator: () => this._indicator.offsetWidth,
         notifyChange: (evtData: {activeTabIndex: number}) => this.mdcChange.emit(evtData),
         getNumberOfTabs: () => this._tabs.length,
