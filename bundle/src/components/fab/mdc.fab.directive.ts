@@ -18,7 +18,7 @@ export class MdcFabIconDirective {
 export class MdcFabDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-fab') _hasHostClass = true;
     private _mini = false;
-    private _plain = false;
+    private _exited = false;
 
     constructor(private elementRef: ElementRef, renderer: Renderer2, registry: MdcEventRegistry) {
         super(elementRef, renderer, registry);
@@ -41,12 +41,12 @@ export class MdcFabDirective extends AbstractMdcRipple implements AfterContentIn
         this._mini = asBoolean(val);
     }
 
-    @HostBinding('class.mdc-fab--plain') @Input()
-    get mdcPlain() {
-        return this._plain;
+    @HostBinding('class.mdc-fab--exited') @Input()
+    get mdcExited() {
+        return this._exited;
     }
 
-    set mdcPlain(val: any) {
-        this._plain = asBoolean(val);
+    set mdcExited(val: any) {
+        this._exited = asBoolean(val);
     }
 }
