@@ -1,6 +1,7 @@
 import { AfterContentInit, AfterViewInit, Component, ContentChild, ContentChildren, Directive, ElementRef, EventEmitter, forwardRef, HostBinding,
   HostListener, Input, OnDestroy, OnInit, Optional, Output, Provider, QueryList, Renderer2, Self, ViewChild,
   ViewEncapsulation } from '@angular/core';
+import { Observable } from 'rxjs';
 import { NgControl } from '@angular/forms';
 import { MDCRipple } from '@material/ripple';
 import { MDCTextfieldFoundation } from '@material/textfield';
@@ -20,12 +21,13 @@ let nextId = 1;
     providers: [{provide: AbstractMdcInput, useExisting: forwardRef(() => MdcTextfieldInputDirective) }]
 })
 export class MdcTextfieldInputDirective extends AbstractMdcInput implements OnInit {
+    _onChange = (value) => {};
     private _id: string;
     private _type = 'text';
     private _disabled = false;
     private _required = false;
     private cachedId: string;
-    private focused = false;
+    _focused = false;
     @HostBinding('class.mdc-textfield__input') _hostClass = true;
 
     constructor(public elementRef: ElementRef, private renderer: Renderer2, @Optional() @Self() public ngControl: NgControl) {
@@ -35,6 +37,11 @@ export class MdcTextfieldInputDirective extends AbstractMdcInput implements OnIn
     ngOnInit() {
         // Force setter to be called in case id was not specified.
         this.id = this.id;
+        if (this.ngControl) {
+            this.ngControl.valueChanges.subscribe(value => {
+                this._onChange(value);
+            });
+        }
     }
 
     @HostBinding()
@@ -87,6 +94,7 @@ export class MdcTextfieldInputDirective extends AbstractMdcInput implements OnIn
 
     set value(value: string) {
         this.elementRef.nativeElement.value = value;
+        this._onChange(value);
     }
 
     focus() {
@@ -94,11 +102,11 @@ export class MdcTextfieldInputDirective extends AbstractMdcInput implements OnIn
     }
 
     @HostListener('focus') onFocus() {
-        this.focused = true;
+        this._focused = true;
     }
 
     @HostListener('blur') onBlur() {
-       this.focused = false;
+       this._focused = false;
     }
 
     @HostListener('input') onInput() {
@@ -292,11 +300,24 @@ export class MdcTextfieldDirective extends AbstractMdcRipple implements AfterCon
         this.renderer.appendChild(this.root.nativeElement, this._bottomLineElm);
         this.initBox();
         this.foundation.init();
+        // TODO: we should actually reassign this if mdcInput changes, eg via ngContentChanges hook
+        if (this.mdcInput)
+            this.mdcInput._onChange = (value) => {
+                if (this.mdcInput && !this.mdcInput._focused) {
+                    // programmatic changes to the input value are not seen by the foundation,
+                    // but some states should be updated with the new value:
+                    if (value == null || value.toString().length === 0)
+                        this.mdcAdapter.removeClassFromLabel('mdc-textfield__label--float-above');
+                    else
+                        this.mdcAdapter.addClassToLabel('mdc-textfield__label--float-above');
+                }
+            }
     }
 
     ngOnDestroy() {
         this.destroyRipple();
         this.foundation.destroy();
+        this.mdcInput._onChange = (value) => {};
     }
 
     private initBox() {
