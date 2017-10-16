@@ -22,6 +22,7 @@ import { MdcIconToggleDirective,
     MdcFormsIconToggleDirective } from './components/icon-toggle/mdc.icon-toggle.directive';
 import { MdcRadioDirective,
     MdcRadioInputDirective } from './components/radio/mdc.radio.directive';
+import { MdcSliderDirective } from './components/slider/mdc.slider.directive';
 import { MdcSnackbarDirective,
     MdcSnackbarTextDirective,
     MdcSnackbarActionDirective } from './components/snackbar/mdc.snackbar.directive';
@@ -71,6 +72,7 @@ export { MdcIconToggleDirective,
     MdcFormsIconToggleDirective } from './components/icon-toggle/mdc.icon-toggle.directive';
 export { MdcRadioDirective,
     MdcRadioInputDirective } from './components/radio/mdc.radio.directive';
+export { MdcSliderDirective } from './components/slider/mdc.slider.directive';
 export { MdcSnackbarDirective,
     MdcSnackbarTextDirective,
     MdcSnackbarActionDirective } from './components/snackbar/mdc.snackbar.directive';
@@ -111,6 +113,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcFormfieldDirective, MdcFormfieldInputDirective, MdcFormfieldLabelDirective,
         MdcIconToggleDirective, MdcIconToggleIconDirective, MdcFormsIconToggleDirective,
         MdcRadioDirective, MdcRadioInputDirective,
+        MdcSliderDirective,
         MdcSnackbarDirective, MdcSnackbarTextDirective, MdcSnackbarActionDirective,
         MdcTabDirective, MdcTabIconDirective, MdcTabIconTextDirective,
         MdcTabRouterDirective,
@@ -131,6 +134,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcFormfieldDirective, MdcFormfieldInputDirective, MdcFormfieldLabelDirective,
         MdcIconToggleDirective, MdcIconToggleIconDirective, MdcFormsIconToggleDirective,
         MdcRadioDirective, MdcRadioInputDirective,
+        MdcSliderDirective,
         MdcSnackbarDirective, MdcSnackbarTextDirective, MdcSnackbarActionDirective,
         MdcTabDirective, MdcTabIconDirective, MdcTabIconTextDirective,
         MdcTabRouterDirective,

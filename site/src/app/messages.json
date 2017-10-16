@@ -11,6 +11,8 @@
     "directives.icon-toggle.description": "Toggling icon states",
     "directives.radio.title": "Radio Button",
     "directives.radio.description": "Single selection controls",
+    "directives.slider.title": "Slider",
+    "directives.slider.description": "Range controls",
     "directives.tabs.title": "Tabs",
     "directives.tabs.description": "Tab navigation components",
     "directives.textfield.title": "Textfield",

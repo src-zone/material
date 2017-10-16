@@ -11,6 +11,7 @@ import {
     FabDirectivesComponent,
     IconToggleDirectivesComponent,
     RadioDirectivesComponent,
+    SliderDirectivesComponent,
     TabDirectivesComponent,
     TextfieldDirectivesComponent,
     ToolbarDirectivesComponent } from './components';
@@ -29,6 +30,7 @@ export const routes: Routes = [
         {path: FabDirectivesComponent.DOC_HREF, component: FabDirectivesComponent},
         {path: IconToggleDirectivesComponent.DOC_HREF, component: IconToggleDirectivesComponent},
         {path: RadioDirectivesComponent.DOC_HREF, component: RadioDirectivesComponent},
+        {path: SliderDirectivesComponent.DOC_HREF, component: SliderDirectivesComponent},
         {path: TabDirectivesComponent.DOC_HREF, component: TabDirectivesComponent},
         {path: TextfieldDirectivesComponent.DOC_HREF, component: TextfieldDirectivesComponent},
         {path: ToolbarDirectivesComponent.DOC_HREF, component: ToolbarDirectivesComponent}

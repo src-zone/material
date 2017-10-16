@@ -1,0 +1,43 @@
+<fieldset class="blox-snippet snippet-skip-line">
+<div>
+  <div mdcSlider
+    [(mdcMin)]="min" [(mdcMax)]="max" [(mdcStep)]="step"
+    [mdcDiscrete]="discrete" [mdcMarkers]="markers"
+    [(mdcValue)]="value" [mdcDisabled]="disabled"></div>
+</div>
+<p>Customize slider:</p>
+<div mdcTextfield>
+  <input mdcTextfieldInput [ngModel]="value" (blur)="value = $event.target.value" required />
+  <label mdcTextfieldLabel>Current Value</label>
+</div>
+<div mdcTextfield>
+  <input mdcTextfieldInput [ngModel]="min" (blur)="min = $event.target.value" required />
+  <label mdcTextfieldLabel>Min Value</label>
+</div>
+<div mdcTextfield>
+  <input mdcTextfieldInput [ngModel]="max" (blur)="max = $event.target.value" required />
+  <label mdcTextfieldLabel>Max Value</label>
+</div>
+<div mdcTextfield>
+  <input mdcTextfieldInput [ngModel]="step" (blur)="step = $event.target.value" required />
+  <label mdcTextfieldLabel>Step</label>
+</div>
+<div mdcFormfield>
+  <div mdcCheckbox>
+    <input mdcCheckboxInput type="checkbox" [(ngModel)]="discrete"/>
+  </div>
+  <label mdcFormfieldLabel>Discrete</label>
+</div>
+<div mdcFormfield>
+  <div mdcCheckbox>
+    <input mdcCheckboxInput type="checkbox" [(ngModel)]="markers"/>
+  </div>
+  <label mdcFormfieldLabel>Markers</label>
+</div>
+<div mdcFormfield>
+  <div mdcCheckbox>
+    <input mdcCheckboxInput type="checkbox" [(ngModel)]="disabled"/>
+  </div>
+  <label mdcFormfieldLabel>Disabled</label>
+</div>
+</fieldset><div class="snippet-skip-line"></div>

@@ -12,6 +12,7 @@ const globals = {
     '@material/icon-toggle': 'mdc.iconToggle',
     '@material/radio': 'mdc.radio',
     '@material/ripple': 'mdc.ripple',
+    '@material/slider': 'mdc.slider',
     '@material/snackbar': 'mdc.snackbar',
     '@material/textfield': 'mdc.textfield',
     '@material/toolbar': 'mdc.toolbar',
