@@ -28,11 +28,11 @@ linear-progress          |           |
 list                     |           |
 menu                     |           |
 radio                    | [See demo](https://blox.src.zone/material#/directives/radio) |
-ripple                   |           | See AbstractMdcRipple for attaching ripples to other components/directives
+ripple                   | WIP       | Fully functional, but not yet exposed as directive.
 select                   |           |
 selection-control        |           |
-slider                   |           |
-snackbar                 | Available |
+slider                   | [See demo](https://blox.src.zone/material#/directives/slider) |
+snackbar                 | WIP       |
 switch                   |           |
 tabs                     | [See demo](https://blox.src.zone/material#/directives/tab) |
 textfield                | [See demo](https://blox.src.zone/material#/directives/textfield) |
@@ -41,17 +41,16 @@ toolbar                  | [See demo](https://blox.src.zone/material#/directives
 ## Alternatives
 * [Material2](https://material.angular.io):
   The Angular team's Material Design components built for and with Angular.
-  When you use Angular exclusively this is a nice alternative for creating a Material
-  Design UI.
-  Blox Material really shines when creating user interfaces for both Angular and non-Angular
-  applications, as you can leverage the same Material Components and Styling in both cases.
+  Currently has a wider range of implemented components.
+  The components are not based on Material Components for the Web, but natively
+  implemented in Angular.
+  Don't use if you are developing both Angular and non-Angular based websites,
+  and want to share your customized styling between both.
 * [angular-mdc-web](https://github.com/trimox/angular-mdc-web):
   Another integration library for leveraging Material Components for the Web in Angular
   applications. The angular-mdc-web integration is mostly based upon Angular Components.
-  Blox Material uses Angular Directives for the integration.
+  Blox Material uses Angular Directives for all component integrations.
   There are advantages to both approaches.
-  The Directives approach taken by Blox Material makes it possible to share the same markup
-  and styling between both Angular and non-Angular applications.
 
 ## Quick Links
 *  [Demo, documentation and examples](https://blox.src.zone/material)
