@@ -6,6 +6,7 @@ import { MdcCheckboxAdapter } from './mdc.checkbox.adapter';
 import { AbstractMdcInput } from '../abstract/abstract.mdc.input';
 import { asBoolean } from '../../utils/value.utils';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
+import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 
 @Directive({
     selector: 'input[mdcCheckboxInput][type=checkbox]',
@@ -42,7 +43,7 @@ export class MdcCheckboxInputDirective extends AbstractMdcInput {
 @Directive({
     selector: '[mdcCheckbox]'
 })
-export class MdcCheckboxDirective implements AfterContentInit, OnDestroy {
+export class MdcCheckboxDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-checkbox') hasHostClass = true;
     @ContentChild(MdcCheckboxInputDirective) mdcInput: MdcCheckboxInputDirective;
     private mdcAdapter: MdcCheckboxAdapter = {
@@ -73,15 +74,18 @@ export class MdcCheckboxDirective implements AfterContentInit, OnDestroy {
     private foundation: { init: Function, destroy: Function } = new MDCCheckboxFoundation(this.mdcAdapter);
 
     constructor(private renderer: Renderer2, private root: ElementRef, private registry: MdcEventRegistry) {
+        super(root, renderer, registry);
     }
 
     ngAfterContentInit() {
         this.addBackground();
+        this.initRipple();
         this.foundation.init();
     }
 
     ngOnDestroy() {
         this.foundation.destroy();
+        this.destroyRipple();
     }
 
     private addBackground() {
@@ -101,6 +105,30 @@ export class MdcCheckboxDirective implements AfterContentInit, OnDestroy {
         this.renderer.appendChild(bg, mixedmark);
         this.renderer.addClass(bg, 'mdc-checkbox__background');
         this.renderer.appendChild(this.root.nativeElement, bg);
+    }
+
+    /** @docs-private */
+    protected getRippleInteractionElement() {
+        return this.mdcInput ? this.mdcInput.elementRef : null;
+    }
+
+    /** @docs-private */
+    protected isRippleUnbounded() {
+        return true;
+    }
+
+    /** @docs-private */
+    protected computeRippleBoundingRect() {
+        const dim = 40;
+        const {left, top} = this.root.nativeElement.getBoundingClientRect();
+        return {
+            top,
+            left,
+            right: left + dim,
+            bottom: top + dim,
+            width: dim,
+            height: dim
+        };
     }
 
     @HostBinding('class.mdc-checkbox--disabled') get disabled() {

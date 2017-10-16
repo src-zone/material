@@ -2,6 +2,7 @@ import { AfterContentInit, ContentChild, ContentChildren, EventEmitter, forwardR
     HostBinding, HostListener, Input, OnDestroy, Optional, Output, Renderer2, Self } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { MDCTabFoundation } from '@material/tabs';
+import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 import { MdcTabAdapter } from './mdc.tab.adapter';
 import { asBoolean } from '../../utils/value.utils';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
@@ -20,7 +21,7 @@ export class MdcTabIconTextDirective {
     @HostBinding('class.mdc-tab__icon-text') _hostClass = true;
 }
 
-export class AbstractMdcTabDirective implements OnDestroy, AfterContentInit {
+export class AbstractMdcTabDirective extends AbstractMdcRipple implements OnDestroy, AfterContentInit {
     @HostBinding('class.mdc-tab') _hostClass = true;
     @ContentChild(MdcTabIconDirective) _mdcTabIcon: MdcTabIconDirective;
     @ContentChild(MdcTabIconTextDirective) _mdcTabIconText: MdcTabIconTextDirective;
@@ -37,13 +38,16 @@ export class AbstractMdcTabDirective implements OnDestroy, AfterContentInit {
     _foundation = new MDCTabFoundation(this._adapter);
 
     constructor(protected _rndr: Renderer2, protected _root: ElementRef, protected _registry: MdcEventRegistry) {
+        super(_root, _rndr, _registry);
     }
 
     ngAfterContentInit() {
+        this.initRipple();
         this._foundation.init();
     }
 
     ngOnDestroy() {
+        this.destroyRipple();
         this._foundation.destroy();
     }
 

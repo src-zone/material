@@ -19,7 +19,7 @@ export abstract class AbstractMdcRipple {
         addClass: (className: string) => this.addClassToRipple(className),
         removeClass: (className: string) => this.removeClassFromRipple(className),
         registerInteractionHandler: (type: string, handler: EventListener) => {
-            this._registry.listen(this._renderer, type, handler, this._rippleElm, util.applyPassive());
+            this._registry.listen(this._renderer, type, handler, this.getRippleInteractionElement(), util.applyPassive());
         },
         deregisterInteractionHandler: (type: string, handler: EventListener) => {
             this._registry.unlisten(type, handler);
@@ -30,7 +30,7 @@ export abstract class AbstractMdcRipple {
         deregisterResizeHandler: (handler: EventListener) => {
             this._registry.unlisten('resize', handler);
         },
-        updateCssVariable: (name: string, value: string) => this._rippleElm.nativeElement.style.setProperty(name, value),
+        updateCssVariable: (name: string, value: string) => this._renderer.setStyle(this._rippleElm.nativeElement, name, value),
         computeBoundingRect: () => this.computeRippleBoundingRect(),
         getWindowPageOffset: () => ({x: window.pageXOffset, y: window.pageYOffset})
     }
@@ -71,16 +71,30 @@ export abstract class AbstractMdcRipple {
             this.rippleFoundation.deactivate();
     }
 
+    protected getRippleInteractionElement() {
+        return this._rippleElm;
+    }
+
     protected isRippleUnbounded() {
         return false;
     }
 
     protected isRippleSurfaceActive() {
-        return this._rippleElm.nativeElement[matchesProperty](':active');
+        let interactionElm = this.getRippleInteractionElement();
+        if (interactionElm == null)
+            return false;
+        return this.isActiveElement(interactionElm.nativeElement);
+    }
+
+    protected isActiveElement(element: HTMLElement) {
+        return element == null ? false : element[matchesProperty](':active');
     }
 
     protected isRippleSurfaceDisabled() {
-        return !!this._rippleElm.nativeElement.attributes.getNamedItem('disabled');
+        let interactionElm = this.getRippleInteractionElement();
+        if (interactionElm == null)
+            return true;
+        return !!interactionElm.nativeElement.attributes.getNamedItem('disabled');
     }
 
     protected addClassToRipple(name: string) {

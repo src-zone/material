@@ -2,6 +2,7 @@ import { AfterContentInit, Component, ContentChild, Directive, ElementRef, Event
   Input, OnDestroy, OnInit, Optional, Output, Provider, Renderer2, Self, ViewChild, ViewEncapsulation, forwardRef } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { MDCRadioFoundation } from '@material/radio';
+import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 import { MdcRadioAdapter } from './mdc.radio.adapter';
 import { AbstractMdcInput } from '../abstract/abstract.mdc.input';
 import { asBoolean } from '../../utils/value.utils';
@@ -42,7 +43,7 @@ export class MdcRadioInputDirective extends AbstractMdcInput {
 @Directive({
     selector: '[mdcRadio]'
 })
-export class MdcRadioDirective implements AfterContentInit, OnDestroy {
+export class MdcRadioDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-radio') hasHostClass = true;
     @ContentChild(MdcRadioInputDirective) mdcInput: MdcRadioInputDirective;
     private mdcAdapter: MdcRadioAdapter = {
@@ -57,14 +58,17 @@ export class MdcRadioDirective implements AfterContentInit, OnDestroy {
     private foundation: { init: Function, destroy: Function } = new MDCRadioFoundation(this.mdcAdapter);
 
     constructor(private renderer: Renderer2, private root: ElementRef, private registry: MdcEventRegistry) {
+        super(root, renderer, registry);
     }
 
     ngAfterContentInit() {
         this.addBackground();
+        this.initRipple();
         this.foundation.init();
     }
 
     ngOnDestroy() {
+        this.destroyRipple();
         this.foundation.destroy();
     }
 
@@ -78,6 +82,38 @@ export class MdcRadioDirective implements AfterContentInit, OnDestroy {
         this.renderer.appendChild(bg, innerCircle);
         this.renderer.addClass(bg, 'mdc-radio__background');
         this.renderer.appendChild(this.root.nativeElement, bg);
+    }
+
+    /** @docs-private */
+    protected getRippleInteractionElement() {
+        return this.mdcInput ? this.mdcInput.elementRef : null;
+    }
+
+    /** @docs-private */
+    isRippleUnbounded() {
+        return true;
+    }
+
+    /** @docs-private */
+    isRippleSurfaceActive() {
+        // This is what the @material/radio MDCRadio component does, with the following comment:
+        // "Radio buttons technically go 'active' whenever there is *any* keyboard interaction.
+        //  This is not the UI we desire."
+        return false;
+    }
+
+    /** @docs-private */
+    protected computeRippleBoundingRect() {
+        const dim = 40;
+        const {left, top} = this.root.nativeElement.getBoundingClientRect();
+        return {
+            top,
+            left,
+            right: left + dim,
+            bottom: top + dim,
+            width: dim,
+            height: dim
+        };
     }
 
     @HostBinding('class.mdc-radio--disabled') get disabled() {
