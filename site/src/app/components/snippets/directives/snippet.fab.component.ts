@@ -11,6 +11,7 @@ import { AbstractSnippetComponent } from '../abstract.snippet.component';
   styleUrls: ['./snippet.fab.component.scss']
 })
 export class SnippetFabComponent/*snip:skip*/extends AbstractSnippetComponent/*snip:endskip*/ {
+    exit: false;
     //snip:skip
     constructor() {
         super({

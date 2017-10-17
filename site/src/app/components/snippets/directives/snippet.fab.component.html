@@ -1,6 +1,13 @@
 <fieldset class="blox-snippet snippet-skip-line">
-<button mdcFab class="material-icons"><span mdcFabIcon>favorite_border</span></button>
-<button mdcFab mdcMini class="material-icons"><span mdcFabIcon>favorite_border</span></button>
-<button mdcFab mdcPlain class="material-icons"><span mdcFabIcon>favorite_border</span></button>
-<button mdcFab mdcMini mdcPlain class="material-icons"><span mdcFabIcon>favorite_border</span></button>
+<button mdcFab [mdcExited]="exit" class="material-icons"><span mdcFabIcon>favorite_border</span></button>
+<button mdcFab mdcMini [mdcExited]="exit" class="material-icons"><span mdcFabIcon>favorite_border</span></button>
+
+<section>
+  <div mdcFormfield>
+    <div mdcCheckbox>
+      <input mdcCheckboxInput type="checkbox" [(ngModel)]="exit"/>
+    </div>
+    <label mdcFormfieldLabel>Exit Buttons</label>
+  </div>
+</section>
 </fieldset><div class="snippet-skip-line"></div>
