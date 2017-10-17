@@ -30,7 +30,7 @@ export abstract class AbstractMdcRipple {
         deregisterResizeHandler: (handler: EventListener) => {
             this._registry.unlisten('resize', handler);
         },
-        updateCssVariable: (name: string, value: string) => this._renderer.setStyle(this._rippleElm.nativeElement, name, value),
+        updateCssVariable: (name: string, value: string) => { this._rippleElm.nativeElement.style.setProperty(name, value); },
         computeBoundingRect: () => this.computeRippleBoundingRect(),
         getWindowPageOffset: () => ({x: window.pageXOffset, y: window.pageYOffset})
     }
