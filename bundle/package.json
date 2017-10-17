@@ -24,11 +24,11 @@
     "rollup": "rollup -c",
     "copy-types": "cpy **/*.d.ts ../dist --cwd=build --parents",
     "copy-metadata": "cpy build/material.metadata.json dist/",
-    "build": "npm run clean && npm run ngc && npm run rollup && npm run copy-types && npm run copy-metadata",
-    "link2site": "rimraf ../site/node_modules/@blox/material/*  && cpy package.json dist/**/*.* src/**/*.* ../site/node_modules/@blox/material/ --parents"
+    "link2site": "rimraf ../site/node_modules/@blox/material/*  && cpy package.json dist/**/*.* src/**/*.* ../site/node_modules/@blox/material/ --parents",
+    "build": "npm run clean && npm run ngc && npm run rollup && npm run copy-types && npm run copy-metadata && npm run link2site"
   },
   "dependencies": {
-    "material-components-web": ">=0.22.0"
+    "material-components-web": "^0.23.0"
   },
   "peerDependencies": {
     "@angular/common": ">=4.0.0",
