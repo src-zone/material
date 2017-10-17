@@ -1,5 +1,6 @@
-import { AfterContentInit, Directive, ElementRef, EventEmitter,
-    HostBinding, Input, OnChanges, OnDestroy, Output, Renderer2, SimpleChanges } from '@angular/core';
+import { AfterContentInit, Directive, ElementRef, EventEmitter, forwardRef,
+    HostBinding, Input, OnChanges, OnDestroy, Output, Renderer2, Self, SimpleChange, SimpleChanges } from '@angular/core';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { MDCSliderFoundation, strings } from '@material/slider';
 import { MdcSliderAdapter } from './mdc.slider.adapter';
 import { asBoolean } from '../../utils/value.utils';
@@ -64,6 +65,8 @@ export class MdcSliderDirective implements AfterContentInit, OnChanges, OnDestro
     private _elmTrack: HTMLElement;
     private _elmTrackMarkerCntr: HTMLElement;
     private _reinitTabIndex: number;
+    private _onChange: (value: any) => void = (value) => {};
+    private _onTouched: () => any = () => {};
     private _discrete = false;
     private _markers = false;
     private _disabled = false;
@@ -126,7 +129,11 @@ export class MdcSliderDirective implements AfterContentInit, OnChanges, OnDestro
             this._registry.unlisten('resize', handler);
         },
         notifyInput: () => {
-            this.mdcValueChange.emit(this.foundation.getValue());
+            let newValue = this.foundation.getValue();
+            if (newValue !== this._value) {
+                this._value = newValue;
+                this.notifyValueChanged(true);
+            }
         },
         notifyChange: () => {
             // currently not handling this event, if there is a usecase for this, please
@@ -140,15 +147,15 @@ export class MdcSliderDirective implements AfterContentInit, OnChanges, OnDestro
         },
         setMarkerValue: (value: number) => {
             if (this._elmValueMarker)
-                this._elmValueMarker.innerText = value ? value.toString() : null;
+                this._elmValueMarker.innerText = value != null ? value.toString() : null;
         },
         appendTrackMarkers: (numMarkers: number) => {
             if (this._elmTrackMarkerCntr) {
                 const frag = document.createDocumentFragment();
                 for (let i = 0; i < numMarkers; i++) {
-                const marker = document.createElement('div');
-                marker.classList.add('mdc-slider__track-marker');
-                frag.appendChild(marker);
+                    const marker = document.createElement('div');
+                    marker.classList.add('mdc-slider__track-marker');
+                    frag.appendChild(marker);
                 }
                 this._rndr.appendChild(this._elmTrackMarkerCntr, frag);
             }
@@ -174,7 +181,7 @@ export class MdcSliderDirective implements AfterContentInit, OnChanges, OnDestro
         this.initElements();
         this.initDefaultAttributes();
         this.foundation.init();
-        this.updateValues({});
+        this.updateValues({}, true);
         this._initialized = true;
     }
 
@@ -183,15 +190,23 @@ export class MdcSliderDirective implements AfterContentInit, OnChanges, OnDestro
     }
 
     ngOnChanges(changes: SimpleChanges) {
+        this._onChanges(changes);
+    }
+
+    _onChanges(changes: SimpleChanges, callValueAccessorOnValueChange = true) {
         if (this._initialized) {
             if (this.isChanged('mdcDiscrete', changes) || this.isChanged('mdcMarkers', changes)) {
+                for (let handlerInfo of this._interactionHandlers)
+                    // workaround for uspstream bug: https://github.com/material-components/material-components-web/issues/1429
+                    this._registry.unlisten(handlerInfo.type, handlerInfo.handler);
+                this._interactionHandlers = [];
                 this.foundation.destroy();
                 this.initElements();
                 this.initDefaultAttributes();
                 this.foundation = new MDCSliderFoundation(this.mdcAdapter);
                 this.foundation.init();
             }
-            this.updateValues(changes);
+            this.updateValues(changes, callValueAccessorOnValueChange);
         }
     }
 
@@ -256,7 +271,7 @@ export class MdcSliderDirective implements AfterContentInit, OnChanges, OnDestro
         }
     }
 
-    private updateValues(changes: SimpleChanges) {
+    private updateValues(changes: SimpleChanges, callValueAccessorOnChange: boolean) {
         if (this._discrete && this._step < 1) {
             // See https://github.com/material-components/material-components-web/issues/1426
             // mdc-slider doesn't allow a discrete step value < 1 currently:
@@ -275,7 +290,7 @@ export class MdcSliderDirective implements AfterContentInit, OnChanges, OnDestro
                 setTimeout(() => {this.mdcMaxChange.emit(this._max); }, 0);                                
             }
         }
-        let oldValue = this._value;
+        let oldValue = changes['mdcValue'] ? changes['mdcValue'].previousValue : this._value;
         if (this._value < this._min)
             this._value = this._min;
         if (this._value > this._max)
@@ -299,7 +314,23 @@ export class MdcSliderDirective implements AfterContentInit, OnChanges, OnDestro
         // value may have changed during setValue(), due to step settings:
         this._value = this.foundation.getValue();
         if (oldValue !== this._value)
-            setTimeout(() => {this.mdcValueChange.emit(this._value); }, 0);
+            setTimeout(() => {this.notifyValueChanged(callValueAccessorOnChange); }, 0);
+    }
+
+    private notifyValueChanged(callValueAccessorOnChange: boolean) {
+        this.mdcValueChange.emit(this._value);
+        if (callValueAccessorOnChange)
+            this._onChange(this._value);
+    }
+
+    /** @docs-private */
+    registerOnChange(onChange: (value: any) => void) {
+        this._onChange = onChange;
+    }
+
+    /** @docs-private */
+    registerOnTouched(onTouched: () => any) {
+        this._onTouched = onTouched;
     }
 
     /**
@@ -396,5 +427,43 @@ export class MdcSliderDirective implements AfterContentInit, OnChanges, OnDestro
 
     set mdcDisabled(value: any) {
         this._disabled = asBoolean(value);
+    }
+}
+
+/**
+ * Directive for adding Angular Forms (<code>ControlValueAccessor</code>) behavior to an
+ * <code>MdcSliderDirective</code>. Allows the use of the Angular Forms API with
+ * icon toggles, e.g. binding to <code>[(ngModel)]</code>, form validation, etc.
+ */
+@Directive({
+    selector: '[mdcSlider][formControlName],[mdcSlider][formControl],[mdcSlider][ngModel]',
+    providers: [
+        {provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MdcFormsSliderDirective), multi: true}
+    ]
+})
+export class MdcFormsSliderDirective implements ControlValueAccessor {
+    constructor(@Self() private mdcSlider: MdcSliderDirective) {
+    }
+
+    /** @docs-private */
+    writeValue(obj: any) {
+        let change = new SimpleChange(this.mdcSlider.mdcValue, +obj, false);
+        this.mdcSlider.mdcValue = obj;
+        this.mdcSlider._onChanges({mdcValue: change}, false);
+    }
+
+    /** @docs-private */
+    registerOnChange(onChange: (value: any) => void) {
+        this.mdcSlider.registerOnChange(onChange);
+    }
+
+    /** @docs-private */
+    registerOnTouched(onTouched: () => any) {
+        this.mdcSlider.registerOnTouched(onTouched);
+    }
+
+    /** @docs-private */
+    setDisabledState(disabled: boolean) {
+        this.mdcSlider.mdcDisabled = disabled;
     }
 }
