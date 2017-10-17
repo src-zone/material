@@ -9,6 +9,7 @@ export class CodeSampleComponent implements AfterContentInit {
     @ContentChild(AbstractSnippetComponent) snippet;
     snippetNames: string[] = [];
     active: string;
+    showCode: false;
 
     constructor() {
     }
@@ -16,6 +17,8 @@ export class CodeSampleComponent implements AfterContentInit {
     ngAfterContentInit() {
         if (this.snippet != null) {
             for (let name in this.snippet.code) {
+                if (this.active == null)
+                    this.active = name;
                 if (this.snippet.code.hasOwnProperty(name))
                     this.snippetNames.push(name);
             }

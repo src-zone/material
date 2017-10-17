@@ -7,7 +7,7 @@
   </div>
   <div mdcTabBarScrollerFrame>
     <nav mdcTabBar>
-      <a *ngFor="let tab of tabs; let i = index" mdcTab (mdcSelect)="activate(i)">{{tab.name}}</a>
+      <a *ngFor="let tab of tabs; let i = index" mdcTab (mdcSelect)="activate(i)" tabindex="0">{{tab.name}}</a>
     </nav>
   </div>
   <div mdcTabBarScrollerForward>
