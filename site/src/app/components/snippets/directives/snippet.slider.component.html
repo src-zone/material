@@ -1,9 +1,9 @@
 <fieldset class="blox-snippet snippet-skip-line">
 <div>
-  <div mdcSlider
+  <div mdcSlider aria-label="Select Value"
     [(mdcMin)]="min" [(mdcMax)]="max" [(mdcStep)]="step"
     [mdcDiscrete]="discrete" [mdcMarkers]="markers"
-    [(mdcValue)]="value" [mdcDisabled]="disabled"></div>
+    [(ngModel)]="value" [mdcDisabled]="disabled"></div>
 </div>
 <p>Customize slider:</p>
 <div mdcTextfield>
