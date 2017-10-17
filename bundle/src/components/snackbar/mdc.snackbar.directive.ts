@@ -12,9 +12,9 @@ import { SnackbarMessage } from './snackbar.message';
     selector: '[mdcSnackbarText]'
 })
 export class MdcSnackbarTextDirective {
-    @HostBinding('class.mdc-snackbar__text') hasHostClass = true;
+    @HostBinding('class.mdc-snackbar__text') _cls = true;
 
-    constructor(public elementRef: ElementRef) {
+    constructor(public _elm: ElementRef) {
     }
 }
 
@@ -22,9 +22,9 @@ export class MdcSnackbarTextDirective {
     selector: '[mdcSnackbarAction]'
 })
 export class MdcSnackbarActionDirective {
-    @HostBinding('class.mdc-snackbar__action-wrapper') hasHostClass = true;
+    @HostBinding('class.mdc-snackbar__action-wrapper') _cls = true;
 
-    constructor(public elementRef: ElementRef) {
+    constructor(public _elm: ElementRef) {
     }
 }
 
@@ -51,19 +51,19 @@ export class MdcSnackbarDirective implements AfterContentInit, OnDestroy {
         },
         setActionAriaHidden: () => {
             if (this.action)
-                this.renderer.setAttribute(this.action.elementRef.nativeElement, 'aria-hidden', 'true');
+                this.renderer.setAttribute(this.action._elm.nativeElement, 'aria-hidden', 'true');
         },
         unsetActionAriaHidden: () => {
             if (this.action)
-                this.renderer.removeAttribute(this.action.elementRef.nativeElement, 'aria-hidden');
+                this.renderer.removeAttribute(this.action._elm.nativeElement, 'aria-hidden');
         },
         setActionText: (actionText: string) => {
             if (this.action)
-                this.action.elementRef.nativeElement.textContent = actionText;
+                this.action._elm.nativeElement.textContent = actionText;
         },
         setMessageText: (message: string) => {
             if (this.text)
-                this.text.elementRef.nativeElement.textContent = message;
+                this.text._elm.nativeElement.textContent = message;
         },
         setFocus: () => {
             // TODO
@@ -89,7 +89,7 @@ export class MdcSnackbarDirective implements AfterContentInit, OnDestroy {
         },
         registerActionClickHandler: (handler: EventListener) => {
             if (this.action)
-                this.registry.listen(this.renderer, 'click', handler, this.action.elementRef);
+                this.registry.listen(this.renderer, 'click', handler, this.action._elm);
         },
         deregisterActionClickHandler: (handler: EventListener) => {
             this.registry.unlisten('click', handler);

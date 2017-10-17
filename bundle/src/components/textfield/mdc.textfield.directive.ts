@@ -30,15 +30,15 @@ export class MdcTextfieldInputDirective extends AbstractMdcInput implements OnIn
     _focused = false;
     @HostBinding('class.mdc-textfield__input') _hostClass = true;
 
-    constructor(public elementRef: ElementRef, private renderer: Renderer2, @Optional() @Self() public ngControl: NgControl) {
+    constructor(public _elm: ElementRef, private renderer: Renderer2, @Optional() @Self() public _cntr: NgControl) {
         super();
     }
 
     ngOnInit() {
         // Force setter to be called in case id was not specified.
         this.id = this.id;
-        if (this.ngControl) {
-            this.ngControl.valueChanges.subscribe(value => {
+        if (this._cntr) {
+            this._cntr.valueChanges.subscribe(value => {
                 this._onChange(value);
             });
         }
@@ -50,12 +50,12 @@ export class MdcTextfieldInputDirective extends AbstractMdcInput implements OnIn
     }
   
     set id(value: string) {
-        this._id = value || this.newId();
+        this._id = value || this._newId();
     }
 
     @HostBinding()
     @Input() get disabled() {
-        return this.ngControl ? this.ngControl.disabled : this._disabled;
+        return this._cntr ? this._cntr.disabled : this._disabled;
     }
 
     set disabled(value: any) {
@@ -79,54 +79,58 @@ export class MdcTextfieldInputDirective extends AbstractMdcInput implements OnIn
         this._type = value || 'text';
 
         // Angular Input is not automatically set on the native input element:
-        if (!this.isTextarea()) {
+        if (!this._isTextarea()) {
             try {
-                this.renderer.setProperty(this.elementRef.nativeElement, 'type', this._type);
+                this.renderer.setProperty(this._elm.nativeElement, 'type', this._type);
             } catch (e) {
-                (<any>this.renderer).setElementProperty(this.elementRef.nativeElement, 'type', this._type);
+                (<any>this.renderer).setElementProperty(this._elm.nativeElement, 'type', this._type);
             }
         }
     }
 
+    /** @docs-private */
     get value() {
-        return this.elementRef.nativeElement.value;
+        return this._elm.nativeElement.value;
     }
 
+    /** @docs-private */
     set value(value: string) {
-        this.elementRef.nativeElement.value = value;
+        this._elm.nativeElement.value = value;
         this._onChange(value);
     }
 
+    /** @docs-private */
     focus() {
-        this.elementRef.nativeElement.focus();
+        this._elm.nativeElement.focus();
     }
 
-    @HostListener('focus') onFocus() {
+    @HostListener('focus') _onFocus() {
         this._focused = true;
     }
 
-    @HostListener('blur') onBlur() {
+    @HostListener('blur') _onBlur() {
        this._focused = false;
     }
 
-    @HostListener('input') onInput() {
+    @HostListener('input') _onInput() {
         // Having a listener for input changes forces a change detection for each 'input' event.
         // Necessary in some edge cases.
     }
 
+    /** @docs-private */
     get valid(): boolean {
-        return this.ngControl ? this.ngControl.valid : (this.elementRef.nativeElement as HTMLInputElement).validity.valid;
+        return this._cntr ? this._cntr.valid : (this._elm.nativeElement as HTMLInputElement).validity.valid;
     }
 
-    isBadInput() {
-        return (this.elementRef.nativeElement as HTMLInputElement).validity.badInput;
+    _isBadInput() {
+        return (this._elm.nativeElement as HTMLInputElement).validity.badInput;
     }
 
-    isTextarea() {
-        return this.elementRef.nativeElement.nodeName.toLowerCase() === 'textarea';
+    _isTextarea() {
+        return this._elm.nativeElement.nodeName.toLowerCase() === 'textarea';
     }
 
-    newId(): string {
+    _newId(): string {
         this.cachedId = this.cachedId || `mdc-input-${nextId++}`;
         return this.cachedId;
     }
@@ -136,7 +140,7 @@ export class MdcTextfieldInputDirective extends AbstractMdcInput implements OnIn
     selector: '[mdcTextfieldIcon]'
 })
 export class MdcTextfieldIconDirective {
-    @HostBinding('class.mdc-textfield__icon') _hasHostClass = true;
+    @HostBinding('class.mdc-textfield__icon') _cls = true;
 
     constructor(public _el: ElementRef) {
     }
@@ -147,10 +151,11 @@ export class MdcTextfieldIconDirective {
     providers: [{provide: AbstractMdcLabel, useExisting: forwardRef(() => MdcTextfieldLabelDirective) }]
 })
 export class MdcTextfieldLabelDirective extends AbstractMdcLabel {
+    /** @docs-private */
     @HostBinding() for: string;
-    @HostBinding('class.mdc-textfield__label') hasHostClass = true;
+    @HostBinding('class.mdc-textfield__label') _cls = true;
 
-    constructor(public elementRef: ElementRef) {
+    constructor(public _elm: ElementRef) {
         super();
     }
 }
@@ -160,12 +165,12 @@ export class MdcTextfieldLabelDirective extends AbstractMdcLabel {
     exportAs: 'mdcHelptext'
 })
 export class MdcTextfieldHelptextDirective {
-    @HostBinding('class.mdc-textfield-helptext') hasHostClass = true;
+    @HostBinding('class.mdc-textfield-helptext') _cls = true;
     @HostBinding('class.mdc-textfield-helptext--validation-msg') _mdcValidation = false;
     @HostBinding('class.mdc-textfield-helptext--persistent') _mdcPersistent = false;
     @Input() mdcForceShow = false; // TODO boolean coercion
 
-    constructor(public elementRef: ElementRef) {
+    constructor(public _elm: ElementRef) {
     }
 
     @Input() set mdcValidation(value: boolean) {
@@ -182,11 +187,11 @@ export class MdcTextfieldHelptextDirective {
     providers: [{provide: AbstractMdcRipple, useExisting: forwardRef(() => MdcTextfieldDirective) }]
 })
 export class MdcTextfieldDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-textfield') hasHostClass = true;
-    @ContentChild(MdcTextfieldIconDirective) mdcTextfieldIcon: MdcTextfieldIconDirective;
-    @ContentChild(MdcTextfieldInputDirective) mdcInput: MdcTextfieldInputDirective;
-    @ContentChild(MdcTextfieldLabelDirective) mdcLabel: MdcTextfieldLabelDirective;
-    @ContentChildren('label', {descendants: true, read: ElementRef}) labels: QueryList<ElementRef>;
+    @HostBinding('class.mdc-textfield') _cls = true;
+    @ContentChild(MdcTextfieldIconDirective) _icon: MdcTextfieldIconDirective;
+    @ContentChild(MdcTextfieldInputDirective) _input: MdcTextfieldInputDirective;
+    @ContentChild(MdcTextfieldLabelDirective) _label: MdcTextfieldLabelDirective;
+    @ContentChildren('label', {descendants: true, read: ElementRef}) _labels: QueryList<ElementRef>;
     @Input() mdcHelptext: MdcTextfieldHelptextDirective;
     private _initialized = false;
     private _box = false;
@@ -201,16 +206,16 @@ export class MdcTextfieldDirective extends AbstractMdcRipple implements AfterCon
             this.renderer.removeClass(this.root.nativeElement, className);
         },
         addClassToLabel: (className: string) => {
-            if (this.mdcLabel)
-                this.renderer.addClass(this.mdcLabel.elementRef.nativeElement, className);
+            if (this._label)
+                this.renderer.addClass(this._label._elm.nativeElement, className);
         },
         removeClassFromLabel: (className: string) => {
-            if (this.mdcLabel)
-                this.renderer.removeClass(this.mdcLabel.elementRef.nativeElement, className);
+            if (this._label)
+                this.renderer.removeClass(this._label._elm.nativeElement, className);
         },
         setIconAttr: (name: string, value: string) => {
-            if (this.mdcTextfieldIcon)
-                this.mdcTextfieldIcon._el.nativeElement.setAttribute(name, value);
+            if (this._icon)
+                this._icon._el.nativeElement.setAttribute(name, value);
         },
         eventTargetHasClass: (target: HTMLElement, className: string) => {
             return target.classList.contains(className);
@@ -234,19 +239,19 @@ export class MdcTextfieldDirective extends AbstractMdcRipple implements AfterCon
         },
         addClassToHelptext: (className: string) => {
             if (this.mdcHelptext)
-                this.renderer.addClass(this.mdcHelptext.elementRef.nativeElement, className);
+                this.renderer.addClass(this.mdcHelptext._elm.nativeElement, className);
         },
         removeClassFromHelptext: (className: string) => {
             if (this.mdcHelptext)
-                this.renderer.removeClass(this.mdcHelptext.elementRef.nativeElement, className);
+                this.renderer.removeClass(this.mdcHelptext._elm.nativeElement, className);
         },
         helptextHasClass: (className: string) => {
             if (this.mdcHelptext)
-                return this.mdcHelptext.elementRef.nativeElement.classList.contains(className);
+                return this.mdcHelptext._elm.nativeElement.classList.contains(className);
         },
         registerInputInteractionHandler: (evtType: string, handler: EventListener) => {
-            if (this.mdcInput)
-                this.registry.listen(this.renderer, evtType, handler, this.mdcInput.elementRef);
+            if (this._input)
+                this.registry.listen(this.renderer, evtType, handler, this._input._elm);
         },
         deregisterInputInteractionHandler: (evtType: string, handler: EventListener) => {
             this.registry.unlisten(evtType, handler);
@@ -264,18 +269,18 @@ export class MdcTextfieldDirective extends AbstractMdcRipple implements AfterCon
         },
         setHelptextAttr: (name: string, value: string) => {
             if (this.mdcHelptext)
-                this.renderer.setAttribute(this.mdcHelptext.elementRef.nativeElement, name, value);
+                this.renderer.setAttribute(this.mdcHelptext._elm.nativeElement, name, value);
         },
         removeHelptextAttr: (name: string) => {
             if (this.mdcHelptext)
-                this.renderer.removeAttribute(this.mdcHelptext.elementRef.nativeElement, name);
+                this.renderer.removeAttribute(this.mdcHelptext._elm.nativeElement, name);
         },
         getNativeInput: () => {
             return {
-                checkValidity: () => this.valid == null ? this.mdcInput.valid : !!this.valid,
-                value: this.mdcInput.value,
-                disabled: this.mdcInput.disabled,
-                badInput: this.mdcInput.isBadInput()
+                checkValidity: () => this.valid == null ? this._input.valid : !!this.valid,
+                value: this._input.value,
+                disabled: this._input.disabled,
+                badInput: this._input._isBadInput()
             };
         }
     };
@@ -292,8 +297,8 @@ export class MdcTextfieldDirective extends AbstractMdcRipple implements AfterCon
     }
 
     ngAfterContentInit() {
-        if (this.mdcLabel && this.mdcInput && !this.mdcLabel.for)
-            this.mdcLabel.for = this.mdcInput.id;
+        if (this._label && this._input && !this._label.for)
+            this._label.for = this._input.id;
         this._initialized = true;
         this._bottomLineElm = this.renderer.createElement('div');
         this.renderer.addClass(this._bottomLineElm, CLASS_BOTTOM_LINE);
@@ -301,9 +306,9 @@ export class MdcTextfieldDirective extends AbstractMdcRipple implements AfterCon
         this.initBox();
         this.foundation.init();
         // TODO: we should actually reassign this if mdcInput changes, eg via ngContentChanges hook
-        if (this.mdcInput)
-            this.mdcInput._onChange = (value) => {
-                if (this.mdcInput && !this.mdcInput._focused) {
+        if (this._input)
+            this._input._onChange = (value) => {
+                if (this._input && !this._input._focused) {
                     // programmatic changes to the input value are not seen by the foundation,
                     // but some states should be updated with the new value:
                     if (value == null || value.toString().length === 0)
@@ -317,7 +322,7 @@ export class MdcTextfieldDirective extends AbstractMdcRipple implements AfterCon
     ngOnDestroy() {
         this.destroyRipple();
         this.foundation.destroy();
-        this.mdcInput._onChange = (value) => {};
+        this._input._onChange = (value) => {};
     }
 
     private initBox() {
@@ -352,8 +357,8 @@ export class MdcTextfieldDirective extends AbstractMdcRipple implements AfterCon
         }
     }
 
-    @HostBinding('class.mdc-textfield--textarea') get mdcTexterea(): boolean {
-        return this.mdcInput.isTextarea();
+    @HostBinding('class.mdc-textfield--textarea') get _textArea(): boolean {
+        return this._input._isTextarea();
     }
 
     @HostBinding('class.mdc-textfield--box') @Input()
@@ -361,12 +366,12 @@ export class MdcTextfieldDirective extends AbstractMdcRipple implements AfterCon
         return this._box;
     }
 
-    @HostBinding('class.mdc-textfield--with-leading-icon') get mdcLeadingIcon(): boolean {
-        return this.mdcTextfieldIcon && !this.mdcTextfieldIcon._el.nativeElement.previousElementSibling;
+    @HostBinding('class.mdc-textfield--with-leading-icon') get _leadingIcon(): boolean {
+        return this._icon && !this._icon._el.nativeElement.previousElementSibling;
     }
 
-    @HostBinding('class.mdc-textfield--with-trailing-icon') get mdcTrailingIcon(): boolean {
-        return this.mdcTextfieldIcon && this.mdcTextfieldIcon._el.nativeElement.previousElementSibling;
+    @HostBinding('class.mdc-textfield--with-trailing-icon') get _trailingIcon(): boolean {
+        return this._icon && this._icon._el.nativeElement.previousElementSibling;
     }
 
     set mdcBox(val: any) {

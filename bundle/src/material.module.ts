@@ -22,13 +22,15 @@ import { MdcIconToggleDirective,
     MdcFormsIconToggleDirective } from './components/icon-toggle/mdc.icon-toggle.directive';
 import { MdcRadioDirective,
     MdcRadioInputDirective } from './components/radio/mdc.radio.directive';
-import { MdcSliderDirective } from './components/slider/mdc.slider.directive';
+import { MdcSliderDirective,
+    MdcFormsSliderDirective } from './components/slider/mdc.slider.directive';
 import { MdcSnackbarDirective,
     MdcSnackbarTextDirective,
     MdcSnackbarActionDirective } from './components/snackbar/mdc.snackbar.directive';
 import { AbstractMdcTabDirective, MdcTabDirective,
     MdcTabIconDirective,
-    MdcTabIconTextDirective } from './components/tabs/mdc.tab.directive';
+    MdcTabIconTextDirective,
+    MdcTabChange } from './components/tabs/mdc.tab.directive';
 import { MdcTabRouterDirective } from './components/tabs/mdc.tab.router.directive';
 import { MdcTabBarDirective } from './components/tabs/mdc.tab.bar.directive';
 import { MdcTabBarScrollerDirective,
@@ -72,13 +74,15 @@ export { MdcIconToggleDirective,
     MdcFormsIconToggleDirective } from './components/icon-toggle/mdc.icon-toggle.directive';
 export { MdcRadioDirective,
     MdcRadioInputDirective } from './components/radio/mdc.radio.directive';
-export { MdcSliderDirective } from './components/slider/mdc.slider.directive';
+export { MdcSliderDirective,
+    MdcFormsSliderDirective } from './components/slider/mdc.slider.directive';
 export { MdcSnackbarDirective,
     MdcSnackbarTextDirective,
     MdcSnackbarActionDirective } from './components/snackbar/mdc.snackbar.directive';
 export { AbstractMdcTabDirective, MdcTabDirective,
     MdcTabIconDirective,
-    MdcTabIconTextDirective } from './components/tabs/mdc.tab.directive';
+    MdcTabIconTextDirective,
+    MdcTabChange } from './components/tabs/mdc.tab.directive';
 export { MdcTabRouterDirective } from './components/tabs/mdc.tab.router.directive';
 export { MdcTabBarDirective } from './components/tabs/mdc.tab.bar.directive';
 export { MdcTabBarScrollerDirective,
@@ -113,7 +117,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcFormfieldDirective, MdcFormfieldInputDirective, MdcFormfieldLabelDirective,
         MdcIconToggleDirective, MdcIconToggleIconDirective, MdcFormsIconToggleDirective,
         MdcRadioDirective, MdcRadioInputDirective,
-        MdcSliderDirective,
+        MdcSliderDirective, MdcFormsSliderDirective,
         MdcSnackbarDirective, MdcSnackbarTextDirective, MdcSnackbarActionDirective,
         MdcTabDirective, MdcTabIconDirective, MdcTabIconTextDirective,
         MdcTabRouterDirective,
@@ -134,7 +138,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcFormfieldDirective, MdcFormfieldInputDirective, MdcFormfieldLabelDirective,
         MdcIconToggleDirective, MdcIconToggleIconDirective, MdcFormsIconToggleDirective,
         MdcRadioDirective, MdcRadioInputDirective,
-        MdcSliderDirective,
+        MdcSliderDirective, MdcFormsSliderDirective,
         MdcSnackbarDirective, MdcSnackbarTextDirective, MdcSnackbarActionDirective,
         MdcTabDirective, MdcTabIconDirective, MdcTabIconTextDirective,
         MdcTabRouterDirective,

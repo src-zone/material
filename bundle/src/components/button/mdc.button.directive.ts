@@ -17,7 +17,7 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
     providers: [{provide: AbstractMdcRipple, useExisting: forwardRef(() => MdcButtonDirective) }]
 })
 export class MdcButtonDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-button') _hasHostClass = true;
+    @HostBinding('class.mdc-button') _cls = true;
     private _compact = false;
     private _dense = false;
     private _primary = false;

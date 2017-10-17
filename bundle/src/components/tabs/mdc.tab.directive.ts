@@ -7,6 +7,11 @@ import { MdcTabAdapter } from './mdc.tab.adapter';
 import { asBoolean } from '../../utils/value.utils';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
+export interface MdcTabChange {
+    tab: AbstractMdcTabDirective,
+    tabIndex: number
+}
+
 @Directive({
     selector: '[mdcTabIcon]'
 })
@@ -25,7 +30,7 @@ export class AbstractMdcTabDirective extends AbstractMdcRipple implements OnDest
     @HostBinding('class.mdc-tab') _hostClass = true;
     @ContentChild(MdcTabIconDirective) _mdcTabIcon: MdcTabIconDirective;
     @ContentChild(MdcTabIconTextDirective) _mdcTabIconText: MdcTabIconTextDirective;
-    @Output() mdcSelect: EventEmitter<{tab: AbstractMdcTabDirective}> = new EventEmitter();
+    @Output() mdcSelect: EventEmitter<MdcTabChange> = new EventEmitter();
     protected _adapter: MdcTabAdapter = {
         addClass: (className: string) => this._rndr.addClass(this._root.nativeElement, className),
         removeClass: (className: string) => this._rndr.removeClass(this._root.nativeElement, className),
@@ -33,7 +38,7 @@ export class AbstractMdcTabDirective extends AbstractMdcRipple implements OnDest
         deregisterInteractionHandler: (type: string, handler: EventListener) => this._registry.unlisten(type, handler),
         getOffsetWidth: () => this._root.nativeElement.offsetWidth,
         getOffsetLeft: () => this._root.nativeElement.offsetLeft,
-        notifySelected: () => this.mdcSelect.emit({tab: this}) // TODO don't pass the component itself (?)
+        notifySelected: () => this.mdcSelect.emit({tab: this, tabIndex: null})
     };
     _foundation = new MDCTabFoundation(this._adapter);
 
@@ -81,8 +86,10 @@ export class MdcTabDirective extends AbstractMdcTabDirective {
     }
 
     set mdcActive(value: boolean) {
-        this._active = value;
-        if (this._active)
+        let activate = asBoolean(value);
+        if (activate) {
+            this._active = true;
             this._adapter.notifySelected();
+        }
     }
 }

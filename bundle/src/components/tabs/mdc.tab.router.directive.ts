@@ -16,8 +16,8 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 })
 export class MdcTabRouterDirective extends AbstractMdcTabDirective {
     private onDestroy$: Subject<any> = new Subject();
-    @ContentChildren(RouterLink, {descendants: true}) links: QueryList<RouterLink>;
-    @ContentChildren(RouterLinkWithHref, {descendants: true}) linksWithHrefs: QueryList<RouterLinkWithHref>;
+    @ContentChildren(RouterLink, {descendants: true}) _links: QueryList<RouterLink>;
+    @ContentChildren(RouterLinkWithHref, {descendants: true}) _linksWithHrefs: QueryList<RouterLinkWithHref>;
 
     constructor(rndr: Renderer2, root: ElementRef, registry: MdcEventRegistry, private router: Router, private cdr: ChangeDetectorRef) {
         super(rndr, root, registry);
@@ -36,8 +36,8 @@ export class MdcTabRouterDirective extends AbstractMdcTabDirective {
 
     ngAfterContentInit(): void {
         super.ngAfterContentInit();
-        this.links.changes.subscribe(_ => this.update());
-        this.linksWithHrefs.changes.subscribe(_ => this.update());
+        this._links.changes.subscribe(_ => this.update());
+        this._linksWithHrefs.changes.subscribe(_ => this.update());
         this.update();
     }
 
@@ -50,7 +50,7 @@ export class MdcTabRouterDirective extends AbstractMdcTabDirective {
     }
 
     private update(): void {
-        if (!this.links || !this.linksWithHrefs || !this.router.navigated) return;
+        if (!this._links || !this._linksWithHrefs || !this.router.navigated) return;
         const hasActiveLinks = this.hasActiveLinks();
         const active = this._active;
         if (active !== hasActiveLinks) {
@@ -62,7 +62,7 @@ export class MdcTabRouterDirective extends AbstractMdcTabDirective {
     }
 
     private hasActiveLinks(): boolean {
-        return this.links.some(this.isLinkActive(this.router)) || this.linksWithHrefs.some(this.isLinkActive(this.router));
+        return this._links.some(this.isLinkActive(this.router)) || this._linksWithHrefs.some(this.isLinkActive(this.router));
     }
 
     private isLinkActive(router: Router): (link: (RouterLink | RouterLinkWithHref)) => boolean {

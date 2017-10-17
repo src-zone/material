@@ -8,7 +8,7 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
     selector: '[mdcFabIcon]'
 })
 export class MdcFabIconDirective {
-    @HostBinding('class.mdc-fab__icon') _hasHostClass = true;
+    @HostBinding('class.mdc-fab__icon') _cls = true;
 }
 
 @Directive({
@@ -16,12 +16,12 @@ export class MdcFabIconDirective {
     providers: [{provide: AbstractMdcRipple, useExisting: forwardRef(() => MdcFabDirective) }]
 })
 export class MdcFabDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-fab') _hasHostClass = true;
+    @HostBinding('class.mdc-fab') _cls = true;
     private _mini = false;
     private _exited = false;
 
-    constructor(private elementRef: ElementRef, renderer: Renderer2, registry: MdcEventRegistry) {
-        super(elementRef, renderer, registry);
+    constructor(private _elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry) {
+        super(_elm, renderer, registry);
     }
 
     ngAfterContentInit() {

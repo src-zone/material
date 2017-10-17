@@ -19,7 +19,7 @@ export class MdcFormfieldInputDirective extends AbstractMdcInput {
     private _id: string;
     private _disabled = false;
 
-    constructor(public elementRef: ElementRef, @Optional() @Self() public ngControl: NgControl) {
+    constructor(public _elm: ElementRef, @Optional() @Self() public _cntr: NgControl) {
         super();
     }
 
@@ -34,7 +34,7 @@ export class MdcFormfieldInputDirective extends AbstractMdcInput {
 
     @HostBinding()
     @Input() get disabled() {
-        return this.ngControl ? this.ngControl.disabled : this._disabled;
+        return this._cntr ? this._cntr.disabled : this._disabled;
     }
 
     set disabled(value: any) {
@@ -49,7 +49,7 @@ export class MdcFormfieldInputDirective extends AbstractMdcInput {
 export class MdcFormfieldLabelDirective extends AbstractMdcLabel {
     @HostBinding() @Input() for: string;
 
-    constructor(public elementRef: ElementRef) {
+    constructor(public _elm: ElementRef) {
         super();
     }
 }
@@ -58,7 +58,7 @@ export class MdcFormfieldLabelDirective extends AbstractMdcLabel {
     selector: '[mdcFormfield]'
 })
 export class MdcFormfieldDirective implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-form-field') hasHostClass = true;
+    @HostBinding('class.mdc-form-field') _cls = true;
     private _alignEnd = false;
     @ContentChild(AbstractMdcRipple) rippleChild: AbstractMdcRipple;
     @ContentChild(AbstractMdcInput) mdcInput: AbstractMdcInput;

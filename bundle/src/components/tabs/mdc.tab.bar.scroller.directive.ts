@@ -1,4 +1,4 @@
-import { AfterContentInit, ContentChild, ContentChildren, EventEmitter, forwardRef, QueryList, Directive, ElementRef,
+import { AfterContentInit, ContentChild, ContentChildren, forwardRef, QueryList, Directive, ElementRef,
     HostBinding, HostListener, Input, OnDestroy, Optional, Output, Renderer2, Self } from '@angular/core';
 import { getCorrectPropertyName } from '@material/animation';
 import { MDCTabBarScrollerFoundation } from '@material/tabs';
@@ -78,7 +78,6 @@ export class MdcTabBarScrollerDirective implements AfterContentInit, OnDestroy {
     @ContentChild(MdcTabBarScrollerForwardDirective) _forward: MdcTabBarScrollerForwardDirective;
     @ContentChild(MdcTabBarScrollerFrameDirective) _scrollFrame: MdcTabBarScrollerFrameDirective;
     @Input() direction = 'ltr';
-    //@Output() mdcChange: EventEmitter<{activeTabIndex: number}> = new EventEmitter();
     private _adapter: MdcTabBarScrollerAdapter = {
         addClass: (className: string) => this._rndr.addClass(this._el.nativeElement, className),
         removeClass: (className: string) => this._rndr.removeClass(this._el.nativeElement, className),

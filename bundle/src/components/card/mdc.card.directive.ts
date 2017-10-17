@@ -14,7 +14,7 @@ import { MdcButtonDirective } from '../button/mdc.button.directive';
     selector: '[mdcCardPrimary]'
 })
 export class MdcCardPrimaryDirective {
-    @HostBinding('class.mdc-card__primary') _hasHostClass = true;
+    @HostBinding('class.mdc-card__primary') _cls = true;
 
     constructor() {}
 }
@@ -27,7 +27,7 @@ export class MdcCardPrimaryDirective {
     selector: '[mdcCardTitle]',
 })
 export class MdcCardTitleDirective {
-    @HostBinding('class.mdc-card__title') _hasHostClass = true;
+    @HostBinding('class.mdc-card__title') _cls = true;
     private _large = false;
     
     constructor() {}
@@ -54,7 +54,7 @@ export class MdcCardTitleDirective {
     selector: '[mdcCardSubtitle]',
 })
 export class MdcCardSubtitleDirective {
-    @HostBinding('class.mdc-card__subtitle') _hasHostClass = true;
+    @HostBinding('class.mdc-card__subtitle') _cls = true;
     
     constructor() {}
 }
@@ -68,7 +68,7 @@ export class MdcCardSubtitleDirective {
     selector: '[mdcCardText]',
 })
 export class MdcCardTextDirective {
-    @HostBinding('class.mdc-card__supporting-text') _hasHostClass = true;
+    @HostBinding('class.mdc-card__supporting-text') _cls = true;
 
     constructor() {}
 }
@@ -83,7 +83,7 @@ export class MdcCardTextDirective {
     selector: '[mdcCardMedia]',
 })
 export class MdcCardMediaDirective {
-    @HostBinding('class.mdc-card__media') _hasHostClass = true;
+    @HostBinding('class.mdc-card__media') _cls = true;
     
     constructor() {}
 }
@@ -98,7 +98,7 @@ export class MdcCardMediaDirective {
     selector: '[mdcCardActions]'
 })
 export class MdcCardActionsDirective implements AfterContentInit  {
-    @HostBinding('class.mdc-card__actions') _hasHostClass = true;
+    @HostBinding('class.mdc-card__actions') _cls = true;
     @ContentChildren(MdcButtonDirective, {descendants: false}) _children: QueryList<MdcButtonDirective>;
     private _initialized = false;
     private _compact: boolean;
@@ -172,7 +172,7 @@ export class MdcCardActionsDirective implements AfterContentInit  {
     selector: '[mdcCardHorizontal]',
 })
 export class MdcCardHorizontalDirective {
-    @HostBinding('class.mdc-card__horizontal-block') _hasHostClass = true;
+    @HostBinding('class.mdc-card__horizontal-block') _cls = true;
     
     constructor() {}
 }
@@ -186,7 +186,7 @@ export class MdcCardHorizontalDirective {
     selector: '[mdcCardMediaItem]',
 })
 export class MdcCardMediaItemDirective {
-    @HostBinding('class.mdc-card__media-item') _hasHostClass = true;
+    @HostBinding('class.mdc-card__media-item') _cls = true;
     private _size = 1;
     
     constructor() {}
@@ -237,7 +237,7 @@ export class MdcCardMediaItemDirective {
     selector: '[mdcCard]'
 })
 export class MdcCardDirective {
-    @HostBinding('class.mdc-card') _hasHostClass = true;
+    @HostBinding('class.mdc-card') _cls = true;
 
     constructor() {}
 }

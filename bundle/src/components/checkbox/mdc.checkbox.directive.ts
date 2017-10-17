@@ -13,11 +13,11 @@ import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
     providers: [{provide: AbstractMdcInput, useExisting: forwardRef(() => MdcCheckboxInputDirective) }]
 })
 export class MdcCheckboxInputDirective extends AbstractMdcInput {
-    @HostBinding('class.mdc-checkbox__native-control') hasHostClass = true;
+    @HostBinding('class.mdc-checkbox__native-control') _cls = true;
     private _id: string;
     private _disabled = false;
 
-    constructor(public elementRef: ElementRef, @Optional() @Self() public ngControl: NgControl) {
+    constructor(public _elm: ElementRef, @Optional() @Self() public _cntr: NgControl) {
         super();
     }
 
@@ -32,7 +32,7 @@ export class MdcCheckboxInputDirective extends AbstractMdcInput {
 
     @HostBinding()
     @Input() get disabled() {
-        return this.ngControl ? this.ngControl.disabled : this._disabled;
+        return this._cntr ? this._cntr.disabled : this._disabled;
     }
 
     set disabled(value: any) {
@@ -44,8 +44,8 @@ export class MdcCheckboxInputDirective extends AbstractMdcInput {
     selector: '[mdcCheckbox]'
 })
 export class MdcCheckboxDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-checkbox') hasHostClass = true;
-    @ContentChild(MdcCheckboxInputDirective) mdcInput: MdcCheckboxInputDirective;
+    @HostBinding('class.mdc-checkbox') _cls = true;
+    @ContentChild(MdcCheckboxInputDirective) _input: MdcCheckboxInputDirective;
     private mdcAdapter: MdcCheckboxAdapter = {
         addClass: (className: string) => {
             this.renderer.addClass(this.root.nativeElement, className);
@@ -60,16 +60,16 @@ export class MdcCheckboxDirective extends AbstractMdcRipple implements AfterCont
             this.registry.unlisten('animationend', handler);
         },
         registerChangeHandler: (handler: EventListener) => {
-            if (this.mdcInput)
-                this.registry.listen(this.renderer, 'change', handler, this.mdcInput.elementRef);
+            if (this._input)
+                this.registry.listen(this.renderer, 'change', handler, this._input._elm);
         },
         deregisterChangeHandler: (handler: EventListener) => {
-            if (this.mdcInput)
+            if (this._input)
                 this.registry.unlisten('change', handler);
         },
-        getNativeControl: () => this.mdcInput ? this.mdcInput.elementRef.nativeElement : null,
+        getNativeControl: () => this._input ? this._input._elm.nativeElement : null,
         forceLayout: () => this.root.nativeElement.offsetWidth, // force layout
-        isAttachedToDOM: () => !!this.mdcInput,
+        isAttachedToDOM: () => !!this._input,
     };
     private foundation: { init: Function, destroy: Function } = new MDCCheckboxFoundation(this.mdcAdapter);
 
@@ -109,7 +109,7 @@ export class MdcCheckboxDirective extends AbstractMdcRipple implements AfterCont
 
     /** @docs-private */
     protected getRippleInteractionElement() {
-        return this.mdcInput ? this.mdcInput.elementRef : null;
+        return this._input ? this._input._elm : null;
     }
 
     /** @docs-private */
@@ -131,7 +131,7 @@ export class MdcCheckboxDirective extends AbstractMdcRipple implements AfterCont
         };
     }
 
-    @HostBinding('class.mdc-checkbox--disabled') get disabled() {
-        return this.mdcInput == null || this.mdcInput.disabled;
+    @HostBinding('class.mdc-checkbox--disabled') get _disabled() {
+        return this._input == null || this._input.disabled;
     }
 }

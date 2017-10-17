@@ -6,7 +6,7 @@ import { MDCTabBarFoundation, MDCTabBarScrollerFoundation } from '@material/tabs
 import { MdcTabBarAdapter } from './mdc.tab.bar.adapter';
 import { asBoolean } from '../../utils/value.utils';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
-import { AbstractMdcTabDirective } from './mdc.tab.directive';
+import { AbstractMdcTabDirective, MdcTabChange } from './mdc.tab.directive';
 
 const CLASS_TAB_BAR = 'mdc-tab-bar';
 const CLASS_INDICATOR = 'mdc-tab-bar__indicator';
@@ -20,7 +20,7 @@ export class MdcTabBarDirective {
     @HostBinding('class.' + CLASS_TAB_BAR) _hostClass = true;
     @HostBinding('class.mdc-tab-bar-scroller__scroll-frame__tabs') _insideScrollFrame = false;
     @ContentChildren(AbstractMdcTabDirective, {descendants: false}) _tabs: QueryList<AbstractMdcTabDirective>;
-    @Output() mdcChange: EventEmitter<{activeTabIndex: number}> = new EventEmitter();
+    @Output() mdcChange: EventEmitter<MdcTabChange> = new EventEmitter();
     private _indicator: HTMLElement;
     private _adapter: MdcTabBarAdapter = {
         addClass: (className: string) => this._rndr.addClass(this._el.nativeElement, className),
@@ -32,7 +32,9 @@ export class MdcTabBarDirective {
         getOffsetWidth: () => this._el.nativeElement.offsetWidth,
         setStyleForIndicator: (propertyName: string, value: string) => this._rndr.setStyle(this._indicator, propertyName, value),
         getOffsetWidthForIndicator: () => this._indicator.offsetWidth,
-        notifyChange: (evtData: {activeTabIndex: number}) => this.mdcChange.emit(evtData),
+        notifyChange: (evtData: {activeTabIndex: number}) => {
+            this.mdcChange.emit({tab: null, tabIndex: evtData.activeTabIndex});
+        },
         getNumberOfTabs: () => this._tabs.length,
         isTabActiveAtIndex: (index: number) => index >= 0 ? this._tabs.toArray()[index]._active : false,
         setTabActiveAtIndex: (index: number, isActive = true) => this._tabs.toArray()[index]._active = isActive,

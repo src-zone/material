@@ -36,7 +36,7 @@ interface MdcSliderFoundationInterface {
     selector: '[mdcSlider]'
 })
 export class MdcSliderDirective implements AfterContentInit, OnChanges, OnDestroy {
-    @HostBinding('class.mdc-slider') _hasHostClass = true;
+    @HostBinding('class.mdc-slider') _cls = true;
     @HostBinding('attr.role') _role: string = 'slider';
     /**
      * Event emitted when the value changes. The value may change because of user input,
