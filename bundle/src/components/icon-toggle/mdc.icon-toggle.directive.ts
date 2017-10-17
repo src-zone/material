@@ -314,7 +314,7 @@ export class MdcIconToggleDirective extends AbstractMdcRipple implements AfterCo
 }
 
 /**
- * Directive for adding Angular Forms (<code>ControlValueAccessor</code>) behavior to and
+ * Directive for adding Angular Forms (<code>ControlValueAccessor</code>) behavior to an
  * <code>MdcIconToggleDirective</code>. Allows the use of the Angular Forms API with
  * icon toggles, e.g. binding to <code>[(ngModel)]</code>, form validation, etc.
  */
