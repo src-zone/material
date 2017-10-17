@@ -1,0 +1,6 @@
+{%- if doc.type === 'class' -%}
+  <h3 class="blox-docs-directive-h">Class: <code>{$ classdoc.name $}</code></h3>
+{%- else -%}
+  <h3 class="blox-docs-directive-h">Interface: <code>{$ classdoc.name $}</code></h3>
+{%- endif -%}
+{$ class(classdoc) $}
