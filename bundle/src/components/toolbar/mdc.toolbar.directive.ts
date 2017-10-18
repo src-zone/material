@@ -73,10 +73,10 @@ export class MdcToolbarIcon {
 }
 
 @Directive({
-    selector: '[mdcToolbarIconMenu]'
+    selector: '[mdcToolbarMenuIcon]'
 })
-export class MdcToolbarIconMenu {
-    @HostBinding('class.mdc-toolbar__icon--menu') _hostClass = true;
+export class MdcToolbarMenuIcon {
+    @HostBinding('class.mdc-toolbar__menu-icon') _hostClass = true;
 
     constructor(public _elm: ElementRef) {
     }

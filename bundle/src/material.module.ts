@@ -48,7 +48,7 @@ import { MdcToolbarDirective,
     MdcToolbarSectionDirective,
     MdcToolbarTitleDirective,
     MdcToolbarIcon,
-    MdcToolbarIconMenu,
+    MdcToolbarMenuIcon,
     MdcToolbarFixedAdjustDirective } from './components/toolbar/mdc.toolbar.directive';
 import { MdcEventRegistry } from './utils/mdc.event.registry';
 
@@ -100,7 +100,7 @@ export { MdcToolbarDirective,
     MdcToolbarSectionDirective,
     MdcToolbarTitleDirective,
     MdcToolbarIcon,
-    MdcToolbarIconMenu,
+    MdcToolbarMenuIcon,
     MdcToolbarFixedAdjustDirective } from './components/toolbar/mdc.toolbar.directive';
 export { MdcEventRegistry } from './utils/mdc.event.registry';
 
@@ -124,7 +124,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcTabBarDirective,
         MdcTabBarScrollerDirective, MdcTabBarScrollerInnerDirective, MdcTabBarScrollerBackDirective, MdcTabBarScrollerForwardDirective, MdcTabBarScrollerFrameDirective,
         MdcTextfieldDirective, MdcTextfieldInputDirective, MdcTextfieldIconDirective, MdcTextfieldLabelDirective, MdcTextfieldHelptextDirective,
-        MdcToolbarDirective, MdcToolbarRowDirective, MdcToolbarSectionDirective, MdcToolbarTitleDirective, MdcToolbarIcon, MdcToolbarIconMenu, MdcToolbarFixedAdjustDirective
+        MdcToolbarDirective, MdcToolbarRowDirective, MdcToolbarSectionDirective, MdcToolbarTitleDirective, MdcToolbarIcon, MdcToolbarMenuIcon, MdcToolbarFixedAdjustDirective
     ],
     providers: [
         MdcEventRegistry
@@ -145,7 +145,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcTabBarDirective,
         MdcTabBarScrollerDirective, MdcTabBarScrollerInnerDirective, MdcTabBarScrollerBackDirective, MdcTabBarScrollerForwardDirective, MdcTabBarScrollerFrameDirective,
         MdcTextfieldDirective, MdcTextfieldInputDirective, MdcTextfieldIconDirective, MdcTextfieldLabelDirective, MdcTextfieldHelptextDirective,
-        MdcToolbarDirective, MdcToolbarRowDirective, MdcToolbarSectionDirective, MdcToolbarTitleDirective, MdcToolbarIcon, MdcToolbarIconMenu, MdcToolbarFixedAdjustDirective
+        MdcToolbarDirective, MdcToolbarRowDirective, MdcToolbarSectionDirective, MdcToolbarTitleDirective, MdcToolbarIcon, MdcToolbarMenuIcon, MdcToolbarFixedAdjustDirective
     ]
 })
 export class MaterialModule {}
