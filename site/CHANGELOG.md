@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.3.0"></a>
+# [0.3.0](https://bitbucket.org/src-zone/material/compare/v0.2.1...v0.3.0) (2017-10-18)
+
+
+### build
+
+* upgrade dependencies. ([1966ca6](https://bitbucket.org/src-zone/material/commits/1966ca6))
+
+
+### Features
+
+* implement slider support: MdcSliderDirective ([1f3df7b](https://bitbucket.org/src-zone/material/commits/1f3df7b))
+
+
+### BREAKING CHANGES
+
+* upgrade to material-components-web: 0.23.0
+
+
+
+
 <a name="0.2.1"></a>
 ## [0.2.1](https://bitbucket.org/src-zone/material/compare/v0.2.0...v0.2.1) (2017-10-13)
 
