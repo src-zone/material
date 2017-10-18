@@ -5,3 +5,8 @@
    This product includes software developed by The.Src.Zone
    (http://the.src.zone/), licensed under the Apache
    License Version 2.0.
+
+   Portions of the code in tools/dgeni are derived from
+   https://github.com/angular/material2/tree/2.0.0-beta.12/tools/dgeni
+   Those portions are Copyright 2017 Google LLC, and licensed
+   under the MIT-License. See tools/dgeni/LICENSE.txt

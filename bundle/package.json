@@ -24,8 +24,9 @@
     "rollup": "rollup -c",
     "copy-types": "cpy **/*.d.ts ../dist --cwd=build --parents",
     "copy-metadata": "cpy build/material.metadata.json dist/",
-    "link2site": "rimraf ../site/node_modules/@blox/material/*  && cpy package.json dist/**/*.* src/**/*.* ../site/node_modules/@blox/material/ --parents",
-    "build": "npm run clean && npm run ngc && npm run rollup && npm run copy-types && npm run copy-metadata && npm run link2site"
+    "apidocs": "ts-node --project tools/dgeni tools/dgeni/index.ts",
+    "link2site": "rimraf ../site/node_modules/@blox/material/*  && cpy package.json dist/**/*.* src/**/*.* apidocs/*.html ../site/node_modules/@blox/material/ --parents",
+    "build": "npm run clean && npm run ngc && npm run rollup && npm run copy-types && npm run copy-metadata && npm run apidocs && npm run link2site"
   },
   "dependencies": {
     "material-components-web": "^0.23.0"
@@ -45,11 +46,15 @@
     "@angular/core": "^4.4.4",
     "@angular/forms": "^4.4.4",
     "@angular/router": "^4.4.4",
+    "@types/glob": "^5.0.33",
     "@types/jasmine": "^2.6.0",
     "@types/node": "^8.0.31",
     "@types/selenium-webdriver": "^3.0.6",
     "codelyzer": "^3.2.0",
     "cpy-cli": "^1.0.1",
+    "dgeni": "^0.4.9",
+    "dgeni-packages": "^0.22.0",
+    "glob": "^7.1.2",
     "jasmine-core": "^2.8.0",
     "jasmine-spec-reporter": "^4.2.1",
     "karma": "^1.7.1",
@@ -69,6 +74,7 @@
     "shelljs": "^0.7.8",
     "source-map-explorer": "^1.4.0",
     "ts-helpers": "^1.1.2",
+    "ts-node": "^3.3.0",
     "tslint": "^5.7.0",
     "typedoc": "^0.8.0",
     "typescript": "^2.5.3",

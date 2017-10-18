@@ -13,8 +13,8 @@ const typescriptPackage = require('dgeni-packages/typescript');
 
 // Project configuration.
 const projectRootDir = path.resolve(__dirname, '../..');
-const sourceDir = path.resolve(projectRootDir, 'node_modules/@blox/material/src');
-const outputDir = path.resolve(projectRootDir, 'build/docs');
+const sourceDir = path.resolve(projectRootDir, 'src');
+const outputDir = path.resolve(projectRootDir, 'apidocs');
 const templateDir = path.resolve(__dirname, './templates');
 
 const dgeniPackageDeps = [
