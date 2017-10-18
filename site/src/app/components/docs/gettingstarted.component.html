@@ -1,23 +1,81 @@
 <h1>Getting Started</h1>
-<p>To add Blox Material components to an existing Angular app, follow these steps</p>
-
-<h3>Step 1: Install Blox Material</h3>
+<p>This guide walks you through the main steps required to add Blox Material to
+  new or existing Angular projects. It assumes the use of
+  <a href="https://cli.angular.io/">Angular CLI</a> for creating and maintaining your
+  project. The guide also assumes that you are running at least node 6.9.x and
+  npm 3.x.x, which you can verify by running <code>node -v</code> and <code>npm -v</code>.
+  Please refer to <a href="https://nodejs.org/en/download/">Node Downloads</a>
+  for instructions to install node and npm on your computer.
+</p>
+<p>To install Angular CLI, run:</p>
 <div class="blox-code-sample">
-  <pre><code mwlHighlightJs [source]="codeInstall" [language]="'bash'"></code></pre>
+  <pre><code mwlHighlightJs [source]="'npm install -g @angular/cli'" [language]="'bash'"></code></pre>
 </div>
+<p>This will install the <code>ng</code> command globally on your system.</p>
 
-<h3>Step 2: Import the Blox Material Module</h3>
-<p>Import the MaterialModule in your app:</p>
+<h2>Step 1: Prepare your Angular Project</h2>
+<p>Although not required, using <a href="http://sass-lang.com/">Sass</a> is highly recommended with
+  Blox Material projects. The Material styling/themes are that much easier to customize with Sass.
+</p>
+<p>For new projects, just use Angular CLI to bootstrap the project, and make scss (Sass) the default
+  stylesheet preprocessor:</p>
+<div class="blox-code-sample">
+  <pre><code mwlHighlightJs [source]="'ng new NAME-OF-PROJECT --style=scss\ncd NAME-OF-PROJECT'" [language]="'bash'"></code></pre>
+</div>
+<p>For existing projects that not yet use Sass, you can switch to Sass as default stylesheet preprocessor
+  with the following command (run inside the root directory of your project):</p>
+<div class="blox-code-sample">
+  <pre><code mwlHighlightJs [source]="'ng set defaults.styleExt scss'" [language]="'bash'"></code></pre>
+</div>
+<p>Then simply rename <code>src/styles.css</code> to <code>src/styles.scss</code>, and in the configuration file
+<code>.angular-cli.json</code> also change the reference to <code>styles.css</code> to refer to
+<code>styles.scss</code> instead. (You can find that under apps/styles in the file).
+Since scss is an extension of css, this will not affect your existing styles.</p>
+
+<h2>Step 2: Install Blox Material</h2>
+<p>Now add the Blox Material library to your project:</p>
+<div class="blox-code-sample">
+  <pre><code mwlHighlightJs [source]="'npm install --save @blox/material'" [language]="'bash'"></code></pre>
+</div>
+<p>Next install <code>@angular/forms</code> (optional):</p>
+<div class="blox-code-sample">
+  <pre><code mwlHighlightJs [source]="'npm install --save @angular/forms'" [language]="'bash'"></code></pre>
+</div>
+<p>And add the Material module to your application (in <code>src/app/app.module.ts</code>):</p>
 <div class="blox-code-sample">
   <pre><code mwlHighlightJs [source]="codeModule" [language]="'typescript'"></code></pre>
 </div>
-
-<h3>Step 3: Import theme</h3>
-<p>
-Themeing can be done by importing and customizing the sass theme files in your application.
-Documentation for doing that will be added here later.
-Alternatively you can import the material-components-web default css file in your HTML:
+<p>The example also includes the <code>@angular/forms FormsModule</code>. Using the FormsModule
+  is <strong>not</strong> a requirement of Blox Material. All Material directives can also be used
+  without the FormsModule. However, the FormsModule makes building forms much easier, with easy
+  binding of controls to data, addition of validation rules, display of errors, and much more.
+  Please refer to <a href="https://angular.io/guide/forms">Angular Forms Guide</a> for more in
+  depth information. By the way: Blox Material is also fully compatible with the
+  <a href="https://angular.io/guide/reactive-forms">ReactiveFormsModule</a>.
 </p>
+
+<h2>Step 3: Import and Customize a Theme</h2>
+<p>To make the Sass preprocessor find all Material Components theme files, add the following configuration
+  to the <code>apps</code> section of the <code>.angular.cli.json</code> file:</p>
 <div class="blox-code-sample">
-  <pre><code mwlHighlightJs [source]="codeCss" [language]="'html'"></code></pre>
+  <pre><code mwlHighlightJs [source]="cliIncludeThemes" [language]="'json'"></code></pre>
 </div>
+<p>Next, add the following code to your <code>src/styles.scss</code> file:</p>
+<div class="blox-code-sample">
+  <pre><code mwlHighlightJs [source]="codeScss" [language]="'scss'"></code></pre>
+</div>
+<p>For more information about customizing and extending the theme, see
+  <a href="https://github.com/material-components/material-components-web/tree/master/packages/mdc-theme">Material
+    Components Web Theme Documentation</a>.
+</p>
+
+<h2>Step 4: Add Material Directives</h2>
+<p>Open <code>src/app/app.component.html</code> and add some markup:</p>
+<div class="blox-code-sample">
+  <pre><code mwlHighlightJs [language]="'html'"
+    [source]="'&lt;button mdcButton mdcRaised&gt;My First Material Button&lt;/button&gt;'"></code></pre>
+</div>
+<p>Next, run <code>ng serve</code> to run your application, navigate to <code>http://localhost:4200</code>,
+and validate you get a nice button styled according to the Material Guidelines.
+Then check the <a [routerLink]="['/directives']">Directives</a> section of this website for code samples
+of other Material components.</p>

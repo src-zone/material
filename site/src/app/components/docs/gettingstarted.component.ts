@@ -5,22 +5,42 @@ import { Component } from '@angular/core';
   templateUrl: './gettingstarted.component.html'
 })
 export class GettingstartedComponent {
-    codeInstall = 'npm install --save @blox/material';
-    codeModule = `
+    codeModule = `import { FormsModule } from '@angular/forms'; // (optional)   
 import { MaterialModule } from '@blox/material';
 
 @NgModule({
   ...
   imports: [
     BrowserModule,
+    FormsModule,      // using FormsModule is optional
     MaterialModule,
     ...
   ],
   ...
 })
-export class MyAppModule { }
-    `;
-    codeCss = '<link rel="stylesheet" href="/node_modules/material-components-web/dist/material-components-web.css">';
+export class MyAppModule { }`;
+    codeScss = `// customize some theme variables, e.g.:
+$mdc-theme-primary: #212121;
+$mdc-theme-secondary: #00e871;
+$mdc-theme-background: #fff;
+
+// import theming for all mdc components:
+@import "material-components-web/material-components-web";`
+    cliIncludeThemes = `{
+  ...
+  "apps": [
+    {
+      ...
+      stylePreprocessorOptions": {
+        "includePaths": [
+          "../node-modules"
+        ]
+      },
+      ...
+    }
+  ]
+  ...
+}`;
 
     constructor() {
     }

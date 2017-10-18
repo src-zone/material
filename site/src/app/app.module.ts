@@ -32,6 +32,7 @@ hljs.registerLanguage('typescript', require('highlight.js/lib/languages/typescri
 hljs.registerLanguage('html', require('highlight.js/lib/languages/xml'));
 hljs.registerLanguage('scss', require('highlight.js/lib/languages/scss'));
 hljs.registerLanguage('bash', require('highlight.js/lib/languages/bash'));
+hljs.registerLanguage('json', require('highlight.js/lib/languages/bash'));
 export function highlightJsFactory() {
   return hljs;
 }
