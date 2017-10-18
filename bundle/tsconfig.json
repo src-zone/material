@@ -7,6 +7,7 @@
     "experimentalDecorators": true,
     "sourceMap": true,
     "noEmitHelpers": true,
+    "importHelpers": true,
     "skipLibCheck": true,
     "declaration": true,
     "outDir": "build",

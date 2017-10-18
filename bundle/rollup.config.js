@@ -17,7 +17,8 @@ const globals = {
     '@material/textfield': 'mdc.textfield',
     '@material/toolbar': 'mdc.toolbar',
     '@material/tabs': 'mdc.tabs',
-    'rxjs': 'Rx'
+    'rxjs': 'Rx',
+    'tslib': 'tslib'
 };
 
 export default {
