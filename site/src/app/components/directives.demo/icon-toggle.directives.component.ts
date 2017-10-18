@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './icon-toggle.directives.component.html'
 })
 export class IconToggleDirectivesComponent {
-    static DOC_SVG = require('assets/img/mdc-icons/button.svg');
+    static DOC_SVG = require('assets/img/mdc-icons/component.svg');
     static DOC_TYPE = 'directives';
     static DOC_HREF = 'icon-toggle';
 
