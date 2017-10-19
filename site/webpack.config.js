@@ -47,7 +47,7 @@ const isTestWatch = ENV === 'test-watch';
 const isTest = ENV === 'test' || isTestWatch;
 const isProd = /^build.*$/.test(ENV);
 const AOT = isProd;
-const forceSourceMaps = false; // set to true for sourcemaps in production (e.g. to analyze bundle sizes)
+const forceSourceMaps = true; // set to true for sourcemaps in production (e.g. to analyze bundle sizes)
 
 module.exports = function makeWebpackConfig(env) {
   const target = 'app';
