@@ -46,16 +46,17 @@ export class MdcRadioInputDirective extends AbstractMdcInput {
 }
 
 /**
- * <p>Directive for creating a Material Design radio button. The radio button is driven by an
+ * Directive for creating a Material Design radio button. The radio button is driven by an
  * underlying native radio input, which must use the <code>MdcRadioInputDirective</code>
  * directive.
  * The current implementation will add all other required DOM elements (such as the
  * background).
  * Future implementations will also support supplying (customized) background
- * elements.</p>
- * <p>This directive can be used together with an <code>mdcFormfield</code> to
+ * elements.
+ * </p><p>
+ * This directive can be used together with an <code>mdcFormfield</code> to
  * easily position radio buttons and their labels, see
- * <a href="#/directives/formfield">mdcFormfield</a>.</p>
+ * <a href="#/directives/formfield">mdcFormfield</a>.
  */
 @Directive({
     selector: '[mdcRadio]'
