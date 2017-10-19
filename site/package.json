@@ -7,7 +7,7 @@
     "clean": "rimraf dist build compiled",
     "watch": "webpack --watch --progress --profile",
     "build-demo": "webpack --progress --profile --bail",
-    "build": "npm run clean && npm run apidocs && npm run build-demo",
+    "build": "npm run clean && npm run build-demo",
     "server": "webpack-dev-server --inline --progress --port 8090",
     "webdriver-update": "webdriver-manager update",
     "webdriver-start": "webdriver-manager start",
