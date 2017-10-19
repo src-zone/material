@@ -78,7 +78,7 @@ export class ComponentGrouper implements Processor {
         group.services.push(doc);
       } else if (doc.isNgModule) {
         group.ngModule = doc;
-      } else if (doc.docType == 'class') {
+      } else if (doc.docType === 'class' || doc.docType === 'interface') {
         group.additionalClasses.push(doc);
       }
     });

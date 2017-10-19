@@ -1,6 +1,7 @@
 import { Dgeni, Package } from 'dgeni';
 import { DocsPrivateFilter } from './processors/docs-private-filter';
 import { Categorizer } from './processors/categorizer';
+import { ExtendsJoiner } from './processors/extends-joiner';
 import { ComponentGrouper } from './processors/component-grouper';
 import { ReadTypeScriptModules } from 'dgeni-packages/typescript/processors/readTypeScriptModules';
 import { TsParser } from 'dgeni-packages/typescript/services/TsParser';
@@ -34,6 +35,9 @@ apiDocsPackage.processor(new DocsPrivateFilter());
 
 // Processor that appends categorization flags to the docs, e.g. `isDirective`, `isNgModule`, etc.
 apiDocsPackage.processor(new Categorizer());
+
+// Processor to move some base class information into their subclasses:
+apiDocsPackage.processor(new ExtendsJoiner());
 
 // Processor to group components into top-level groups (per mdc component):
 apiDocsPackage.processor(new ComponentGrouper());
@@ -73,18 +77,18 @@ apiDocsPackage.config((readTypeScriptModules: ReadTypeScriptModules, tsParser: T
 
   const typescriptPathMap: any = {};
 
+  // Entry points for docs generation. All publically exported symbols found through
+  // readTypeScriptModules.sourceFiles will have docs generated.
+  readTypeScriptModules.sourceFiles = [];
   componentPackages.forEach(componentName => {
-    typescriptPathMap[`@blox/material/${componentName}`] = [`./components/${componentName}/mdc.${componentName}.directive.ts`];
+    const componentSources = globSync(path.join(sourceDir, 'components', componentName, '*.directive.ts'))
+      .map(sourcePath => `./components/${componentName}/` + path.basename(sourcePath));
+    typescriptPathMap[`@blox/material/${componentName}`] = componentSources;
+    readTypeScriptModules.sourceFiles.push(...componentSources);
   });
 
   tsParser.options.baseUrl = sourceDir;
   tsParser.options.paths = typescriptPathMap;
-
-  // Entry points for docs generation. All publically exported symbols found through these
-  // files will have docs generated.
-  readTypeScriptModules.sourceFiles = [
-    ...componentPackages.map(componentName => `./components/${componentName}/mdc.${componentName}.directive.ts`)
-  ];
 });
 
 // Configure processor for finding nunjucks templates.
