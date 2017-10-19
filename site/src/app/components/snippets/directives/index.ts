@@ -5,6 +5,7 @@ export * from './snippet.fab.component';
 export * from './snippet.icon-toggle.component';
 export * from './snippet.radio.component';
 export * from './snippet.slider.component';
+export * from './snippet.switch.component';
 export * from './snippet.tab.simple.component';
 export * from './snippet.tab.scroller.component';
 export * from './snippet.textfield.component';

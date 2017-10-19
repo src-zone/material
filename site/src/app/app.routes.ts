@@ -12,6 +12,7 @@ import {
     IconToggleDirectivesComponent,
     RadioDirectivesComponent,
     SliderDirectivesComponent,
+    SwitchDirectivesComponent,
     TabDirectivesComponent,
     TextfieldDirectivesComponent,
     ToolbarDirectivesComponent } from './components';
@@ -31,6 +32,7 @@ export const routes: Routes = [
         {path: IconToggleDirectivesComponent.DOC_HREF, component: IconToggleDirectivesComponent},
         {path: RadioDirectivesComponent.DOC_HREF, component: RadioDirectivesComponent},
         {path: SliderDirectivesComponent.DOC_HREF, component: SliderDirectivesComponent},
+        {path: SwitchDirectivesComponent.DOC_HREF, component: SwitchDirectivesComponent},
         {path: TabDirectivesComponent.DOC_HREF, component: TabDirectivesComponent},
         {path: TextfieldDirectivesComponent.DOC_HREF, component: TextfieldDirectivesComponent},
         {path: ToolbarDirectivesComponent.DOC_HREF, component: ToolbarDirectivesComponent}

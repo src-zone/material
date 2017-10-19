@@ -33,7 +33,7 @@ select                   |           |
 selection-control        |           |
 slider                   | [See demo](https://blox.src.zone/material#/directives/slider) |
 snackbar                 | WIP       |
-switch                   |           |
+switch                   | [See demo](https://blox.src.zone/material#/directives/switch) |
 tabs                     | [See demo](https://blox.src.zone/material#/directives/tab) |
 textfield                | [See demo](https://blox.src.zone/material#/directives/textfield) |
 toolbar                  | [See demo](https://blox.src.zone/material#/directives/toolbar) |

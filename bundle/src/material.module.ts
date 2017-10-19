@@ -27,6 +27,8 @@ import { MdcSliderDirective,
 import { MdcSnackbarDirective,
     MdcSnackbarTextDirective,
     MdcSnackbarActionDirective } from './components/snackbar/mdc.snackbar.directive';
+import { MdcSwitchInputDirective,
+    MdcSwitchDirective } from './components/switch/mdc.switch.directive';    
 import { AbstractMdcTabDirective, MdcTabDirective,
     MdcTabIconDirective,
     MdcTabIconTextDirective,
@@ -79,6 +81,8 @@ export { MdcSliderDirective,
 export { MdcSnackbarDirective,
     MdcSnackbarTextDirective,
     MdcSnackbarActionDirective } from './components/snackbar/mdc.snackbar.directive';
+export { MdcSwitchInputDirective,
+    MdcSwitchDirective } from './components/switch/mdc.switch.directive';
 export { AbstractMdcTabDirective, MdcTabDirective,
     MdcTabIconDirective,
     MdcTabIconTextDirective,
@@ -119,6 +123,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcRadioDirective, MdcRadioInputDirective,
         MdcSliderDirective, MdcFormsSliderDirective,
         MdcSnackbarDirective, MdcSnackbarTextDirective, MdcSnackbarActionDirective,
+        MdcSwitchInputDirective, MdcSwitchDirective,
         MdcTabDirective, MdcTabIconDirective, MdcTabIconTextDirective,
         MdcTabRouterDirective,
         MdcTabBarDirective,
@@ -140,6 +145,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcRadioDirective, MdcRadioInputDirective,
         MdcSliderDirective, MdcFormsSliderDirective,
         MdcSnackbarDirective, MdcSnackbarTextDirective, MdcSnackbarActionDirective,
+        MdcSwitchInputDirective, MdcSwitchDirective,
         MdcTabDirective, MdcTabIconDirective, MdcTabIconTextDirective,
         MdcTabRouterDirective,
         MdcTabBarDirective,
