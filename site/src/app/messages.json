@@ -9,6 +9,8 @@
     "directives.fab.description": "Circular buttons for the primary action in an application",
     "directives.icon-toggle.title": "Icon Toggle",
     "directives.icon-toggle.description": "Toggling icon states",
+    "directives.linear-progress.title": "Linear Progress",
+    "directives.linear-progress.description": "Indicator for progress on long running tasks",
     "directives.radio.title": "Radio Button",
     "directives.radio.description": "Single selection controls",
     "directives.slider.title": "Slider",

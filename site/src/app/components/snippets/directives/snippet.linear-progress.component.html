@@ -1,0 +1,31 @@
+<fieldset class="blox-snippet snippet-skip-line">
+<div mdcLinearProgress [mdcProgress]="progress" [mdcBuffer]="buffer"
+    [mdcIndeterminate]="indeterminate" [mdcReversed]="reversed" [mdcClosed]="closed"></div>
+<p>Customize progress:</p>
+<div>
+  <div mdcSlider aria-label="Change Progress"
+    mdcMin="0" mdcMax="1" [(ngModel)]="progress" [mdcDisabled]="indeterminate || closed"></div>
+</div>
+<div>
+  <div mdcSlider aria-label="Change Buffer"
+    mdcMin="0" mdcMax="1" [(ngModel)]="buffer" [mdcDisabled]="indeterminate || closed"></div>
+</div>  
+<div mdcFormfield>
+  <div mdcCheckbox>
+    <input mdcCheckboxInput type="checkbox" [(ngModel)]="indeterminate" [disabled]="closed"/>
+  </div>
+  <label mdcFormfieldLabel>Indeterminate</label>
+</div>
+<div mdcFormfield>
+  <div mdcCheckbox>
+    <input mdcCheckboxInput type="checkbox" [(ngModel)]="reversed" [disabled]="closed"/>
+  </div>
+  <label mdcFormfieldLabel>Reversed</label>
+</div>
+<div mdcFormfield>
+  <div mdcCheckbox>
+    <input mdcCheckboxInput type="checkbox" [(ngModel)]="closed"/>
+  </div>
+  <label mdcFormfieldLabel>Closed</label>
+</div>
+</fieldset><div class="snippet-skip-line"></div>

@@ -3,6 +3,7 @@ import { CardDirectivesComponent } from './card.directives.component';
 import { CheckboxDirectivesComponent } from './checkbox.directives.component';
 import { FabDirectivesComponent } from './fab.directives.component';
 import { IconToggleDirectivesComponent } from './icon-toggle.directives.component';
+import { LinearProgressDirectivesComponent } from './linear-progress.directives.component';
 import { RadioDirectivesComponent } from './radio.directives.component';
 import { SliderDirectivesComponent } from './slider.directives.component';
 import { SwitchDirectivesComponent } from './switch.directives.component';
@@ -15,6 +16,7 @@ export * from './card.directives.component';
 export * from './checkbox.directives.component';
 export * from './fab.directives.component';
 export * from './icon-toggle.directives.component';
+export * from './linear-progress.directives.component';
 export * from './radio.directives.component';
 export * from './slider.directives.component';
 export * from './switch.directives.component';
@@ -28,6 +30,7 @@ export const MDC_DIRECTIVE_DOC_COMPONENTS = [
     CheckboxDirectivesComponent,
     FabDirectivesComponent,
     IconToggleDirectivesComponent,
+    LinearProgressDirectivesComponent,
     RadioDirectivesComponent,
     SliderDirectivesComponent,
     SwitchDirectivesComponent,
