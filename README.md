@@ -30,7 +30,6 @@ menu                     |           |
 radio                    | [See demo](https://blox.src.zone/material#/directives/radio) |
 ripple                   | WIP       | Fully functional, but not yet exposed as directive.
 select                   |           |
-selection-control        |           |
 slider                   | [See demo](https://blox.src.zone/material#/directives/slider) |
 snackbar                 | WIP       |
 switch                   | [See demo](https://blox.src.zone/material#/directives/switch) |
