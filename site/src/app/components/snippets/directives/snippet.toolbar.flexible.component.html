@@ -12,7 +12,7 @@
        You don't normally need this property, since the default viewport is the browser window -->
   <header mdcToolbar [mdcViewport]="viewport" mdcFixed [mdcFixedAdjust]="main"
       [mdcWaterfall]="waterfall" mdcFlexible mdcFlexibleDefaultBehavior
-      (expansionRatio)="updateExpansionRatio($event)">
+      (mdcExpansionRatio)="updateExpansionRatio($event)">
     <div mdcToolbarRow>
       <section mdcToolbarSection mdcAlignStart>
         <span>

@@ -99,7 +99,7 @@ export class MdcToolbarFixedAdjustDirective {
 export class MdcToolbarDirective implements AfterViewInit, OnDestroy {
     @HostBinding('class.mdc-toolbar') _hostClass = true;
     @Input() mdcFixedAdjust: MdcToolbarFixedAdjustDirective;
-    @Output() expansionRatio = new EventEmitter<number>();
+    @Output() mdcExpansionRatio = new EventEmitter<number>();
     @ContentChild(MdcToolbarTitleDirective) _title;
     @ContentChild(MdcToolbarRowDirective) _firstRow;
     private _mdcViewport: HTMLElement;
@@ -144,7 +144,7 @@ export class MdcToolbarDirective implements AfterViewInit, OnDestroy {
         getOffsetHeight: () => this.root.nativeElement.offsetHeight,
         getFirstRowElementOffsetHeight: () => this._firstRow._elm.nativeElement.offsetHeight,
         notifyChange: (evtData: {flexibleExpansionRatio: number}) => {
-            this.expansionRatio.emit(evtData.flexibleExpansionRatio);
+            this.mdcExpansionRatio.emit(evtData.flexibleExpansionRatio);
         },
         setStyle: (property: string, value: number) => {
             this.renderer.setStyle(this.root.nativeElement, property, value);
