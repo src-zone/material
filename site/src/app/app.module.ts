@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Angulartics2Module, Angulartics2GoogleTagManager } from 'angulartics2';
 import { MaterialModule } from '@blox/material';
 import { HighlightJsModule, HIGHLIGHT_JS } from 'angular-highlight-js';
 import { AppComponent } from './app.component';
@@ -48,7 +49,8 @@ export function highlightJsFactory() {
       provide: HIGHLIGHT_JS,
       useFactory: highlightJsFactory
     }),
-    routing
+    routing,
+    Angulartics2Module.forRoot([Angulartics2GoogleTagManager])
   ],
   declarations: [
     AppComponent,

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Angulartics2GoogleTagManager, Angulartics2 } from 'angulartics2';
 
 @Component({
   selector: 'blox-app',
@@ -7,6 +8,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
     year = 2017;
 
-    constructor() {
+    constructor(angulartics2GoogleTagManager: Angulartics2GoogleTagManager, angulartics2: Angulartics2) {
+        angulartics2.withBase('/material#');
     }
 }

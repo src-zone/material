@@ -33,6 +33,7 @@
     "@angular/platform-browser-dynamic": "^4.4.4",
     "@angular/router": "^4.4.4",
     "angular-highlight-js": "^2.0.0",
+    "angulartics2": "^2.4.0",
     "bourbon": "4.3.4",
     "bourbon-neat": "2.0.0",
     "material-components-web": "^0.23.0",
