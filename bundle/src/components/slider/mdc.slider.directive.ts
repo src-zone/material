@@ -1,4 +1,4 @@
-import { AfterContentInit, Directive, ElementRef, EventEmitter, forwardRef,
+import { AfterContentInit, AfterViewInit, Directive, ElementRef, EventEmitter, forwardRef,
     HostBinding, Input, OnChanges, OnDestroy, Output, Renderer2, Self, SimpleChange, SimpleChanges } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { MDCSliderFoundation, strings } from '@material/slider';
@@ -35,7 +35,7 @@ interface MdcSliderFoundationInterface {
 @Directive({
     selector: '[mdcSlider]'
 })
-export class MdcSliderDirective implements AfterContentInit, OnChanges, OnDestroy {
+export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnChanges, OnDestroy {
     @HostBinding('class.mdc-slider') _cls = true;
     @HostBinding('attr.role') _role: string = 'slider';
     /**
@@ -74,6 +74,7 @@ export class MdcSliderDirective implements AfterContentInit, OnChanges, OnDestro
     private _min = 0;
     private _max = 100;
     private _step = 0;
+    private _lastWidth: number;
     // works around bug https://github.com/material-components/material-components-web/issues/1429:
     private _interactionHandlers: {type: string, handler: EventListener}[] = [];
 
@@ -181,8 +182,13 @@ export class MdcSliderDirective implements AfterContentInit, OnChanges, OnDestro
         this.initElements();
         this.initDefaultAttributes();
         this.foundation.init();
+        this._lastWidth = this.mdcAdapter.computeBoundingRect().width;
         this.updateValues({}, true);
         this._initialized = true;
+    }
+
+    ngAfterViewInit() {
+        this.updateLayout();
     }
 
     ngOnDestroy() {
@@ -207,6 +213,7 @@ export class MdcSliderDirective implements AfterContentInit, OnChanges, OnDestro
                 this.foundation.init();
             }
             this.updateValues(changes, callValueAccessorOnValueChange);
+            this.updateLayout();
         }
     }
 
@@ -315,6 +322,14 @@ export class MdcSliderDirective implements AfterContentInit, OnChanges, OnDestro
         this._value = this.foundation.getValue();
         if (oldValue !== this._value)
             setTimeout(() => {this.notifyValueChanged(callValueAccessorOnChange); }, 0);
+    }
+
+    private updateLayout() {
+        let newWidth = this.mdcAdapter.computeBoundingRect().width;
+        if (newWidth !== this._lastWidth) {
+            this._lastWidth = newWidth;
+            this.foundation.layout();
+        }
     }
 
     private notifyValueChanged(callValueAccessorOnChange: boolean) {
