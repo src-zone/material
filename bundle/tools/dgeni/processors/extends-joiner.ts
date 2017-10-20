@@ -52,11 +52,10 @@ export class ExtendsJoiner implements Processor {
 
     // remove all non-leaf elements from the hierarchy (i.e. parents of some other element),
     // and also remove them from the DocCollection:
-    for (let parent of allParents) {
+    for (let parent of allParents)
       hierarchy.delete(parent);
-      docs.splice(docs.indexOf(docByName.get(parent)), 1);
-    }
-
+    docs = docs.filter(doc => (allParents.indexOf(doc.name) === -1));
+    
     // move parent documentation into their children:
     hierarchy.forEach((parents, child) => {
       for (let parent of parents) {
