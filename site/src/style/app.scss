@@ -79,6 +79,13 @@ footer {
   padding-top: 12px;
 }
 
+blockquote {
+  background-color: #f5f5f5;
+  border-left: 8px solid $mdc-theme-secondary;
+  padding: 16px;
+  margin: 0;
+}
+
 $blox-component-list-grid: (
   columns: 1,
   gutter: 24px
