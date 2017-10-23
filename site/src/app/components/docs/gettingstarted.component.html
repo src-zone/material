@@ -81,8 +81,26 @@ Since scss is an extension of css, this will not affect your existing styles.</p
   <pre><code mwlHighlightJs [language]="'html'"
     [source]="'&lt;button mdcButton mdcRaised&gt;My First Material Button&lt;/button&gt;'"></code></pre>
 </div>
-<p>Next, run <code>ng serve</code> to run your application, navigate to <code>http://localhost:4200</code>,
+<p>Next, run <code>npm run start</code> to run your application, navigate to <code>http://localhost:4200</code>,
 and validate you get a nice button styled according to the Material Guidelines.</p>
 <p>Congratulations, you have made your first Angular App with Blox Material!
 Now check the <a [routerLink]="['/directives']">Directives</a> section of this website for code samples
 of other Material components.</p>
+<blockquote>
+  <p>Although you now have a web application that works with Blox Material, there are still two issues to tackle:</p>
+  <ul>
+    <li>If you open the application in a browser that doesn't support a reasonable subset of the latest
+      javascript (es2015) features (such as IE11), the application will bail, because of javascript parsing errors.
+    </li>
+    <li>A production build of the application (using <code>ng build --prod</code>) will also fail with javascript build errors.
+    </li>
+  </ul>
+  <p>Both issues have the same cause: Blox Material depends on Google's Material Components for the Web, which is
+    distributed in different <code>@material/*</code> npm packages.
+    These packages all use es2015 (also called es6, or ecmascript 2015) features that not all browsers support.
+    Angular CLI also doesn't support minifying es2015, which explains why a production build fails.</p>
+  <p>
+    We have written a separate guide to tackle just this problem:
+    <a [routerLink]="['/guides','ng-transpile']">Using es2015 javascript packages with Angular CLI</a>.
+  </p>
+</blockquote>

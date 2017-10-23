@@ -12,6 +12,7 @@ import {
   DocsComponent,
   GuidesComponent,
   GettingstartedComponent,
+  TranspileGuideComponent,
 
   CodeSampleComponent,
   MDC_DIRECTIVE_DOC_COMPONENTS,
@@ -58,6 +59,7 @@ export function highlightJsFactory() {
     DocsComponent,
     GuidesComponent,
     GettingstartedComponent,
+    TranspileGuideComponent,
 
     OverviewComponent,
 
