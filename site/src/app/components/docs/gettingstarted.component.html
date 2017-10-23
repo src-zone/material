@@ -45,14 +45,20 @@ Since scss is an extension of css, this will not affect your existing styles.</p
 <div class="blox-code-sample">
   <pre><code mwlHighlightJs [source]="codeModule" [language]="'typescript'"></code></pre>
 </div>
-<p>The example also includes the <code>@angular/forms FormsModule</code>. Using the FormsModule
+<p>
+  The example also includes the <code>@angular/forms FormsModule</code>. Using the FormsModule
   is <strong>not</strong> a requirement of Blox Material. All Material directives can also be used
   without the FormsModule. However, the FormsModule makes building forms much easier, with easy
   binding of controls to data, addition of validation rules, display of errors, and much more.
   Please refer to <a href="https://angular.io/guide/forms">Angular Forms Guide</a> for more in
-  depth information. By the way: Blox Material is also fully compatible with the
-  <a href="https://angular.io/guide/reactive-forms">ReactiveFormsModule</a>.
-</p>
+  depth information.</p>
+<blockquote>
+  Blox Material is fully compatible with <code>@angular/forms</code>, and support both the
+  <code>FormsModule</code>, and the
+  <code><a href="https://angular.io/guide/reactive-forms">ReactiveFormsModule</a></code>.
+  But all of the Blox Material directives can also be used without the <code>@angular/forms</code>
+  package.
+</blockquote>
 
 <h2>Step 3: Import and Customize a Theme</h2>
 <p>To make the Sass preprocessor find all Material Components theme files, add the following configuration
@@ -70,12 +76,13 @@ Since scss is an extension of css, this will not affect your existing styles.</p
 </p>
 
 <h2>Step 4: Add Material Directives</h2>
-<p>Open <code>src/app/app.component.html</code> and add some markup:</p>
+<p>Open <code>src/app/app.component.html</code> and add some markup, for example:</p>
 <div class="blox-code-sample">
   <pre><code mwlHighlightJs [language]="'html'"
     [source]="'&lt;button mdcButton mdcRaised&gt;My First Material Button&lt;/button&gt;'"></code></pre>
 </div>
 <p>Next, run <code>ng serve</code> to run your application, navigate to <code>http://localhost:4200</code>,
-and validate you get a nice button styled according to the Material Guidelines.
-Then check the <a [routerLink]="['/directives']">Directives</a> section of this website for code samples
+and validate you get a nice button styled according to the Material Guidelines.</p>
+<p>Congratulations, you have made your first Angular App with Blox Material!
+Now check the <a [routerLink]="['/directives']">Directives</a> section of this website for code samples
 of other Material components.</p>
