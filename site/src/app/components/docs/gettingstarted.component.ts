@@ -31,7 +31,7 @@ $mdc-theme-background: #fff;
   "apps": [
     {
       ...
-      stylePreprocessorOptions": {
+      "stylePreprocessorOptions": {
         "includePaths": [
           "../node_modules"
         ]
