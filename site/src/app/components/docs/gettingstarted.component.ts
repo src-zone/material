@@ -33,7 +33,7 @@ $mdc-theme-background: #fff;
       ...
       stylePreprocessorOptions": {
         "includePaths": [
-          "../node-modules"
+          "../node_modules"
         ]
       },
       ...
