@@ -9,7 +9,7 @@
     "type": "git",
     "url": "https://bitbucket.org/src-zone/material.git"
   },
-  "homepage": "http://blox.src.zone/material",
+  "homepage": "https://blox.src.zone/material",
   "main": "dist/material.umd.js",
   "module": "dist/material.es5.js",
   "types": "dist/material.d.ts",
