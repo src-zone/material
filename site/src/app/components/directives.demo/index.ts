@@ -10,6 +10,7 @@ import { SwitchDirectivesComponent } from './switch.directives.component';
 import { TabDirectivesComponent } from './tab.directives.component';
 import { TextfieldDirectivesComponent } from './textfield.directives.component';
 import { ToolbarDirectivesComponent } from './toolbar.directives.component';
+import { UtilityDirectivesComponent } from './utility.directives.component';
 
 export * from './button.directives.component';
 export * from './card.directives.component';
@@ -23,6 +24,7 @@ export * from './switch.directives.component';
 export * from './tab.directives.component';
 export * from './textfield.directives.component';
 export * from './toolbar.directives.component';
+export * from './utility.directives.component';
 
 export const MDC_DIRECTIVE_DOC_COMPONENTS = [
     ButtonDirectivesComponent,
@@ -36,5 +38,6 @@ export const MDC_DIRECTIVE_DOC_COMPONENTS = [
     SwitchDirectivesComponent,
     TabDirectivesComponent,
     TextfieldDirectivesComponent,
-    ToolbarDirectivesComponent
+    ToolbarDirectivesComponent,
+    UtilityDirectivesComponent
 ]

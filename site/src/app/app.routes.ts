@@ -16,7 +16,8 @@ import {
     SwitchDirectivesComponent,
     TabDirectivesComponent,
     TextfieldDirectivesComponent,
-    ToolbarDirectivesComponent } from './components';
+    ToolbarDirectivesComponent,
+    UtilityDirectivesComponent } from './components';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'guides', pathMatch: 'full'},
@@ -37,7 +38,8 @@ export const routes: Routes = [
         {path: SwitchDirectivesComponent.DOC_HREF, component: SwitchDirectivesComponent},
         {path: TabDirectivesComponent.DOC_HREF, component: TabDirectivesComponent},
         {path: TextfieldDirectivesComponent.DOC_HREF, component: TextfieldDirectivesComponent},
-        {path: ToolbarDirectivesComponent.DOC_HREF, component: ToolbarDirectivesComponent}
+        {path: ToolbarDirectivesComponent.DOC_HREF, component: ToolbarDirectivesComponent},
+        {path: UtilityDirectivesComponent.DOC_HREF, component: UtilityDirectivesComponent}
     ]}
 ];
 

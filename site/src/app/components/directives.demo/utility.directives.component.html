@@ -1,0 +1,14 @@
+<h1>Utility</h1>
+<p>
+The <code>mdcScrollbarResize</code> directive triggers window resize events when the document
+body changes width, due to a vertical scrollbar being added to (or removed from) the page.
+This solves problems with directives that base their layout or position on the width of the
+document body, and listen to resize events to update their layout.
+</p>
+<p>
+The layout of following Blox Material directives can be fixed with <code>mdcScrollbarResize</code>:
+<a [routerLink]="['/directives/slider']">mdcSlider</a>,
+<a [routerLink]="['/directives/tabs']">mdcTabBar, and mdcTabBarScroller</a>.
+</p>
+
+<div class="blox-docs-api">${require('~@blox/material/apidocs/utility.html')}</div>

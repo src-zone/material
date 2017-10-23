@@ -23,6 +23,8 @@
     "directives.textfield.description": "Single and multiline text inputs",
     "directives.toolbar.title": "Toolbar",
     "directives.toolbar.description": "A container for multiple rows of items such as application title, navigation menu, or tabs",
+    "directives.utility.title": "Utility",
+    "directives.utility.description": "Supporting directives that provide additional utility functions",
 
     "directives.ripple.title": "Ripple",
     "directives.ripple.description": "Ink ripple touch feedback effect",
