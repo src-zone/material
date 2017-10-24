@@ -5,10 +5,7 @@
   "description": "Material Components for Angular",
   "author": "The Source Zone",
   "bugs": "https://bitbucket.org/src-zone/material/issues",
-  "repository": {
-    "type": "git",
-    "url": "https://bitbucket.org/src-zone/material.git"
-  },
+  "repository": "bitbucket.org:src-zone/material",
   "homepage": "https://blox.src.zone/material",
   "main": "dist/material.umd.js",
   "module": "dist/material.es5.js",
