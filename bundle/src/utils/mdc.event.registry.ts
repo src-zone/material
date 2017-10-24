@@ -9,7 +9,7 @@ export class MdcEventRegistry {
     constructor() {}
 
     listen(renderer: Renderer2, type: string, listener: EventListener, ref: ElementRef, options?: any) {
-        this.listenElm(renderer, type, listener, ref.nativeElement);
+        this.listenElm(renderer, type, listener, ref.nativeElement, options);
     }
 
     listenElm(renderer: Renderer2, type: string, listener: EventListener, el: Element | Window, options?: any) {
@@ -22,7 +22,7 @@ export class MdcEventRegistry {
         this.unlisteners.get(type).set(listener, unlistener);
     }
 
-    unlisten(type: string, listener: EventListener, options?: any) {
+    unlisten(type: string, listener: EventListener) {
         if (!this.unlisteners.has(type))
             return;
         const unlisteners = this.unlisteners.get(type);
