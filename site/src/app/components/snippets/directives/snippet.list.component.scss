@@ -1,0 +1,12 @@
+[mdcListGroup] {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+
+    [mdcAvatarList] [mdcListItemStartDetail] {
+        background-color: rgba(0, 0, 0, .26);
+    }
+
+    a {
+        text-decoration: none;
+        color: rgba(0, 0, 0, .85);
+    }
+}

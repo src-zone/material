@@ -25,7 +25,7 @@ grid-list                |           |
 icon-toggle              | [See demo](https://blox.src.zone/material#/directives/icon-toggle) |
 layout-grid              |           |
 linear-progress          | [See demo](https://blox.src.zone/material#/directives/linear-progress) |
-list                     |           |
+list                     | [See demo](https://blox.src.zone/material#/directives/list) |
 menu                     |           |
 radio                    | [See demo](https://blox.src.zone/material#/directives/radio) |
 ripple                   | WIP       | Fully functional, but not yet exposed as directive.

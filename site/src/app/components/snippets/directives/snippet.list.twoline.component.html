@@ -1,0 +1,79 @@
+<fieldset class="blox-snippet snippet-skip-line">
+<div mdcListGroup>
+  <h3 mdcListGroupSubHeader>Connectivity</h3>
+  <ul mdcList [mdcDense]="dense">
+    <li mdcListItem>
+      <i *ngIf="startDetail" mdcListItemStartDetail class="material-icons">network_wifi</i>
+      <span mdcListItemText>
+        Wi-Fi
+        <span mdcListItemTextSecondary>Strong signal</span>
+      </span>
+      <i *ngIf="endDetail" mdcListItemEndDetail class="material-icons">signal_wifi_4_bar</i>
+    </li>
+    <li mdcListItem>
+      <i *ngIf="startDetail" mdcListItemStartDetail class="material-icons">bluetooth</i>
+      <span mdcListItemText>
+        Bluetooth
+        <span mdcListItemTextSecondary>Searching for signal</span>
+      </span>
+      <i *ngIf="endDetail" mdcListItemEndDetail class="material-icons">bluetooth_searching</i>
+    </li>
+    <li mdcListItem>
+      <i *ngIf="startDetail" mdcListItemStartDetail class="material-icons">data_usage</i>
+      <span mdcListItemText>
+        Data Usage
+        <span mdcListItemTextSecondary>Inside your bundle</span>
+      </span>
+      <a *ngIf="endDetail" href="javascript:void(0)" mdcListItemEndDetail class="material-icons">show_chart</a>
+    </li>
+    <li mdcListDivider [mdcInset]="startDetail"></li>
+  </ul>
+  <h3 mdcListGroupSubHeader>Folders</h3>
+  <ul mdcList [mdcAvatarList]="avatar" [mdcDense]="dense">
+    <li mdcListItem>
+      <i *ngIf="startDetail && !avatar" mdcListItemStartDetail class="material-icons">insert_drive_file</i>
+      <img *ngIf="avatar" mdcListItemStartDetail src="~assets/img/mdc-demos/animal1.svg">
+      <span mdcListItemText>
+        Photos
+        <span mdcListItemTextSecondary>21 new photos</span>
+      </span>
+      <a *ngIf="endDetail" href="javascript:void(0)" mdcListItemEndDetail class="material-icons">star</a>
+    </li>
+    <li mdcListItem>
+      <i *ngIf="startDetail && !avatar" mdcListItemStartDetail class="material-icons">insert_drive_file</i>
+      <img *ngIf="avatar" mdcListItemStartDetail src="~assets/img/mdc-demos/animal2.svg">
+      <span mdcListItemText>
+        Movies
+        <span mdcListItemTextSecondary>2 new movies</span>
+      </span>
+      <a *ngIf="endDetail" href="javascript:void(0)" mdcListItemEndDetail class="material-icons">star</a>
+    </li>
+  </ul>  
+</div>
+<p>Customize list:</p>
+<div mdcFormfield>
+  <div mdcCheckbox>
+    <input mdcCheckboxInput type="checkbox" [(ngModel)]="startDetail"/>
+  </div>
+  <label mdcFormfieldLabel>Start Detail</label>
+</div>
+<div mdcFormfield>
+  <div mdcCheckbox>
+    <input mdcCheckboxInput type="checkbox" [(ngModel)]="endDetail"/>
+  </div>
+  <label mdcFormfieldLabel>End Detail</label>
+</div>
+<div mdcFormfield>
+    <div mdcCheckbox>
+      <input mdcCheckboxInput type="checkbox" [(ngModel)]="avatar"/>
+    </div>
+    <label mdcFormfieldLabel>Avatar list</label>
+</div>
+<div mdcFormfield>
+  <div mdcCheckbox>
+    <input mdcCheckboxInput type="checkbox" [(ngModel)]="dense" />
+  </div>
+  <label mdcFormfieldLabel>Dense</label>
+</div>
+    
+</fieldset><div class="snippet-skip-line"></div>

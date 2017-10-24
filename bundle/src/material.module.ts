@@ -21,6 +21,15 @@ import { MdcIconToggleDirective,
     MdcIconToggleIconDirective,
     MdcFormsIconToggleDirective } from './components/icon-toggle/mdc.icon-toggle.directive';
 import { MdcLinearProgressDirective } from './components/linear-progress/mdc.linear-progress.directive';
+import { MdcListDividerDirective,
+    MdcListItemDirective,
+    MdcListItemTextDirective,
+    MdcListItemTextSecondaryDirective,
+    MdcListItemStartDetailDirective,
+    MdcListItemEndDetailDirective,
+    MdcListDirective,
+    MdcListGroupSubHeaderDirective,
+    MdcListGroupDirective } from './components/list/mdc.list.directive';
 import { MdcRadioDirective,
     MdcRadioInputDirective } from './components/radio/mdc.radio.directive';
 import { MdcSliderDirective,
@@ -77,6 +86,15 @@ export { MdcIconToggleDirective,
     MdcIconToggleIconDirective,
     MdcFormsIconToggleDirective } from './components/icon-toggle/mdc.icon-toggle.directive';
 export { MdcLinearProgressDirective } from './components/linear-progress/mdc.linear-progress.directive';
+export { MdcListDividerDirective,
+    MdcListItemDirective,
+    MdcListItemTextDirective,
+    MdcListItemTextSecondaryDirective,
+    MdcListItemStartDetailDirective,
+    MdcListItemEndDetailDirective,
+    MdcListDirective,
+    MdcListGroupSubHeaderDirective,
+    MdcListGroupDirective } from './components/list/mdc.list.directive';
 export { MdcRadioDirective,
     MdcRadioInputDirective } from './components/radio/mdc.radio.directive';
 export { MdcSliderDirective,
@@ -125,6 +143,8 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcFormfieldDirective, MdcFormfieldInputDirective, MdcFormfieldLabelDirective,
         MdcIconToggleDirective, MdcIconToggleIconDirective, MdcFormsIconToggleDirective,
         MdcLinearProgressDirective,
+        MdcListDividerDirective, MdcListItemDirective, MdcListItemTextDirective, MdcListItemTextSecondaryDirective,
+        MdcListItemStartDetailDirective, MdcListItemEndDetailDirective, MdcListDirective, MdcListGroupSubHeaderDirective, MdcListGroupDirective,
         MdcRadioDirective, MdcRadioInputDirective,
         MdcSliderDirective, MdcFormsSliderDirective,
         MdcSnackbarDirective, MdcSnackbarTextDirective, MdcSnackbarActionDirective,
@@ -149,6 +169,8 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcFormfieldDirective, MdcFormfieldInputDirective, MdcFormfieldLabelDirective,
         MdcIconToggleDirective, MdcIconToggleIconDirective, MdcFormsIconToggleDirective,
         MdcLinearProgressDirective,
+        MdcListDividerDirective, MdcListItemDirective, MdcListItemTextDirective, MdcListItemTextSecondaryDirective,
+        MdcListItemStartDetailDirective, MdcListItemEndDetailDirective, MdcListDirective, MdcListGroupSubHeaderDirective, MdcListGroupDirective,
         MdcRadioDirective, MdcRadioInputDirective,
         MdcSliderDirective, MdcFormsSliderDirective,
         MdcSnackbarDirective, MdcSnackbarTextDirective, MdcSnackbarActionDirective,

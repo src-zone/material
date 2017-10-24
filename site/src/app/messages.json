@@ -11,6 +11,8 @@
     "directives.icon-toggle.description": "Toggling icon states",
     "directives.linear-progress.title": "Linear Progress",
     "directives.linear-progress.description": "Indicator for progress on long running tasks",
+    "directives.list.title": "List",
+    "directives.list.description": "Item layout in lists",
     "directives.radio.title": "Radio Button",
     "directives.radio.description": "Single selection controls",
     "directives.slider.title": "Slider",
