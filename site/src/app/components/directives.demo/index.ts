@@ -7,6 +7,7 @@ import { IconToggleDirectivesComponent } from './icon-toggle.directives.componen
 import { LinearProgressDirectivesComponent } from './linear-progress.directives.component';
 import { ListDirectivesComponent } from './list.directives.component';
 import { RadioDirectivesComponent } from './radio.directives.component';
+import { RippleDirectivesComponent } from './ripple.directives.component';
 import { SliderDirectivesComponent } from './slider.directives.component';
 import { SwitchDirectivesComponent } from './switch.directives.component';
 import { TabDirectivesComponent } from './tab.directives.component';
@@ -23,6 +24,7 @@ export * from './icon-toggle.directives.component';
 export * from './linear-progress.directives.component';
 export * from './list.directives.component';
 export * from './radio.directives.component';
+export * from './ripple.directives.component';
 export * from './slider.directives.component';
 export * from './switch.directives.component';
 export * from './tab.directives.component';
@@ -40,6 +42,7 @@ export const MDC_DIRECTIVE_DOC_COMPONENTS = [
     LinearProgressDirectivesComponent,
     ListDirectivesComponent,
     RadioDirectivesComponent,
+    RippleDirectivesComponent,
     SliderDirectivesComponent,
     SwitchDirectivesComponent,
     TabDirectivesComponent,

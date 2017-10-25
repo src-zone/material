@@ -34,41 +34,42 @@ export abstract class AbstractMdcRipple {
         computeBoundingRect: () => this.computeRippleBoundingRect(),
         getWindowPageOffset: () => ({x: window.pageXOffset, y: window.pageYOffset})
     }
-    private rippleFoundation: {
+    protected _rippleFoundation: {
         init(),
         destroy(),
-        activate(),
-        deactivate()
+        activate(event?: Event),
+        deactivate(event?: Event),
+        layout()
     };
 
     constructor(protected _rippleElm: ElementRef, protected _renderer: Renderer2, protected _registry: MdcEventRegistry) {}
 
     protected initRipple() {
-        if (this.rippleFoundation)
+        if (this._rippleFoundation)
             throw new Error('initRipple() is called multiple times');
-        this.rippleFoundation = new MDCRippleFoundation(this.mdcRippleAdapter);
-        this.rippleFoundation.init();
+        this._rippleFoundation = new MDCRippleFoundation(this.mdcRippleAdapter);
+        this._rippleFoundation.init();
     }
 
     protected destroyRipple() {
-        if (this.rippleFoundation) {
-            this.rippleFoundation.destroy();
-            this.rippleFoundation = null;
+        if (this._rippleFoundation) {
+            this._rippleFoundation.destroy();
+            this._rippleFoundation = null;
         }
     }
 
     protected isRippleInitialized() {
-        return this.rippleFoundation != null;
+        return this._rippleFoundation != null;
     }
 
     activateRipple() {
-        if (this.rippleFoundation)
-            this.rippleFoundation.activate();
+        if (this._rippleFoundation)
+            this._rippleFoundation.activate();
     }
 
     deactivateRipple() {
-        if (this.rippleFoundation)
-            this.rippleFoundation.deactivate();
+        if (this._rippleFoundation)
+            this._rippleFoundation.deactivate();
     }
 
     protected getRippleInteractionElement() {

@@ -29,7 +29,7 @@ linear-progress          | [See demo](https://blox.src.zone/material#/directives
 list                     | [See demo](https://blox.src.zone/material#/directives/list) |
 menu                     |           |
 radio                    | [See demo](https://blox.src.zone/material#/directives/radio) |
-ripple                   | WIP       | Fully functional, but not yet exposed as directive.
+ripple                   | [See demo](https://blox.src.zone/material#/directives/ripple) |
 select                   |           |
 slider                   | [See demo](https://blox.src.zone/material#/directives/slider) |
 snackbar                 | WIP       |

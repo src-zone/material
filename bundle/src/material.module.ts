@@ -33,6 +33,7 @@ import { MdcListDividerDirective,
     MdcListGroupDirective } from './components/list/mdc.list.directive';
 import { MdcRadioDirective,
     MdcRadioInputDirective } from './components/radio/mdc.radio.directive';
+import { MdcRippleDirective } from './components/ripple/mdc.ripple.directive';
 import { MdcSliderDirective,
     MdcFormsSliderDirective } from './components/slider/mdc.slider.directive';
 import { MdcSnackbarDirective,
@@ -99,6 +100,7 @@ export { MdcListDividerDirective,
     MdcListGroupDirective } from './components/list/mdc.list.directive';
 export { MdcRadioDirective,
     MdcRadioInputDirective } from './components/radio/mdc.radio.directive';
+export { MdcRippleDirective } from './components/ripple/mdc.ripple.directive';
 export { MdcSliderDirective,
     MdcFormsSliderDirective } from './components/slider/mdc.slider.directive';
 export { MdcSnackbarDirective,
@@ -149,6 +151,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcListDividerDirective, MdcListItemDirective, MdcListItemTextDirective, MdcListItemTextSecondaryDirective,
         MdcListItemStartDetailDirective, MdcListItemEndDetailDirective, MdcListDirective, MdcListGroupSubHeaderDirective, MdcListGroupDirective,
         MdcRadioDirective, MdcRadioInputDirective,
+        MdcRippleDirective,
         MdcSliderDirective, MdcFormsSliderDirective,
         MdcSnackbarDirective, MdcSnackbarTextDirective, MdcSnackbarActionDirective,
         MdcSwitchInputDirective, MdcSwitchDirective,
@@ -176,6 +179,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcListDividerDirective, MdcListItemDirective, MdcListItemTextDirective, MdcListItemTextSecondaryDirective,
         MdcListItemStartDetailDirective, MdcListItemEndDetailDirective, MdcListDirective, MdcListGroupSubHeaderDirective, MdcListGroupDirective,
         MdcRadioDirective, MdcRadioInputDirective,
+        MdcRippleDirective,
         MdcSliderDirective, MdcFormsSliderDirective,
         MdcSnackbarDirective, MdcSnackbarTextDirective, MdcSnackbarActionDirective,
         MdcSwitchInputDirective, MdcSwitchDirective,

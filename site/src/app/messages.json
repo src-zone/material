@@ -17,6 +17,8 @@
     "directives.list.description": "Item layout in lists",
     "directives.radio.title": "Radio Button",
     "directives.radio.description": "Single selection controls",
+    "directives.ripple.title": "Ripple",
+    "directives.ripple.description": "Ink ripple touch feedback effect",
     "directives.slider.title": "Slider",
     "directives.slider.description": "Range controls",
     "directives.switch.title": "Switch",
@@ -30,8 +32,7 @@
     "directives.utility.title": "Utility",
     "directives.utility.description": "Supporting directives that provide additional utility functions",
 
-    "directives.ripple.title": "Ripple",
-    "directives.ripple.description": "Ink ripple touch feedback effect",
+
     "directives.snackbar.title": "Snackbar",
     "directives.snackbar.description": "Brief feedback for an action through a message at the bottom of the screen"
 }
