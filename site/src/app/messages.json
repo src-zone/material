@@ -5,6 +5,8 @@
     "directives.card.description": "Cards for displaying content composed of different elements",
     "directives.checkbox.title": "Checkbox",
     "directives.checkbox.description": "Multi selection controls",
+    "directives.elevation.title": "Elevation",
+    "directives.elevation.description": "Shadow for different elevations",
     "directives.fab.title": "Floating Action Button",
     "directives.fab.description": "Circular buttons for the primary action in an application",
     "directives.icon-toggle.title": "Icon Toggle",

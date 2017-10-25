@@ -12,6 +12,7 @@ import { MdcCardDirective,
     MdcCardActionsDirective } from './components/card/mdc.card.directive';
 import { MdcCheckboxDirective,
     MdcCheckboxInputDirective } from './components/checkbox/mdc.checkbox.directive';
+import { MdcElevationDirective } from './components/elevation/mdc.elevation.directive';
 import { MdcFabDirective,
     MdcFabIconDirective } from './components/fab/mdc.fab.directive';
 import { MdcFormfieldDirective,
@@ -77,6 +78,7 @@ export { MdcCardDirective,
     MdcCardActionsDirective } from './components/card/mdc.card.directive';
 export { MdcCheckboxDirective,
     MdcCheckboxInputDirective } from './components/checkbox/mdc.checkbox.directive';
+export { MdcElevationDirective } from './components/elevation/mdc.elevation.directive';
 export { MdcFabDirective,
     MdcFabIconDirective } from './components/fab/mdc.fab.directive';
 export { MdcFormfieldDirective,
@@ -139,6 +141,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcCardDirective, MdcCardHorizontalDirective, MdcCardPrimaryDirective, MdcCardTitleDirective, MdcCardSubtitleDirective,
         MdcCardTextDirective, MdcCardMediaDirective, MdcCardMediaItemDirective, MdcCardActionsDirective,
         MdcCheckboxDirective, MdcCheckboxInputDirective,
+        MdcElevationDirective,
         MdcFabDirective, MdcFabIconDirective,
         MdcFormfieldDirective, MdcFormfieldInputDirective, MdcFormfieldLabelDirective,
         MdcIconToggleDirective, MdcIconToggleIconDirective, MdcFormsIconToggleDirective,
@@ -165,6 +168,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcCardDirective, MdcCardHorizontalDirective, MdcCardPrimaryDirective, MdcCardTitleDirective, MdcCardSubtitleDirective,
         MdcCardTextDirective, MdcCardMediaDirective, MdcCardMediaItemDirective, MdcCardActionsDirective,
         MdcCheckboxDirective, MdcCheckboxInputDirective,
+        MdcElevationDirective,
         MdcFabDirective, MdcFabIconDirective,
         MdcFormfieldDirective, MdcFormfieldInputDirective, MdcFormfieldLabelDirective,
         MdcIconToggleDirective, MdcIconToggleIconDirective, MdcFormsIconToggleDirective,

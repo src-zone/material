@@ -19,6 +19,7 @@ card                     | [See demo](https://blox.src.zone/material#/directives
 checkbox                 | [See demo](https://blox.src.zone/material#/directives/checkbox) |
 dialog                   |           |
 drawer                   |           |
+elevation                | [See demo](https://blox.src.zone/material#/directives/elevation) |
 fab                      | [See demo](https://blox.src.zone/material#/directives/fab) |
 form-field               | Available |
 grid-list                |           |

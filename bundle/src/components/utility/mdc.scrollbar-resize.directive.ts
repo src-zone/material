@@ -57,7 +57,6 @@ export class MdcScrollbarResizeDirective implements OnDestroy {
     private _scrollbarResize = false;
 
     constructor() {
-        console.log('MdcScrollbarResizeDirective');
     }
 
     ngOnDestroy() {

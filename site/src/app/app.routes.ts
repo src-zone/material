@@ -8,7 +8,8 @@ import {
 
     ButtonDirectivesComponent,
     CardDirectivesComponent,
-    CheckboxDirectivesComponent,    
+    CheckboxDirectivesComponent,
+    ElevationDirectivesComponent,
     FabDirectivesComponent,
     IconToggleDirectivesComponent,
     LinearProgressDirectivesComponent,
@@ -33,6 +34,7 @@ export const routes: Routes = [
         {path: ButtonDirectivesComponent.DOC_HREF, component: ButtonDirectivesComponent},
         {path: CardDirectivesComponent.DOC_HREF, component: CardDirectivesComponent},
         {path: CheckboxDirectivesComponent.DOC_HREF, component: CheckboxDirectivesComponent},
+        {path: ElevationDirectivesComponent.DOC_HREF, component: ElevationDirectivesComponent},
         {path: FabDirectivesComponent.DOC_HREF, component: FabDirectivesComponent},
         {path: IconToggleDirectivesComponent.DOC_HREF, component: IconToggleDirectivesComponent},
         {path: LinearProgressDirectivesComponent.DOC_HREF, component: LinearProgressDirectivesComponent},
