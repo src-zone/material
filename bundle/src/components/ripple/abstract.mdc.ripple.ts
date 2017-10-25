@@ -20,7 +20,7 @@ export abstract class AbstractMdcRipple {
         removeClass: (className: string) => this.removeClassFromRipple(className),
         registerInteractionHandler: (type: string, handler: EventListener) => {
             const target = (type === 'mouseup' || type === 'pointerup') ? window : this.getRippleInteractionElement().nativeElement;
-            this._registry.listen(this._renderer, type, handler, target, util.applyPassive());
+            this._registry.listenElm(this._renderer, type, handler, target, util.applyPassive());
         },
         deregisterInteractionHandler: (type: string, handler: EventListener) => {
             this._registry.unlisten(type, handler);
