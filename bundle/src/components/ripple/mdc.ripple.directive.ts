@@ -71,9 +71,9 @@ export class MdcRippleDirective extends AbstractMdcRipple implements AfterConten
             this._on = newValue;
             if (this._initialized) {
                 if (newValue)
-                    this.destroyRipple();
-                else
                     this.initRipple();
+                else
+                    this.destroyRipple();
             }
         }
     }
