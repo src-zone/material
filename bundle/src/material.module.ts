@@ -31,6 +31,7 @@ import { MdcListDividerDirective,
     MdcListDirective,
     MdcListGroupSubHeaderDirective,
     MdcListGroupDirective } from './components/list/mdc.list.directive';
+import { MdcMenuAnchorDirective, MdcSimpleMenuDirective } from './components/menu/mdc.simple.menu.directive';
 import { MdcRadioDirective,
     MdcRadioInputDirective } from './components/radio/mdc.radio.directive';
 import { MdcRippleDirective } from './components/ripple/mdc.ripple.directive';
@@ -98,6 +99,7 @@ export { MdcListDividerDirective,
     MdcListDirective,
     MdcListGroupSubHeaderDirective,
     MdcListGroupDirective } from './components/list/mdc.list.directive';
+export { MdcMenuAnchorDirective, MdcSimpleMenuDirective } from './components/menu/mdc.simple.menu.directive';    
 export { MdcRadioDirective,
     MdcRadioInputDirective } from './components/radio/mdc.radio.directive';
 export { MdcRippleDirective } from './components/ripple/mdc.ripple.directive';
@@ -150,6 +152,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcLinearProgressDirective,
         MdcListDividerDirective, MdcListItemDirective, MdcListItemTextDirective, MdcListItemTextSecondaryDirective,
         MdcListItemStartDetailDirective, MdcListItemEndDetailDirective, MdcListDirective, MdcListGroupSubHeaderDirective, MdcListGroupDirective,
+        MdcMenuAnchorDirective, MdcSimpleMenuDirective,
         MdcRadioDirective, MdcRadioInputDirective,
         MdcRippleDirective,
         MdcSliderDirective, MdcFormsSliderDirective,
@@ -178,6 +181,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcLinearProgressDirective,
         MdcListDividerDirective, MdcListItemDirective, MdcListItemTextDirective, MdcListItemTextSecondaryDirective,
         MdcListItemStartDetailDirective, MdcListItemEndDetailDirective, MdcListDirective, MdcListGroupSubHeaderDirective, MdcListGroupDirective,
+        MdcMenuAnchorDirective, MdcSimpleMenuDirective,
         MdcRadioDirective, MdcRadioInputDirective,
         MdcRippleDirective,
         MdcSliderDirective, MdcFormsSliderDirective,

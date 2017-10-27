@@ -41,8 +41,40 @@ export class MdcListDividerDirective {
 })
 export class MdcListItemDirective {
     @HostBinding('class.mdc-list-item') _cls = true;
+    @HostBinding('attr.role') public _role = null;
+    private _disabled = false;
+    /**
+     * When a list is used inside an <code>mdcSimpleMenu</code>, or <code>mdcSelect</code>,
+     * this property can be used to assign a value to this choice/selection item.
+     */
+    @Input() mdcValue;
 
-    constructor() {}
+    constructor(public _elm: ElementRef) {}
+
+    /**
+     * When a list is used inside an <code>mdcSimpleMenu</code>, or <code>mdcSelect</code>,
+     * this property can be used to disable the item.
+     */
+    @Input()
+    get mdcDisabled() {
+        return this._disabled;
+    }
+
+    set mdcDisabled(val: any) {
+        this._disabled = asBoolean(val);
+    }
+
+    @HostBinding('attr.tabindex') get _tabIndex() {
+        if (this._role === 'menuitem')
+            return this._disabled ? -1 : 0;
+        return null;
+    }
+
+    @HostBinding('attr.aria-disabled') get _ariaDisabled() {
+        if (this._role === 'menuitem' && this._disabled)
+            return 'true';
+        return null;
+    }
 }
 
 /**
@@ -110,16 +142,41 @@ export class MdcListItemEndDetailDirective {
 })
 export class MdcListDirective implements AfterContentInit {
     @HostBinding('class.mdc-list') _cls = true;
+    @ContentChildren(MdcListItemDirective) _items: QueryList<MdcListItemDirective>;
     @ContentChildren(MdcListItemTextDirective, {descendants: true}) _texts: QueryList<MdcListItemTextDirective>;
     @HostBinding('class.mdc-list--two-line') _twoLine = false;
+    @HostBinding('attr.role') _role: 'menu' | null = null;
     private _dense = false;
     private _avatar = false;
     
-    constructor() {}
+    constructor(public _elm: ElementRef) {}
 
     ngAfterContentInit() {
+        this.updateItemRoles();
+        this._items.changes.subscribe(() => {
+            this.updateItemRoles();
+        });
         this._texts.changes.subscribe(_ => this._twoLine = this._texts.length > 0);
         this._twoLine = this._texts.length > 0;
+    }
+
+    private updateItemRoles() {
+        let itemRole = this._role === 'menu' ? 'menuitem' : null;
+        this._items.forEach(item => {
+            item._role = itemRole;
+        });
+    }
+
+    @HostBinding('class.mdc-simple-menu__items') get _isMenu() {
+        return this._role === 'menu';
+    }
+
+    set _isMenu(val: boolean) {
+        if (val)
+            this._role = 'menu';
+        else if (this._role === 'menu')
+            this._role = null;
+        this.updateItemRoles();
     }
 
     /**

@@ -15,6 +15,8 @@
     "directives.linear-progress.description": "Indicator for progress on long running tasks",
     "directives.list.title": "List",
     "directives.list.description": "Item layout in lists",
+    "directives.menu.title": "Menu",
+    "directives.menu.description": "Pop over menus",
     "directives.radio.title": "Radio Button",
     "directives.radio.description": "Single selection controls",
     "directives.ripple.title": "Ripple",

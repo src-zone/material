@@ -1,0 +1,48 @@
+<fieldset class="blox-snippet snippet-skip-line">
+<div class="snippet-container" #viewport>
+  <div mdcMenuAnchor #anchor="mdcAnchor" [style.top]="pTop" [style.bottom]="pBottom" [style.left]="pLeft" [style.right]="pRight">
+    <button mdcButton mdcRaised (click)="open = true">Reveal Menu</button>
+    <div mdcSimpleMenu
+        [(mdcOpen)]="open"
+        [mdcAnchor]="anchor"
+        (mdcSelect)="select($event.value)"
+        [mdcViewport]="viewport">
+      <ul mdcList>
+        <li mdcListItem mdcValue="back">Back</li>
+        <li mdcListItem mdcDisabled mdcValue="forward">Forward</li>
+        <li mdcListItem mdcValue="reload">Reload</li>
+        <li mdcListDivider></li>
+        <li mdcListItem mdcValue="saveAs">Save As...</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<section>
+  <div mdcFormfield [mdcAlignEnd]="alignEnd">
+    <div mdcRadio>
+      <input mdcRadioInput type="radio" name="position" value="tl" [(ngModel)]="position" />
+    </div>
+    <label mdcFormfieldLabel>Top left</label>
+  </div>
+  <div mdcFormfield [mdcAlignEnd]="alignEnd">
+    <div mdcRadio>
+      <input mdcRadioInput type="radio" name="position" value="tr" [(ngModel)]="position" />
+    </div>
+    <label mdcFormfieldLabel>Top right</label>
+  </div>
+  <div mdcFormfield [mdcAlignEnd]="alignEnd">
+    <div mdcRadio>
+      <input mdcRadioInput type="radio" name="position" value="bl" [(ngModel)]="position" />
+    </div>
+    <label mdcFormfieldLabel>Bottom left</label>
+  </div>
+  <div mdcFormfield [mdcAlignEnd]="alignEnd">
+    <div mdcRadio>
+      <input mdcRadioInput type="radio" name="position" value="br" [(ngModel)]="position" />
+    </div>
+    <label mdcFormfieldLabel>Bottom right</label>
+  </div>
+  <br/>
+  <div>Last menu choice: {{lastChoice}}</div>
+</section>
+</fieldset><div class="snippet-skip-line"></div>

@@ -27,7 +27,7 @@ icon-toggle              | [See demo](https://blox.src.zone/material#/directives
 layout-grid              |           |
 linear-progress          | [See demo](https://blox.src.zone/material#/directives/linear-progress) |
 list                     | [See demo](https://blox.src.zone/material#/directives/list) |
-menu                     |           |
+menu                     | [See demo](https://blox.src.zone/material#/directives/menu) |
 radio                    | [See demo](https://blox.src.zone/material#/directives/radio) |
 ripple                   | [See demo](https://blox.src.zone/material#/directives/ripple) |
 select                   |           |

@@ -1,0 +1,20 @@
+<h1>Menu</h1>
+<p>Directive for creating a material designed simple menu.
+  The menu can either be positioned manually, or automatically, by anchoring it to an element.</p>
+<h2>Accessibility</h2>
+<p>
+  This directive will automatically apply proper accessibility attributes to the contained list,
+  and its items:</p>
+<ul>
+  <li>All list items will be assigned <code>role="menuitem"</code>, and a <code>tabindex="0"</code> attributes.</li>
+  <li>Disabled menu items (use <code>mdcDisabled</code> on the item), will be assigned: <code>aria-disabled="true"</code>,
+    and <code>tabindex="-1"</code>.</li>
+  <li>The list itself will be assigned the <code>role="menu"</code> attribute.</li>
+</ul>
+
+<blox-code-sample>
+  <span bloxSampleTitle>Simple Menu Demo</span>
+  <blox-snippet-simple-menu bloxSample></blox-snippet-simple-menu>
+</blox-code-sample>
+
+<div class="blox-docs-api">${require('~@blox/material/apidocs/menu.html')}</div>
