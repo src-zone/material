@@ -2,17 +2,17 @@
 <div mdcListGroup>
   <h3 mdcListGroupSubHeader>Connectivity</h3>
   <ul mdcList [mdcDense]="dense">
-    <li mdcListItem>
+    <li mdcListItem [mdcRipple]="ripple">
       <i *ngIf="startDetail" mdcListItemStartDetail class="material-icons">network_wifi</i>
       Wi-Fi
       <i *ngIf="endDetail" mdcListItemEndDetail class="material-icons">signal_wifi_4_bar</i>
     </li>
-    <li mdcListItem>
+    <li mdcListItem [mdcRipple]="ripple">
       <i *ngIf="startDetail" mdcListItemStartDetail class="material-icons">bluetooth</i>
       Bluetooth
       <i *ngIf="endDetail" mdcListItemEndDetail class="material-icons">bluetooth_searching</i>
     </li>
-    <li mdcListItem>
+    <li mdcListItem [mdcRipple]="ripple">
       <i *ngIf="startDetail" mdcListItemStartDetail class="material-icons">data_usage</i>
       Data Usage
       <a *ngIf="endDetail" href="javascript:void(0)" mdcListItemEndDetail class="material-icons">show_chart</a>
@@ -21,13 +21,13 @@
   </ul>
   <h3 mdcListGroupSubHeader>Folders</h3>
   <ul mdcList [mdcAvatarList]="avatar" [mdcDense]="dense">
-    <li mdcListItem>
+    <li mdcListItem [mdcRipple]="ripple">
       <i *ngIf="startDetail && !avatar" mdcListItemStartDetail class="material-icons">insert_drive_file</i>
       <img *ngIf="avatar" mdcListItemStartDetail src="~assets/img/mdc-demos/animal1.svg">
       Photos
       <a *ngIf="endDetail" href="javascript:void(0)" mdcListItemEndDetail class="material-icons">star</a>
     </li>
-    <li mdcListItem>
+    <li mdcListItem [mdcRipple]="ripple">
       <i *ngIf="startDetail && !avatar" mdcListItemStartDetail class="material-icons">insert_drive_file</i>
       <img *ngIf="avatar" mdcListItemStartDetail src="~assets/img/mdc-demos/animal2.svg">
       Movies
@@ -60,5 +60,10 @@
   </div>
   <label mdcFormfieldLabel>Dense</label>
 </div>
-    
+<div mdcFormfield>
+  <div mdcCheckbox>
+    <input mdcCheckboxInput type="checkbox" [(ngModel)]="ripple" />
+  </div>
+  <label mdcFormfieldLabel>Interaction ripple</label>
+</div>    
 </fieldset><div class="snippet-skip-line"></div>
