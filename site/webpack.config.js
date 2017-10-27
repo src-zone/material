@@ -8,6 +8,8 @@ const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const PurifyPlugin = require('@angular-devkit/build-optimizer').PurifyPlugin;
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const AotPlugin = require('@ngtools/webpack').AotPlugin;
 const InlineChunkManifestHtmlWebpackPlugin = require('inline-chunk-manifest-html-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -62,6 +64,7 @@ module.exports = function makeWebpackConfig(env) {
     {name: 'rxjs', filter: /.*\/node_modules\/rxjs\/.*\.(js|ts)$/, forRoot: ['app'], build: 'prod'},
     {name: 'ngc', filter: /.\/node_modules\/@angular\/c.*\.(js|ts)$/, forRoot: ['app'], build: 'prod'},
     {name: 'ngx', filter: /.\/node_modules\/@angular\/.*\.(js|ts)$/, forRoot: ['app'], build: 'prod'},
+    {name: 'blx', filter: /.*\/node_modules\/@blox\/.*\.(js|ts)$/, forRoot: ['app'], build: 'prod'},
     {name: 'app', src: './src/main.ts', template: './src/html/material.html', filename: 'material.html'}
   ];
   const allEntries = entries.filter(function(e) {
@@ -324,27 +327,27 @@ module.exports = function makeWebpackConfig(env) {
   // Add build specific plugins
   if (isProd) {
     config.plugins.push(
-      // Reference: http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
+      // change angular code to allow for more aggressive tree-shaking:
+      new PurifyPlugin(),
+
+      // Reference: https://www.npmjs.com/package/uglifyjs-webpack-plugin
       // Minify all javascript, switch loaders to minimizing mode
-      new webpack.optimize.UglifyJsPlugin({
+      new UglifyJsPlugin({
         sourceMap: !!config.devtool,
-        beautify: false,
-        mangle: { screw_ie8 : true },
-        compress: {
-          screw_ie8: true,
-          warnings: false,
-          conditionals: true,
-          unused: true,
-          comparisons: true,
-          sequences: true,
-          dead_code: true,
-          evaluate: true,
-          if_return: true,
-          join_vars: true,
-          negate_iife: false },
-        output: { comments: false }
-        //preboot/angular2-webpack: {sourceMap: true, mangle: { keep_fnames: true }}
-        //maybe: mangle: { except: ['$super', '$', 'exports', 'require', 'angular', 'Materialize'], keep_fnames: true}
+        uglifyOptions: {
+          ecma: 5,
+          ie8: false,
+          warning: false,
+          mangle: true,
+          compress: {
+            pure_getters: true,
+            passes: 3
+          },
+          output: {
+            ascii_only: true,
+            comments: false
+          }
+        }
       }),
 
       new OptimizeCssAssetsPlugin({
