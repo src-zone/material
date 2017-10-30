@@ -11,18 +11,16 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 * pass proper options on internal MdcEventRegistry calls ([bc27686](http://src-zone/material/commits/bc27686))
 * **ripple:** fix detach/attach of ripple ([fded6b1](http://src-zone/material/commits/fded6b1))
-* **ripple:** workaround for MDC bug: ripple retains focus after drag. ([0f55dff](http://src-zone/material/commits/0f55dff))
-* **ripple:** workaround for MDC bug: ripple retains focus after drag. ([ed16358](http://src-zone/material/commits/ed16358))
+* **ripple:** workaround for MDC bug: ripple retains focus after drag. ([0f55dff](http://src-zone/material/commits/0f55dff), [ed16358](http://src-zone/material/commits/ed16358))
 
 
 ### Features
 
 * add MdcScrollbarResizeDirective ([259674e](http://src-zone/material/commits/259674e))
 * **elevation:** implement elevation directive (mdcElevation) ([c040dcb](http://src-zone/material/commits/c040dcb))
-* change mdcToolbarIconMenu to mdcToolbarMenuIcon. ([a80e9d3](http://src-zone/material/commits/a80e9d3))
-* change property 'expansionRatio' to 'mdcExpansionRatio'. ([a041394](http://src-zone/material/commits/a041394))
-* implement mdcSwitch component ([7c317b8](http://src-zone/material/commits/7c317b8))
-* mdcLinearProgress directive added ([47f0fe9](http://src-zone/material/commits/47f0fe9))
+* **toolbar**: change mdcToolbarIconMenu to mdcToolbarMenuIcon. ([a80e9d3](http://src-zone/material/commits/a80e9d3))
+* **switch**: implement mdcSwitch component ([7c317b8](http://src-zone/material/commits/7c317b8))
+* **linear-progress**: mdcLinearProgress directive added ([47f0fe9](http://src-zone/material/commits/47f0fe9))
 * **tab,menu:** rename mdcSelect to pick (for menu), or activate (tab). ([97be223](http://src-zone/material/commits/97be223))
 * remove mdc prefix from all properties that are not directives ([a7769de](http://src-zone/material/commits/a7769de))
 * **bundle:** update mdcSlider when page layout changes ([5960da4](http://src-zone/material/commits/5960da4))
@@ -39,14 +37,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * all properties have been renamed to not include the
  mdc prefix. This brings naming conventions in line with modules
  maintained by the angular core teams.
-* **tab,menu:** mdcSelect properties for menu and tab renamed to
- respectively pick, and activate. To prevent nameclashes with the
- 'mdcSelect' directive being worked on right now.
- Please note: we have decided to drop the 'mdc' prefix from
- properties, to be more in line in how other libs name their
- properties, and for a more convenient (shorter) names.
-* use 'mdc' prefix for mdcExpansionratio property,
-to bring the naming inline with other properties of Blox Material.
 * rename mdcToolbarIconMenu to mdcToolbarMenuIcon,
  follows upstream change from mdc-toolbar__icon--menu to
  mdc-toolbar__menu-icon
