@@ -11,6 +11,7 @@ const globals = {
     '@material/form-field': 'mdc.formField',
     '@material/icon-toggle': 'mdc.iconToggle',
     '@material/linear-progress': 'mdc.linearProgress',
+    '@material/menu': 'mdc.menu',    
     '@material/radio': 'mdc.radio',
     '@material/ripple': 'mdc.ripple',
     '@material/slider': 'mdc.slider',
