@@ -12,6 +12,8 @@ import { AbstractSnippetComponent } from '../abstract.snippet.component';
 })
 export class SnippetElevationComponent/*snip:skip*/extends AbstractSnippetComponent/*snip:endskip*/ {
     elevation = 4;
+    animate = true;
+    
     //snip:skip
     constructor() {
         super({

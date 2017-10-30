@@ -12,6 +12,7 @@ import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 })
 export class MdcElevationDirective implements AfterContentInit {
     private _z: number = null;
+    private _transition;
 
     constructor(private rndr: Renderer2, private elm: ElementRef) {
     }
@@ -41,5 +42,18 @@ export class MdcElevationDirective implements AfterContentInit {
             this.rndr.addClass(this.elm.nativeElement, 'mdc-elevation--z' + newValue);
         }
         this._z = newValue;
+    }
+
+    /**
+     * When this input is defined and does not have value false, changes of the elevation
+     * will be animated.
+     */
+    @HostBinding('class.mdc-elevation-transition')
+    @Input() get animateTransition() {
+        return this._transition;
+    }
+
+    set animateTransition(value: any) {
+        this._transition = asBoolean(value);
     }
 }

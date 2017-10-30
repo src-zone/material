@@ -1,7 +1,13 @@
 <fieldset class="blox-snippet snippet-skip-line">
-<div [mdcElevation]="elevation" class="blox-elevation-surface">Elevated {{elevation}}dp</div>
+<div [mdcElevation]="elevation" [animateTransition]="animate" class="blox-elevation-surface">Elevated {{elevation}}dp</div>
 <section>
   <div mdcSlider aria-label="Change Elevation" mdcScrollbarResize
     mdcMin="0" mdcMax="24" mdcStep="1" mdcDiscrete mdcMarkers [(mdcValue)]="elevation"></div>
+  <div mdcFormfield>
+    <div mdcCheckbox>
+      <input mdcCheckboxInput type="checkbox" [(ngModel)]="animate"/>
+    </div>
+    <label mdcFormfieldLabel>Animate Transition</label>
+  </div>
 </section>
 </fieldset><div class="snippet-skip-line"></div>
