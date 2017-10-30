@@ -60,7 +60,7 @@ export class MdcSimpleMenuDirective implements AfterContentInit, OnDestroy {
      * (set to the <code>mdcValue</code> of the selected list item), and an index
      * (set to the index of the selected list item).
      */
-    @Output() mdcSelect: EventEmitter<MdcMenuSelection> = new EventEmitter();
+    @Output() pick: EventEmitter<MdcMenuSelection> = new EventEmitter();
     /**
      * Event emitted when the menu is closed without any selection being made.
      */
@@ -149,7 +149,7 @@ export class MdcSimpleMenuDirective implements AfterContentInit, OnDestroy {
         getIndexForEventTarget: (target: EventTarget) => this._list._items.toArray().map(i => i._elm.nativeElement).indexOf(target),
         notifySelected: (evtData: {index: number}) => {
             this._open = false;
-            this.mdcSelect.emit({index: evtData.index, value: this._list._items.toArray()[evtData.index].mdcValue});
+            this.pick.emit({index: evtData.index, value: this._list._items.toArray()[evtData.index].mdcValue});
             this.mdcOpenChange.emit(false);
         },
         notifyCancel: () => {

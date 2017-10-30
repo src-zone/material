@@ -10,7 +10,7 @@
       [(mdcIsOn)]="showCode"></i></div>
   </div>
   <nav *ngIf="showCode" mdcTabBar class="blox-sample-tab-bar">
-    <a *ngFor="let name of snippetNames" mdcTab (mdcSelect)="activate(name)" tabindex="0" role="link">{{name}}</a>
+    <a *ngFor="let name of snippetNames" mdcTab (activate)="activate(name)" tabindex="0" role="link">{{name}}</a>
   </nav>
 </div>
 <pre *ngIf="showCode && active"><code mwlHighlightJs [source]="snippet.code[active]" [language]="active"></code></pre>

@@ -75,7 +75,7 @@ export class MdcTabBarDirective {
             this._unlistenTabSelected();
         this._subscriptions = new Array<Subscription>();
         this._tabs.forEach(tab => {
-            this._subscriptions.push(tab.mdcSelect.subscribe(event => {
+            this._subscriptions.push(tab.activate.subscribe(event => {
                 this._setActive(event.tab, true);
             }));
         });

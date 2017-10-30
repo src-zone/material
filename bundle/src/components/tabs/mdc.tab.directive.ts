@@ -30,7 +30,7 @@ export class AbstractMdcTabDirective extends AbstractMdcRipple implements OnDest
     @HostBinding('class.mdc-tab') _hostClass = true;
     @ContentChild(MdcTabIconDirective) _mdcTabIcon: MdcTabIconDirective;
     @ContentChild(MdcTabIconTextDirective) _mdcTabIconText: MdcTabIconTextDirective;
-    @Output() mdcSelect: EventEmitter<MdcTabChange> = new EventEmitter();
+    @Output() activate: EventEmitter<MdcTabChange> = new EventEmitter();
     protected _adapter: MdcTabAdapter = {
         addClass: (className: string) => this._rndr.addClass(this._root.nativeElement, className),
         removeClass: (className: string) => this._rndr.removeClass(this._root.nativeElement, className),
@@ -38,7 +38,7 @@ export class AbstractMdcTabDirective extends AbstractMdcRipple implements OnDest
         deregisterInteractionHandler: (type: string, handler: EventListener) => this._registry.unlisten(type, handler),
         getOffsetWidth: () => this._root.nativeElement.offsetWidth,
         getOffsetLeft: () => this._root.nativeElement.offsetLeft,
-        notifySelected: () => this.mdcSelect.emit({tab: this, tabIndex: null})
+        notifySelected: () => this.activate.emit({tab: this, tabIndex: null})
     };
     _foundation = new MDCTabFoundation(this._adapter);
 
