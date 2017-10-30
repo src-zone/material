@@ -8,6 +8,7 @@ export * from './snippet.linear-progress.component';
 export * from './snippet.list.component';
 export * from './snippet.list.twoline.component';
 export * from './snippet.simple-menu.component';
+export * from './snippet.snackbar.component';
 export * from './snippet.radio.component';
 export * from './snippet.ripple.component';
 export * from './snippet.slider.component';

@@ -23,6 +23,8 @@
     "directives.ripple.description": "Ink ripple touch feedback effect",
     "directives.slider.title": "Slider",
     "directives.slider.description": "Range controls",
+    "directives.snackbar.title": "Snackbar",
+    "directives.snackbar.description": "Brief feedback for an action through a message at the bottom of the screen",
     "directives.switch.title": "Switch",
     "directives.switch.description": "On/off switches",
     "directives.tabs.title": "Tabs",
@@ -32,9 +34,5 @@
     "directives.toolbar.title": "Toolbar",
     "directives.toolbar.description": "A container for multiple rows of items such as application title, navigation menu, or tabs",
     "directives.utility.title": "Utility",
-    "directives.utility.description": "Supporting directives that provide additional utility functions",
-
-
-    "directives.snackbar.title": "Snackbar",
-    "directives.snackbar.description": "Brief feedback for an action through a message at the bottom of the screen"
+    "directives.utility.description": "Supporting directives that provide additional utility functions"
 }

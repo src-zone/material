@@ -31,7 +31,7 @@ radio                    | [See demo](https://blox.src.zone/material#/directives
 ripple                   | [See demo](https://blox.src.zone/material#/directives/ripple) |
 select                   |           |
 slider                   | [See demo](https://blox.src.zone/material#/directives/slider) |
-snackbar                 | WIP       |
+snackbar                 | [See demo](https://blox.src.zone/material#/directives/snackbar) |
 switch                   | [See demo](https://blox.src.zone/material#/directives/switch) |
 tabs                     | [See demo](https://blox.src.zone/material#/directives/tab) |
 textfield                | [See demo](https://blox.src.zone/material#/directives/textfield) |

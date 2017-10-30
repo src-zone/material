@@ -1,0 +1,30 @@
+<fieldset class="blox-snippet snippet-skip-line">
+<form #form="ngForm">
+  <div mdcTextfield style="width: 100%">
+    <input mdcTextfieldInput [(ngModel)]="messageText" name="messageText" required />
+    <label mdcTextfieldLabel>Message Text</label>
+  </div>
+  <div mdcTextfield>
+    <input mdcTextfieldInput [(ngModel)]="actionText" name="actionText" />
+    <label mdcTextfieldLabel>Action Text</label>
+  </div>
+  <div mdcFormfield>
+    <div mdcCheckbox>
+      <input mdcCheckboxInput type="checkbox" [(ngModel)]="multiline" name="multiline" />
+    </div>
+    <label mdcFormfieldLabel>Multiline</label>
+  </div>
+  <div *ngIf="multiline" mdcFormfield>
+    <div mdcCheckbox>
+      <input mdcCheckboxInput type="checkbox" [(ngModel)]="actionOnBottom" name="actionOnBottom" />
+    </div>
+    <label mdcFormfieldLabel>Action On Bottom</label>
+  </div>
+  <section>
+    <button mdcButton mdcRaised (click)="show()" [disabled]="!form.valid">Show Snackbar</button>
+  </section>
+</form>
+<section>
+  <p>Last Action: {{lastAction}}</p>
+</section>
+</fieldset><div class="snippet-skip-line"></div>

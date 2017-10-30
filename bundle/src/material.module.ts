@@ -37,9 +37,7 @@ import { MdcRadioDirective,
 import { MdcRippleDirective } from './components/ripple/mdc.ripple.directive';
 import { MdcSliderDirective,
     MdcFormsSliderDirective } from './components/slider/mdc.slider.directive';
-import { MdcSnackbarDirective,
-    MdcSnackbarTextDirective,
-    MdcSnackbarActionDirective } from './components/snackbar/mdc.snackbar.directive';
+import { MdcSnackbarService, MDC_SNACKBAR_PROVIDER } from './components/snackbar/mdc.snackbar.service';
 import { MdcSwitchInputDirective,
     MdcSwitchDirective } from './components/switch/mdc.switch.directive';    
 import { AbstractMdcTabDirective, MdcTabDirective,
@@ -105,9 +103,8 @@ export { MdcRadioDirective,
 export { MdcRippleDirective } from './components/ripple/mdc.ripple.directive';
 export { MdcSliderDirective,
     MdcFormsSliderDirective } from './components/slider/mdc.slider.directive';
-export { MdcSnackbarDirective,
-    MdcSnackbarTextDirective,
-    MdcSnackbarActionDirective } from './components/snackbar/mdc.snackbar.directive';
+export { MdcSnackbarMessage } from './components/snackbar/mdc.snackbar.message';
+export { MdcSnackbarService } from './components/snackbar/mdc.snackbar.service';
 export { MdcSwitchInputDirective,
     MdcSwitchDirective } from './components/switch/mdc.switch.directive';
 export { AbstractMdcTabDirective, MdcTabDirective,
@@ -141,7 +138,8 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         CommonModule
     ],
     providers: [
-        MDC_EVENT_REGISTRY_PROVIDER
+        MDC_EVENT_REGISTRY_PROVIDER,
+        MDC_SNACKBAR_PROVIDER
     ],
     declarations: [
         MdcButtonDirective,
@@ -159,7 +157,6 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcRadioDirective, MdcRadioInputDirective,
         MdcRippleDirective,
         MdcSliderDirective, MdcFormsSliderDirective,
-        MdcSnackbarDirective, MdcSnackbarTextDirective, MdcSnackbarActionDirective,
         MdcSwitchInputDirective, MdcSwitchDirective,
         MdcTabDirective, MdcTabIconDirective, MdcTabIconTextDirective,
         MdcTabRouterDirective,
@@ -185,7 +182,6 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcRadioDirective, MdcRadioInputDirective,
         MdcRippleDirective,
         MdcSliderDirective, MdcFormsSliderDirective,
-        MdcSnackbarDirective, MdcSnackbarTextDirective, MdcSnackbarActionDirective,
         MdcSwitchInputDirective, MdcSwitchDirective,
         MdcTabDirective, MdcTabIconDirective, MdcTabIconTextDirective,
         MdcTabRouterDirective,
