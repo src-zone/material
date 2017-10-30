@@ -66,7 +66,7 @@ import { MdcToolbarDirective,
     MdcToolbarMenuIcon,
     MdcToolbarFixedAdjustDirective } from './components/toolbar/mdc.toolbar.directive';
 import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-resize.directive';
-import { MdcEventRegistry } from './utils/mdc.event.registry';
+import { MdcEventRegistry, MDC_EVENT_REGISTRY_PROVIDER } from './utils/mdc.event.registry';
 
 export { MdcButtonDirective } from './components/button/mdc.button.directive';
 export { MdcCardDirective,
@@ -140,6 +140,9 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
     imports: [
         CommonModule
     ],
+    providers: [
+        MDC_EVENT_REGISTRY_PROVIDER
+    ],
     declarations: [
         MdcButtonDirective,
         MdcCardDirective, MdcCardHorizontalDirective, MdcCardPrimaryDirective, MdcCardTitleDirective, MdcCardSubtitleDirective,
@@ -165,9 +168,6 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcTextfieldDirective, MdcTextfieldInputDirective, MdcTextfieldIconDirective, MdcTextfieldLabelDirective, MdcTextfieldHelptextDirective,
         MdcToolbarDirective, MdcToolbarRowDirective, MdcToolbarSectionDirective, MdcToolbarTitleDirective, MdcToolbarIcon, MdcToolbarMenuIcon, MdcToolbarFixedAdjustDirective,
         MdcScrollbarResizeDirective
-    ],
-    providers: [
-        MdcEventRegistry
     ],
     exports: [
         MdcButtonDirective,
