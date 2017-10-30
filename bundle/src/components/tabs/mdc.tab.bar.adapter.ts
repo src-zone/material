@@ -1,5 +1,6 @@
 import { MDCTab } from '@material/tabs';
 
+/** @docs-private */
 export interface MdcTabBarAdapter {
     addClass: (className: string) => void;
     removeClass: (className: string) => void;

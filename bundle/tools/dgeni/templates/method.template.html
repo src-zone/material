@@ -5,15 +5,22 @@
         {%- if method.isDeprecated -%}
           <div class="blox-docs-deprecated-marker">Deprecated</div>
         {%- endif -%}   
-        {$ method.name $}
+        {$ method.name $}(
+          {%- set comma = joiner(', ') -%}
+          {%- for parameter in method.params -%}
+            {$ comma() $}{$ parameter.name $}
+          {%- endfor -%}
+        )
       </th>
     </tr>
   </thead>
-  <tr class="blox-docs-method-description-row">
-    <td colspan="2" class="blox-docs-method-description-cell">
-      {$ method.description | marked | safe $}
-    </td>
-  </tr>
+  <tbody>
+    <tr class="blox-docs-method-description-row">
+      <td colspan="2" class="blox-docs-method-description-cell">
+        {$ method.description | marked | safe $}
+      </td>
+    </tr>
+  </tbody>
 
   {%- if method.params.length -%}
   <thead>
@@ -21,24 +28,24 @@
       <th colspan="2" class="blox-docs-method-parameters-header-cell">Parameters</th>
     </tr>
   </thead>
-  {% for parameter in method.params %}
-  <tr class="blox-docs-method-parameter-row">
-    <td class="blox-docs-method-parameter-cell">
-      <p class="blox-docs-method-parameter-name">
-        {$ parameter.name $}
-        {%- if parameter.isOptional -%}
-          <span class="blox-docs-method-parameter-optional-marker">?</span>
-        {%- endif -%}
-      </p>
-      <code class="blox-docs-method-parameter-type">{$ parameter.type $}</code>
-    </td>
-    <td class="blox-docs-method-parameter-description-cell">
-      <p class="blox-docs-method-parameter-description">
+  <tbody>
+    {% for parameter in method.params %}
+    <tr class="blox-docs-method-parameter-row">
+      <td class="blox-docs-method-parameter-cell">
+        <p class="blox-docs-method-parameter-name">
+          {$ parameter.name $}
+          {%- if parameter.isOptional -%}
+            <span class="blox-docs-method-parameter-optional-marker">?</span>
+          {%- endif -%}
+        </p>
+        <code class="blox-docs-method-parameter-type">{$ parameter.type $}</code>
+      </td>
+      <td class="blox-docs-method-parameter-description-cell">
         {$ parameter.description | marked | safe $}
-      </p>
-    </td>
-  </tr>
-  {% endfor %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
   {%- endif -%}
 
   {%- if method.showReturns -%}
@@ -47,15 +54,15 @@
       <th colspan="2" class="blox-docs-method-returns-header-cell">Returns</th>
     </tr>
   </thead>
-  <tr>
-    <td class="blox-docs-method-returns-type-cell">
-      <code class="blox-docs-method-returns-type">{$ method.returnType $}</code>
-    </td>
-    <td class="blox-docs-method-returns-description-cell">
-      <p class="blox-docs-method-returns-description">
+  <tbody>
+    <tr>
+      <td class="blox-docs-method-returns-type-cell">
+        <code class="blox-docs-method-returns-type">{$ method.type $}</code>
+      </td>
+      <td class="blox-docs-method-returns-description-cell">
         {$ method.returns.description | marked | safe $}
-      </p>
-    </td>
-  </tr>
+      </td>
+    </tr>
+  </tbody>
   {%- endif -%}
 </table>

@@ -1,3 +1,4 @@
+/** @docs-private */
 export interface MdcIconToggleAdapter {
     addClass: (className: string) => void;
     removeClass: (className: string) => void;

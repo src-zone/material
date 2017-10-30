@@ -1,3 +1,4 @@
+/** @docs-private */
 export interface MdcSliderAdapter {
     hasClass: (className: string ) => boolean,
     addClass: (className: string) => void,

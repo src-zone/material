@@ -1,3 +1,4 @@
+/** @docs-private */
 export interface MdcTextfieldAdapter {
     addClass: (className: string) => void;
     removeClass: (className: string) => void;

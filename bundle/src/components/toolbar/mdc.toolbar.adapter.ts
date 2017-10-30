@@ -1,3 +1,4 @@
+/** @docs-private */
 export interface MdcToolbarAdapter {
     hasClass: (className: string) => boolean;
     addClass: (className: string) => void;

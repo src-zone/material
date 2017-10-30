@@ -81,7 +81,7 @@ apiDocsPackage.config((readTypeScriptModules: ReadTypeScriptModules, tsParser: T
   // readTypeScriptModules.sourceFiles will have docs generated.
   readTypeScriptModules.sourceFiles = [];
   componentPackages.forEach(componentName => {
-    const componentSources = globSync(path.join(sourceDir, 'components', componentName, '*.directive.ts'))
+    const componentSources = globSync(path.join(sourceDir, 'components', componentName, '*.ts'))
       .map(sourcePath => `./components/${componentName}/` + path.basename(sourcePath));
     typescriptPathMap[`@blox/material/${componentName}`] = componentSources;
     readTypeScriptModules.sourceFiles.push(...componentSources);

@@ -10,6 +10,7 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 // cast to correct type (string); getMatchesProperty is annotated as returning string[], but it does actually return a string:
 const matchesProperty: string = <any>util.getMatchesProperty(HTMLElement.prototype);
 
+/** @docs-private */
 export abstract class AbstractMdcRipple {
     private mdcRippleAdapter: MdcRippleAdapter = {
         browserSupportsCssVars: () => util.supportsCssVariables(window),

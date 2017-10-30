@@ -1,3 +1,4 @@
+/** @docs-private */
 export interface MdcLinearProgressAdapter {
     addClass: (className: string) => void;
     getPrimaryBar: () => Element;

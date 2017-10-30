@@ -24,7 +24,6 @@ fab                      | [See demo](https://blox.src.zone/material#/directives
 form-field               | Available |
 grid-list                |           |
 icon-toggle              | [See demo](https://blox.src.zone/material#/directives/icon-toggle) |
-layout-grid              |           |
 linear-progress          | [See demo](https://blox.src.zone/material#/directives/linear-progress) |
 list                     | [See demo](https://blox.src.zone/material#/directives/list) |
 menu                     | [See demo](https://blox.src.zone/material#/directives/menu) |
@@ -37,6 +36,10 @@ switch                   | [See demo](https://blox.src.zone/material#/directives
 tabs                     | [See demo](https://blox.src.zone/material#/directives/tab) |
 textfield                | [See demo](https://blox.src.zone/material#/directives/textfield) |
 toolbar                  | [See demo](https://blox.src.zone/material#/directives/toolbar) |
+
+Note: the `@material` packages `layout-grid`, `theme`, and `typography` are supposed to be used by
+scss (or css) directly. As such they can be used directly from your Angular app, and we see
+no reason to wrap their functionality in Angular components or directives.
 
 ## Alternatives
 * [Material2](https://material.angular.io):

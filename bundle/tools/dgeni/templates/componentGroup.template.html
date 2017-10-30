@@ -23,14 +23,18 @@
   {% include 'directive.template.html' %}
 {% endmacro %}
 
+{% macro service(service) -%}
+  {% include 'service.template.html' %}
+{% endmacro %}
+
 {% macro additional(classdoc) -%}
   {% include 'additional.template.html' %}
 {% endmacro %}
 
 <h2>API</h2>
 {%- if doc.services.length -%}
-  {% for service in doc.services %}
-    {$ class(service) $}
+  {% for s in doc.services %}
+    {$ service(s) $}
   {% endfor %}
 {%- endif -%}
 

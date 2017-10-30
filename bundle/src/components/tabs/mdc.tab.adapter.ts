@@ -1,3 +1,4 @@
+/** @docs-private */
 export interface MdcTabAdapter {
     addClass: (className: string) => void;
     removeClass: (className: string) => void;

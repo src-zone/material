@@ -1,3 +1,4 @@
+/** @docs-private */
 export interface MdcRippleAdapter {
     browserSupportsCssVars: () => boolean;
     isUnbounded: () => boolean;

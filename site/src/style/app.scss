@@ -206,6 +206,9 @@ p.blox-demo-paragraph {
     font-family: "Roboto Mono", monospace;
     background-color: rgba(0, 0, 0, 0.05);
   }
+  .blox-docs-method-name-cell {
+    font-family: "Roboto Mono", monospace;
+  }
 
   table {
     color: rgba(0,0,0,.87);
@@ -228,10 +231,10 @@ p.blox-demo-paragraph {
       border: 1px solid rgba(0,0,0,.03);
       font-weight: 400;
       padding: 8px 16px;
-      &.blox-docs-properties-name-cell {
+      &.blox-docs-properties-name-cell, &.blox-docs-method-parameter-cell, &.blox-docs-method-returns-type-cell {
         font-size: 14px;
         font-family: "Roboto Mono", monospace;
-        .blox-docs-property-name {
+        .blox-docs-property-name, .blox-docs-method-parameter-name {
           margin: 0;
           font-weight: 600;
         }
