@@ -1,14 +1,14 @@
 <fieldset class="blox-snippet snippet-skip-line">
-<div mdcLinearProgress [mdcProgress]="progress" [mdcBuffer]="buffer"
-    [mdcIndeterminate]="indeterminate" [mdcReversed]="reversed" [mdcClosed]="closed"></div>
+<div mdcLinearProgress [progressValue]="progress" [bufferValue]="buffer"
+    [isIndeterminate]="indeterminate" [isReversed]="reversed" [isClosed]="closed"></div>
 <p>Customize progress:</p>
 <div>
   <div mdcSlider aria-label="Change Progress" mdcScrollbarResize
-    mdcMin="0" mdcMax="1" [(ngModel)]="progress" [mdcDisabled]="indeterminate || closed"></div>
+    minValue="0" maxValue="1" [(ngModel)]="progress" [disabled]="indeterminate || closed"></div>
 </div>
 <div>
   <div mdcSlider aria-label="Change Buffer"
-    mdcMin="0" mdcMax="1" [(ngModel)]="buffer" [mdcDisabled]="indeterminate || closed"></div>
+    minValue="0" maxValue="1" [(ngModel)]="buffer" [disabled]="indeterminate || closed"></div>
 </div>  
 <div mdcFormfield>
   <div mdcCheckbox>

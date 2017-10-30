@@ -101,11 +101,11 @@ export class MdcFormfieldDirective implements AfterContentInit, OnDestroy {
         this.foundation.destroy();
     }
 
-    @Input() @HostBinding('class.mdc-form-field--align-end') get mdcAlignEnd() {
+    @Input() @HostBinding('class.mdc-form-field--align-end') get alignEnd() {
         return this._alignEnd;
     }
 
-    set mdcAlignEnd(val: any) {
+    set alignEnd(val: any) {
         this._alignEnd = asBoolean(val);
     }
 }

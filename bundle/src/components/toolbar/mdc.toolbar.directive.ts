@@ -43,11 +43,11 @@ export class MdcToolbarSectionDirective {
      * Make the section align to the start of the toolbar row (default alignment is to the
      * center).
      */
-    @Input() @HostBinding('class.mdc-toolbar__section--align-start') get mdcAlignStart() {
+    @Input() @HostBinding('class.mdc-toolbar__section--align-start') get alignStart() {
         return this._alignStart;
     }
 
-    set mdcAlignStart(val: any) {
+    set alignStart(val: any) {
         this._alignStart = asBoolean(val);
     }
 
@@ -55,24 +55,24 @@ export class MdcToolbarSectionDirective {
      * Make the section align to the end of the toolbar row (default alignment is to the
      * center).
      */
-    @Input() @HostBinding('class.mdc-toolbar__section--align-end') get mdcAlignEnd() {
+    @Input() @HostBinding('class.mdc-toolbar__section--align-end') get alignEnd() {
         return this._alignEnd;
     }
 
-    set mdcAlignEnd(val: any) {
+    set alignEnd(val: any) {
         this._alignEnd = asBoolean(val);
     }
 
     /**
      * Toolbar sections are laid out using flexbox. Each section will take up an equal amount
      * of space within the toolbar by default. To accomodate very long sections (e.g. a  long title),
-     * set <code>mdcShrinkToFit</code> to a value other than false on the other sections in the row.
+     * set <code>shrinkToFit</code> to a value other than false on the other sections in the row.
      */
-    @Input() @HostBinding('class.mdc-toolbar__section--shrink-to-fit') get mdcShrinkToFit() {
+    @Input() @HostBinding('class.mdc-toolbar__section--shrink-to-fit') get shrinkToFit() {
         return this._shrinkToFit;
     }
 
-    set mdcShrinkToFit(val: any) {
+    set shrinkToFit(val: any) {
         this._shrinkToFit = asBoolean(val);
     }
 }
@@ -123,9 +123,9 @@ export class MdcToolbarMenuIcon {
 }
 
 /**
- * For <code>mdcFixed</code> toolbars, this directive should be put on the page's
+ * For <code>isFixed</code> toolbars, this directive should be put on the page's
  * content wrapper element, and the exported directive should be assigned to the
- * <code>mdcFixedAdjust</code> property of the <code>MdcToolbarDirective</code>.
+ * <code>fixedAdjust</code> property of the <code>MdcToolbarDirective</code>.
  * This will make the toolbar aware of the content wrapper, so that the top marging
  * can be adjusted based on the style of the toolbar, and the scroll of the content.
  */
@@ -151,19 +151,19 @@ export class MdcToolbarDirective implements AfterViewInit, OnDestroy {
     @HostBinding('class.mdc-toolbar') _hostClass = true;
     /**
      * Assign a <code>MdcToolbarFixedAdjustDirective</code> put on the main
-     * content of the page. Required for <code>mdcFixed</code> toolbars,
+     * content of the page. Required for <code>isFixed</code> toolbars,
      * to properly layout the toolbar and the content when users scroll.
      */
-    @Input() mdcFixedAdjust: MdcToolbarFixedAdjustDirective;
+    @Input() fixedAdjust: MdcToolbarFixedAdjustDirective;
     /**
      * A number between [0, 1] that represents the <em>ratio of flexible space
      * that has already been collapsed divided by the total amount of flexible space</em>
      * for flexible toolbars.
      */
-    @Output() mdcExpansionRatio = new EventEmitter<number>();
+    @Output() expansionRatio = new EventEmitter<number>();
     @ContentChild(MdcToolbarTitleDirective) _title;
     @ContentChild(MdcToolbarRowDirective) _firstRow;
-    private _mdcViewport: HTMLElement;
+    private _viewport: HTMLElement;
     private _mdcViewPortScrollListener;
     private _initialized = false;
     private _fixed = false;
@@ -183,14 +183,14 @@ export class MdcToolbarDirective implements AfterViewInit, OnDestroy {
             this.renderer.removeClass(this.root.nativeElement, className);
         },            
         registerScrollHandler: (handler: EventListener) => {
-            if (this._mdcViewport)
-                this._mdcViewport.addEventListener('scroll', handler, util.applyPassive());
+            if (this._viewport)
+                this._viewport.addEventListener('scroll', handler, util.applyPassive());
             else
                 window.addEventListener('scroll', handler, util.applyPassive());
         },
         deregisterScrollHandler: (handler: EventListener) => {
-            if (this._mdcViewport)
-                this._mdcViewport.removeEventListener('scroll', handler, util.applyPassive());
+            if (this._viewport)
+                this._viewport.removeEventListener('scroll', handler, util.applyPassive());
             else
                 window.removeEventListener('scroll', handler, util.applyPassive());
         },
@@ -200,12 +200,12 @@ export class MdcToolbarDirective implements AfterViewInit, OnDestroy {
         deregisterResizeHandler: (handler: EventListener) => {
             window.removeEventListener('resize', handler, util.applyPassive());
         },
-        getViewportWidth: () => this._mdcViewport ? this._mdcViewport.clientWidth : window.innerWidth,
-        getViewportScrollY: () => this._mdcViewport ? this._mdcViewport.scrollTop : window.pageYOffset,
+        getViewportWidth: () => this._viewport ? this._viewport.clientWidth : window.innerWidth,
+        getViewportScrollY: () => this._viewport ? this._viewport.scrollTop : window.pageYOffset,
         getOffsetHeight: () => this.root.nativeElement.offsetHeight,
         getFirstRowElementOffsetHeight: () => this._firstRow._elm.nativeElement.offsetHeight,
         notifyChange: (evtData: {flexibleExpansionRatio: number}) => {
-            this.mdcExpansionRatio.emit(evtData.flexibleExpansionRatio);
+            this.expansionRatio.emit(evtData.flexibleExpansionRatio);
         },
         setStyle: (property: string, value: number) => {
             this.renderer.setStyle(this.root.nativeElement, property, value);
@@ -218,8 +218,8 @@ export class MdcToolbarDirective implements AfterViewInit, OnDestroy {
             this.renderer.setStyle(this._firstRow._elm.nativeElement, property, value);
         },
         setStyleForFixedAdjustElement: (property: string, value: number) => {
-            if (this.mdcFixedAdjust)
-                this.renderer.setStyle(this.mdcFixedAdjust._elm.nativeElement, property, value);
+            if (this.fixedAdjust)
+                this.renderer.setStyle(this.fixedAdjust._elm.nativeElement, property, value);
         }
     };
     private foundation: { init: Function, destroy: Function } = new MDCToolbarFoundation(this.mdcAdapter);
@@ -232,9 +232,9 @@ export class MdcToolbarDirective implements AfterViewInit, OnDestroy {
         // uses MdcToolbarAdapter.hasClass on classes that we bind in this component. Those classes are only
         // available after the view is fully initialized.
         this._initialized = true;
-        if (this._mdcViewport) {
+        if (this._viewport) {
             this._mdcViewPortScrollListener = () => {this._updateViewPort();}
-            this._mdcViewport.addEventListener('scroll', this._mdcViewPortScrollListener, util.applyPassive());
+            this._viewport.addEventListener('scroll', this._mdcViewPortScrollListener, util.applyPassive());
         }
         this._updateViewPort();
         this.foundation.init();
@@ -242,17 +242,17 @@ export class MdcToolbarDirective implements AfterViewInit, OnDestroy {
 
     ngOnDestroy() {
         if (this._mdcViewPortScrollListener)
-            this._mdcViewport.removeEventListener('scroll', this._mdcViewPortScrollListener, util.applyPassive());
+            this._viewport.removeEventListener('scroll', this._mdcViewPortScrollListener, util.applyPassive());
         this.foundation.destroy();
     }
 
     @HostListener('window:resize', ['$event'])
     _updateViewPort() {
-        if (this._initialized && this._mdcViewport) {
+        if (this._initialized && this._viewport) {
             if (this._fixed) {
                 // simulate 'fixed' relative to view position of parent:
                 this.root.nativeElement.style.position = 'absolute';
-                this.root.nativeElement.style.top = this._mdcViewport.scrollTop + 'px';
+                this.root.nativeElement.style.top = this._viewport.scrollTop + 'px';
             } else {
                 // reset to position from mdc stylesheets:
                 this.root.nativeElement.style.position = null;
@@ -265,42 +265,42 @@ export class MdcToolbarDirective implements AfterViewInit, OnDestroy {
      * If set to a value other than false, the toolbar will be fixed to the top of the
      * screen (or viewport).
      */
-    @Input() @HostBinding('class.mdc-toolbar--fixed') get mdcFixed() {
+    @Input() @HostBinding('class.mdc-toolbar--fixed') get isFixed() {
         return this._fixed;
     }
 
-    set mdcFixed(val: any) {
+    set isFixed(val: any) {
         let newValue = asBoolean(val);
         if (this._initialized && this._fixed !== newValue)
-            throw new Error('mdcFixed directive should not be changed after the mdcToolbar is initialized');
+            throw new Error('isFixed directive should not be changed after the mdcToolbar is initialized');
         this._fixed = newValue;
     }
 
     /**
-     * If set to a value other than false, and used in combination with <code>mdcFixed</code>
+     * If set to a value other than false, and used in combination with <code>isFixed</code>
      * the toolbar will become a waterfall toolbar.
      * A waterfall toolbar is initially static and has no elevation, but when content scrolls under it,
      * the toolbar becomes fixed and gains elevation.
      */
-    @Input() @HostBinding('class.mdc-toolbar--waterfall') get mdcWaterfall() {
+    @Input() @HostBinding('class.mdc-toolbar--waterfall') get isWaterfall() {
         return this._waterfall;
     }
 
-    set mdcWaterfall(val: any) {
+    set isWaterfall(val: any) {
         this._waterfall = asBoolean(val);
     }
 
     /**
      * If set to a value other than false, fixed toolbars will anchor only the last row to the top.
      */
-    @Input() @HostBinding('class.mdc-toolbar--fixed-lastrow-only') get mdcFixedLastrowOnly() {
+    @Input() @HostBinding('class.mdc-toolbar--fixed-lastrow-only') get isFixedLastrowOnly() {
         return this._fixedLastRowOnly;
     }
 
-    set mdcFixedLastrowOnly(val: any) {
+    set isFixedLastrowOnly(val: any) {
         let newValue = asBoolean(val);
         if (this._initialized && this._fixedLastRowOnly !== newValue)
-            throw new Error('mdcFixedLastrowOnly directive should not be changed after the mdcToolbar is initialized');
+            throw new Error('isFixedLastrowOnly directive should not be changed after the mdcToolbar is initialized');
         this._fixedLastRowOnly = newValue;
     }
 
@@ -316,14 +316,14 @@ export class MdcToolbarDirective implements AfterViewInit, OnDestroy {
      * <code>--mdc-toolbar-ratio-to-extend-flexible</code>.
      * </blockquote>
      */
-    @Input() @HostBinding('class.mdc-toolbar--flexible') get mdcFlexible() {
+    @Input() @HostBinding('class.mdc-toolbar--flexible') get isFlexible() {
         return this._flexible;
     }
 
-    set mdcFlexible(val: any) {
+    set isFlexible(val: any) {
         let newValue = asBoolean(val);
         if (this._initialized && this._flexible !== newValue)
-            throw new Error('mdcFlexible directive should not be changed after the mdcToolbar is initialized');
+            throw new Error('isFlexible directive should not be changed after the mdcToolbar is initialized');
         this._flexible = newValue;
     }
 
@@ -334,14 +334,14 @@ export class MdcToolbarDirective implements AfterViewInit, OnDestroy {
      * Flexible Toolbar documention
      * </a>.
      */
-    @Input() @HostBinding('class.mdc-toolbar--flexible-default-behavior') get mdcFlexibleDefaultBehavior() {
+    @Input() @HostBinding('class.mdc-toolbar--flexible-default-behavior') get isFlexibleDefaultBehavior() {
         return this._flexibleDefaultBehavior;
     }
 
-    set mdcFlexibleDefaultBehavior(val: any) {
+    set isFlexibleDefaultBehavior(val: any) {
         let newValue = asBoolean(val);
         if (this._initialized && this._flexibleDefaultBehavior !== newValue)
-            throw new Error('mdcFlexibleDefaultBehavior directive should not be changed after the mdcToolbar is initialized');
+            throw new Error('isFlexibleDefaultBehavior directive should not be changed after the mdcToolbar is initialized');
         this._flexibleDefaultBehavior = newValue;
     }
 
@@ -355,13 +355,13 @@ export class MdcToolbarDirective implements AfterViewInit, OnDestroy {
      * The viewport element should have css styling: <code>position: relative</code>, and should have a fixed
      * height.
      */
-    @Input() get mdcViewport() {
-        return this._mdcViewport;
+    @Input() get viewport() {
+        return this._viewport;
     }
 
-    set mdcViewport(elm: HTMLElement) {
-        if (this._initialized && elm !== this._mdcViewport)
-            throw new Error('mdcViewport directive should not be changed after the mdcToolbar is initialized');
-        this._mdcViewport = elm;
+    set viewport(elm: HTMLElement) {
+        if (this._initialized && elm !== this._viewport)
+            throw new Error('viewport directive should not be changed after the mdcToolbar is initialized');
+        this._viewport = elm;
     }
 }

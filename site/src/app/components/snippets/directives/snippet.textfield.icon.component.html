@@ -1,20 +1,20 @@
 <fieldset class="blox-snippet snippet-skip-line">
-<div mdcTextfield [mdcHelptext]="input1Help" [mdcBox]="box" [mdcDense]="dense">
+<div mdcTextfield [helptext]="input1Help" [boxed]="box" [dense]="dense">
   <i mdcTextfieldIcon class="material-icons">face</i>
   <input mdcTextfieldInput type="text" #input1="ngModel" [(ngModel)]="field1" [disabled]="disabled"
     [required]="required"/>
   <label mdcTextfieldLabel>Input 1</label>
 </div>
-<p mdcTextfieldHelptext #input1Help="mdcHelptext" [mdcPersistent]="persistent">
+<p mdcTextfieldHelptext #input1Help="mdcHelptext" [isPersistent]="persistent">
   Input with leading icon
 </p>
-<div mdcTextfield [mdcHelptext]="input2Help" [mdcBox]="box" [mdcDense]="dense">
+<div mdcTextfield [helptext]="input2Help" [boxed]="box" [dense]="dense">
   <input mdcTextfieldInput type="text" #input2="ngModel" [(ngModel)]="field2" [disabled]="disabled"
       [required]="required"/>
   <label mdcTextfieldLabel>Input 2</label>
   <i mdcTextfieldIcon (click)="clearField2()" tabindex="0" class="material-icons">delete</i>
 </div>
-<p mdcTextfieldHelptext #input2Help="mdcHelptext" [mdcPersistent]="persistent">
+<p mdcTextfieldHelptext #input2Help="mdcHelptext" [isPersistent]="persistent">
   <span>Input with trailing action icon</span>
 </p>
 

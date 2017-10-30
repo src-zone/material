@@ -1,12 +1,12 @@
 <fieldset class="blox-snippet snippet-skip-line">
 <div [dir]="dir">
   <h3>Multiline input:</h3>
-  <div mdcTextfield [mdcHelptext]="input1Help" [mdcDense]="dense">
+  <div mdcTextfield [helptext]="input1Help" [dense]="dense">
     <textarea mdcTextfieldInput type="text" #input1="ngModel" [(ngModel)]="field1" [disabled]="disabled"
       minlength="8" [required]="required" rows="8" cols="40"></textarea>
     <label mdcTextfieldLabel>Multiline Input</label>
   </div>
-  <p mdcTextfieldHelptext #input1Help="mdcHelptext" mdcValidation [mdcPersistent]="persistent">
+  <p mdcTextfieldHelptext #input1Help="mdcHelptext" isValidation [isPersistent]="persistent">
     <span *ngIf="input1.errors?.required">Input is required</span>
     <span *ngIf="input1.errors?.minlength">Input requires at least 8 characters</span>
   </p>

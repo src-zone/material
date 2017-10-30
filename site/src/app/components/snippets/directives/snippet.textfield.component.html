@@ -1,20 +1,20 @@
 <fieldset class="blox-snippet snippet-skip-line">
 <div [dir]="dir">
-  <div mdcTextfield [mdcHelptext]="input1Help" [mdcBox]="box" [mdcDense]="dense">
+  <div mdcTextfield [helptext]="input1Help" [boxed]="box" [dense]="dense">
     <input mdcTextfieldInput type="text" #input1="ngModel" [(ngModel)]="field1" [disabled]="disabled"
       [required]="required"/>
     <label mdcTextfieldLabel>Input with Helptext</label>
   </div>
-  <p mdcTextfieldHelptext #input1Help="mdcHelptext" [mdcPersistent]="persistent">
+  <p mdcTextfieldHelptext #input1Help="mdcHelptext" [isPersistent]="persistent">
     Help text
   </p>
 
-  <div mdcTextfield [mdcHelptext]="input2Help" [mdcBox]="box" [mdcDense]="dense">
+  <div mdcTextfield [helptext]="input2Help" [boxed]="box" [dense]="dense">
     <input mdcTextfieldInput type="text" #input2="ngModel" [(ngModel)]="field2" [disabled]="disabled"
       minlength="8" [required]="required"/>
     <label mdcTextfieldLabel>Input with Validation</label>
   </div>
-  <p mdcTextfieldHelptext #input2Help="mdcHelptext" mdcValidation [mdcPersistent]="persistent">
+  <p mdcTextfieldHelptext #input2Help="mdcHelptext" isValidation [isPersistent]="persistent">
     <span *ngIf="input2.errors?.required">Input is required</span>
     <span *ngIf="input2.errors?.minlength">Input requires at least 8 characters</span>
   </p>

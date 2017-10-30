@@ -1,7 +1,7 @@
 <fieldset class="blox-snippet snippet-skip-line">
 <div mdcListGroup>
   <h3 mdcListGroupSubHeader>Connectivity</h3>
-  <ul mdcList [mdcDense]="dense">
+  <ul mdcList [dense]="dense">
     <li mdcListItem [mdcRipple]="ripple">
       <i *ngIf="startDetail" mdcListItemStartDetail class="material-icons">network_wifi</i>
       Wi-Fi
@@ -17,10 +17,10 @@
       Data Usage
       <a *ngIf="endDetail" href="javascript:void(0)" mdcListItemEndDetail class="material-icons">show_chart</a>
     </li>
-    <li mdcListDivider [mdcInset]="startDetail"></li>
+    <li mdcListDivider [hasInset]="startDetail"></li>
   </ul>
   <h3 mdcListGroupSubHeader>Folders</h3>
-  <ul mdcList [mdcAvatarList]="avatar" [mdcDense]="dense">
+  <ul mdcList [avatarList]="avatar" [dense]="dense">
     <li mdcListItem [mdcRipple]="ripple">
       <i *ngIf="startDetail && !avatar" mdcListItemStartDetail class="material-icons">insert_drive_file</i>
       <img *ngIf="avatar" mdcListItemStartDetail src="~assets/img/mdc-demos/animal1.svg">

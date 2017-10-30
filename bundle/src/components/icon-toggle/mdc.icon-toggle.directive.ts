@@ -47,7 +47,7 @@ export class MdcIconToggleDirective extends AbstractMdcRipple implements AfterCo
      * Event emitted when the state of the icon changes (for example when a user clicks
      * the icon).
      */
-    @Output() mdcIsOnChange: EventEmitter<boolean> = new EventEmitter();
+    @Output() isOnChange: EventEmitter<boolean> = new EventEmitter();
     private _onChange: (value: any) => void = (value) => {};
     private _onTouched: () => any = () => {};
     private _beforeInitQueu: Array<() => any> = [];
@@ -85,7 +85,7 @@ export class MdcIconToggleDirective extends AbstractMdcRipple implements AfterCo
         rmAttr: (name: string) => { this.renderer.removeAttribute(this.elm.nativeElement, name); },
         notifyChange: (evtData: MdcIconToggleChangeEvent) => {
             this._onChange(evtData.isOn);
-            this.mdcIsOnChange.emit(evtData.isOn);
+            this.isOnChange.emit(evtData.isOn);
         }
     };
     private foundation: {
@@ -147,7 +147,7 @@ export class MdcIconToggleDirective extends AbstractMdcRipple implements AfterCo
     }
 
     private initializeData() {
-        // iconOn/iconOff are classes when the mdcIconIsClass is true, or when mdcIconIsClass is not set,
+        // iconOn/iconOff are classes when the iconIsClass is true, or when iconIsClass is not set,
         //  and _innerIcon is used (because _innerIcon is specifically for cases where icons are set via pseudo elements
         //  by using classes):
         let iconIsClass = this._iconIsClass == null ? this._innerIcon != null : this._iconIsClass;
@@ -182,7 +182,7 @@ export class MdcIconToggleDirective extends AbstractMdcRipple implements AfterCo
 
     /** @docs-private */
     setDisabledState(disabled: boolean) {
-        this.mdcDisabled = disabled;
+        this.disabled = disabled;
     }
 
     /** @docs-private */
@@ -212,22 +212,22 @@ export class MdcIconToggleDirective extends AbstractMdcRipple implements AfterCo
     /**
      * The current state of the icon (true for on/pressed, false for off/unpressed).
      */
-    @Input() get mdcIsOn() {
+    @Input() get isOn() {
         return this.foundation.isOn();
     }
 
-    set mdcIsOn(value: any) {
+    set isOn(value: any) {
         this.execAfterInit(() => this.foundation.toggle(asBoolean(value)));
     }
 
     /**
      * The aria-label to use for the on/pressed state of the icon.
      */
-    @Input() get mdcLabelOn() {
+    @Input() get labelOn() {
         return this._labelOn;
     }
 
-    set mdcLabelOn(value: string) {
+    set labelOn(value: string) {
         this._labelOn = value;
         this.refreshData();
     }
@@ -235,11 +235,11 @@ export class MdcIconToggleDirective extends AbstractMdcRipple implements AfterCo
     /**
      * The aria-label to use for the off/unpressed state of the icon.
      */
-    @Input() get mdcLabelOff() {
+    @Input() get labelOff() {
         return this._labelOff;
     }
 
-    set mdcLabelOff(value: string) {
+    set labelOff(value: string) {
         this._labelOff = value;
         this.refreshData();
     }
@@ -247,11 +247,11 @@ export class MdcIconToggleDirective extends AbstractMdcRipple implements AfterCo
     /**
      * The icon to use for the on/pressed state of the icon.
      */
-    @Input() get mdcIconOn() {
+    @Input() get iconOn() {
         return this._iconOn;
     }
 
-    set mdcIconOn(value: string) {
+    set iconOn(value: string) {
         this._iconOn = value;
         this.refreshData();
     }
@@ -259,11 +259,11 @@ export class MdcIconToggleDirective extends AbstractMdcRipple implements AfterCo
     /**
      * The icon to use for the off/unpressed state of the icon.
      */
-    @Input() get mdcIconOff() {
+    @Input() get iconOff() {
         return this._iconOff;
     }
 
-    set mdcIconOff(value: string) {
+    set iconOff(value: string) {
         this._iconOff = value;
         this.refreshData();
     }
@@ -271,21 +271,21 @@ export class MdcIconToggleDirective extends AbstractMdcRipple implements AfterCo
     /**
      * Some icon fonst (such as Font Awesome) use CSS class names to select the icon to show.
      * Others, such as the Material Design Icons from Google use ligatures (allowing selection of
-     * the icon by using their textual name). When <code>mdcIconIsClass</code> is true, the directive
-     * assumes <code>mdcIconOn</code>, and <code>mdcIconOff</code> represent class names. When
-     * <code>mdcIconIsClass</code> is false, the directive assumes the use of ligatures.
+     * the icon by using their textual name). When <code>iconIsClass</code> is true, the directive
+     * assumes <code>iconOn</code>, and <code>iconOff</code> represent class names. When
+     * <code>iconIsClass</code> is false, the directive assumes the use of ligatures.
      * <p>
-     * When <code>mdcIconIsClass</code> is not assigned, the directive bases its decision on whether
+     * When <code>iconIsClass</code> is not assigned, the directive bases its decision on whether
      * or not an embedded <code>MdcIconToggleIconDirective</code> is used.
      * In most cases you won't need to set this input, as the default based on an embedded
      * <code>MdcIconToggleIconDirective</code> is typically what you need.
      * </p>
      */
-    @Input() get mdcIconIsClass() {
+    @Input() get iconIsClass() {
         return this._iconIsClass;
     }
 
-    set mdcIconIsClass(value: any) {
+    set iconIsClass(value: any) {
         this._iconIsClass = asBooleanOrNull(value);
         this.refreshData();
     }
@@ -293,11 +293,11 @@ export class MdcIconToggleDirective extends AbstractMdcRipple implements AfterCo
     /**
      * To disable the icon toggle, set this input to true.
      */
-    @Input() get mdcDisabled() {
+    @Input() get disabled() {
         return this.foundation.isDisabled();
     }
 
-    set mdcDisabled(value: any) {
+    set disabled(value: any) {
         this.execAfterInit(() => {
             let newValue = asBoolean(value);
             // we only set the disabled state if it changes from the current value.

@@ -81,11 +81,11 @@ export class MdcTabDirective extends AbstractMdcTabDirective {
     }
 
     @Input()
-    get mdcActive() {
+    get isActive() {
         return this._active;
     }
 
-    set mdcActive(value: boolean) {
+    set isActive(value: boolean) {
         let activate = asBoolean(value);
         if (activate) {
             this._active = true;

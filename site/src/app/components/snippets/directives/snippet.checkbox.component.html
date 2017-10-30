@@ -1,5 +1,5 @@
 <fieldset class="blox-snippet snippet-skip-line">
-<div mdcFormfield [mdcAlignEnd]="alignEnd">
+<div mdcFormfield [alignEnd]="alignEnd">
   <div mdcCheckbox>
     <input mdcCheckboxInput type="checkbox" [(ngModel)]="value" [disabled]="disabled" [indeterminate]="indeterminate"/>
   </div>
@@ -7,8 +7,8 @@
 </div>
 <div>value: {{printableValue}}</div><br/>
 
-<button mdcButton mdcRaised (click)="makeIndeterminate()" [disabled]="indeterminate">Make Indeterminate</button>
-<button mdcButton mdcRaised (click)="toggleAlignEnd()">Toggle Align End</button>
-<button mdcButton mdcRaised (click)="toggleDisabled()">Toggle Disabled</button>
+<button mdcButton raised (click)="makeIndeterminate()" [disabled]="indeterminate">Make Indeterminate</button>
+<button mdcButton raised (click)="toggleAlignEnd()">Toggle Align End</button>
+<button mdcButton raised (click)="toggleDisabled()">Toggle Disabled</button>
 
 </fieldset><div class="snippet-skip-line"></div>

@@ -42,22 +42,22 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
      * Event emitted when the value changes. The value may change because of user input,
      * or as a side affect of setting new min, max, or step values.
      */
-    @Output() mdcValueChange: EventEmitter<number> = new EventEmitter();
+    @Output() valueChange: EventEmitter<number> = new EventEmitter();
     /**
      * Event emitted when the min range value changes. This may happen as a side effect
      * of setting a new max value (when the new max is smaller than the old min).
      */
-    @Output() mdcMinChange: EventEmitter<number> = new EventEmitter();
+    @Output() minValueChange: EventEmitter<number> = new EventEmitter();
     /**
      * Event emitted when the max range value changes. This may happen as a side effect
      * of setting a new min value (when the new min is larger than the old max).
      */
-    @Output() mdcMaxChange: EventEmitter<number> = new EventEmitter();
+    @Output() maxValueChange: EventEmitter<number> = new EventEmitter();
     /**
      * Event emitted when the step value changes. This may happen as a side effect
      * of making the slider discrete.
      */
-    @Output() mdcStepChange: EventEmitter<number> = new EventEmitter();
+    @Output() stepValueChange: EventEmitter<number> = new EventEmitter();
     private _initialized = false;
     private _elmThumbCntr: HTMLElement;
     private _elmSliderPin: HTMLElement;
@@ -201,7 +201,7 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
 
     _onChanges(changes: SimpleChanges, callValueAccessorOnValueChange = true) {
         if (this._initialized) {
-            if (this.isChanged('mdcDiscrete', changes) || this.isChanged('mdcMarkers', changes)) {
+            if (this.isChanged('isDiscrete', changes) || this.isChanged('hasMarkers', changes)) {
                 for (let handlerInfo of this._interactionHandlers)
                     // workaround for uspstream bug: https://github.com/material-components/material-components-web/issues/1429
                     this._registry.unlisten(handlerInfo.type, handlerInfo.handler);
@@ -283,21 +283,21 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
             // See https://github.com/material-components/material-components-web/issues/1426
             // mdc-slider doesn't allow a discrete step value < 1 currently:
             this._step = 1;
-            setTimeout(() => {this.mdcStepChange.emit(this._step); }, 0);
+            setTimeout(() => {this.stepValueChange.emit(this._step); }, 0);
         } else if (this._step < 0) {
             this._step = 0;
-            setTimeout(() => {this.mdcStepChange.emit(this._step); }, 0);
+            setTimeout(() => {this.stepValueChange.emit(this._step); }, 0);
         }
         if (this._min > this._max) {
-            if (this.isChanged('mdcMax', changes)) {
+            if (this.isChanged('maxValue', changes)) {
                 this._min = this._max;
-                setTimeout(() => {this.mdcMinChange.emit(this._min); }, 0);                
+                setTimeout(() => {this.minValueChange.emit(this._min); }, 0);                
             } else {
                 this._max = this._min;
-                setTimeout(() => {this.mdcMaxChange.emit(this._max); }, 0);                                
+                setTimeout(() => {this.maxValueChange.emit(this._max); }, 0);                                
             }
         }
-        let oldValue = changes['mdcValue'] ? changes['mdcValue'].previousValue : this._value;
+        let oldValue = changes['value'] ? changes['value'].previousValue : this._value;
         if (this._value < this._min)
             this._value = this._min;
         if (this._value > this._max)
@@ -333,7 +333,7 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
     }
 
     private notifyValueChanged(callValueAccessorOnChange: boolean) {
-        this.mdcValueChange.emit(this._value);
+        this.valueChange.emit(this._value);
         if (callValueAccessorOnChange)
             this._onChange(this._value);
     }
@@ -355,25 +355,25 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
      * "Discrete slider" is a UX treatment, while having a step value is behavioral.</blockquote>
      */
     @Input() @HostBinding('class.mdc-slider--discrete')
-    get mdcDiscrete() {
+    get isDiscrete() {
         return this._discrete;
     }
     
-    set mdcDiscrete(value: any) {
+    set isDiscrete(value: any) {
         this._discrete = asBoolean(value);
     }
 
     /**
      * Property to enable/disable the display of track markers. Display markers
      * are only supported for discrete sliders. Thus they are only shown when the values
-     * of both mdcMarkers and mdcDiscrete equal true.
+     * of both hasMarkers and isDiscrete equal true.
      */
     @Input() @HostBinding('class.mdc-slider--display-markers')
-    get mdcMarkers() {
+    get hasMarkers() {
         return this._markers;
     }
 
-    set mdcMarkers(value: any) {
+    set hasMarkers(value: any) {
         this._markers = asBoolean(value);
     }
 
@@ -381,11 +381,11 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
      * The current value of the slider.
      */
     @Input() @HostBinding('attr.aria-valuenow')
-    get mdcValue() {
+    get value() {
         return this._value;
     }
 
-    set mdcValue(value: string | number) {
+    set value(value: string | number) {
         this._value = +value;
     }
 
@@ -393,11 +393,11 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
      * The minumum allowed value of the slider.
      */
     @Input() @HostBinding('attr.aria-valuemin')
-    get mdcMin() {
+    get minValue() {
         return this._min;
     }
 
-    set mdcMin(value: string | number) {
+    set minValue(value: string | number) {
         this._min = +value;
     }
 
@@ -405,11 +405,11 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
      * The maximum allowed value of the slider.
      */
     @Input() @HostBinding('attr.aria-valuemax')
-    get mdcMax() {
+    get maxValue() {
         return this._max;
     }
 
-    set mdcMax(value: string | number) {
+    set maxValue(value: string | number) {
         this._max = +value;
     }
 
@@ -424,11 +424,11 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
      * "Discrete slider" is a UX treatment, while having a step value is behavioral.</blockquote>
      */
     @Input()
-    get mdcStep() {
+    get stepValue() {
         return this._step;
     }
 
-    set mdcStep(value: string | number) {
+    set stepValue(value: string | number) {
         this._step = +value;
     }
 
@@ -436,11 +436,11 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
      * A property to disable the slider.
      */
     @Input() @HostBinding('attr.aria-disabled')
-    get mdcDisabled() {
+    get disabled() {
         return this._disabled;
     }
 
-    set mdcDisabled(value: any) {
+    set disabled(value: any) {
         this._disabled = asBoolean(value);
     }
 }
@@ -462,9 +462,9 @@ export class MdcFormsSliderDirective implements ControlValueAccessor {
 
     /** @docs-private */
     writeValue(obj: any) {
-        let change = new SimpleChange(this.mdcSlider.mdcValue, +obj, false);
-        this.mdcSlider.mdcValue = obj;
-        this.mdcSlider._onChanges({mdcValue: change}, false);
+        let change = new SimpleChange(this.mdcSlider.value, +obj, false);
+        this.mdcSlider.value = obj;
+        this.mdcSlider._onChanges({value: change}, false);
     }
 
     /** @docs-private */
@@ -479,6 +479,6 @@ export class MdcFormsSliderDirective implements ControlValueAccessor {
 
     /** @docs-private */
     setDisabledState(disabled: boolean) {
-        this.mdcSlider.mdcDisabled = disabled;
+        this.mdcSlider.disabled = disabled;
     }
 }

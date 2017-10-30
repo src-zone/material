@@ -46,9 +46,9 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
     private _disabled = false;
     /**
      * Event emitted when the value of the select changes. Note that when an <code>mdcSelect</code> is used as a FormControl,
-     * it's also possible to bind to <code>ngModelChange</code> instead of <code>mdcValueChange</code>.
+     * it's also possible to bind to <code>ngModelChange</code> instead of <code>valueChange</code>.
      */
-    @Output() mdcValueChange: EventEmitter<any> = new EventEmitter();
+    @Output() valueChange: EventEmitter<any> = new EventEmitter();
     private mdcAdapter: MdcSelectAdapter = {
         addClass: (className: string) => {this._rndr.addClass(this._elm.nativeElement, className); },
         removeClass: (className: string) => {this._rndr.removeClass(this._elm.nativeElement, className); },
@@ -75,7 +75,7 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
         },
         getNumberOfOptions: () => this._items.length,
         getTextForOptionAtIndex: (index) => this._items[index]._elm.nativeElement.textContent,
-        getValueForOptionAtIndex: (index) => this._items[index].mdcValue,
+        getValueForOptionAtIndex: (index) => this._items[index].value,
         setAttrForOptionAtIndex: (index, attr, value) => this._rndr.setAttribute(this._items[index]._elm.nativeElement, attr, value),
         rmAttrForOptionAtIndex: (index, attr) => this._rndr.removeAttribute(this._items[index]._elm.nativeElement, attr),
         getOffsetTopForOptionAtIndex: (index) => this._items[index]._elm.nativeElement.offsetTop,
@@ -87,7 +87,7 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
                     this._onTouched();
                 });
             else if (type === 'MDCSimpleMenu:cancel')
-                subscription = this._menu.mdcCancel.subscribe(evt => {
+                subscription = this._menu.cancel.subscribe(evt => {
                     handler(this.createEvent(type, {}));
                     this._onTouched();
                 });
@@ -100,8 +100,8 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
         },
         notifyChange: () => {
             let idx = this.foundation.getSelectedIndex();
-            this._value = (idx == -1) ? null : this._items[idx].mdcValue;
-            this.mdcValueChange.emit(this._value);
+            this._value = (idx == -1) ? null : this._items[idx].value;
+            this.valueChange.emit(this._value);
             this._onChange(this._value);
         },
         getWindowInnerHeight: () => window.innerHeight,
@@ -165,14 +165,14 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
 
     private updateIndexFromValue(emit = true, onchanges = true) {
         if (this._initialized) {
-            let index = this._items.map(i => i.mdcValue).indexOf(this._value);
+            let index = this._items.map(i => i.value).indexOf(this._value);
             let newValue = index === -1 ? null : this._value;
             if (index !== this.foundation.getSelectedIndex()) // otherwise setSelectedIndex(-1) may remove the text while we don't want that
                 this.foundation.setSelectedIndex(index);
             if (this._value !== newValue) {
                 this._value = newValue;
                 if (emit)
-                    this.mdcValueChange.emit(this._value);
+                    this.valueChange.emit(this._value);
                 if (onchanges)
                     this._onChange(this._value);
             }
@@ -207,15 +207,15 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
 
     /**
      * Property for the chosen value of the select control. The value that each option represents
-     * can be set with the <code>mdcValue</code> option on the <code>MdcListItemDirective</code>
+     * can be set with the <code>value</code> option on the <code>MdcListItemDirective</code>
      * that represents that choice. Note that when an <code>mdcSelect</code> is used as a FormControl,
-     * it's also possible to bind to <code>ngModel</code> instead of <code>mdcValue</code>.
+     * it's also possible to bind to <code>ngModel</code> instead of <code>value</code>.
      */
-    @Input() get mdcValue() {
+    @Input() get value() {
         return this._value;
     }
 
-    set mdcValue(value: any) {
+    set value(value: any) {
         this._value = value;
         this.updateIndexFromValue();
     }

@@ -104,11 +104,11 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
      * that the exact progress on a measured task is not known.
      */
     @Input() @HostBinding('class.' + CLASS_INDETERMINATE)
-    get mdcIndeterminate() {
+    get isIndeterminate() {
         return this._indeterminate;
     }
     
-    set mdcIndeterminate(value: any) {
+    set isIndeterminate(value: any) {
         let newValue = asBoolean(value);
         if (newValue !== this._indeterminate) {
             this._indeterminate = newValue;
@@ -126,11 +126,11 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
      * Reverses the direction of the linear progress indicator.
      */
     @Input() @HostBinding('class.' + CLASS_REVERSED)
-    get mdcReversed() {
+    get isReversed() {
         return this._reverse;
     }
 
-    set mdcReversed(value: any) {
+    set isReversed(value: any) {
         this._reverse = asBoolean(value);
         if (this._initialized)        
             this.foundation.setReverse(this._reverse);
@@ -140,11 +140,11 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
      * Set the progress, the value should be between [0, 1].
      */
     @Input()
-    get mdcProgress() {
+    get progressValue() {
         return this._progress;
     }
 
-    set mdcProgress(value: number | string) {
+    set progressValue(value: number | string) {
         this._progress = +value;
         if (this._initialized)        
             this.foundation.setProgress(this._progress);
@@ -154,11 +154,11 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
      * Set the buffer progress, the value should be between [0, 1].
      */
     @Input()
-    get mdcBuffer() {
+    get bufferValue() {
         return this._buffer;
     }
 
-    set mdcBuffer(value: number | string) {
+    set bufferValue(value: number | string) {
         this._buffer = +value;
         if (this._initialized)        
             this.foundation.setBuffer(this._buffer);
@@ -169,11 +169,11 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
      * when set to false this opens (animates into view) the progress bar.
      */
     @Input()
-    get mdcClosed() {
+    get isClosed() {
         return this._closed;
     }
 
-    set mdcClosed(value: any) {
+    set isClosed(value: any) {
         let newValue = asBoolean(value);
         if (newValue !== this._closed) {
             this._closed = newValue;

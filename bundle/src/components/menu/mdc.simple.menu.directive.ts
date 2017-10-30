@@ -21,14 +21,14 @@ export interface MdcMenuSelection {
 
 /**
  * Directive for an optional anchor to which a menu can position itself.
- * Use the <code>mdcAnchor</code> input of <code>MdcSimpleMenuDirective</code>
+ * Use the <code>menuAnchor</code> input of <code>MdcSimpleMenuDirective</code>
  * to bind the menu to the anchor. The anchor must be a direct parent of the menu.
  * It will get the following styles to make the positioning work:
  * <code>position: relative;</code>, and <code>overflow: visible;</code>.
  */
 @Directive({
     selector: '[mdcMenuAnchor]',
-    exportAs: 'mdcAnchor'
+    exportAs: 'mdcMenuAnchor'
 })
 export class MdcMenuAnchorDirective {
     @HostBinding('class.mdc-menu-anchor') _cls = true;
@@ -55,21 +55,21 @@ export class MdcSimpleMenuDirective implements AfterContentInit, OnDestroy {
      * will position itself relative to this anchor element. The anchor should be
      * a direct parent of this menu.
      */
-    @Input() mdcAnchor: MdcMenuAnchorDirective;
+    @Input() menuAnchor: MdcMenuAnchorDirective;
     /**
      * Event emitted when the user selects a value. The passed object contains a value
-     * (set to the <code>mdcValue</code> of the selected list item), and an index
+     * (set to the <code>value</code> of the selected list item), and an index
      * (set to the index of the selected list item).
      */
     @Output() pick: EventEmitter<MdcMenuSelection> = new EventEmitter();
     /**
      * Event emitted when the menu is closed without any selection being made.
      */
-    @Output() mdcCancel: EventEmitter<void> = new EventEmitter();
+    @Output() cancel: EventEmitter<void> = new EventEmitter();
     /**
      * Event emitted when the menu is opened or closed.
      */
-    @Output() mdcOpenChange: EventEmitter<boolean> = new EventEmitter();
+    @Output() isOpenChange: EventEmitter<boolean> = new EventEmitter();
     private _lastList: MdcListDirective;
     @ContentChildren(MdcListDirective) _listQuery: QueryList<MdcListDirective>;
     private _prevFocus: Element;
@@ -101,12 +101,12 @@ export class MdcSimpleMenuDirective implements AfterContentInit, OnDestroy {
             let elm = this._list._elm.nativeElement;
             return {width: elm.offsetWidth, height: elm.offsetHeight};
         },
-        hasAnchor: () => this.mdcAnchor != null,
+        hasAnchor: () => this.menuAnchor != null,
         getAnchorDimensions: () => {
-            if (!this.mdcViewport)
-                return this.mdcAnchor._elm.nativeElement.getBoundingClientRect();
-            let viewportRect = this.mdcViewport.getBoundingClientRect();
-            let anchorRect = this.mdcAnchor._elm.nativeElement.getBoundingClientRect();
+            if (!this.viewport)
+                return this.menuAnchor._elm.nativeElement.getBoundingClientRect();
+            let viewportRect = this.viewport.getBoundingClientRect();
+            let anchorRect = this.menuAnchor._elm.nativeElement.getBoundingClientRect();
             return {
                 bottom: anchorRect.bottom - viewportRect.top,
                 left: anchorRect.left - viewportRect.left,
@@ -117,8 +117,8 @@ export class MdcSimpleMenuDirective implements AfterContentInit, OnDestroy {
             };
         },
         getWindowDimensions: () => ({
-            width: this.mdcViewport ? this.mdcViewport.clientWidth : window.innerWidth,
-            height: this.mdcViewport ? this.mdcViewport.clientHeight : window.innerHeight
+            width: this.viewport ? this.viewport.clientWidth : window.innerWidth,
+            height: this.viewport ? this.viewport.clientHeight : window.innerHeight
         }),
         setScale: (x: number, y: number) => {
             this._elm.nativeElement.style[util.getTransformPropertyName(window)] = `scale(${x}, ${y})`;
@@ -149,12 +149,12 @@ export class MdcSimpleMenuDirective implements AfterContentInit, OnDestroy {
         getIndexForEventTarget: (target: EventTarget) => this._list._items.toArray().map(i => i._elm.nativeElement).indexOf(target),
         notifySelected: (evtData: {index: number}) => {
             this._open = false;
-            this.pick.emit({index: evtData.index, value: this._list._items.toArray()[evtData.index].mdcValue});
+            this.pick.emit({index: evtData.index, value: this._list._items.toArray()[evtData.index].value});
             this._onOpenClose();
         },
         notifyCancel: () => {
             this._open = false;
-            this.mdcCancel.emit();
+            this.cancel.emit();
             this._onOpenClose();
         },
         saveFocus: () => {
@@ -232,7 +232,7 @@ export class MdcSimpleMenuDirective implements AfterContentInit, OnDestroy {
         if (this._list)
             this._list._hidden = !this._open;
         if (emit)
-            this.mdcOpenChange.emit(this._open);
+            this.isOpenChange.emit(this._open);
     }
 
     set _listFunction(val: MdcListFunction) {
@@ -254,11 +254,11 @@ export class MdcSimpleMenuDirective implements AfterContentInit, OnDestroy {
      * otherwise the menu will be closed.
      */
     @Input() @HostBinding('class.mdc-simple-menu--open')
-    get mdcOpen() {
+    get isOpen() {
         return this._open;
     }
     
-    set mdcOpen(val: any) {
+    set isOpen(val: any) {
         let newValue = asBoolean(val);
         if (newValue !== this._open) {
             this._open = newValue;
@@ -279,11 +279,11 @@ export class MdcSimpleMenuDirective implements AfterContentInit, OnDestroy {
      * for bottom-right, etc.
      */
     @Input()
-    get mdcOpenFrom(): 'tl' | 'tr' | 'bl' | 'br' | null {
+    get openFrom(): 'tl' | 'tr' | 'bl' | 'br' | null {
         return this._openFrom;
     }
 
-    set mdcOpenFrom(val: 'tl' | 'tr' | 'bl' | 'br' | null) {
+    set openFrom(val: 'tl' | 'tr' | 'bl' | 'br' | null) {
         if (val === 'br' || val === 'bl' || val === 'tr' || val === 'tl')
             this._openFrom = val;
         else
@@ -301,5 +301,5 @@ export class MdcSimpleMenuDirective implements AfterContentInit, OnDestroy {
      * from the left or right, based on the space available inside the viewport.
      * It's normally not needed to set this, and mainly added for the demos and examples.
      */
-    @Input() mdcViewport: HTMLElement;
+    @Input() viewport: HTMLElement;
 }

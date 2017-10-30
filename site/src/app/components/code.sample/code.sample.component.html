@@ -3,11 +3,11 @@
     <h3><ng-content select="[bloxSampleTitle]"></ng-content></h3>
     <div class="blox-code-sample-toolbar-toggle"><i mdcIconToggle
       class="material-icons"
-      mdcLabelOn="Hide source code"
-      mdcLabelOff="Show source code"
-      mdcIconOn="expand_less"
-      mdcIconOff="expand_more"
-      [(mdcIsOn)]="showCode"></i></div>
+      labelOn="Hide source code"
+      labelOff="Show source code"
+      iconOn="expand_less"
+      iconOff="expand_more"
+      [(isOn)]="showCode"></i></div>
   </div>
   <nav *ngIf="showCode" mdcTabBar class="blox-sample-tab-bar">
     <a *ngFor="let name of snippetNames" mdcTab (activate)="activate(name)" tabindex="0" role="link">{{name}}</a>

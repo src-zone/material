@@ -42,11 +42,11 @@ export class MdcButtonDirective extends AbstractMdcRipple implements AfterConten
      * upon the surface.
      */
     @HostBinding('class.mdc-button--raised') @Input()
-    get mdcRaised() {
+    get raised() {
         return this._raised;
     }
 
-    set mdcRaised(val: any) {
+    set raised(val: any) {
         this._raised = asBoolean(val);
     }
 
@@ -55,11 +55,11 @@ export class MdcButtonDirective extends AbstractMdcRipple implements AfterConten
      * flush with the surface and have a visible border.
      */
     @HostBinding('class.mdc-button--stroked') @Input()
-    get mdcStroked() {
+    get stroked() {
         return this._stroked;
     }
 
-    set mdcStroked(val: any) {
+    set stroked(val: any) {
         this._stroked = asBoolean(val);
     }
 
@@ -68,11 +68,11 @@ export class MdcButtonDirective extends AbstractMdcRipple implements AfterConten
      * in the button will be reduced.
      */
     @HostBinding('class.mdc-button--compact') @Input()
-    get mdcCompact() {
+    get compact() {
         return this._compact;
     }
 
-    set mdcCompact(val: any) {
+    set compact(val: any) {
         this._compact = asBoolean(val);
     }
 
@@ -81,11 +81,11 @@ export class MdcButtonDirective extends AbstractMdcRipple implements AfterConten
      * to make it slightly smaller.
      */
     @HostBinding('class.mdc-button--dense') @Input()
-    get mdcDense() {
+    get dense() {
         return this._dense;
     }
 
-    set mdcDense(val: any) {
+    set dense(val: any) {
         this._dense = asBoolean(val);
     }
 }

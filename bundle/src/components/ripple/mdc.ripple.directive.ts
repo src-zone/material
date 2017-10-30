@@ -83,11 +83,11 @@ export class MdcRippleDirective extends AbstractMdcRipple implements AfterConten
      * Surfaces for bounded ripples should have <code>overflow</code> set to hidden,
      * while surfaces for unbounded ripples should have it set to <code>visible</code>.
      */
-    @Input() get mdcUnbounded() {
+    @Input() get unbounded() {
         return this._unbounded;
     }
 
-    set mdcUnbounded(value: any) {
+    set unbounded(value: any) {
         let newValue = asBoolean(value);
         if (newValue !== this._unbounded) {
             this._unbounded = newValue;
@@ -100,11 +100,11 @@ export class MdcRippleDirective extends AbstractMdcRipple implements AfterConten
      * This input can be set to null for returning to the defaults, which uses the surface
      * element to compute the bounds of the ripple.
      */
-    @Input() get mdcDimension() {
+    @Input() get dimension() {
         return this._dim;
     }
 
-    set mdcDimension(value: string | number) {
+    set dimension(value: string | number) {
         this._dim = value == null ? null : +value;
         this.layout();
     }
@@ -116,11 +116,11 @@ export class MdcRippleDirective extends AbstractMdcRipple implements AfterConten
      * the ripple effect enabled/disabled state depend on whether or not the
      * surface element has the <code>disabled</code> attribute set.
      */
-    @Input() get mdcDisabled() {
+    @Input() get disabled() {
         return this._disabled;
     }
 
-    set mdcDisabled(value: any) {
+    set disabled(value: any) {
         this._disabled = asBooleanOrNull(value);
     }
 

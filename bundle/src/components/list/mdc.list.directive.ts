@@ -30,11 +30,11 @@ export class MdcListDividerDirective {
      * an inset.
      */
     @Input() @HostBinding('class.mdc-list-divider--inset')
-    get mdcInset() {
+    get hasInset() {
         return this._inset;
     }
 
-    set mdcInset(val: any) {
+    set hasInset(val: any) {
         this._inset = asBoolean(val);
     }
 }
@@ -54,7 +54,7 @@ export class MdcListItemDirective {
      * When a list is used inside an <code>mdcSimpleMenu</code>, or <code>mdcSelect</code>,
      * this property can be used to assign a value to this choice/selection item.
      */
-    @Input() mdcValue;
+    @Input() value;
 
     constructor(public _elm: ElementRef) {}
 
@@ -65,11 +65,11 @@ export class MdcListItemDirective {
      * or <code>mdcSelect</code> will set the <code>tabindex</code> to <code>-1</code>.
      */
     @Input()
-    get mdcDisabled() {
+    get disabled() {
         return this._disabled;
     }
 
-    set mdcDisabled(val: any) {
+    set disabled(val: any) {
         this._disabled = asBoolean(val);
     }
 
@@ -209,11 +209,11 @@ export class MdcListDirective implements AfterContentInit {
      * compact.
      */
     @Input() @HostBinding('class.mdc-list--dense')
-    get mdcDense() {
+    get dense() {
         return this._dense;
     }
     
-    set mdcDense(val: any) {
+    set dense(val: any) {
         this._dense = asBoolean(val);
     }
 
@@ -222,11 +222,11 @@ export class MdcListDirective implements AfterContentInit {
      * will be styled for avatars: large, circular elements that lend themselves well to contact images, profile pictures, etc. 
      */
     @Input() @HostBinding('class.mdc-list--avatar-list')
-    get mdcAvatarList() {
+    get avatarList() {
         return this._avatar;
     }
 
-    set mdcAvatarList(val: any) {
+    set avatarList(val: any) {
         this._avatar = asBoolean(val);
     }
 }

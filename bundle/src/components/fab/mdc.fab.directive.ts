@@ -45,11 +45,11 @@ export class MdcFabDirective extends AbstractMdcRipple implements AfterContentIn
      * be modified to a smaller size.
      */
     @HostBinding('class.mdc-fab--mini') @Input()
-    get mdcMini() {
+    get mini() {
         return this._mini;
     }
 
-    set mdcMini(val: any) {
+    set mini(val: any) {
         this._mini = asBoolean(val);
     }
 
@@ -58,11 +58,11 @@ export class MdcFabDirective extends AbstractMdcRipple implements AfterContentIn
      * Setting it to false will animate the FAB back into view.
      */
     @HostBinding('class.mdc-fab--exited') @Input()
-    get mdcExited() {
+    get exited() {
         return this._exited;
     }
 
-    set mdcExited(val: any) {
+    set exited(val: any) {
         this._exited = asBoolean(val);
     }
 }

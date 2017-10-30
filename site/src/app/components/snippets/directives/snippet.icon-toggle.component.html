@@ -2,33 +2,33 @@
 <div>
   <i mdcIconToggle
     class="material-icons"
-    mdcLabelOn="Remove from favorites"
-    mdcLabelOff="Add to favorites"
-    mdcIconOn="favorite"
-    mdcIconOff="favorite_border"
-    [mdcDisabled]="disabled"
-    [(mdcIsOn)]="favorite"></i>
+    labelOn="Remove from favorites"
+    labelOff="Add to favorites"
+    iconOn="favorite"
+    iconOff="favorite_border"
+    [disabled]="disabled"
+    [(isOn)]="favorite"></i>
   <span>(Value: {{favorite}}. Uses an icon from Material Icons.)</span>
 </div>
 <div>
   <span mdcIconToggle
-    mdcLabelOn="Do not like"
-    mdcLabelOff="Like"
-    mdcIconOn="fa-thumbs-up"
-    mdcIconOff="fa-thumbs-o-up"
-    [mdcDisabled]="disabled"
-    [(mdcIsOn)]="like">
+    labelOn="Do not like"
+    labelOff="Like"
+    iconOn="fa-thumbs-up"
+    iconOff="fa-thumbs-o-up"
+    [disabled]="disabled"
+    [(isOn)]="like">
     <i mdcIconToggleIcon class="fa"></i>
   </span>
   <span>(Value: {{like}}. Uses an icon from Font Awesome.)</span>
 </div>
 <div>
   <span mdcIconToggle
-    mdcLabelOn="Open envelope"
-    mdcLabelOff="Close envelope"
-    mdcIconOn="fa-envelope"
-    mdcIconOff="fa-envelope-open-o"
-    [mdcDisabled]="disabled"
+    labelOn="Open envelope"
+    labelOff="Close envelope"
+    iconOn="fa-envelope"
+    iconOff="fa-envelope-open-o"
+    [disabled]="disabled"
     [(ngModel)]="closed">
     <i mdcIconToggleIcon class="fa"></i>
   </span>
@@ -41,6 +41,6 @@
   </div>
   <label mdcFormfieldLabel>Disable toggles</label>
 </div><br/>
-<button mdcButton mdcStroked (click)="toggleAll()">Toggle all Values</button>
+<button mdcButton stroked (click)="toggleAll()">Toggle all Values</button>
 
 </fieldset><div class="snippet-skip-line"></div>

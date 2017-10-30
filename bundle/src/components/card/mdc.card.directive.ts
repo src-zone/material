@@ -37,11 +37,11 @@ export class MdcCardTitleDirective {
      * the title will be made larger.
      */
     @HostBinding('class.mdc-card__title--large') @Input()
-    get mdcLarge() {
+    get large() {
         return this._large;
     }
 
-    set mdcLarge(val: any) {
+    set large(val: any) {
         this._large = asBoolean(val);
     }
 }
@@ -120,23 +120,23 @@ export class MdcCardActionsDirective implements AfterContentInit  {
                 this.renderer.addClass(btn._elm.nativeElement, 'mdc-card__action');
                 if (this._compact != null)
                     if (this._compact)
-                        btn.mdcCompact = true;
+                        btn.compact = true;
                     else
-                        btn.mdcCompact = false;
+                        btn.compact = false;
             });
     }
 
     /**
      * When this input is defined and does not have value false, all contained buttions
-     * will automagically get compact styling, which is equal to setting the <code>mdcCompact</code>
+     * will automagically get compact styling, which is equal to setting the <code>compact</code>
      * input on the buttons individually.
      */
     @Input()
-    get mdcCompact() {
+    get compact() {
         return this._compact;
     }
 
-    set mdcCompact(val: any) {
+    set compact(val: any) {
         if (val == null)
             this._compact = val;
         else {
@@ -153,11 +153,11 @@ export class MdcCardActionsDirective implements AfterContentInit  {
      * vertically inside of horizontally.
      */
     @HostBinding('class.mdc-card__actions--vertical') @Input()
-    get mdcVertical() {
+    get vertical() {
         return this._vertical;
     }
 
-    set mdcVertical(val: any) {
+    set vertical(val: any) {
         this._vertical = asBoolean(val);
     }
 }
@@ -180,7 +180,7 @@ export class MdcCardHorizontalDirective {
 /**
  * Directive for media items. They are intended for use in horizontal blocks, taking up a fixed height,
  * rather than stretching to the width of the card.
- * Use the <code>mdcSize</code> input to select from some predefined media item sizes.
+ * Use the <code>sizeFactor</code> input to select from some predefined media item sizes.
  */
 @Directive({
     selector: '[mdcCardMediaItem]',
@@ -209,14 +209,14 @@ export class MdcCardMediaItemDirective {
      * 1.5: sets the height to 120px.<br/>
      * 2: sets the height to 160px.<br/>
      * 3: sets the height to 240px.<br/>
-     * Any other value will reset <code>mdcSize</code> to 1, to have a 80px height.
+     * Any other value will reset <code>sizeFactor</code> to 1, to have a 80px height.
      */
     @Input()
-    get mdcSize() {
+    get sizeFactor() {
         return this._size;
     }
     
-    set mdcSize(val: any) {
+    set sizeFactor(val: any) {
         if (+val === 1.5)
             this._size = 1.5;
         else if (+val === 2)

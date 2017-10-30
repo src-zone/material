@@ -166,19 +166,19 @@ export class MdcTextfieldLabelDirective extends AbstractMdcLabel {
 })
 export class MdcTextfieldHelptextDirective {
     @HostBinding('class.mdc-textfield-helptext') _cls = true;
-    @HostBinding('class.mdc-textfield-helptext--validation-msg') _mdcValidation = false;
-    @HostBinding('class.mdc-textfield-helptext--persistent') _mdcPersistent = false;
-    @Input() mdcForceShow = false; // TODO boolean coercion
+    @HostBinding('class.mdc-textfield-helptext--validation-msg') _isValidation = false;
+    @HostBinding('class.mdc-textfield-helptext--persistent') _isPersistent = false;
+    @Input() forceShow = false; // TODO boolean coercion
 
     constructor(public _elm: ElementRef) {
     }
 
-    @Input() set mdcValidation(value: boolean) {
-        this._mdcValidation = value != null && `${value}` !== 'false';
+    @Input() set isValidation(value: boolean) {
+        this._isValidation = value != null && `${value}` !== 'false';
     }
 
-    @Input() set mdcPersistent(value: boolean) {
-        this._mdcPersistent = value != null && `${value}` !== 'false';
+    @Input() set isPersistent(value: boolean) {
+        this._isPersistent = value != null && `${value}` !== 'false';
     }
 }
 
@@ -192,7 +192,7 @@ export class MdcTextfieldDirective extends AbstractMdcRipple implements AfterCon
     @ContentChild(MdcTextfieldInputDirective) _input: MdcTextfieldInputDirective;
     @ContentChild(MdcTextfieldLabelDirective) _label: MdcTextfieldLabelDirective;
     @ContentChildren('label', {descendants: true, read: ElementRef}) _labels: QueryList<ElementRef>;
-    @Input() mdcHelptext: MdcTextfieldHelptextDirective;
+    @Input() helptext: MdcTextfieldHelptextDirective;
     private _initialized = false;
     private _box = false;
     private _dense = false;
@@ -238,16 +238,16 @@ export class MdcTextfieldDirective extends AbstractMdcRipple implements AfterCon
                 this.renderer.removeClass(this._bottomLineElm, className);
         },
         addClassToHelptext: (className: string) => {
-            if (this.mdcHelptext)
-                this.renderer.addClass(this.mdcHelptext._elm.nativeElement, className);
+            if (this.helptext)
+                this.renderer.addClass(this.helptext._elm.nativeElement, className);
         },
         removeClassFromHelptext: (className: string) => {
-            if (this.mdcHelptext)
-                this.renderer.removeClass(this.mdcHelptext._elm.nativeElement, className);
+            if (this.helptext)
+                this.renderer.removeClass(this.helptext._elm.nativeElement, className);
         },
         helptextHasClass: (className: string) => {
-            if (this.mdcHelptext)
-                return this.mdcHelptext._elm.nativeElement.classList.contains(className);
+            if (this.helptext)
+                return this.helptext._elm.nativeElement.classList.contains(className);
         },
         registerInputInteractionHandler: (evtType: string, handler: EventListener) => {
             if (this._input)
@@ -268,12 +268,12 @@ export class MdcTextfieldDirective extends AbstractMdcRipple implements AfterCon
                 this._bottomLineElm.setAttribute(attr, value);
         },
         setHelptextAttr: (name: string, value: string) => {
-            if (this.mdcHelptext)
-                this.renderer.setAttribute(this.mdcHelptext._elm.nativeElement, name, value);
+            if (this.helptext)
+                this.renderer.setAttribute(this.helptext._elm.nativeElement, name, value);
         },
         removeHelptextAttr: (name: string) => {
-            if (this.mdcHelptext)
-                this.renderer.removeAttribute(this.mdcHelptext._elm.nativeElement, name);
+            if (this.helptext)
+                this.renderer.removeAttribute(this.helptext._elm.nativeElement, name);
         },
         getNativeInput: () => {
             return {
@@ -335,18 +335,18 @@ export class MdcTextfieldDirective extends AbstractMdcRipple implements AfterCon
     }
 
     /**
-     * When binding to 'mdcValid', the value will determine the valid state of the input,
+     * When binding to 'isValid', the value will determine the valid state of the input,
      * instead of it being managed by the underlying input element directly.
      * For most use cases this is not needed. When the input/textarea is an ngControl,
      * the mdcTextfield is already aware of that, and is already using the 'valid'
      * property of that control.
      * <p>
-     * However, in some specific cases, binding to mdcValid can help. Example:
+     * However, in some specific cases, binding to isValid can help. Example:
      * When you want the mdcTextfield to go to  'invalid' state only when the underlying
      * control is invalid AND that control is touched, you can bind as follows:
-     * <code>mdcValid="myControl.valid || !myControl.touched"</code>.
+     * <code>isValid="myControl.valid || !myControl.touched"</code>.
      */
-    @Input() set mdcValid(value: boolean) {
+    @Input() set isValid(value: boolean) {
         if (value == null) {
             this.valid = null; // reset to null, validity now managed by the input control.
             this.foundation.useCustomValidityChecking_ = false;
@@ -362,7 +362,7 @@ export class MdcTextfieldDirective extends AbstractMdcRipple implements AfterCon
     }
 
     @HostBinding('class.mdc-textfield--box') @Input()
-    get mdcBox() {
+    get boxed() {
         return this._box;
     }
 
@@ -374,17 +374,17 @@ export class MdcTextfieldDirective extends AbstractMdcRipple implements AfterCon
         return this._icon && this._icon._el.nativeElement.previousElementSibling;
     }
 
-    set mdcBox(val: any) {
+    set boxed(val: any) {
         this._box = asBoolean(val);
         this.initBox();
     }
 
     @HostBinding('class.mdc-textfield--dense') @Input()
-    get mdcDense() {
+    get dense() {
         return this._dense;
     }
 
-    set mdcDense(val: any) {
+    set dense(val: any) {
         this._dense = asBoolean(val);
     }
 }

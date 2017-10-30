@@ -35,7 +35,7 @@ function destroyScrollbarResizeListener() {
     }
 }
 
-// TODO: add mdcViewport option to do this for other elements that may
+// TODO: add viewport option to do this for other elements that may
 //  get a scrollbar, and therefore influence their childrens layout.
 
 /**

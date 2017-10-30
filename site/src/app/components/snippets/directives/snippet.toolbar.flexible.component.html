@@ -8,19 +8,19 @@
 </div>
 
 <div #viewport class="blox-snippet-page">
-  <!-- mdcViewport is used to position the fixed toolbar relative the parent div, instead of to the browser window.
+  <!-- viewport is used to position the fixed toolbar relative the parent div, instead of to the browser window.
        You don't normally need this property, since the default viewport is the browser window -->
-  <header mdcToolbar [mdcViewport]="viewport" mdcFixed [mdcFixedAdjust]="main"
-      [mdcWaterfall]="waterfall" mdcFlexible mdcFlexibleDefaultBehavior
-      (mdcExpansionRatio)="updateExpansionRatio($event)">
+  <header mdcToolbar [viewport]="viewport" isFixed [fixedAdjust]="main"
+      [isWaterfall]="waterfall" isFlexible isFlexibleDefaultBehavior
+      (expansionRatio)="updateExpansionRatio($event)">
     <div mdcToolbarRow>
-      <section mdcToolbarSection mdcAlignStart>
+      <section mdcToolbarSection alignStart>
         <span>
           <a href="javascript:void(0)" mdcToolbarMenuIcon><i class="material-icons">&#xE5C4;</i></a>
         </span>
         <span mdcToolbarTitle>Toolbar</span>
       </section>
-      <section mdcToolbarSection mdcAlignEnd>
+      <section mdcToolbarSection alignEnd>
         <a href="javascript:void(0)" mdcToolbarIcon class="material-icons" aria-label="Download" alt="Download">file_download</a>
         <a href="javascript:void(0)" mdcToolbarIcon class="material-icons" aria-label="Print this page" alt="Print this page">print</a>
         <a href="javascript:void(0)" mdcToolbarIcon class="material-icons" aria-label="Bookmark this page" alt="Bookmark this page">more_vert</a>
