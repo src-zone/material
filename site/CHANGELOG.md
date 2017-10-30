@@ -3,7 +3,57 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-<a name="0.3.0"></a>
+       <a name="0.4.0"></a>
+# [0.4.0](https://bitbucket.org/src-zone/material/compare/v0.3.0...v0.4.0) (2017-10-30)
+
+
+### Bug Fixes
+
+* **site:** fix linear-progress icon is too wide ([3a627bb](https://bitbucket.org/src-zone/material/commits/3a627bb))
+* **site:** SVG classlist support in IE11, fixes [#2](https://bitbucket.org/src-zone/material/issues/2) ([7da5ae1](https://bitbucket.org/src-zone/material/commits/7da5ae1))
+* **site:** SVG classlist support in IE11, fixes [#2](https://bitbucket.org/src-zone/material/issues/2) ([80f21d1](https://bitbucket.org/src-zone/material/commits/80f21d1))
+
+
+### Features
+
+* add MdcScrollbarResizeDirective ([259674e](https://bitbucket.org/src-zone/material/commits/259674e))
+* **elevation:** implement elevation directive (mdcElevation) ([c040dcb](https://bitbucket.org/src-zone/material/commits/c040dcb))
+* change mdcToolbarIconMenu to mdcToolbarMenuIcon. ([a80e9d3](https://bitbucket.org/src-zone/material/commits/a80e9d3))
+* change property 'expansionRatio' to 'mdcExpansionRatio'. ([a041394](https://bitbucket.org/src-zone/material/commits/a041394))
+* implement mdcSwitch component ([7c317b8](https://bitbucket.org/src-zone/material/commits/7c317b8))
+* mdcLinearProgress directive added ([47f0fe9](https://bitbucket.org/src-zone/material/commits/47f0fe9))
+* **tab,menu:** rename mdcSelect to pick (for menu), or activate (tab). ([97be223](https://bitbucket.org/src-zone/material/commits/97be223))
+* remove mdc prefix from all properties that are not directives ([a7769de](https://bitbucket.org/src-zone/material/commits/a7769de))
+* **elevation:** add animateTransition property ([0cce0b8](https://bitbucket.org/src-zone/material/commits/0cce0b8))
+* **list:** implement and document material list ([fad21c0](https://bitbucket.org/src-zone/material/commits/fad21c0))
+* **menu:** implement and document simple-menu ([589b50d](https://bitbucket.org/src-zone/material/commits/589b50d))
+* **ripple:** implement ripple surface directive: mdcRipple ([2b60e43](https://bitbucket.org/src-zone/material/commits/2b60e43))
+* **select:** directives supporting all mdc-select variants ([d0fdbae](https://bitbucket.org/src-zone/material/commits/d0fdbae))
+* **site:** integrate Tag Manager in documentation site ([d85038d](https://bitbucket.org/src-zone/material/commits/d85038d))
+* **snackbar:** implement and document MdcSnackbarService ([924742f](https://bitbucket.org/src-zone/material/commits/924742f))
+
+
+### BREAKING CHANGES
+
+* all properties have been renamed to not include the
+ mdc prefix. This brings naming conventions in line with modules
+ maintained by the angular core teams.
+* **tab,menu:** mdcSelect properties for menu and tab renamed to
+ respectively pick, and activate. To prevent nameclashes with the
+ 'mdcSelect' directive being worked on right now.
+ Please note: we have decided to drop the 'mdc' prefix from
+ properties, to be more in line in how other libs name their
+ properties, and for a more convenient (shorter) names.
+* use 'mdc' prefix for mdcExpansionratio property,
+to bring the naming inline with other properties of Blox Material.
+* rename mdcToolbarIconMenu to mdcToolbarMenuIcon,
+ follows upstream change from mdc-toolbar__icon--menu to
+ mdc-toolbar__menu-icon
+
+
+
+
+       <a name="0.3.0"></a>
 # [0.3.0](https://bitbucket.org/src-zone/material/compare/v0.2.1...v0.3.0) (2017-10-18)
 
 
