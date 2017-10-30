@@ -14,6 +14,7 @@ const globals = {
     '@material/menu': 'mdc.menu',    
     '@material/radio': 'mdc.radio',
     '@material/ripple': 'mdc.ripple',
+    '@material/select': 'mdc.select',
     '@material/slider': 'mdc.slider',
     '@material/switch': 'mdc.switch',
     '@material/snackbar': 'mdc.snackbar',

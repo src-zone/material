@@ -12,12 +12,16 @@ export class MdcEventRegistry {
     }
 
     listenElm(renderer: Renderer2, type: string, listener: EventListener, el: Element | Window, options?: any) {
-        if (!unlisteners.has(type))
-            unlisteners.set(type, new WeakMap<EventListener, Function>());
         el.addEventListener(type, listener, options);
         const unlistener = function() {
             el.removeEventListener(type, listener, options);
         };
+        this.registerUnlisten(type, listener, unlistener);
+    }
+
+    registerUnlisten(type: string, listener: EventListener, unlistener: Function) {
+        if (!unlisteners.has(type))
+            unlisteners.set(type, new WeakMap<EventListener, Function>());
         unlisteners.get(type).set(listener, unlistener);
     }
 

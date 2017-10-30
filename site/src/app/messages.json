@@ -21,6 +21,8 @@
     "directives.radio.description": "Single selection controls",
     "directives.ripple.title": "Ripple",
     "directives.ripple.description": "Ink ripple touch feedback effect",
+    "directives.select.title": "Select",
+    "directives.select.description": "Popover selection menus",
     "directives.slider.title": "Slider",
     "directives.slider.description": "Range controls",
     "directives.snackbar.title": "Snackbar",

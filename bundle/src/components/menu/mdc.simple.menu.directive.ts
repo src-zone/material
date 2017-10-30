@@ -3,7 +3,7 @@ import { AfterContentInit, Component, ContentChildren, Directive, ElementRef, Ev
 import { NgControl } from '@angular/forms';
 import { MDCSimpleMenuFoundation, MDCSimpleMenu, util } from '@material/menu';
 import { MdcSimpleMenuAdapter } from './mdc.simple.menu.adapter';
-import { MdcListDirective, MdcListItemDirective } from '../list/mdc.list.directive';
+import { MdcListDirective, MdcListItemDirective, MdcListFunction } from '../list/mdc.list.directive';
 import { asBoolean } from '../../utils/value.utils';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
@@ -47,6 +47,7 @@ export class MdcMenuAnchorDirective {
 })
 export class MdcSimpleMenuDirective implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-simple-menu') _cls = true;
+    private _function = MdcListFunction.menu;
     private _open = false;
     private _openFrom: 'tl' | 'tr' | 'bl' | 'br' | null = null;
     /**
@@ -71,7 +72,6 @@ export class MdcSimpleMenuDirective implements AfterContentInit, OnDestroy {
     @Output() mdcOpenChange: EventEmitter<boolean> = new EventEmitter();
     private _lastList: MdcListDirective;
     @ContentChildren(MdcListDirective) _listQuery: QueryList<MdcListDirective>;
-    @ContentChildren(MdcListItemDirective) _itemsQuery: QueryList<MdcListItemDirective>;
     private _prevFocus: Element;
     private mdcAdapter: MdcSimpleMenuAdapter = {
         addClass: (className: string) => {
@@ -150,12 +150,12 @@ export class MdcSimpleMenuDirective implements AfterContentInit, OnDestroy {
         notifySelected: (evtData: {index: number}) => {
             this._open = false;
             this.pick.emit({index: evtData.index, value: this._list._items.toArray()[evtData.index].mdcValue});
-            this.mdcOpenChange.emit(false);
+            this._onOpenClose();
         },
         notifyCancel: () => {
             this._open = false;
             this.mdcCancel.emit();
-            this.mdcOpenChange.emit(false);
+            this._onOpenClose();
         },
         saveFocus: () => {
             this._prevFocus = document.activeElement;
@@ -191,42 +191,62 @@ export class MdcSimpleMenuDirective implements AfterContentInit, OnDestroy {
         isOpen(): boolean
     } = new MDCSimpleMenuFoundation(this.mdcAdapter);
     // we need an MDCSimpleMenu for simple menu's contained inside mdc-select:
-    private component: MDCSimpleMenu;
+    public _component: MDCSimpleMenu;
 
-    constructor(private _elm: ElementRef, private _rndr: Renderer2, private _registry: MdcEventRegistry) {
+    constructor(public _elm: ElementRef, private _rndr: Renderer2, private _registry: MdcEventRegistry) {
     }
 
     ngAfterContentInit() {
         this._lastList = this._listQuery.first;
-        if (this._lastList)
-            this._lastList._isMenu = true;
+        if (this._lastList) {
+            this._lastList._setFunction(MdcListFunction.menu);
+            this._onOpenClose(false);
+        }
         this._listQuery.changes.subscribe(() => {
             if (this._lastList !== this._listQuery.first) {
-                this._lastList._isMenu = false;
+                this._lastList._setFunction(MdcListFunction.plain);
                 this._lastList = this._listQuery.first;
                 if (this._lastList) {
-                    this._lastList._isMenu = true;
-                    if (this.component == null)
-                        this.component = new MDCSimpleMenu(this._elm.nativeElement, this.foundation);
+                    this._lastList._setFunction(MdcListFunction.menu);
+                    this._onOpenClose(false);
+                    if (this._component == null)
+                        this._component = new MDCSimpleMenu(this._elm.nativeElement, this.foundation);
                 } else {
-                    this.component.destroy();
-                    this.component = null;
+                    this._component.destroy();
+                    this._component = null;
                     this.foundation = new MDCSimpleMenuFoundation(this.mdcAdapter);
                 }
             }
         });
         if (this._lastList)
             // constructing the MDCSimpleMenu also initializes the foundation:
-            this.component = new MDCSimpleMenu(this._elm.nativeElement, this.foundation);
+            this._component = new MDCSimpleMenu(this._elm.nativeElement, this.foundation);
     }
 
     ngOnDestroy() {
-        if (this.component)
-            this.component.destroy();
+        if (this._component)
+            this._component.destroy();
     }
 
-    private get _list(): MdcListDirective {
+    private _onOpenClose(emit = true) {
+        if (this._list)
+            this._list._hidden = !this._open;
+        if (emit)
+            this.mdcOpenChange.emit(this._open);
+    }
+
+    set _listFunction(val: MdcListFunction) {
+        this._function = val;
+        if (this._lastList) // otherwise this will happen in ngAfterContentInit
+            this._list._setFunction(val);
+    }
+
+    get _list(): MdcListDirective {
         return this._listQuery.first;
+    }
+
+    @HostBinding('class.mdc-select__menu') get _isSelect() {
+        return this._function === MdcListFunction.select;
     }
     
     /**
@@ -242,12 +262,13 @@ export class MdcSimpleMenuDirective implements AfterContentInit, OnDestroy {
         let newValue = asBoolean(val);
         if (newValue !== this._open) {
             this._open = newValue;
-            if (this.component != null) {
+            if (this._component != null) {
                 if (this._open)
                     this.foundation.open();
                 else
                     this.foundation.close();
             }
+            this._onOpenClose(false);
         }
     }
 

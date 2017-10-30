@@ -21,7 +21,7 @@ dialog                   |           |
 drawer                   |           |
 elevation                | [See demo](https://blox.src.zone/material#/directives/elevation) |
 fab                      | [See demo](https://blox.src.zone/material#/directives/fab) |
-form-field               | Available |
+form-field               | Available | See demos for e.g. radio, and checkbox.
 grid-list                |           |
 icon-toggle              | [See demo](https://blox.src.zone/material#/directives/icon-toggle) |
 linear-progress          | [See demo](https://blox.src.zone/material#/directives/linear-progress) |
@@ -29,7 +29,7 @@ list                     | [See demo](https://blox.src.zone/material#/directives
 menu                     | [See demo](https://blox.src.zone/material#/directives/menu) |
 radio                    | [See demo](https://blox.src.zone/material#/directives/radio) |
 ripple                   | [See demo](https://blox.src.zone/material#/directives/ripple) |
-select                   |           |
+select                   | [See demo](https://blox.src.zone/material#/directives/select) |
 slider                   | [See demo](https://blox.src.zone/material#/directives/slider) |
 snackbar                 | [See demo](https://blox.src.zone/material#/directives/snackbar) |
 switch                   | [See demo](https://blox.src.zone/material#/directives/switch) |

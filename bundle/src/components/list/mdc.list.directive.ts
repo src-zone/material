@@ -5,7 +5,8 @@ import { MdcButtonDirective } from '../button/mdc.button.directive';
 
 /**
  * Directive for a separator in a list.
- * This directive, if used, should be the child of an <code>MdcListDirective</code>.
+ * This directive, if used, should be the child of an <code>MdcListDirective</code>, or
+ * an <code>MdcSelectMultipleNativeDirective</code>.
  * This directive also adds the "role" attribute to its element.
  */
 @Directive({
@@ -14,9 +15,15 @@ import { MdcButtonDirective } from '../button/mdc.button.directive';
 export class MdcListDividerDirective {
     @HostBinding('class.mdc-list-divider') _cls = true;
     @HostBinding('attr.role') _role = 'separator';
+    @HostBinding('attr.disabled') _disabled = false;
     private _inset = false;
     
-    constructor() {}
+    constructor(private _elm: ElementRef) {
+        if (_elm.nativeElement.nodeName === 'OPTION') {
+            this._role = 'presentation';
+            this._disabled = true;
+        }
+    }
 
     /**
      * When this input is defined and does not have value false, the divider is styled with
@@ -53,7 +60,9 @@ export class MdcListItemDirective {
 
     /**
      * When a list is used inside an <code>mdcSimpleMenu</code>, or <code>mdcSelect</code>,
-     * this property can be used to disable the item.
+     * this property can be used to disable the item. When disabled, the list-item will have
+     * the <code>aria-disabled</code> attribute, and for  <code>mdcSimpleMenu</code>,
+     * or <code>mdcSelect</code> will set the <code>tabindex</code> to <code>-1</code>.
      */
     @Input()
     get mdcDisabled() {
@@ -65,13 +74,13 @@ export class MdcListItemDirective {
     }
 
     @HostBinding('attr.tabindex') get _tabIndex() {
-        if (this._role === 'menuitem')
+        if (this._role === 'menuitem' || this._role === 'option')
             return this._disabled ? -1 : 0;
         return null;
     }
 
     @HostBinding('attr.aria-disabled') get _ariaDisabled() {
-        if (this._role === 'menuitem' && this._disabled)
+        if (this._disabled)
             return 'true';
         return null;
     }
@@ -131,11 +140,16 @@ export class MdcListItemEndDetailDirective {
     constructor() {}
 }
 
+export enum MdcListFunction {
+    plain, menu, select
+};
+
 /**
  * Directive for a material list.
  * The children of this directive should either be <code>MdcListItemDirective</code>,
  * or <code>MdcListDividerDirective</code> elements.
- * This directive can optionally be contained in a <code>MdcListGroupDirective</code>.
+ * This directive can optionally be contained in a <code>MdcListGroupDirective</code>, in a
+ * <code>MdcSimpleMenuDirective</code>, or in a <code>MdcSelectDirective</code>.
  */
 @Directive({
     selector: '[mdcList]',
@@ -145,7 +159,8 @@ export class MdcListDirective implements AfterContentInit {
     @ContentChildren(MdcListItemDirective) _items: QueryList<MdcListItemDirective>;
     @ContentChildren(MdcListItemTextDirective, {descendants: true}) _texts: QueryList<MdcListItemTextDirective>;
     @HostBinding('class.mdc-list--two-line') _twoLine = false;
-    @HostBinding('attr.role') _role: 'menu' | null = null;
+    private _function: MdcListFunction = MdcListFunction.plain;
+    _hidden = false;
     private _dense = false;
     private _avatar = false;
     
@@ -161,21 +176,31 @@ export class MdcListDirective implements AfterContentInit {
     }
 
     private updateItemRoles() {
-        let itemRole = this._role === 'menu' ? 'menuitem' : null;
+        let itemRole = null;
+        if (this._function === MdcListFunction.menu)
+            itemRole = 'menuitem';
+        else if (this._function === MdcListFunction.select)
+            itemRole = 'option';
         this._items.forEach(item => {
             item._role = itemRole;
         });
     }
 
-    @HostBinding('class.mdc-simple-menu__items') get _isMenu() {
-        return this._role === 'menu';
+    @HostBinding('attr.role') get _role() {
+        return (this._function === MdcListFunction.menu) ? 'menu' : null;
+        // Note: role="listbox" is set on the mdcSelect, not on this mdcList
     }
 
-    set _isMenu(val: boolean) {
-        if (val)
-            this._role = 'menu';
-        else if (this._role === 'menu')
-            this._role = null;
+    @HostBinding('attr.aria-hidden') get _ariaHidden() {
+        return (this._hidden && this._function === MdcListFunction.menu) ? 'true' : null;
+    }
+
+    @HostBinding('class.mdc-simple-menu__items') get _isMenu() {
+        return this._function === MdcListFunction.menu || this._function === MdcListFunction.select;
+    }
+
+    _setFunction(val: MdcListFunction) {
+        this._function = val;
         this.updateItemRoles();
     }
 
