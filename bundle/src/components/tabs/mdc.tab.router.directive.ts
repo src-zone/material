@@ -1,6 +1,7 @@
 import { AfterContentInit, ChangeDetectorRef, ContentChild, ContentChildren, EventEmitter, forwardRef, QueryList, Directive, ElementRef,
     HostBinding, HostListener, Input, OnChanges, OnDestroy, Optional, Output, Renderer2, Self } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject } from 'rxjs/Subject';
+import { takeUntil } from 'rxjs/operators/takeUntil';
 import { NgControl } from '@angular/forms';
 import { NavigationEnd, Router, RouterLink, RouterLinkWithHref } from '@angular/router';
 import { MDCTabFoundation } from '@material/tabs';
@@ -21,7 +22,7 @@ export class MdcTabRouterDirective extends AbstractMdcTabDirective {
 
     constructor(rndr: Renderer2, root: ElementRef, registry: MdcEventRegistry, private router: Router, private cdr: ChangeDetectorRef) {
         super(rndr, root, registry);
-        router.events.takeUntil(this.onDestroy$).subscribe(s => {
+        router.events.pipe(takeUntil(this.onDestroy$)).subscribe(s => {
             if (s instanceof NavigationEnd) {
                 this.update();
             }

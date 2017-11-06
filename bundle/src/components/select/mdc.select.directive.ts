@@ -2,7 +2,8 @@ import { AfterContentInit, Component, ContentChild, ContentChildren, Directive, 
   Input, OnDestroy, Output, QueryList, Renderer2, Self } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MDCSelectFoundation, util } from '@material/select';
-import { Subject } from 'rxjs';
+import { Subject } from 'rxjs/Subject';
+import { takeUntil } from 'rxjs/operators/takeUntil';
 import { MdcSelectAdapter } from './mdc.select.adapter';
 import { MdcSimpleMenuDirective } from '../menu/mdc.simple.menu.directive';
 import { MdcListDirective, MdcListItemDirective, MdcListFunction } from '../list/mdc.list.directive';
@@ -37,6 +38,7 @@ export class MdcSelectTextDirective {
 export class MdcSelectDirective implements AfterContentInit, OnDestroy {
     private onDestroy$: Subject<any> = new Subject();
     @HostBinding('class.' + CLASS_SELECT) _cls = true;
+    @HostBinding('attr.role') _role = 'listbox';
     @ContentChild(MdcSimpleMenuDirective) _menu: MdcSimpleMenuDirective;
     @ContentChild(MdcSelectTextDirective) _text: MdcSelectTextDirective;
     private _onChange: (value: any) => void = (value) => {};
@@ -141,7 +143,7 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
         if (this._value)
             this.updateIndexFromValue();
         // when the list items change, the index might be affected based on the currently selected value:
-        this._menu._list._items.changes.takeUntil(this.onDestroy$).subscribe(() => {
+        this._menu._list._items.changes.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
             this.updateIndexFromValue();
         });
 

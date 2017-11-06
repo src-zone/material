@@ -3,7 +3,6 @@ import { AfterContentInit, AfterViewInit, Component, ContentChild, ContentChildr
   ViewEncapsulation } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { MDCToolbar, MDCToolbarFoundation, util } from '@material/toolbar';
-import { cssClasses, strings } from '@material/toolbar/constants';
 import { MdcToolbarAdapter } from './mdc.toolbar.adapter';
 import { asBoolean } from '../../utils/value.utils';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';

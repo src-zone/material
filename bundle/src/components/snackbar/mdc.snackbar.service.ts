@@ -1,7 +1,10 @@
 import { Injectable, Optional, Renderer2, SkipSelf } from '@angular/core';
 import { getCorrectEventName } from '@material/animation';
 import { MDCSnackbar, MDCSnackbarFoundation } from '@material/snackbar';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { filter } from 'rxjs/operators/filter';
+import { take } from 'rxjs/operators/take';
 import { MdcSnackbarAdapter } from './mdc.snackbar.adapter';
 import { MdcSnackbarMessage } from './mdc.snackbar.message';
 
@@ -147,7 +150,10 @@ export class MdcSnackbarService {
             data.actionHandler = function() {action.next(); };
         // make sure the action Subject will complete after the snackbar is removed from screen,
         // so that callers never have to unsubscribe:
-        this.closeMessage.asObservable().filter(nr => nr === messageNr).take(1).subscribe(nr => {
+        this.closeMessage.asObservable().pipe(
+            filter(nr => nr === messageNr),
+            take(1)
+        ).subscribe(nr => {
             action.complete();
         });
 

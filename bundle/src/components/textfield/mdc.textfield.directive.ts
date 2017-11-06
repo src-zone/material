@@ -1,7 +1,6 @@
 import { AfterContentInit, AfterViewInit, Component, ContentChild, ContentChildren, Directive, ElementRef, EventEmitter, forwardRef, HostBinding,
   HostListener, Input, OnDestroy, OnInit, Optional, Output, Provider, QueryList, Renderer2, Self, ViewChild,
   ViewEncapsulation } from '@angular/core';
-import { Observable } from 'rxjs';
 import { NgControl } from '@angular/forms';
 import { MDCRipple } from '@material/ripple';
 import { MDCTextfieldFoundation } from '@material/textfield';
