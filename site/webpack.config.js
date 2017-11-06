@@ -10,7 +10,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const PurifyPlugin = require('@angular-devkit/build-optimizer').PurifyPlugin;
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const AotPlugin = require('@ngtools/webpack').AotPlugin;
+const AngularCompilerPlugin = require('@ngtools/webpack').AngularCompilerPlugin;
 const InlineChunkManifestHtmlWebpackPlugin = require('inline-chunk-manifest-html-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
@@ -165,7 +165,7 @@ module.exports = function makeWebpackConfig(env) {
     rules: [
       // Support for .ts files.
       {
-        test: /\.ts$/,
+        test: /(?:\.ngfactory\.js|\.ngstyle\.js|\.ts)$/,
         loaders: isProd ?
           [ buildOptimizerLoader, '@ngtools/webpack'] :
           ['awesome-typescript-loader?' + atlOptions, 'angular2-template-loader'],
@@ -175,7 +175,7 @@ module.exports = function makeWebpackConfig(env) {
       {
         "test": isProd ? /\.js$/ : /\.doesnotmatchanything$/,
         loaders: [buildOptimizerLoader],
-        exclude: /node_modules[\\/]\@material[\\/].*\.js$/
+        exclude: /(?:node_modules[\\/]\@material[\\/].*\.js$)|(?:\.ngfactory\.js$)|(?:\.ngstyle\.js$)/
       },
       
       {
@@ -293,7 +293,7 @@ module.exports = function makeWebpackConfig(env) {
   ];
 
   if (isProd)
-    config.plugins.push(new AotPlugin({
+    config.plugins.push(new AngularCompilerPlugin({
       tsConfigPath: root('tsconfig.json'),
       entryModule: aotEntryModule
     }));

@@ -1,4 +1,4 @@
-/** IE9, IE10 and IE11 requires all of the following polyfills. **/
+// IE9, IE10 and IE11 requires all of the following polyfills.
 import 'core-js/es6/symbol';
 import 'core-js/es6/object';
 import 'core-js/es6/function';
@@ -11,22 +11,25 @@ import 'core-js/es6/date';
 import 'core-js/es6/array';
 import 'core-js/es6/regexp';
 import 'core-js/es6/map';
+import 'core-js/es6/weak-map';
 import 'core-js/es6/set';
 
-/** IE10 and IE11 requires the following for NgClass support on SVG elements */
+// IE10 and IE11 requires the following for NgClass support on SVG elements
 import 'classlist.js';  // Run `npm install --save classlist.js`.
 
-/** IE10 and IE11 requires the following to support `@angular/animation`. */
-/** ALL Firefox browsers require the following to support `@angular/animation`. **/
-// import 'web-animations-js';  // Run `npm install --save web-animations-js`.
-
-/** Evergreen browsers require these. **/
+// IE10 and IE11 requires the following for the Reflect API.
 import 'core-js/es6/reflect';
+
+// Evergreen browsers require these.
+// Used for reflect-metadata in JIT. If you use AOT (and only Angular decorators), you can remove.
 import 'core-js/es7/reflect';
 
-require('zone.js/dist/zone');
+// Required to support Web Animations `@angular/platform-browser/animations`.
+// Needed for: All but Chrome, Firefox and Opera. http://caniuse.com/#feat=web-animation
+// import 'web-animations-js';  // Run `npm install --save web-animations-js`.
 
-import 'ts-helpers';
+// Zone JS is required by Angular itself.
+import 'zone.js/dist/zone';
 
 if (process.env.ENV === 'build') {
   // Production
