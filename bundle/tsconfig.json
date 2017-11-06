@@ -22,12 +22,12 @@
   "compileOnSave": false,
   "buildOnSave": false,
   "angularCompilerOptions": {
-    "genDir": "compiled",
     "skipMetadataEmit" : false,
     "strictMetadataEmit": true,
     "skipTemplateCodegen": true,
     "flatModuleOutFile": "material.js",
     "flatModuleId": "@blox/material",
-    "annotateForClosureCompiler": true
+    "annotateForClosureCompiler": true,
+    "preserveWhitespaces": false
   }
 }
