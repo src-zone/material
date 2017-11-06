@@ -1,5 +1,5 @@
 import { AfterContentInit, AfterViewInit, Component, ContentChild, ContentChildren, Directive, ElementRef, EventEmitter, forwardRef, HostBinding,
-    HostListener, Input, OnDestroy, OnInit, Output, Provider, QueryList, Renderer2, Self, ViewChild,
+    HostListener, Input, OnDestroy, OnInit, Output, Provider, Renderer2, Self, ViewChild,
     ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MDCRipple } from '@material/ripple';

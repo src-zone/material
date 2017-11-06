@@ -1,4 +1,4 @@
-import { AfterContentInit, ContentChild, ContentChildren, forwardRef, QueryList, Directive, ElementRef,
+import { AfterContentInit, ContentChild, ContentChildren, forwardRef, Directive, ElementRef,
     HostBinding, HostListener, Input, OnDestroy, Optional, Output, Renderer2, Self } from '@angular/core';
 import { getCorrectPropertyName } from '@material/animation';
 import { MDCTabBarScrollerFoundation } from '@material/tabs';

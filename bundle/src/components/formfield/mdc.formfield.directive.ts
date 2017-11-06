@@ -1,4 +1,4 @@
-import { AfterContentInit, ContentChild, ContentChildren, forwardRef, QueryList, Directive, ElementRef, HostBinding, HostListener,
+import { AfterContentInit, ContentChild, ContentChildren, forwardRef, Directive, ElementRef, HostBinding, HostListener,
   Input, OnDestroy, Optional, Renderer2, Self } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { MDCFormFieldFoundation } from '@material/form-field';

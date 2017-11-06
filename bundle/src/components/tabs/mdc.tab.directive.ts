@@ -1,4 +1,4 @@
-import { AfterContentInit, ContentChild, ContentChildren, EventEmitter, forwardRef, QueryList, Directive, ElementRef,
+import { AfterContentInit, ContentChild, ContentChildren, EventEmitter, forwardRef, Directive, ElementRef,
     HostBinding, HostListener, Input, OnDestroy, Optional, Output, Renderer2, Self } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { MDCTabFoundation } from '@material/tabs';

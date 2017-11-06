@@ -1,5 +1,5 @@
 import { AfterContentInit, AfterViewInit, Component, ContentChild, ContentChildren, Directive, ElementRef, EventEmitter, forwardRef,
-  HostBinding, HostListener, Input, OnDestroy, Optional, Output, Provider, QueryList, Renderer2, Self, ViewChild,
+  HostBinding, HostListener, Input, OnDestroy, Optional, Output, Provider, Renderer2, Self, ViewChild,
   ViewEncapsulation } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { MDCToolbar, MDCToolbarFoundation, util } from '@material/toolbar';
