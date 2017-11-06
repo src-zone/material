@@ -14,6 +14,18 @@ const AotPlugin = require('@ngtools/webpack').AotPlugin;
 const InlineChunkManifestHtmlWebpackPlugin = require('inline-chunk-manifest-html-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
+const rxPaths = require('rxjs/_esm5/path-mapping');
+
+/**
+ * Env
+ * Get npm lifecycle event to identify the environment
+ */
+const ENV = process.env.npm_lifecycle_event;
+const isTestWatch = ENV === 'test-watch';
+const isTest = ENV === 'test' || isTestWatch;
+const isProd = /^build.*$/.test(ENV);
+const forceSourceMaps = true; // set to true for sourcemaps in production (e.g. to analyze bundle sizes) 
+
 const sassLoader = {
   loader: 'sass-loader',
   options: {
@@ -39,17 +51,16 @@ const postcssLoader = {
     ]
   }
 };
-
-/**
- * Env
- * Get npm lifecycle event to identify the environment
- */
-const ENV = process.env.npm_lifecycle_event;
-const isTestWatch = ENV === 'test-watch';
-const isTest = ENV === 'test' || isTestWatch;
-const isProd = /^build.*$/.test(ENV);
-const AOT = isProd;
-const forceSourceMaps = true; // set to true for sourcemaps in production (e.g. to analyze bundle sizes)
+const babelLoader = {
+  loader: 'babel-loader',
+  options: {
+    presets: [['env', {modules: false, targets: {browsers: ["last 2 versions", "ie >= 11"]}}]]
+  }
+};
+const buildOptimizerLoader = {
+  loader: '@angular-devkit/build-optimizer/webpack-loader',
+  options: {sourceMap: !isProd || forceSourceMaps}
+}
 
 module.exports = function makeWebpackConfig(env) {
   const target = 'app';
@@ -125,9 +136,13 @@ module.exports = function makeWebpackConfig(env) {
   config.resolve = {
     // only discover files that have those extensions
     extensions: ['.ts', '.js', '.json', '.css', '.scss', '.html'],
-    alias: {
-      'assets': path.resolve(__dirname, 'src/assets/')
-    }
+    alias: Object.assign({'assets': path.resolve(__dirname, 'src/assets/')}, rxPaths),
+    mainFields: [
+      //'es2015', (we can use this once we target es2015)
+      'browser',
+      'module',
+      'main'
+    ]
   };
 
   config.performance = {
@@ -151,24 +166,23 @@ module.exports = function makeWebpackConfig(env) {
       // Support for .ts files.
       {
         test: /\.ts$/,
-        loaders: AOT ?
-          ['@ngtools/webpack'] :
+        loaders: isProd ?
+          [ buildOptimizerLoader, '@ngtools/webpack'] :
           ['awesome-typescript-loader?' + atlOptions, 'angular2-template-loader'],
         exclude: [isTest ? /\.(e2e)\.ts$/ : /\.(spec|e2e)\.ts$/, /node_modules\/(?!(ng2-.+))/]
       },
 
       {
+        "test": isProd ? /\.js$/ : /\.doesnotmatchanything$/,
+        loaders: [buildOptimizerLoader],
+        exclude: /node_modules[\\/]\@material[\\/].*\.js$/
+      },
+      
+      {
         test: /node_modules[\\/]\@material[\\/].*\.js$/,
-        loaders: [
-          {
-            loader: 'babel-loader',
-            options: {
-              presets: [
-                ['es2015', {modules: false}]
-              ]
-            }
-          }
-        ]
+        loaders: isProd ?
+          [ babelLoader, buildOptimizerLoader ] :
+          [ babelLoader ]
       },
 
       // copy those assets to output
@@ -260,6 +274,8 @@ module.exports = function makeWebpackConfig(env) {
       root('./src') // location of your src
     ),
 
+    new webpack.optimize.ModuleConcatenationPlugin(),
+
     new webpack.LoaderOptionsPlugin({
       minimize: isProd,
       debug: false,
@@ -276,7 +292,7 @@ module.exports = function makeWebpackConfig(env) {
     })
   ];
 
-  if (AOT)
+  if (isProd)
     config.plugins.push(new AotPlugin({
       tsConfigPath: root('tsconfig.json'),
       entryModule: aotEntryModule
