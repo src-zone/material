@@ -21,14 +21,19 @@ const globals = {
     '@material/textfield': 'mdc.textfield',
     '@material/toolbar': 'mdc.toolbar',
     '@material/tabs': 'mdc.tabs',
-    'rxjs': 'Rx',
+    'rxjs/Observable': 'Rx',
+    'rxjs/Subject': 'Rx',
+    'rxjs/Subscription': 'Rx',    
+    'rxjs/operators/filter': 'Rx',
+    'rxjs/operators/take': 'Rx',
+    'rxjs/operators/takeUntil': 'Rx',
     'tslib': 'tslib'
 };
 
 export default {
     input: 'build/material.js',
     plugins: [
-        resolve({jail: '/src'}),
+        resolve({jail: '/src', modulesOnly: true}),
         sourcemaps()
     ],
     onwarn: function(warning) {
