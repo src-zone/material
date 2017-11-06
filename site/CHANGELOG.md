@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+       <a name="0.5.0"></a>
+# [0.5.0](https://bitbucket.org/src-zone/material/compare/v0.4.0...v0.5.0) (2017-11-06)
+
+
+### Bug Fixes
+
+* remove properties that shouldn't be there ([222c0c0](https://bitbucket.org/src-zone/material/commits/222c0c0))
+
+
+
+
        <a name="0.4.0"></a>
 # [0.4.0](https://bitbucket.org/src-zone/material/compare/v0.3.0...v0.4.0) (2017-10-30)
 
@@ -36,24 +47,24 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### BREAKING CHANGES
 
 * all properties have been renamed to not include the
- mdc prefix. This brings naming conventions in line with modules
- maintained by the angular core teams.
+mdc prefix. This brings naming conventions in line with modules
+maintained by the angular core teams.
 * **tab,menu:** mdcSelect properties for menu and tab renamed to
- respectively pick, and activate. To prevent nameclashes with the
- 'mdcSelect' directive being worked on right now.
- Please note: we have decided to drop the 'mdc' prefix from
- properties, to be more in line in how other libs name their
- properties, and for a more convenient (shorter) names.
+respectively pick, and activate. To prevent nameclashes with the
+'mdcSelect' directive being worked on right now.
+Please note: we have decided to drop the 'mdc' prefix from
+properties, to be more in line in how other libs name their
+properties, and for a more convenient (shorter) names.
 * use 'mdc' prefix for mdcExpansionratio property,
 to bring the naming inline with other properties of Blox Material.
 * rename mdcToolbarIconMenu to mdcToolbarMenuIcon,
- follows upstream change from mdc-toolbar__icon--menu to
- mdc-toolbar__menu-icon
+follows upstream change from mdc-toolbar__icon--menu to
+mdc-toolbar__menu-icon
 
 
 
 
-       <a name="0.3.0"></a>
+      <a name="0.3.0"></a>
 # [0.3.0](https://bitbucket.org/src-zone/material/compare/v0.2.1...v0.3.0) (2017-10-18)
 
 

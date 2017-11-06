@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+       <a name="0.5.0"></a>
+# [0.5.0](http://src-zone/material/compare/v0.4.0...v0.5.0) (2017-11-06)
+
+
+### Features
+
+* rxjs lettable operators ([c3dc01c](http://src-zone/material/commits/c3dc01c))
+* use rxjs lettable operators (may improve consumer app bundle size) ([71c2635](http://src-zone/material/commits/71c2635))
+
+
+
+
        <a name="0.4.0"></a>
 # [0.4.0](http://src-zone/material/compare/v0.3.0...v0.4.0) (2017-10-30)
 
@@ -35,16 +47,16 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### BREAKING CHANGES
 
 * all properties have been renamed to not include the
- mdc prefix. This brings naming conventions in line with modules
- maintained by the angular core teams.
+mdc prefix. This brings naming conventions in line with modules
+maintained by the angular core teams.
 * rename mdcToolbarIconMenu to mdcToolbarMenuIcon,
- follows upstream change from mdc-toolbar__icon--menu to
- mdc-toolbar__menu-icon
+follows upstream change from mdc-toolbar__icon--menu to
+mdc-toolbar__menu-icon
 
 
 
 
-       <a name="0.3.0"></a>
+      <a name="0.3.0"></a>
 # [0.3.0](https://bitbucket.org/src-zone/material/compare/v0.2.1...v0.3.0) (2017-10-18)
 
 
@@ -77,7 +89,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
- <a name="0.2.1"></a>
+<a name="0.2.1"></a>
 ## [0.2.1](https://bitbucket.org/src-zone/material/compare/v0.2.0...v0.2.1) (2017-10-13)
 
 
