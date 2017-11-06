@@ -1,6 +1,6 @@
 <fieldset class="blox-snippet snippet-skip-line">
 <p>Select based on mdcMenu (recommended for desktop and tablet):</p>
-<div mdcSelect role="listbox" [(ngModel)]="value" [disabled]="disabled">
+<div mdcSelect [(ngModel)]="value" [disabled]="disabled">
   <span mdcSelectedText>Pick a food group</span>
   <div mdcSimpleMenu>
     <ul mdcList>
@@ -17,7 +17,7 @@
 
 <p>Select based on native select (recommended for mobile):</p>
 <select mdcSelect [(ngModel)]="nativeValue" [disabled]="disabled">
-  <option value="" default selected disabled>Pick a food group</option>
+  <option value="" default disabled>Pick a food group</option>
   <option value="grains">Bread, Cereal, Rice, and Pasta</option>
   <option value="vegetables" disabled>Vegetables</option>
   <optgroup label="Fruits">
