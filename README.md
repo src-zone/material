@@ -13,7 +13,7 @@ is done by providing Angular Directives.
 ## Status 
 
 Component                | Directives | Comments
------------------------- | --------- |
+------------------------ | --------- | --
 button                   | [See demo](https://blox.src.zone/material#/directives/button) |
 card                     | [See demo](https://blox.src.zone/material#/directives/card) |
 checkbox                 | [See demo](https://blox.src.zone/material#/directives/checkbox) |
