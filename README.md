@@ -38,7 +38,7 @@ textfield                | [See demo](https://blox.src.zone/material#/directives
 toolbar                  | [See demo](https://blox.src.zone/material#/directives/toolbar) |
 
 Note: the `@material` packages `layout-grid`, `theme`, and `typography` are supposed to be used by
-scss (or css) directly. As such they can be used directly from your Angular app, and we see
+scss (or css) directly. As such they can be consumed directly from your Angular app, and we see
 no reason to wrap their functionality in Angular components or directives.
 
 ## Alternatives
