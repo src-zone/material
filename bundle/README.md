@@ -7,6 +7,6 @@ and [Angular](https://angular.io).
 ## Quick Links
 
 * [Demo, documentation and examples](http://blox.src.zone/material)
-* [Repository](https://bitbucket.org/src-zone/material)
-* [Issues](https://bitbucket.org/src-zone/material/issues?status=new&status=open)
+* [Repository](https://github.com/src-zone/material)
+* [Issues](https://github.com/src-zone/material/issues)
 * [Material Design Guideliness](https://material.io/guidelines)
