@@ -10,22 +10,22 @@
   <div mdcSlider aria-label="Change Buffer"
     minValue="0" maxValue="1" [(ngModel)]="buffer" [disabled]="indeterminate || closed"></div>
 </div>  
-<div mdcFormfield>
+<div mdcFormField>
   <div mdcCheckbox>
     <input mdcCheckboxInput type="checkbox" [(ngModel)]="indeterminate" [disabled]="closed"/>
   </div>
-  <label mdcFormfieldLabel>Indeterminate</label>
+  <label mdcFormFieldLabel>Indeterminate</label>
 </div>
-<div mdcFormfield>
+<div mdcFormField>
   <div mdcCheckbox>
     <input mdcCheckboxInput type="checkbox" [(ngModel)]="reversed" [disabled]="closed"/>
   </div>
-  <label mdcFormfieldLabel>Reversed</label>
+  <label mdcFormFieldLabel>Reversed</label>
 </div>
-<div mdcFormfield>
+<div mdcFormField>
   <div mdcCheckbox>
     <input mdcCheckboxInput type="checkbox" [(ngModel)]="closed"/>
   </div>
-  <label mdcFormfieldLabel>Closed</label>
+  <label mdcFormFieldLabel>Closed</label>
 </div>
 </fieldset><div class="snippet-skip-line"></div>

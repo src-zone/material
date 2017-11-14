@@ -6,38 +6,38 @@
     [(ngModel)]="value" [disabled]="disabled"></div>
 </div>
 <p>Customize slider:</p>
-<div mdcTextfield>
-  <input mdcTextfieldInput [ngModel]="value" (blur)="value = $event.target.value" required />
-  <label mdcTextfieldLabel>Current Value</label>
+<div mdcTextField>
+  <input mdcTextFieldInput [ngModel]="value" (blur)="value = $event.target.value" required />
+  <label mdcTextFieldLabel>Current Value</label>
 </div>
-<div mdcTextfield>
-  <input mdcTextfieldInput [ngModel]="min" (blur)="min = $event.target.value" required />
-  <label mdcTextfieldLabel>Min Value</label>
+<div mdcTextField>
+  <input mdcTextFieldInput [ngModel]="min" (blur)="min = $event.target.value" required />
+  <label mdcTextFieldLabel>Min Value</label>
 </div>
-<div mdcTextfield>
-  <input mdcTextfieldInput [ngModel]="max" (blur)="max = $event.target.value" required />
-  <label mdcTextfieldLabel>Max Value</label>
+<div mdcTextField>
+  <input mdcTextFieldInput [ngModel]="max" (blur)="max = $event.target.value" required />
+  <label mdcTextFieldLabel>Max Value</label>
 </div>
-<div mdcTextfield>
-  <input mdcTextfieldInput [ngModel]="step" (blur)="step = $event.target.value" required />
-  <label mdcTextfieldLabel>Step</label>
+<div mdcTextField>
+  <input mdcTextFieldInput [ngModel]="step" (blur)="step = $event.target.value" required />
+  <label mdcTextFieldLabel>Step</label>
 </div>
-<div mdcFormfield>
+<div mdcFormField>
   <div mdcCheckbox>
     <input mdcCheckboxInput type="checkbox" [(ngModel)]="discrete"/>
   </div>
-  <label mdcFormfieldLabel>Discrete</label>
+  <label mdcFormFieldLabel>Discrete</label>
 </div>
-<div mdcFormfield>
+<div mdcFormField>
   <div mdcCheckbox>
     <input mdcCheckboxInput type="checkbox" [(ngModel)]="markers"/>
   </div>
-  <label mdcFormfieldLabel>Markers</label>
+  <label mdcFormFieldLabel>Markers</label>
 </div>
-<div mdcFormfield>
+<div mdcFormField>
   <div mdcCheckbox>
     <input mdcCheckboxInput type="checkbox" [(ngModel)]="disabled"/>
   </div>
-  <label mdcFormfieldLabel>Disabled</label>
+  <label mdcFormFieldLabel>Disabled</label>
 </div>
 </fieldset><div class="snippet-skip-line"></div>

@@ -1,0 +1,52 @@
+<fieldset class="blox-snippet snippet-skip-line">
+<div mdcTextField [helptext]="input1Help" [boxed]="box" [dense]="dense">
+  <i mdcTextFieldIcon class="material-icons">face</i>
+  <input mdcTextFieldInput type="text" #input1="ngModel" [(ngModel)]="field1" [disabled]="disabled"
+    [required]="required"/>
+  <label mdcTextFieldLabel>Input 1</label>
+</div>
+<p mdcTextFieldHelptext #input1Help="mdcHelptext" [isPersistent]="persistent">
+  Input with leading icon
+</p>
+<div mdcTextField [helptext]="input2Help" [boxed]="box" [dense]="dense">
+  <input mdcTextFieldInput type="text" #input2="ngModel" [(ngModel)]="field2" [disabled]="disabled"
+      [required]="required"/>
+  <label mdcTextFieldLabel>Input 2</label>
+  <i mdcTextFieldIcon (click)="clearField2()" tabindex="0" class="material-icons">delete</i>
+</div>
+<p mdcTextFieldHelptext #input2Help="mdcHelptext" [isPersistent]="persistent">
+  <span>Input with trailing action icon</span>
+</p>
+
+<p>Modify behaviour of text-fields:</p>
+<div mdcFormField>
+  <div mdcCheckbox>
+    <input mdcCheckboxInput type="checkbox" [(ngModel)]="box"/>
+  </div>
+  <label mdcFormFieldLabel>Box</label>
+</div>
+<div mdcFormField>
+  <div mdcCheckbox>
+    <input mdcCheckboxInput type="checkbox" [(ngModel)]="dense"/>
+  </div>
+  <label mdcFormFieldLabel>Dense</label>
+</div>
+<div mdcFormField>
+  <div mdcCheckbox>
+    <input mdcCheckboxInput type="checkbox" [(ngModel)]="disabled"/>
+  </div>
+  <label mdcFormFieldLabel>Disabled</label>
+</div>
+<div mdcFormField>
+  <div mdcCheckbox>
+    <input mdcCheckboxInput type="checkbox" [(ngModel)]="required"/>
+  </div>
+  <label mdcFormFieldLabel>Required</label>
+</div>
+<div mdcFormField>
+  <div mdcCheckbox>
+    <input mdcCheckboxInput type="checkbox" [(ngModel)]="persistent"/>
+  </div>
+  <label mdcFormFieldLabel>Make helper text persistent</label>
+</div>
+</fieldset><div class="snippet-skip-line"></div>

@@ -34,7 +34,7 @@ slider                   | [See demo](https://blox.src.zone/material#/directives
 snackbar                 | [See demo](https://blox.src.zone/material#/directives/snackbar) |
 switch                   | [See demo](https://blox.src.zone/material#/directives/switch) |
 tabs                     | [See demo](https://blox.src.zone/material#/directives/tab) |
-textfield                | [See demo](https://blox.src.zone/material#/directives/textfield) |
+text-field               | [See demo](https://blox.src.zone/material#/directives/text-field) |
 toolbar                  | [See demo](https://blox.src.zone/material#/directives/toolbar) |
 
 Note: the `@material` packages `layout-grid`, `theme`, and `typography` are supposed to be used by

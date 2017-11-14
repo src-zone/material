@@ -1,5 +1,5 @@
 /** @docs-private */
-export interface MdcTextfieldAdapter {
+export interface MdcTextFieldAdapter {
     addClass: (className: string) => void;
     removeClass: (className: string) => void;
     addClassToLabel: (className: string) => void;

@@ -4,12 +4,12 @@ import { AbstractSnippetComponent } from '../abstract.snippet.component';
 //snip:endskip
 @Component({
   //snip:skip
-  providers: [{provide: AbstractSnippetComponent, useExisting: forwardRef(() => SnippetTextfieldIconComponent)}],
+  providers: [{provide: AbstractSnippetComponent, useExisting: forwardRef(() => SnippetTextFieldIconComponent)}],
   //snip:endskip
-  selector: 'blox-snippet-textfield-icon',
-  templateUrl: './snippet.textfield.icon.component.html'
+  selector: 'blox-snippet-text-field-icon',
+  templateUrl: './snippet.text-field.icon.component.html'
 })
-export class SnippetTextfieldIconComponent/*snip:skip*/extends AbstractSnippetComponent/*snip:endskip*/ {
+export class SnippetTextFieldIconComponent/*snip:skip*/extends AbstractSnippetComponent/*snip:endskip*/ {
     box = true;
     disabled = false;
     required = false;
@@ -21,8 +21,8 @@ export class SnippetTextfieldIconComponent/*snip:skip*/extends AbstractSnippetCo
     //snip:skip
     constructor() {
         super({
-          'html': require('!raw-loader!./snippet.textfield.icon.component.html'),
-          'typescript': require('!raw-loader!./snippet.textfield.icon.component.ts')
+          'html': require('!raw-loader!./snippet.text-field.icon.component.html'),
+          'typescript': require('!raw-loader!./snippet.text-field.icon.component.ts')
         });
     }
     //snip:endskip

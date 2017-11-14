@@ -1,0 +1,60 @@
+<fieldset class="blox-snippet snippet-skip-line">
+<div [dir]="dir">
+  <div mdcTextField [helptext]="input1Help" [boxed]="box" [dense]="dense">
+    <input mdcTextFieldInput type="text" #input1="ngModel" [(ngModel)]="field1" [disabled]="disabled"
+      [required]="required"/>
+    <label mdcTextFieldLabel>Input with Helptext</label>
+  </div>
+  <p mdcTextFieldHelptext #input1Help="mdcHelptext" [isPersistent]="persistent">
+    Help text
+  </p>
+
+  <div mdcTextField [helptext]="input2Help" [boxed]="box" [dense]="dense">
+    <input mdcTextFieldInput type="text" #input2="ngModel" [(ngModel)]="field2" [disabled]="disabled"
+      minlength="8" [required]="required"/>
+    <label mdcTextFieldLabel>Input with Validation</label>
+  </div>
+  <p mdcTextFieldHelptext #input2Help="mdcHelptext" isValidation [isPersistent]="persistent">
+    <span *ngIf="input2.errors?.required">Input is required</span>
+    <span *ngIf="input2.errors?.minlength">Input requires at least 8 characters</span>
+  </p>
+
+  <p>Modify behaviour of text-fields:</p>
+  <div mdcFormField>
+    <div mdcCheckbox>
+      <input mdcCheckboxInput type="checkbox" [(ngModel)]="box"/>
+    </div>
+    <label mdcFormFieldLabel>Box</label>
+  </div>
+  <div mdcFormField>
+    <div mdcCheckbox>
+      <input mdcCheckboxInput type="checkbox" [(ngModel)]="dense"/>
+    </div>
+    <label mdcFormFieldLabel>Dense</label>
+  </div>
+  <div mdcFormField>
+    <div mdcCheckbox>
+      <input mdcCheckboxInput type="checkbox" [(ngModel)]="disabled"/>
+    </div>
+    <label mdcFormFieldLabel>Disabled</label>
+  </div>
+  <div mdcFormField>
+    <div mdcCheckbox>
+      <input mdcCheckboxInput type="checkbox" [(ngModel)]="required"/>
+    </div>
+    <label mdcFormFieldLabel>Required</label>
+  </div>
+  <div mdcFormField>
+    <div mdcCheckbox>
+      <input mdcCheckboxInput type="checkbox" [(ngModel)]="persistent"/>
+    </div>
+    <label mdcFormFieldLabel>Make helper text persistent</label>
+  </div>
+  <div mdcFormField>
+    <div mdcCheckbox>
+      <input mdcCheckboxInput type="checkbox" [(ngModel)]="rtl"/>
+    </div>
+    <label mdcFormFieldLabel>RTL</label>
+  </div>
+</div>
+</fieldset><div class="snippet-skip-line"></div>

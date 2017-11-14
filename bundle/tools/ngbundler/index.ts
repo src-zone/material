@@ -19,7 +19,7 @@ const globals = {
   '@material/slider': 'mdc.slider',
   '@material/switch': 'mdc.switch',
   '@material/snackbar': 'mdc.snackbar',
-  '@material/textfield': 'mdc.textfield',
+  '@material/textfield': 'mdc.textfield',  // checked, not exported as mdc.textField yet
   '@material/toolbar': 'mdc.toolbar',
   '@material/tabs': 'mdc.tabs',
   'rxjs/Observable': 'Rx',

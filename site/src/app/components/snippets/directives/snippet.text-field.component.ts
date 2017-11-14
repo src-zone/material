@@ -4,12 +4,12 @@ import { AbstractSnippetComponent } from '../abstract.snippet.component';
 //snip:endskip
 @Component({
   //snip:skip
-  providers: [{provide: AbstractSnippetComponent, useExisting: forwardRef(() => SnippetTextfieldComponent)}],
+  providers: [{provide: AbstractSnippetComponent, useExisting: forwardRef(() => SnippetTextFieldComponent)}],
   //snip:endskip
-  selector: 'blox-snippet-textfield',
-  templateUrl: './snippet.textfield.component.html'
+  selector: 'blox-snippet-text-field',
+  templateUrl: './snippet.text-field.component.html'
 })
-export class SnippetTextfieldComponent/*snip:skip*/extends AbstractSnippetComponent/*snip:endskip*/ {
+export class SnippetTextFieldComponent/*snip:skip*/extends AbstractSnippetComponent/*snip:endskip*/ {
     box = false;
     rtl = false;
     disabled = false;
@@ -22,8 +22,8 @@ export class SnippetTextfieldComponent/*snip:skip*/extends AbstractSnippetCompon
     //snip:skip
     constructor() {
         super({
-          'html': require('!raw-loader!./snippet.textfield.component.html'),
-          'typescript': require('!raw-loader!./snippet.textfield.component.ts')
+          'html': require('!raw-loader!./snippet.text-field.component.html'),
+          'typescript': require('!raw-loader!./snippet.text-field.component.ts')
         });
     }
     //snip:endskip
