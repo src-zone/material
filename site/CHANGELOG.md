@@ -3,7 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-       <a name="0.5.0"></a>
+      <a name="0.6.0"></a>
+# [0.6.0](https://github.com/src-zone/material/compare/v0.5.0...v0.6.0) (2017-11-14)
+
+
+### Features
+
+* upgrade to material-components-web 0.25.0 ([db73530](https://github.com/src-zone/material/commit/db73530))
+
+
+### BREAKING CHANGES
+
+* Upgrade to material-components-web 0.25.0 and rename
+mdcTextfield to mdcTextField and mdcFormfield to mdcFormField.
+(Following upstream change of changing textfield to text-field).
+
+
+
+
+      <a name="0.5.0"></a>
 # [0.5.0](https://bitbucket.org/src-zone/material/compare/v0.4.0...v0.5.0) (2017-11-06)
 
 
@@ -14,7 +32,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-       <a name="0.4.0"></a>
+     <a name="0.4.0"></a>
 # [0.4.0](https://bitbucket.org/src-zone/material/compare/v0.3.0...v0.4.0) (2017-10-30)
 
 
@@ -64,7 +82,7 @@ mdc-toolbar__menu-icon
 
 
 
-      <a name="0.3.0"></a>
+    <a name="0.3.0"></a>
 # [0.3.0](https://bitbucket.org/src-zone/material/compare/v0.2.1...v0.3.0) (2017-10-18)
 
 
