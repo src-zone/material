@@ -53,6 +53,3 @@ no reason to wrap their functionality in Angular components or directives.
   applications. The angular-mdc-web integration is mostly based upon Angular Components.
   Blox Material uses Angular Directives for all component integrations.
   There are advantages to both approaches.
-
-## Quick Links
-*  [Demo, documentation and examples](https://blox.src.zone/material)
