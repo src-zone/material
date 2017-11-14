@@ -2,7 +2,7 @@ import { AfterContentInit, ContentChild, ContentChildren, forwardRef, Directive,
   Input, OnDestroy, Optional, Renderer2, Self } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { MDCFormFieldFoundation } from '@material/form-field';
-import { MdcFormfieldAdapter } from './mdc.formfield.adapter';
+import { MdcFormFieldAdapter } from './mdc.form-field.adapter';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 import { AbstractMdcInput } from '../abstract/abstract.mdc.input';
 import { AbstractMdcLabel } from '../abstract/abstract.mdc.label';
@@ -12,10 +12,10 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 let nextId = 1;
 
 @Directive({
-    selector: 'input[mdcFormfieldInput], textarea[mdcFormfieldInput]',
-    providers: [{provide: AbstractMdcInput, useExisting: forwardRef(() => MdcFormfieldInputDirective) }]
+    selector: 'input[mdcFormFieldInput], textarea[mdcFormFieldInput]',
+    providers: [{provide: AbstractMdcInput, useExisting: forwardRef(() => MdcFormFieldInputDirective) }]
 })
-export class MdcFormfieldInputDirective extends AbstractMdcInput {
+export class MdcFormFieldInputDirective extends AbstractMdcInput {
     private _id: string;
     private _disabled = false;
 
@@ -43,10 +43,10 @@ export class MdcFormfieldInputDirective extends AbstractMdcInput {
 }
 
 @Directive({
-    selector: 'label[mdcFormfieldLabel]',
-    providers: [{provide: AbstractMdcLabel, useExisting: forwardRef(() => MdcFormfieldLabelDirective) }]
+    selector: 'label[mdcFormFieldLabel]',
+    providers: [{provide: AbstractMdcLabel, useExisting: forwardRef(() => MdcFormFieldLabelDirective) }]
 })
-export class MdcFormfieldLabelDirective extends AbstractMdcLabel {
+export class MdcFormFieldLabelDirective extends AbstractMdcLabel {
     @HostBinding() @Input() for: string;
 
     constructor(public _elm: ElementRef) {
@@ -55,16 +55,16 @@ export class MdcFormfieldLabelDirective extends AbstractMdcLabel {
 }
 
 @Directive({
-    selector: '[mdcFormfield]'
+    selector: '[mdcFormField]'
 })
-export class MdcFormfieldDirective implements AfterContentInit, OnDestroy {
+export class MdcFormFieldDirective implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-form-field') _cls = true;
     private _alignEnd = false;
     @ContentChild(AbstractMdcRipple) rippleChild: AbstractMdcRipple;
     @ContentChild(AbstractMdcInput) mdcInput: AbstractMdcInput;
     @ContentChild(AbstractMdcLabel) mdcLabel: AbstractMdcLabel;
 
-    private mdcAdapter: MdcFormfieldAdapter = {
+    private mdcAdapter: MdcFormFieldAdapter = {
         registerInteractionHandler: (type: string, handler: EventListener) => {
             this.registry.listen(this.renderer, type, handler, this.root);
         },

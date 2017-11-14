@@ -37,7 +37,7 @@
     "bourbon": "4.3.4",
     "bourbon-neat": "2.0.0",
     "classlist.js": "^1.1.20150312",
-    "material-components-web": "^0.24.0",
+    "material-components-web": "^0.25.0",
     "normalize.css": "^7.0.0",
     "rxjs": "^5.5.2",
     "to-string-loader": "^1.1.5",

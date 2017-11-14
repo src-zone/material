@@ -22,7 +22,7 @@ import {
     SnackbarDirectivesComponent,
     SwitchDirectivesComponent,
     TabDirectivesComponent,
-    TextfieldDirectivesComponent,
+    TextFieldDirectivesComponent,
     ToolbarDirectivesComponent,
     UtilityDirectivesComponent } from './components';
 
@@ -51,7 +51,7 @@ export const routes: Routes = [
         {path: SnackbarDirectivesComponent.DOC_HREF, component: SnackbarDirectivesComponent},
         {path: SwitchDirectivesComponent.DOC_HREF, component: SwitchDirectivesComponent},
         {path: TabDirectivesComponent.DOC_HREF, component: TabDirectivesComponent},
-        {path: TextfieldDirectivesComponent.DOC_HREF, component: TextfieldDirectivesComponent},
+        {path: TextFieldDirectivesComponent.DOC_HREF, component: TextFieldDirectivesComponent},
         {path: ToolbarDirectivesComponent.DOC_HREF, component: ToolbarDirectivesComponent},
         {path: UtilityDirectivesComponent.DOC_HREF, component: UtilityDirectivesComponent}
     ]}

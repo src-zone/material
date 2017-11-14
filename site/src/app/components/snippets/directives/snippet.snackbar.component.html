@@ -1,24 +1,24 @@
 <fieldset class="blox-snippet snippet-skip-line">
 <form #form="ngForm">
-  <div mdcTextfield style="width: 100%">
-    <input mdcTextfieldInput [(ngModel)]="messageText" name="messageText" required />
-    <label mdcTextfieldLabel>Message Text</label>
+  <div mdcTextField style="width: 100%">
+    <input mdcTextFieldInput [(ngModel)]="messageText" name="messageText" required />
+    <label mdcTextFieldLabel>Message Text</label>
   </div>
-  <div mdcTextfield>
-    <input mdcTextfieldInput [(ngModel)]="actionText" name="actionText" />
-    <label mdcTextfieldLabel>Action Text</label>
+  <div mdcTextField>
+    <input mdcTextFieldInput [(ngModel)]="actionText" name="actionText" />
+    <label mdcTextFieldLabel>Action Text</label>
   </div>
-  <div mdcFormfield>
+  <div mdcFormField>
     <div mdcCheckbox>
       <input mdcCheckboxInput type="checkbox" [(ngModel)]="multiline" name="multiline" />
     </div>
-    <label mdcFormfieldLabel>Multiline</label>
+    <label mdcFormFieldLabel>Multiline</label>
   </div>
-  <div *ngIf="multiline" mdcFormfield>
+  <div *ngIf="multiline" mdcFormField>
     <div mdcCheckbox>
       <input mdcCheckboxInput type="checkbox" [(ngModel)]="actionOnBottom" name="actionOnBottom" />
     </div>
-    <label mdcFormfieldLabel>Action On Bottom</label>
+    <label mdcFormFieldLabel>Action On Bottom</label>
   </div>
   <section>
     <button mdcButton raised (click)="show()" [disabled]="!form.valid">Show Snackbar</button>

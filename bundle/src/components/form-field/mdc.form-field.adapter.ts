@@ -1,5 +1,5 @@
 /** @docs-private */
-export interface MdcFormfieldAdapter {
+export interface MdcFormFieldAdapter {
     registerInteractionHandler: (type: string, handler: EventListener) => void;
     deregisterInteractionHandler: (type: string, handler: EventListener) => void;
     activateInputRipple: () => void;

@@ -1,46 +1,46 @@
 <fieldset class="blox-snippet snippet-skip-line">
 <div [dir]="dir">
   <h3>Multiline input:</h3>
-  <div mdcTextfield [helptext]="input1Help" [dense]="dense">
-    <textarea mdcTextfieldInput type="text" #input1="ngModel" [(ngModel)]="field1" [disabled]="disabled"
+  <div mdcTextField [helptext]="input1Help" [dense]="dense">
+    <textarea mdcTextFieldInput type="text" #input1="ngModel" [(ngModel)]="field1" [disabled]="disabled"
       minlength="8" [required]="required" rows="8" cols="40"></textarea>
-    <label mdcTextfieldLabel>Multiline Input</label>
+    <label mdcTextFieldLabel>Multiline Input</label>
   </div>
-  <p mdcTextfieldHelptext #input1Help="mdcHelptext" isValidation [isPersistent]="persistent">
+  <p mdcTextFieldHelptext #input1Help="mdcHelptext" isValidation [isPersistent]="persistent">
     <span *ngIf="input1.errors?.required">Input is required</span>
     <span *ngIf="input1.errors?.minlength">Input requires at least 8 characters</span>
   </p>
 
-  <h3>Modify behaviour of textfield:</h3>
-  <div mdcFormfield>
+  <h3>Modify behaviour of text-field:</h3>
+  <div mdcFormField>
     <div mdcCheckbox>
       <input mdcCheckboxInput type="checkbox" [(ngModel)]="dense"/>
     </div>
-    <label mdcFormfieldLabel>Dense</label>
+    <label mdcFormFieldLabel>Dense</label>
   </div>
-  <div mdcFormfield>
+  <div mdcFormField>
     <div mdcCheckbox>
       <input mdcCheckboxInput type="checkbox" [(ngModel)]="disabled"/>
     </div>
-    <label mdcFormfieldLabel>Disabled</label>
+    <label mdcFormFieldLabel>Disabled</label>
   </div>
-  <div mdcFormfield>
+  <div mdcFormField>
     <div mdcCheckbox>
       <input mdcCheckboxInput type="checkbox" [(ngModel)]="required"/>
     </div>
-    <label mdcFormfieldLabel>Required</label>
+    <label mdcFormFieldLabel>Required</label>
   </div>
-  <div mdcFormfield>
+  <div mdcFormField>
     <div mdcCheckbox>
       <input mdcCheckboxInput type="checkbox" [(ngModel)]="persistent"/>
     </div>
-    <label mdcFormfieldLabel>Make helper text persistent</label>
+    <label mdcFormFieldLabel>Make helper text persistent</label>
   </div>
-  <div mdcFormfield>
+  <div mdcFormField>
     <div mdcCheckbox>
       <input mdcCheckboxInput type="checkbox" [(ngModel)]="rtl"/>
     </div>
-    <label mdcFormfieldLabel>RTL</label>
+    <label mdcFormFieldLabel>RTL</label>
   </div>
 </div>
 </fieldset><div class="snippet-skip-line"></div>
