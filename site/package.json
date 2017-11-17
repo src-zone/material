@@ -47,7 +47,7 @@
     "@angular-devkit/build-optimizer": "0.0.32",
     "@angular/compiler-cli": "^5.0.0",
     "@ngtools/webpack": "^1.8.0",
-    "@types/jasmine": "^2.6.2",
+    "@types/jasmine": "^2.8.2",
     "@types/node": "^8.0.47",
     "@types/selenium-webdriver": "^3.0.8",
     "angular2-template-loader": "^0.6.2",
