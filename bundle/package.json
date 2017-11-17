@@ -39,7 +39,7 @@
   "devDependencies": {
     "@angular/common": "^4.4.4",
     "@angular/compiler": "^4.4.4",
-    "@angular/compiler-cli": "^4.4.4",
+    "@angular/compiler-cli": "^4.4.6",
     "@angular/core": "^4.4.4",
     "@angular/forms": "^4.4.4",
     "@angular/router": "^4.4.4",
