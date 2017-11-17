@@ -1,6 +1,8 @@
 collectors:
 - type: js-lerna
   path: /  # directory where lerna.json is located
+  bootstrap_command: echo "skipping bootstrap"
+  collect_root: true
   actors:
   - type: js-lerna
     versions: L.Y.Y  # pull requests for minor and patch updates
