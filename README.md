@@ -1,14 +1,13 @@
-Demo and Documention: https://blox.src.zone/material
-
 The Blox Material angular library provides an integration between
 [Google's Material Components for the Web](https://github.com/material-components/material-components-web)
 and [Angular](https://angular.io).
 
-Blox Material makes it possible to create beautiful apps with modular and customizable UI components,
+Blox Material makes it possible to create beautiful Angular apps with modular and customizable UI components,
 designed according to the [Material Design Guideliness](https://material.io/guidelines).
 
-The integration between Blox Material and the underlying Material Components for the Web,
-is done by providing Angular Directives.
+## Quick Links
+* [Documention, Demo & Examples](https://blox.src.zone/material)
+* [Changelog](bundle/CHANGELOG.md)
 
 ## Status 
 
@@ -54,6 +53,3 @@ no reason to wrap their functionality in Angular components or directives.
   applications. The angular-mdc-web integration is mostly based upon Angular Components.
   Blox Material uses Angular Directives for all component integrations.
   There are advantages to both approaches.
-
-## Quick Links
-*  [Demo, documentation and examples](https://blox.src.zone/material)
