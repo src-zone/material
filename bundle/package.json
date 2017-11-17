@@ -45,7 +45,7 @@
     "@angular/router": "^4.4.4",
     "@types/glob": "^5.0.33",
     "@types/jasmine": "^2.6.2",
-    "@types/node": "^8.0.47",
+    "@types/node": "^8.0.53",
     "@types/rollup": "^0.41.1",
     "@types/selenium-webdriver": "^3.0.8",
     "codelyzer": "^3.2.0",
