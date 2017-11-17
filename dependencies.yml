@@ -1,11 +1,32 @@
 collectors:
-- type: js-lerna
-  path: /  # directory where lerna.json is located
-  settings:
-    # bootstrap_command: npm --version && npm install --ignore-scripts --quiet && git diff && echo "skipping bootstrap"
-    collect_root: true
+
+- type: js-npm
+  path: /
   actors:
-  - type: js-lerna
-    versions: L.Y.Y  # pull requests for minor and patch updates
+  # pull requests for updates to our major version
+  - type: js-npm
+    versions: "L.Y.Y"
+  # create issues for new major versions
   - type: repo-issue
-    versions: Y.0.0  # issues for discussion of new major versions
+    versions: "Y.0.0"
+
+- type: js-npm
+  path: bundle
+  actors:
+  # pull requests for updates to our major version
+  - type: js-npm
+    versions: "L.Y.Y"
+  # create issues for new major versions
+  - type: repo-issue
+    versions: "Y.0.0"
+
+- type: js-npm
+  path: site
+  actors:
+  # pull requests for updates to our major version
+  - type: js-npm
+    versions: "L.Y.Y"
+  # create issues for new major versions
+  - type: repo-issue
+    versions: "Y.0.0"
+    
