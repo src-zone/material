@@ -7,7 +7,8 @@ import { AbstractSnippetComponent } from '../abstract.snippet.component';
   providers: [{provide: AbstractSnippetComponent, useExisting: forwardRef(() => SnippetCheckboxComponent)}],
   //snip:endskip
   selector: 'blox-snippet-checkbox',
-  templateUrl: './snippet.checkbox.component.html'
+  templateUrl: './snippet.checkbox.component.html',
+  styleUrls: ['./snippet.checkbox.component.scss']
 })
 export class SnippetCheckboxComponent/*snip:skip*/extends AbstractSnippetComponent/*snip:endskip*/ {
     alignEnd = false;
@@ -18,6 +19,7 @@ export class SnippetCheckboxComponent/*snip:skip*/extends AbstractSnippetCompone
     constructor() {
         super({
           'html': require('!raw-loader!./snippet.checkbox.component.html'),
+          'scss': require('!raw-loader!./snippet.checkbox.component.scss'),          
           'typescript': require('!raw-loader!./snippet.checkbox.component.ts')
         });
     }

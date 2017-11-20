@@ -3,11 +3,12 @@ import { Component, forwardRef } from '@angular/core';
 import { AbstractSnippetComponent } from '../abstract.snippet.component';
 //snip:endskip
 @Component({
-  //snip:skip
-  providers: [{provide: AbstractSnippetComponent, useExisting: forwardRef(() => SnippetRadioComponent)}],
-  //snip:endskip
-  selector: 'blox-snippet-radio',
-  templateUrl: './snippet.radio.component.html'
+    //snip:skip
+    providers: [{provide: AbstractSnippetComponent, useExisting: forwardRef(() => SnippetRadioComponent)}],
+    //snip:endskip
+    selector: 'blox-snippet-radio',
+    templateUrl: './snippet.radio.component.html',
+    styleUrls: ['./snippet.radio.component.scss']
 })
 export class SnippetRadioComponent/*snip:skip*/extends AbstractSnippetComponent/*snip:endskip*/ {
     alignEnd = false;
@@ -18,6 +19,7 @@ export class SnippetRadioComponent/*snip:skip*/extends AbstractSnippetComponent/
     constructor() {
         super({
           'html': require('!raw-loader!./snippet.radio.component.html'),
+          'scss': require('!raw-loader!./snippet.radio.component.scss'),
           'typescript': require('!raw-loader!./snippet.radio.component.ts')
         });
     }
