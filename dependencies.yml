@@ -15,7 +15,7 @@ collectors:
   path: bundle
   actors:
   - type: js-npm
-    dependencies: "^\\@angular\\\\.*"
+    dependencies: "^\\@angular\\/.*"
     versions: "L.Y.Y"
     settings:
       batch_mode: true
@@ -24,7 +24,7 @@ collectors:
       github_labels:
       - dependencies
   - type: js-npm
-    dependencies_not_matching: "^\\@angular\\\\.*"
+    dependencies_not_matching: "^\\@angular\\/.*"
     versions: "Y.Y.Y"
     settings:
       commit_message_prefix: "build: "
@@ -36,7 +36,7 @@ collectors:
   path: site
   actors:
   - type: js-npm
-    dependencies: "^\\@angular\\\\.*"
+    dependencies: "^\\@angular\\/.*"
     versions: "Y.Y.Y"
     settings:
       batch_mode: true
@@ -45,7 +45,7 @@ collectors:
       github_labels:
       - dependencies
   - type: js-npm
-    dependencies_not_matching: "^\\@angular\\\\.*"
+    dependencies_not_matching: "^\\@angular\\/.*"
     versions: "Y.Y.Y"
     settings:
       commit_message_prefix: "build: "
