@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
 })
 export class TabDirectivesComponent {
     static DOC_SVG = require('assets/img/mdc-icons/tabs.svg');
-    static DOC_TYPE = 'directives';
+    static DOC_TYPE = 'components';
     static DOC_HREF = 'tabs';
 
     constructor() {

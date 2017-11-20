@@ -30,8 +30,25 @@ main {
   @include blox-container;
 }
 
+.blox-nobreak {
+  word-wrap: none;
+  white-space: nowrap;
+}
+
 header {
   &.blox-header {
+    .mdc-toolbar__row:first-child {
+      height: $mdc-toolbar-row-height * $blox-toolbar-ratio-to-extend-flexible;
+      height: calc(#{$mdc-toolbar-row-height} * #{$blox-toolbar-ratio-to-extend-flexible});
+  
+      @media (max-width: $mdc-toolbar-mobile-breakpoint) {
+        height: $mdc-toolbar-mobile-row-height * $blox-toolbar-ratio-to-extend-flexible;
+        height: calc(#{$mdc-toolbar-mobile-row-height} * #{$blox-toolbar-ratio-to-extend-flexible});
+      }
+    }
+
+    z-index: 5; // layer above sample toolbars
+
     .mdc-toolbar__title {
       font-family: "Roboto Mono", monospace;
       &.blox-title-l {
@@ -54,12 +71,12 @@ header {
       }
     }
     .mdc-toolbar__section--align-end {
-      @media only screen and (max-width: $media-m-min-width - 1px) {
-        display: none;
-      }
       .mdc-tab-bar {
         position: absolute;
         bottom: 0px;
+        right: 0px; // otherwise it falls partially of screen in IE11
+        z-index: 5; // otherwise in ie11 the element that pushes it of screen
+                    // prevents the tabs from being clicked
       }
     }
   }
@@ -139,6 +156,10 @@ ul.blox-component-list {
   overflow-y: auto;
 }
 
+code {
+  background: #f5f5f5;
+}
+
 .blox-code-sample {
   display: block;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12);
@@ -210,6 +231,11 @@ p.blox-demo-paragraph {
     font-family: "Roboto Mono", monospace;
   }
 
+  code.blox-docs-method-returns-type,
+  code.blox-docs-property-type {
+    background-color: transparent;
+  }
+
   table {
     color: rgba(0,0,0,.87);
     border-collapse: collapse;
@@ -220,10 +246,10 @@ p.blox-demo-paragraph {
     box-shadow: 0 2px 2px rgba(0,0,0,.24), 0 0 2px rgba(0,0,0,.12);
 
     th {
-      background: #f5f5f5;      
+      background: #f5f5f5;
       font-weight: 400;
       max-width: 100px;
-      padding: 13px 32px;
+      padding: 8px 16px;
       text-align: left;
     }
 
@@ -231,6 +257,7 @@ p.blox-demo-paragraph {
       border: 1px solid rgba(0,0,0,.03);
       font-weight: 400;
       padding: 8px 16px;
+  
       &.blox-docs-properties-name-cell, &.blox-docs-method-parameter-cell, &.blox-docs-method-returns-type-cell {
         font-size: 14px;
         font-family: "Roboto Mono", monospace;
@@ -243,5 +270,61 @@ p.blox-demo-paragraph {
         }
       }
     }
+  }
+
+  @media only screen and (max-width: $media-l-min-width - 1px) {
+    table, thead, tbody, th, td, tr {
+      display: block;
+    }
+    thead {
+      background: #f5f5f5;
+    }
+    tr[data-caption] {
+      background: #f5f5f5;
+      padding: 8px 16px;
+      font-weight: 400;
+      th {
+        // hide, but keep 'display':
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+      }      
+      &::before {
+        content: attr(data-caption)
+      }
+    }
+    table {
+      td {
+        border: 0px;
+        p { margin: 0}
+        .blox-docs-input-marker, .blox-docs-property-name, .blox-docs-property-type {
+          display: inline;
+        }
+      }
+      tr {
+        border: 1px solid rgba(0,0,0,.03);        
+      }
+    }
+  }
+}
+
+.blox-jumbo {
+  font-size: 24px;
+  @media only screen and (max-width: $media-m-min-width - 1px) {
+    font-size: 16px;
+  }
+  .blox-inline-svg {
+    height: 28px;
+    width: 28px;
+    top: 6px;
+    position: relative;
+    @media only screen and (max-width: $media-m-min-width - 1px) {
+      height: 16px;
+      width: 16px;
+      top: 3px;
+    }
+  }
+  a {
+    text-decoration: none;
   }
 }

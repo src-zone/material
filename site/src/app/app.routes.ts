@@ -4,7 +4,6 @@ import {
     DocsComponent,
     GuidesComponent,
     GettingstartedComponent,
-    TranspileGuideComponent,
 
     ButtonDirectivesComponent,
     CardDirectivesComponent,
@@ -30,10 +29,10 @@ export const routes: Routes = [
     {path: '', redirectTo: 'guides', pathMatch: 'full'},
     {path: 'guides', component: DocsComponent, children: [
         {path: '', pathMatch: 'full', component: GuidesComponent},
-        {path: 'gettingstarted', component: GettingstartedComponent},
-        {path: 'ng-transpile', component: TranspileGuideComponent}
+        {path: 'gettingstarted', component: GettingstartedComponent}
     ]},
-    {path: 'directives', children: [
+    {path: 'directives', redirectTo: 'components'},
+    {path: 'components', children: [
         {path: '', pathMatch: 'full', component: OverviewComponent},
         {path: ButtonDirectivesComponent.DOC_HREF, component: ButtonDirectivesComponent},
         {path: CardDirectivesComponent.DOC_HREF, component: CardDirectivesComponent},

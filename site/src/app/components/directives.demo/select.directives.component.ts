@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
 })
 export class SelectDirectivesComponent {
     static DOC_SVG = require('assets/img/mdc-icons/menu.svg');
-    static DOC_TYPE = 'directives';
+    static DOC_TYPE = 'components';
     static DOC_HREF = 'select';
 
     constructor() {

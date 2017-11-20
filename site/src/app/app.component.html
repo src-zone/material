@@ -1,20 +1,29 @@
-<header mdcToolbar class="blox-header">
+<header mdcToolbar class="blox-header" isFixed [fixedAdjust]="main" isFlexible isFlexibleDefaultBehavior isFixedLastrowOnly isWaterfall>
   <div mdcToolbarRow class="blox-container">
     <a mdcToolbarSection alignStart routerLink="/">
       <span class="blox-material-logo"><img src="~assets/img/mdc-icons/mdc-logo.svg"></span>
-      <span mdcToolbarTitle class="blox-title-l">material components for angular</span>
-      <span mdcToolbarTitle class="blox-title-m">@blox/material</span>
+      <span mdcToolbarTitle class="blox-title-l">blox material:</span>
+      <span mdcToolbarTitle class="blox-title-m">blox material:</span>      
       <span mdcToolbarTitle class="blox-title-s">material</span>
     </a>
+  </div>
+  <div mdcToolbarRow class="blox-container">
+    <div mdcToolbarSection alignEnd>
+      <span mdcToolbarTitle class="blox-title-l">material components for angular</span>
+      <span mdcToolbarTitle class="blox-title-m">components for angular</span>      
+      <span mdcToolbarTitle class="blox-title-s">components</span>
+    </div>
+  </div>  
+  <div mdcToolbarRow class="blox-container">
     <div mdcToolbarSection alignEnd>
       <nav mdcTabBar>
         <a mdcTabRouter [routerLink]="['guides']">Guides</a>
-        <a mdcTabRouter [routerLink]="['directives']">Directives</a>
+        <a mdcTabRouter [routerLink]="['components']">Components</a>
       </nav>
     </div>
   </div>
 </header>
-<main>
+<main mdcToolbarFixedAdjust #main="mdcFixedAdjust">
   <div class="blox-container">
     <router-outlet></router-outlet>
   </div>

@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
 })
 export class RippleDirectivesComponent {
     static DOC_SVG = require('assets/img/mdc-icons/ripple.svg');
-    static DOC_TYPE = 'directives';
+    static DOC_TYPE = 'components';
     static DOC_HREF = 'ripple';
 
     constructor() {

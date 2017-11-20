@@ -1,6 +1,5 @@
-The Blox Material angular library provides an integration between
-[Google's Material Components for the Web](https://github.com/material-components/material-components-web)
-and [Angular](https://angular.io).
+A lightweight Material Design library for [Angular](https://angular.io).
+Open-source and based upon [Google's Material Components for the Web](https://github.com/material-components/material-components-web).
 
 Blox Material makes it possible to create beautiful Angular apps with modular and customizable UI components,
 designed according to the [Material Design Guideliness](https://material.io/guidelines).
@@ -36,8 +35,8 @@ tabs                     | [See demo](https://blox.src.zone/material#/directives
 text-field               | [See demo](https://blox.src.zone/material#/directives/text-field) |
 toolbar                  | [See demo](https://blox.src.zone/material#/directives/toolbar) |
 
-Note: the `@material` packages `layout-grid`, `theme`, and `typography` are supposed to be used by
-scss (or css) directly. As such they can be consumed directly from your Angular app, and we see
+Note: the `@material` packages `layout-grid`, `theme`, and `typography` provide styling
+(scss, css) only. As such they can be consumed directly from your Angular app, and we see
 no reason to wrap their functionality in Angular components or directives.
 
 ## Alternatives
@@ -50,6 +49,5 @@ no reason to wrap their functionality in Angular components or directives.
   and want to share your customized styling between both.
 * [angular-mdc-web](https://github.com/trimox/angular-mdc-web):
   Another integration library for leveraging Material Components for the Web in Angular
-  applications. The angular-mdc-web integration is mostly based upon Angular Components.
-  Blox Material uses Angular Directives for all component integrations.
-  There are advantages to both approaches.
+  applications. We would choose Blox Material for smaller resulting code size,
+  less complexity, and more consistent Angular integration. But we are biased.

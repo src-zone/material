@@ -17,4 +17,6 @@ $mdc-toolbar-row-height: 64px;
 $mdc-toolbar-mobile-row-height: 56px;
 $mdc-toolbar-mobile-breakpoint: $media-m-min-width - 1px;
 
+$blox-toolbar-ratio-to-extend-flexible: 1;
+
 @import "@material/theme/variables";

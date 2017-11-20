@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
 })
 export class CardDirectivesComponent {
     static DOC_SVG = require('assets/img/mdc-icons/card.svg');
-    static DOC_TYPE = 'directives';
+    static DOC_TYPE = 'components';
     static DOC_HREF = 'card';
 
     constructor() {

@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
 })
 export class ElevationDirectivesComponent {
     static DOC_SVG = require('assets/img/mdc-icons/shadow.svg');
-    static DOC_TYPE = 'directives';
+    static DOC_TYPE = 'components';
     static DOC_HREF = 'elevation';
 
     constructor() {
