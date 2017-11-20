@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@angular/common": "^4.4.4",
-    "@angular/compiler": "^4.4.4",
+    "@angular/compiler": "^5.0.2",
     "@angular/compiler-cli": "^4.4.4",
     "@angular/core": "^4.4.4",
     "@angular/forms": "^4.4.4",
