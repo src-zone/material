@@ -3,30 +3,52 @@ collectors:
 - type: js-npm
   path: /
   actors:
-  # pull requests for updates to our major version
   - type: js-npm
-    versions: "L.Y.Y"
-  # create issues for new major versions
-  - type: repo-issue
-    versions: "Y.0.0"
+    versions: "Y.Y.Y"
+    settings:
+      commit_message_prefix: "build: "
+      related_pr_behavior: close
+      github_labels:
+      - dependencies
 
 - type: js-npm
   path: bundle
   actors:
-  # pull requests for updates to our major version
   - type: js-npm
+    dependencies: "^\\@angular\\\\.*"
     versions: "L.Y.Y"
-  # create issues for new major versions
-  - type: repo-issue
-    versions: "Y.0.0"
+    settings:
+      batch_mode: true
+      commit_message_prefix: "build: "
+      related_pr_behavior: close
+      github_labels:
+      - dependencies
+  - type: js-npm
+    dependencies_not_matching: "^\\@angular\\\\.*"
+    versions: "Y.Y.Y"
+    settings:
+      commit_message_prefix: "build: "
+      related_pr_behavior: close
+      github_labels:
+      - dependencies
 
 - type: js-npm
   path: site
   actors:
-  # pull requests for updates to our major version
   - type: js-npm
-    versions: "L.Y.Y"
-  # create issues for new major versions
-  - type: repo-issue
-    versions: "Y.0.0"
-    
+    dependencies: "^\\@angular\\\\.*"
+    versions: "Y.Y.Y"
+    settings:
+      batch_mode: true
+      commit_message_prefix: "build: "
+      related_pr_behavior: close
+      github_labels:
+      - dependencies
+  - type: js-npm
+    dependencies_not_matching: "^\\@angular\\\\.*"
+    versions: "Y.Y.Y"
+    settings:
+      commit_message_prefix: "build: "
+      related_pr_behavior: close
+      github_labels:
+      - dependencies
