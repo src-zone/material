@@ -404,7 +404,7 @@ module.exports = function makeWebpackConfig(env) {
     index: 'material.html',
     historyApiFallback: {
       rewrites: [
-        { from: /^\/material$/, to: '/material.html' }
+        { from: /^\/material.*$/, to: '/material.html' }
       ]
     },
     quiet: true,

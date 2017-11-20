@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2GoogleTagManager } from 'angulartics2/gtm';
@@ -13,6 +13,8 @@ import {
   DocsComponent,
   GuidesComponent,
   GettingstartedComponent,
+
+  NotFoundComponent,
 
   CodeSampleComponent,
   MDC_DIRECTIVE_DOC_COMPONENTS,
@@ -69,6 +71,8 @@ export function highlightJsFactory() {
 
     OverviewComponent,
 
+    NotFoundComponent,
+
     CodeSampleComponent,
     
     ...MDC_DIRECTIVE_DOC_COMPONENTS,
@@ -96,7 +100,7 @@ export function highlightJsFactory() {
   ],
   providers: [
     appRoutingProviders,
-    {provide: LocationStrategy, useClass: HashLocationStrategy}
+    {provide: LocationStrategy, useClass: PathLocationStrategy}
   ],
   bootstrap: [ AppComponent ]
 })

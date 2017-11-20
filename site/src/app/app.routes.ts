@@ -5,6 +5,8 @@ import {
     GuidesComponent,
     GettingstartedComponent,
 
+    NotFoundComponent,
+
     ButtonDirectivesComponent,
     CardDirectivesComponent,
     CheckboxDirectivesComponent,
@@ -52,7 +54,8 @@ export const routes: Routes = [
         {path: TabDirectivesComponent.DOC_HREF, component: TabDirectivesComponent},
         {path: TextFieldDirectivesComponent.DOC_HREF, component: TextFieldDirectivesComponent},
         {path: ToolbarDirectivesComponent.DOC_HREF, component: ToolbarDirectivesComponent},
-        {path: UtilityDirectivesComponent.DOC_HREF, component: UtilityDirectivesComponent}
+        {path: UtilityDirectivesComponent.DOC_HREF, component: UtilityDirectivesComponent},
+        {path: '**', component: NotFoundComponent}
     ]}
 ];
 

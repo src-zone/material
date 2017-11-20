@@ -52,7 +52,7 @@ export class MdcSwitchInputDirective extends AbstractMdcInput {
  * </p><p>
  * This directive can be used together with an <code>mdcFormField</code> to
  * easily position switches and their labels, see
- * <a href="#/directives/form-field">mdcFormField</a>.
+ * <a href="/material/components/form-field">mdcFormField</a>.
  */
 @Directive({
     selector: '[mdcSwitch]'
