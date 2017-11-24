@@ -23,8 +23,7 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: cd bundle
-      - run: npm install
+      - run: cd bundle && pwd && npm install
 
       - save_cache:
           paths:
@@ -32,4 +31,4 @@ jobs:
           key: v1-dependencies-{{ checksum "package-lock.json" }}
         
       # build
-      - run: npm run build
+      - run: cd bundle && pwd && npm run build
