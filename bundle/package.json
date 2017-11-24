@@ -19,11 +19,12 @@
     "clean": "rimraf build dist",
     "ngc": "ngc -p tsconfig.json",
     "bundle": "ts-node --project tools/ngbundler tools/ngbundler/index.ts",
-    "copy-types": "cpy **/*.d.ts ../dist --cwd=build --parents",
-    "copy-metadata": "cpy build/material.metadata.json dist/",
+    "copy-types": "cpx 'build/**/*.d.ts' dist",
+    "copy-metadata": "cpx build/material.metadata.json dist",
     "apidocs": "ts-node --project tools/dgeni tools/dgeni/index.ts",
-    "link2site": "rimraf ../site/node_modules/@blox/material/*  && cpy package.json dist/**/*.* src/**/*.* apidocs/*.html ../site/node_modules/@blox/material/ --parents",
-    "build": "npm run clean && npm run ngc && npm run bundle && npm run copy-types && npm run copy-metadata && npm run apidocs && npm run link2site"
+    "cleansite": "rimraf ../site/node_modules/@blox/material/*",
+    "link2site": "cpx package.json ../site/node_modules/@blox/material/ && cpx 'dist/**/*.*' ../site/node_modules/@blox/material/dist/ && cpx 'src/**/*.*' ../site/node_modules/@blox/material/src && cpx 'apidocs/*.html' ../site/node_modules/@blox/material/apidocs",
+    "build": "npm run clean && npm run ngc && npm run bundle && npm run copy-types && npm run copy-metadata && npm run apidocs && npm run cleansite && npm run link2site"
   },
   "dependencies": {
     "material-components-web": "^0.25.0"
@@ -49,6 +50,7 @@
     "@types/rollup": "^0.51.1",
     "@types/selenium-webdriver": "^3.0.8",
     "codelyzer": "^4.0.1",
+    "cpx": "^1.5.0",
     "cpy-cli": "^1.0.1",
     "dgeni": "^0.4.9",
     "dgeni-packages": "^0.22.1",
