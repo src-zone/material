@@ -78,7 +78,7 @@
     "node-sass": "^4.7.2",
     "null-loader": "0.1.1",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
-    "postcss-loader": "^2.0.8",
+    "postcss-loader": "^2.0.9",
     "protractor": "^5.2.0",
     "raw-loader": "0.5.1",
     "remap-istanbul": "^0.9.1",
