@@ -20,7 +20,7 @@ collectors:
     settings:
       batch_mode: true
       commit_message_prefix: "build: "
-      related_pr_behavior: close
+      # not supported in batch_mode - related_pr_behavior: close
       github_labels:
       - dependencies
   - type: js-npm
@@ -41,7 +41,7 @@ collectors:
     settings:
       batch_mode: true
       commit_message_prefix: "build: "
-      related_pr_behavior: close
+      # not supported in batch_mode - related_pr_behavior: close
       github_labels:
       - dependencies
   - type: js-npm
