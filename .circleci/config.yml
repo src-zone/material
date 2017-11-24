@@ -31,4 +31,4 @@ jobs:
           key: v1-dependencies-{{ checksum "package-lock.json" }}
         
       # build
-      - run: cd bundle && pwd && npm run build || find .
+      - run: cd bundle && pwd && npm run build && find ../site/node_modules
