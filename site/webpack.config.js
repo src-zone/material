@@ -134,6 +134,9 @@ module.exports = function makeWebpackConfig(env) {
    * Reference: http://webpack.github.io/docs/configuration.html#resolve
    */
   config.resolve = {
+    // only use one-level of node_modules (otherwise file/link to other modules in this repo will not
+    //   work because they have their own nested node_modules):
+    modules: [path.resolve(__dirname, 'node_modules')],
     // only discover files that have those extensions
     extensions: ['.ts', '.js', '.json', '.css', '.scss', '.html'],
     alias: Object.assign({'assets': path.resolve(__dirname, 'src/assets/')}, rxPaths),
