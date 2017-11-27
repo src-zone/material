@@ -10,6 +10,5 @@ export class AppComponent {
     year = 2017;
 
     constructor(angulartics2GoogleTagManager: Angulartics2GoogleTagManager, angulartics2: Angulartics2) {
-        angulartics2.withBase('/material#');
     }
 }

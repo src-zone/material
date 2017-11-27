@@ -15,7 +15,8 @@
     "typeRoots": [
       "node_modules/@types"
     ],
-    "outDir": "build"
+    "outDir": "build",
+    "baseUrl": "./node_modules"
   },
   "compileOnSave": false,
   "buildOnSave": false,

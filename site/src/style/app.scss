@@ -170,6 +170,9 @@ code {
     padding: 16px;
     margin: 0;
   }
+  code {
+    background: transparent;
+  }
 }
 
 blox-code-sample {
@@ -202,6 +205,9 @@ blox-code-sample {
     padding: 16px;
     margin: 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  }
+  code {
+    background: transparent;
   }
   nav.mdc-tab-bar {
     margin: 0;

@@ -14,8 +14,17 @@ const CLASS_TOP_RIGHT = 'mdc-simple-menu--open-from-top-right';
 const CLASS_BOTTOM_LEFT = 'mdc-simple-menu--open-from-bottom-left';
 const CLASS_BOTTOM_RIGHT = 'mdc-simple-menu--open-from-bottom-right';
 
+/**
+ * Data send by the <code>pick</code> event of <code>MdcSimpleMenuDirective</code>.
+ */
 export interface MdcMenuSelection {
+    /**
+     * The <code>value</code> of the selected menu item (<code>MdcListItemDirective</code>).
+     */
     value: any,
+    /**
+     * The index of the selected menu item (<code>MdcListItemDirective</code>).
+     */
     index: number
 }
 
@@ -24,7 +33,7 @@ export interface MdcMenuSelection {
  * Use the <code>menuAnchor</code> input of <code>MdcSimpleMenuDirective</code>
  * to bind the menu to the anchor. The anchor must be a direct parent of the menu.
  * It will get the following styles to make the positioning work:
- * <code>position: relative;</code>, and <code>overflow: visible;</code>.
+ * <code>position: relative; overflow: visible;</code>.
  */
 @Directive({
     selector: '[mdcMenuAnchor]',
@@ -48,7 +57,7 @@ export class MdcMenuAnchorDirective {
 export class MdcSimpleMenuDirective implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-simple-menu') _cls = true;
     private _function = MdcListFunction.menu;
-    private _open = false;
+    private _openMemory = false;
     private _openFrom: 'tl' | 'tr' | 'bl' | 'br' | null = null;
     /**
      * Assign an (optional) <code>MdcMenuAnchorDirective</code>. If set the menu
@@ -84,7 +93,7 @@ export class MdcSimpleMenuDirective implements AfterContentInit, OnDestroy {
             if (CLASS_MENU === className)
                 return true;
             if (CLASS_MENU_OPEN === className)
-                return this._open;
+                return this.isOpen;
             if (CLASS_TOP_LEFT === className)
                 return this._openFrom === 'tl';
             if (CLASS_TOP_RIGHT === className)
@@ -148,14 +157,14 @@ export class MdcSimpleMenuDirective implements AfterContentInit, OnDestroy {
         },
         getIndexForEventTarget: (target: EventTarget) => this._list._items.toArray().map(i => i._elm.nativeElement).indexOf(target),
         notifySelected: (evtData: {index: number}) => {
-            this._open = false;
             this.pick.emit({index: evtData.index, value: this._list._items.toArray()[evtData.index].value});
-            this._onOpenClose();
+            // timeout so that the correct open/close value is reported, even if MDCMenu changes it after the event:
+            window.setTimeout(() => this._onOpenClose(), 0);
         },
         notifyCancel: () => {
-            this._open = false;
             this.cancel.emit();
-            this._onOpenClose();
+            // timeout so that the correct open/close value is reported, even if MDCMenu changes it after the event:
+            window.setTimeout(() => this._onOpenClose(), 0);
         },
         saveFocus: () => {
             this._prevFocus = document.activeElement;
@@ -209,9 +218,12 @@ export class MdcSimpleMenuDirective implements AfterContentInit, OnDestroy {
                 if (this._lastList) {
                     this._lastList._setFunction(MdcListFunction.menu);
                     this._onOpenClose(false);
-                    if (this._component == null)
+                    if (this._component == null) {
                         this._component = new MDCSimpleMenu(this._elm.nativeElement, this.foundation);
-                } else {
+                        this._component.open = this._openMemory;
+                    }
+                } else if (this._component) {
+                    this._openMemory = this._component.open;
                     this._component.destroy();
                     this._component = null;
                     this.foundation = new MDCSimpleMenuFoundation(this.mdcAdapter);
@@ -230,9 +242,9 @@ export class MdcSimpleMenuDirective implements AfterContentInit, OnDestroy {
 
     private _onOpenClose(emit = true) {
         if (this._list)
-            this._list._hidden = !this._open;
+            this._list._hidden = !this.isOpen;
         if (emit)
-            this.isOpenChange.emit(this._open);
+            this.isOpenChange.emit(this.isOpen);
     }
 
     set _listFunction(val: MdcListFunction) {
@@ -255,15 +267,15 @@ export class MdcSimpleMenuDirective implements AfterContentInit, OnDestroy {
      */
     @Input() @HostBinding('class.mdc-simple-menu--open')
     get isOpen() {
-        return this._open;
+        return this._component ? this.foundation.isOpen() : this._openMemory;
     }
     
     set isOpen(val: any) {
         let newValue = asBoolean(val);
-        if (newValue !== this._open) {
-            this._open = newValue;
+        if (newValue !== this.isOpen) {
+            this._openMemory = newValue;
             if (this._component != null) {
-                if (this._open)
+                if (newValue)
                     this.foundation.open();
                 else
                     this.foundation.close();

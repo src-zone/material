@@ -60,6 +60,7 @@ export class Categorizer implements Processor {
 
   $process(docs: DocCollection) {
     docs.filter(doc => doc.docType === 'class').forEach(doc => this.decorateClassDoc(doc));
+    docs.filter(doc => doc.docType === 'interface').forEach(doc => this.decorateClassDoc(doc));
   }
 
   /**
