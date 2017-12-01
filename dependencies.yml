@@ -40,6 +40,7 @@ collectors:
     versions: "Y.Y.Y"
     settings:
       batch_mode: true
+      bootstrap_command: "cd bundle && npm install"
       commit_message_prefix: "build: "
       # not supported in batch_mode - related_pr_behavior: close
       github_labels:
@@ -48,6 +49,7 @@ collectors:
     dependencies_not_matching: "^(\\@angular\\/.*|typescript$)"
     versions: "Y.Y.Y"
     settings:
+      bootstrap_command: "cd bundle && npm install"
       commit_message_prefix: "build: "
       related_pr_behavior: close
       github_labels:
