@@ -24,7 +24,7 @@ collectors:
       github_labels:
       - dependencies
   - type: js-npm
-    dependencies_not_matching: "^\\@angular\\/.*"
+    dependencies_not_matching: "^(\\@angular\\/.*|typescript$)"
     versions: "Y.Y.Y"
     settings:
       commit_message_prefix: "build: "
@@ -45,7 +45,7 @@ collectors:
       github_labels:
       - dependencies
   - type: js-npm
-    dependencies_not_matching: "^\\@angular\\/.*"
+    dependencies_not_matching: "^(\\@angular\\/.*|typescript$)"
     versions: "Y.Y.Y"
     settings:
       commit_message_prefix: "build: "
