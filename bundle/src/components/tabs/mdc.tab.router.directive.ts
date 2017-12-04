@@ -7,6 +7,7 @@ import { NavigationEnd, Router, RouterLink, RouterLinkWithHref } from '@angular/
 import { MDCTabFoundation } from '@material/tabs';
 import { MdcTabAdapter } from './mdc.tab.adapter';
 import { AbstractMdcTabDirective } from './mdc.tab.directive';
+import { RouterActiveDetector } from '../utility/router.active.detector';
 import { asBoolean } from '../../utils/value.utils';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
@@ -16,57 +17,35 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
     providers: [{provide: AbstractMdcTabDirective, useExisting: forwardRef(() => MdcTabRouterDirective) }]
 })
 export class MdcTabRouterDirective extends AbstractMdcTabDirective {
-    private onDestroy$: Subject<any> = new Subject();
     @ContentChildren(RouterLink, {descendants: true}) _links: QueryList<RouterLink>;
     @ContentChildren(RouterLinkWithHref, {descendants: true}) _linksWithHrefs: QueryList<RouterLinkWithHref>;
+    private routerActive: RouterActiveDetector;
 
     constructor(rndr: Renderer2, root: ElementRef, registry: MdcEventRegistry, private router: Router, private cdr: ChangeDetectorRef) {
         super(rndr, root, registry);
-        router.events.pipe(takeUntil(this.onDestroy$)).subscribe(s => {
-            if (s instanceof NavigationEnd) {
-                this.update();
-            }
-        });
     }
 
     ngOnDestroy() {
-        this.onDestroy$.next();
-        this.onDestroy$.complete();
+        this.routerActive.destroy();
+        this.routerActive = null;
         super.ngOnDestroy();
     }
 
     ngAfterContentInit(): void {
         super.ngAfterContentInit();
-        this._links.changes.subscribe(_ => this.update());
-        this._linksWithHrefs.changes.subscribe(_ => this.update());
-        this.update();
+        this.routerActive = new RouterActiveDetector(this, this._links, this._linksWithHrefs, this.router, this.cdr);
+        this.routerActive.init();
     }
 
-    ngAfterViewInit() {
-        this.update();
-    }
-
-    public get isActive() {
+    /** @docs-private */
+    isRouterActive() {
         return this._active;
     }
 
-    private update(): void {
-        if (!this._links || !this._linksWithHrefs || !this.router.navigated) return;
-        const hasActiveLinks = this.hasActiveLinks();
-        const active = this._active;
-        if (active !== hasActiveLinks) {
-            this._active = hasActiveLinks;
-            if (this._active) {
-                this._adapter.notifySelected();
-            }
-        }
-    }
-
-    private hasActiveLinks(): boolean {
-        return this._links.some(this.isLinkActive(this.router)) || this._linksWithHrefs.some(this.isLinkActive(this.router));
-    }
-
-    private isLinkActive(router: Router): (link: (RouterLink | RouterLinkWithHref)) => boolean {
-        return (link: RouterLink | RouterLinkWithHref) => router.isActive(link.urlTree, false);
+    /** @docs-private */
+    setRouterActive(active: boolean) {
+        this._active = active;
+        if (active)
+            this._adapter.notifySelected();
     }
 }

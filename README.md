@@ -1,8 +1,8 @@
-A lightweight Material Design library for [Angular](https://angular.io).
-Open-source and based upon [Google's Material Components for the Web](https://github.com/material-components/material-components-web).
+<img align="right" src="https://blox.src.zone/assets/bloxmaterial.d95f426a452154ce56660b82d7d56e63.svg" width="100" height="100">
 
 Blox Material makes it possible to create beautiful Angular apps with modular and customizable UI components,
-designed according to the [Material Design Guideliness](https://material.io/guidelines).
+designed according to the [Material Design Guidelines](https://material.io/guidelines).
+It integrates [Google's Material Components for the Web](https://github.com/material-components/material-components-web) with the Angular framework.
 
 ## Quick Links
 * [Documention, Demo & Examples](https://blox.src.zone/material)
