@@ -1,6 +1,6 @@
 {
   "name": "@blox/material",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "license": "Apache-2.0",
   "description": "Material Components for Angular",
   "author": "The Source Zone",
@@ -44,7 +44,7 @@
     "@angular/router": "^4.4.4",
     "@types/glob": "^5.0.33",
     "@types/jasmine": "^2.6.2",
-    "@types/node": "^8.0.47",
+    "@types/node": "^8.0.54",
     "@types/rollup": "^0.51.1",
     "@types/selenium-webdriver": "^3.0.8",
     "codelyzer": "^4.0.1",
