@@ -1,0 +1,15 @@
+@import "@material/theme/mixins";
+
+.blox-snippet-page {
+    height: 250px;
+}
+
+// Drawer and toolbar and main-content should sit next to each other:
+.blox-demo-content {
+    display: flex;
+    flex: 1 1 auto;
+}
+
+.blox-demo-main {
+    padding-left: 16px;
+}

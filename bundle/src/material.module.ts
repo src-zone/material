@@ -12,6 +12,12 @@ import { MdcCardDirective,
     MdcCardActionsDirective } from './components/card/mdc.card.directive';
 import { MdcCheckboxDirective,
     MdcCheckboxInputDirective } from './components/checkbox/mdc.checkbox.directive';
+import { MdcDrawerDirective,
+    MdcDrawerContainerDirective,
+    MdcDrawerToolbarSpacerDirective,
+    MdcDrawerHeaderDirective,
+    MdcDrawerHeaderContentDirective,
+    MdcDrawerContentDirective } from './components/drawer/mdc.drawer.directive';
 import { MdcElevationDirective } from './components/elevation/mdc.elevation.directive';
 import { MdcFabDirective,
     MdcFabIconDirective } from './components/fab/mdc.fab.directive';
@@ -85,6 +91,12 @@ export { MdcCardDirective,
     MdcCardActionsDirective } from './components/card/mdc.card.directive';
 export { MdcCheckboxDirective,
     MdcCheckboxInputDirective } from './components/checkbox/mdc.checkbox.directive';
+export { MdcDrawerDirective,
+    MdcDrawerContainerDirective,
+    MdcDrawerToolbarSpacerDirective,
+    MdcDrawerHeaderDirective,
+    MdcDrawerHeaderContentDirective,
+    MdcDrawerContentDirective } from './components/drawer/mdc.drawer.directive';
 export { MdcElevationDirective } from './components/elevation/mdc.elevation.directive';
 export { MdcFabDirective,
     MdcFabIconDirective } from './components/fab/mdc.fab.directive';
@@ -160,6 +172,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcCardDirective, MdcCardHorizontalDirective, MdcCardPrimaryDirective, MdcCardTitleDirective, MdcCardSubtitleDirective,
         MdcCardTextDirective, MdcCardMediaDirective, MdcCardMediaItemDirective, MdcCardActionsDirective,
         MdcCheckboxDirective, MdcCheckboxInputDirective,
+        MdcDrawerDirective, MdcDrawerContainerDirective, MdcDrawerToolbarSpacerDirective, MdcDrawerHeaderDirective, MdcDrawerHeaderContentDirective, MdcDrawerContentDirective,
         MdcElevationDirective,
         MdcFabDirective, MdcFabIconDirective,
         MdcFormFieldDirective, MdcFormFieldInputDirective, MdcFormFieldLabelDirective,
@@ -187,6 +200,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcCardDirective, MdcCardHorizontalDirective, MdcCardPrimaryDirective, MdcCardTitleDirective, MdcCardSubtitleDirective,
         MdcCardTextDirective, MdcCardMediaDirective, MdcCardMediaItemDirective, MdcCardActionsDirective,
         MdcCheckboxDirective, MdcCheckboxInputDirective,
+        MdcDrawerDirective, MdcDrawerContainerDirective, MdcDrawerToolbarSpacerDirective, MdcDrawerHeaderDirective, MdcDrawerHeaderContentDirective, MdcDrawerContentDirective,
         MdcElevationDirective,
         MdcFabDirective, MdcFabIconDirective,
         MdcFormFieldDirective, MdcFormFieldInputDirective, MdcFormFieldLabelDirective,
