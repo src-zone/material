@@ -62,7 +62,7 @@ import { MdcTextFieldDirective,
     MdcTextFieldInputDirective,
     MdcTextFieldIconDirective,
     MdcTextFieldLabelDirective,
-    MdcTextFieldHelptextDirective } from './components/text-field/mdc.text-field.directive';
+    MdcTextFieldHelperTextDirective } from './components/text-field/mdc.text-field.directive';
 import { MdcToolbarDirective,
     MdcToolbarRowDirective,
     MdcToolbarSectionDirective,
@@ -136,7 +136,7 @@ export { MdcTextFieldDirective,
     MdcTextFieldInputDirective,
     MdcTextFieldIconDirective,
     MdcTextFieldLabelDirective,
-    MdcTextFieldHelptextDirective } from './components/text-field/mdc.text-field.directive';
+    MdcTextFieldHelperTextDirective } from './components/text-field/mdc.text-field.directive';
 export { MdcToolbarDirective,
     MdcToolbarRowDirective,
     MdcToolbarSectionDirective,
@@ -178,7 +178,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcTabRouterDirective,
         MdcTabBarDirective,
         MdcTabBarScrollerDirective, MdcTabBarScrollerInnerDirective, MdcTabBarScrollerBackDirective, MdcTabBarScrollerForwardDirective, MdcTabBarScrollerFrameDirective,
-        MdcTextFieldDirective, MdcTextFieldInputDirective, MdcTextFieldIconDirective, MdcTextFieldLabelDirective, MdcTextFieldHelptextDirective,
+        MdcTextFieldDirective, MdcTextFieldInputDirective, MdcTextFieldIconDirective, MdcTextFieldLabelDirective, MdcTextFieldHelperTextDirective,
         MdcToolbarDirective, MdcToolbarRowDirective, MdcToolbarSectionDirective, MdcToolbarTitleDirective, MdcToolbarIcon, MdcToolbarMenuIcon, MdcToolbarFixedAdjustDirective,
         MdcScrollbarResizeDirective
     ],
@@ -205,7 +205,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcTabRouterDirective,
         MdcTabBarDirective,
         MdcTabBarScrollerDirective, MdcTabBarScrollerInnerDirective, MdcTabBarScrollerBackDirective, MdcTabBarScrollerForwardDirective, MdcTabBarScrollerFrameDirective,
-        MdcTextFieldDirective, MdcTextFieldInputDirective, MdcTextFieldIconDirective, MdcTextFieldLabelDirective, MdcTextFieldHelptextDirective,
+        MdcTextFieldDirective, MdcTextFieldInputDirective, MdcTextFieldIconDirective, MdcTextFieldLabelDirective, MdcTextFieldHelperTextDirective,
         MdcToolbarDirective, MdcToolbarRowDirective, MdcToolbarSectionDirective, MdcToolbarTitleDirective, MdcToolbarIcon, MdcToolbarMenuIcon, MdcToolbarFixedAdjustDirective,
         MdcScrollbarResizeDirective
     ]
