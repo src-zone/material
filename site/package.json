@@ -50,7 +50,7 @@
     "@angular/compiler-cli": "^5.0.3",
     "@ngtools/webpack": "^1.8.4",
     "@types/jasmine": "^2.8.2",
-    "@types/node": "^8.0.53",
+    "@types/node": "^8.0.54",
     "@types/selenium-webdriver": "^3.0.8",
     "angular2-template-loader": "^0.6.2",
     "autoprefixer": "^7.1.6",
