@@ -35,6 +35,36 @@ main {
   white-space: nowrap;
 }
 
+.blox-material-header-logo {
+  position: absolute;
+  top: $mdc-toolbar-row-height;
+  bottom: 0;
+  align-self: center;
+  background-image: url(~assets/img/logos/bloxmaterial.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  transition: mdc-animation-exit-temporary(top, 175ms);
+}
+.mdc-toolbar--fixed-at-last-row .blox-material-header-logo {
+  top: 2 * $mdc-toolbar-row-height;
+}
+@media (max-width: $mdc-toolbar-mobile-landscape-width-breakpoint) and (orientation: landscape) {
+  .blox-material-header-logo {
+    top: $mdc-toolbar-mobile-landscape-row-height;
+  }
+  .mdc-toolbar--fixed-at-last-row .blox-material-header-logo {
+    top: 2 * $mdc-toolbar-mobile-landscape-row-height;
+  }
+}
+@media (max-width: $mdc-toolbar-mobile-breakpoint) {
+  .blox-material-header-logo {
+    top: $mdc-toolbar-mobile-row-height;
+  }
+  .mdc-toolbar--fixed-at-last-row .blox-material-header-logo {
+    top: 2 * $mdc-toolbar-mobile-row-height;
+  }
+}
+
 header {
   &.blox-header {
     .mdc-toolbar__row:first-child {
@@ -46,7 +76,6 @@ header {
         height: calc(#{$mdc-toolbar-mobile-row-height} * #{$blox-toolbar-ratio-to-extend-flexible});
       }
     }
-
     z-index: 5; // layer above sample toolbars
 
     .mdc-toolbar__title {
@@ -77,14 +106,15 @@ header {
         right: 0px; // otherwise it falls partially of screen in IE11
         z-index: 5; // otherwise in ie11 the element that pushes it of screen
                     // prevents the tabs from being clicked
+        
+        .mdc-tab--active {
+          color: #00ffff;
+          @include mdc-theme-prop(color, secondary-light);
+        }
+        .mdc-tab-bar__indicator {
+          @include mdc-theme-prop(background-color, secondary-light);
+        }
       }
-    }
-  }
-  .blox-material-logo {
-    padding-right: 24px;
-    img {
-      width: 32px;
-      height: 32px;
     }
   }
 }
@@ -312,6 +342,27 @@ p.blox-demo-paragraph {
         border: 1px solid rgba(0,0,0,.03);        
       }
     }
+  }
+}
+
+.blox-intro {
+  font-size: 18px;
+  @media only screen and (max-width: $media-m-min-width - 1px) {
+    font-size: 16px;
+  }
+  .blox-inline-svg {
+    height: 20px;
+    width: 20px;
+    top: 4px;
+    position: relative;
+    @media only screen and (max-width: $media-m-min-width - 1px) {
+      height: 16px;
+      width: 16px;
+      top: 3px;
+    }
+  }
+  a {
+    text-decoration: none;
   }
 }
 
