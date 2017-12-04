@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.7.0"></a>
+# [0.7.0](https://github.com/src-zone/material/compare/v0.6.0...v0.7.0) (2017-12-04)
+
+
+### Bug Fixes
+
+* **menu:** keep correct open/close state of menu ([e4885aa](https://github.com/src-zone/material/commit/e4885aa)), closes [#87](https://github.com/src-zone/material/issues/87)
+* show textfield in disabled state when native input is disabled ([#104](https://github.com/src-zone/material/issues/104)) ([d8aac22](https://github.com/src-zone/material/commit/d8aac22)), closes [#102](https://github.com/src-zone/material/issues/102)
+
+
+### feature
+
+* upgrade to material-components-web 0.26.0 ([9d4859b](https://github.com/src-zone/material/commit/9d4859b))
+* implement permanent, persistent, and temporary drawer types
+
+
+### BREAKING CHANGES
+
+* * Upgrade to material-components-web 0.26.0
+* Rename directive mdcTextFieldHelptext to mdcTextFieldHelperText
+(follows upstream name change in @material/textfield)
+* Rename mdcTextField property helptext to helperText (follows upstream
+name change in @material/textfield)
+* Rename mdcTextField property isValid to valid
+* Rename mdcTextField property boxed to box
+* Rename mdcTextFieldHelperText exportAs mdcHelptext to mdcHelperText
+* Rename mdcTextFieldHelperText property isValidation to validation
+* Rename mdcTextFieldHelperText property isPersistent to persistent
+
+
+
+
 <a name="0.6.0"></a>
 # [0.6.0](https://github.com/src-zone/material/compare/v0.5.0...v0.6.0) (2017-11-14)
 
