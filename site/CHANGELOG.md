@@ -3,7 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-      <a name="0.6.0"></a>
+    <a name="0.7.0"></a>
+# [0.7.0](https://github.com/src-zone/material/compare/v0.6.0...v0.7.0) (2017-12-04)
+
+
+### Bug Fixes
+
+* fix gtm page urls's for page-view events ([734f9de](https://github.com/src-zone/material/commit/734f9de))
+* show background on all cards in the demo ([c47a041](https://github.com/src-zone/material/commit/c47a041))
+
+
+### feature
+
+* upgrade to material-components-web 0.26.0 ([9d4859b](https://github.com/src-zone/material/commit/9d4859b))
+
+
+
+
+    <a name="0.6.0"></a>
 # [0.6.0](https://github.com/src-zone/material/compare/v0.5.0...v0.6.0) (2017-11-14)
 
 
@@ -21,7 +38,7 @@ mdcTextfield to mdcTextField and mdcFormfield to mdcFormField.
 
 
 
-      <a name="0.5.0"></a>
+  <a name="0.5.0"></a>
 # [0.5.0](https://bitbucket.org/src-zone/material/compare/v0.4.0...v0.5.0) (2017-11-06)
 
 
@@ -32,7 +49,7 @@ mdcTextfield to mdcTextField and mdcFormfield to mdcFormField.
 
 
 
-     <a name="0.4.0"></a>
+ <a name="0.4.0"></a>
 # [0.4.0](https://bitbucket.org/src-zone/material/compare/v0.3.0...v0.4.0) (2017-10-30)
 
 
@@ -82,7 +99,7 @@ mdc-toolbar__menu-icon
 
 
 
-    <a name="0.3.0"></a>
+<a name="0.3.0"></a>
 # [0.3.0](https://bitbucket.org/src-zone/material/compare/v0.2.1...v0.3.0) (2017-10-18)
 
 
