@@ -35,7 +35,7 @@
     "@angular/router": "^5.0.5",
     "@blox/material": "file:../bundle",
     "angular-highlight-js": "^2.0.1",
-    "angulartics2": "^4.1.0",
+    "angulartics2": "^4.2.0",
     "bourbon": "4.3.4",
     "bourbon-neat": "2.0.0",
     "classlist.js": "^1.1.20150312",
