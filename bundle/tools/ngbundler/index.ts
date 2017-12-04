@@ -9,6 +9,8 @@ const globals = {
   '@angular/router': 'ng.router',
   '@material/animation': 'mdc.animation',
   '@material/checkbox': 'mdc.checkbox',
+  '@material/drawer': 'mdc.drawer',
+  '@material/drawer/slidable': 'mdc.drawer',
   '@material/form-field': 'mdc.formField',
   '@material/icon-toggle': 'mdc.iconToggle',
   '@material/linear-progress': 'mdc.linearProgress',

@@ -16,7 +16,7 @@ button                   | [See demo](https://blox.src.zone/material/directives/
 card                     | [See demo](https://blox.src.zone/material/directives/card) |
 checkbox                 | [See demo](https://blox.src.zone/material/directives/checkbox) |
 dialog                   |           |
-drawer                   |           |
+drawer                   | [See demo](https://blox.src.zone/material/directives/drawer) |
 elevation                | [See demo](https://blox.src.zone/material/directives/elevation) |
 fab                      | [See demo](https://blox.src.zone/material/directives/fab) |
 form-field               | Available | See demos for e.g. radio, and checkbox.
@@ -39,15 +39,3 @@ Note: the `@material` packages `layout-grid`, `theme`, and `typography` provide 
 (scss, css) only. As such they can be consumed directly from your Angular app, and we see
 no reason to wrap their functionality in Angular components or directives.
 
-## Alternatives
-* [Material2](https://material.angular.io):
-  The Angular team's Material Design components built for and with Angular.
-  Currently has a wider range of implemented components.
-  The components are not based on Material Components for the Web, but natively
-  implemented in Angular.
-  Don't use if you are developing both Angular and non-Angular based websites,
-  and want to share your customized styling between both.
-* [angular-mdc-web](https://github.com/trimox/angular-mdc-web):
-  Another integration library for leveraging Material Components for the Web in Angular
-  applications. We would choose Blox Material for smaller resulting code size,
-  less complexity, and more consistent Angular integration. But we are biased.

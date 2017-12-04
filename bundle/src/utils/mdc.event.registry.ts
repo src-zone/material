@@ -11,7 +11,7 @@ export class MdcEventRegistry {
         this.listenElm(renderer, type, listener, ref.nativeElement, options);
     }
 
-    listenElm(renderer: Renderer2, type: string, listener: EventListener, el: Element | Window, options?: any) {
+    listenElm(renderer: Renderer2, type: string, listener: EventListener, el: Element | Window | Document, options?: any) {
         el.addEventListener(type, listener, options);
         const unlistener = function() {
             el.removeEventListener(type, listener, options);

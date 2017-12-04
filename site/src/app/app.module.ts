@@ -22,6 +22,9 @@ import {
   SnippetButtonComponent,
   SnippetCardComponent,
   SnippetCheckboxComponent,
+  SnippetDrawerPermanentBelowComponent,
+  SnippetDrawerPermanentComponent,
+  SnippetDrawerSlidableComponent,
   SnippetElevationComponent,
   SnippetFabComponent,
   SnippetIconToggleComponent,
@@ -45,7 +48,7 @@ hljs.registerLanguage('typescript', require('highlight.js/lib/languages/typescri
 hljs.registerLanguage('html', require('highlight.js/lib/languages/xml'));
 hljs.registerLanguage('scss', require('highlight.js/lib/languages/scss'));
 hljs.registerLanguage('bash', require('highlight.js/lib/languages/bash'));
-hljs.registerLanguage('json', require('highlight.js/lib/languages/bash'));
+hljs.registerLanguage('json', require('highlight.js/lib/languages/json'));
 export function highlightJsFactory() {
   return hljs;
 }
@@ -80,6 +83,9 @@ export function highlightJsFactory() {
     SnippetButtonComponent,
     SnippetCardComponent,
     SnippetCheckboxComponent,
+    SnippetDrawerPermanentBelowComponent,
+    SnippetDrawerPermanentComponent,
+    SnippetDrawerSlidableComponent,
     SnippetElevationComponent,
     SnippetFabComponent,
     SnippetIconToggleComponent,

@@ -1,0 +1,53 @@
+<fieldset class="blox-snippet snippet-skip-line">
+<div class="blox-snippet-page">
+  <nav mdcDrawer>
+    <div mdcDrawerToolbarSpacer *ngIf="toolbarSpacer"></div>
+    <div mdcDrawerHeader *ngIf="toolbarHeader">
+      <div mdcDrawerHeaderContent>Header Content</div>
+    </div>
+    <div mdcDrawerContent mdcList>
+      <a mdcListItem href="javascript:void(0)">
+        <i mdcListItemStartDetail class="material-icons" aria-hidden="true">inbox</i>Inbox
+      </a>
+      <a mdcListItem href="javascript:void(0)">
+        <i mdcListItemStartDetail class="material-icons" aria-hidden="true">send</i>Sent Mail
+      </a>
+      <a mdcListItem href="javascript:void(0)">
+        <i mdcListItemStartDetail class="material-icons" aria-hidden="true">drafts</i>Drafts
+      </a>
+    </div>
+  </nav>
+  <div class="blox-demo-content">
+    <header mdcToolbar>
+      <div mdcToolbarRow>
+        <section mdcToolbarSection alignStart>
+          <span mdcToolbarTitle>Permanent Drawer</span>
+        </section>
+      </div>
+    </header>
+
+    <main class="blox-demo-main">
+      <h1>Permanent Drawer</h1>
+      <p>Customize the drawer:</p>
+      <div mdcFormField>
+        <div mdcRadio>
+          <input mdcRadioInput type="radio" name="type" value="none" [(ngModel)]="headerType" />
+        </div>
+        <label mdcFormFieldLabel>No Header</label>
+      </div>
+      <div mdcFormField>
+        <div mdcRadio>
+          <input mdcRadioInput type="radio" name="type" value="spacer" [(ngModel)]="headerType" />
+        </div>
+        <label mdcFormFieldLabel>Toolbar Spacer</label>
+      </div>
+      <div mdcFormField>
+        <div mdcRadio>
+          <input mdcRadioInput type="radio" name="type" value="header" [(ngModel)]="headerType" />
+        </div>
+        <label mdcFormFieldLabel>Header</label>
+      </div>
+    </main>
+  </div>
+</div>
+</fieldset><div class="snippet-skip-line"></div>

@@ -25,7 +25,8 @@ import {
     TabDirectivesComponent,
     TextFieldDirectivesComponent,
     ToolbarDirectivesComponent,
-    UtilityDirectivesComponent } from './components';
+    UtilityDirectivesComponent, 
+    DrawerDirectivesComponent} from './components';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'guides', pathMatch: 'full'},
@@ -39,6 +40,7 @@ export const routes: Routes = [
         {path: ButtonDirectivesComponent.DOC_HREF, component: ButtonDirectivesComponent},
         {path: CardDirectivesComponent.DOC_HREF, component: CardDirectivesComponent},
         {path: CheckboxDirectivesComponent.DOC_HREF, component: CheckboxDirectivesComponent},
+        {path: DrawerDirectivesComponent.DOC_HREF, component: DrawerDirectivesComponent},
         {path: ElevationDirectivesComponent.DOC_HREF, component: ElevationDirectivesComponent},
         {path: FabDirectivesComponent.DOC_HREF, component: FabDirectivesComponent},
         {path: IconToggleDirectivesComponent.DOC_HREF, component: IconToggleDirectivesComponent},
@@ -55,8 +57,8 @@ export const routes: Routes = [
         {path: TextFieldDirectivesComponent.DOC_HREF, component: TextFieldDirectivesComponent},
         {path: ToolbarDirectivesComponent.DOC_HREF, component: ToolbarDirectivesComponent},
         {path: UtilityDirectivesComponent.DOC_HREF, component: UtilityDirectivesComponent},
-        {path: '**', component: NotFoundComponent}
-    ]}
+    ]},
+    {path: '**', component: NotFoundComponent}
 ];
 
 export const appRoutingProviders: any[] = [];

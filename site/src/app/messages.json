@@ -5,6 +5,8 @@
     "components.card.description": "Cards for displaying content composed of different elements",
     "components.checkbox.title": "Checkbox",
     "components.checkbox.description": "Multi selection controls",
+    "components.drawer.title": "Drawers",
+    "components.drawer.description": "Permanent, persistent, and temporary drawers (for side navigation)",
     "components.elevation.title": "Elevation",
     "components.elevation.description": "Shadow for different elevations",
     "components.fab.title": "Floating Action Button",
