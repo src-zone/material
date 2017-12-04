@@ -471,4 +471,11 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
                 "Change the content of the mdcTextFieldHelperText instead.")
         this._helperText = helperText;
     }
+
+    @HostBinding('class.mdc-text-field--disabled') get _disabled() {
+        // TODO: this mirrors what the text-field can update itself from adapter.getNativeInput
+        //  is there a way to trigger the textfield to re-read that when the disabled state of
+        //  the input changes?
+        return this._input ? this._input.disabled : false;
+    }
 }
