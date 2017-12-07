@@ -380,6 +380,12 @@ module.exports = function makeWebpackConfig(env) {
         canPrint: true
       }),
 
+      // Copy assets from the public folder
+      // Reference: https://github.com/kevlened/copy-webpack-plugin
+      new CopyWebpackPlugin([{
+        from: root('src/public')
+      }]),
+
       // Long term caching improvements: https://webpack.js.org/guides/caching/
       // Generate module identifiers based on module names, instead of an a counter,
       // so that the id's are stable, and caching is more effective:
