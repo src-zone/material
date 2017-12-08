@@ -13,6 +13,11 @@ const CLASS_INDICATOR = 'mdc-tab-bar__indicator';
 const CLASS_ICONS_BAR = 'mdc-tab-bar--icon-tab-bar';
 const CLASS_ICONS_WITH_TEXT_BAR = 'mdc-tab-bar--icons-with-text';
 
+/**
+ * Directive for a tab bar. This directive must have <code>mdcTab</code>,
+ * or <code>mdcTabRouter</code> children. The tab bar can optionally be
+ * embedded inside an <code>mdcTabBarScroller</code>.
+ */
 @Directive({
     selector: '[mdcTabBar]'
 })
@@ -20,6 +25,9 @@ export class MdcTabBarDirective {
     @HostBinding('class.' + CLASS_TAB_BAR) _hostClass = true;
     @HostBinding('class.mdc-tab-bar-scroller__scroll-frame__tabs') _insideScrollFrame = false;
     @ContentChildren(AbstractMdcTabDirective, {descendants: false}) _tabs: QueryList<AbstractMdcTabDirective>;
+    /**
+     * Event emitted when the actived tab changes.
+     */
     @Output() tabChange: EventEmitter<MdcTabChange> = new EventEmitter();
     private _indicator: HTMLElement;
     private _adapter: MdcTabBarAdapter = {
