@@ -15,6 +15,11 @@ const CLASS_INDICATOR_BACK = 'mdc-tab-bar-scroller__indicator--back';
 const CLASS_INDICATOR_FORWARD = 'mdc-tab-bar-scroller__indicator--forward';
 const CLASS_SCROLLER_FRAME = 'mdc-tab-bar-scroller__scroll-frame';
 
+/**
+ * Directive for the icon of the back or forward button of a tab bar scroller.
+ * Use this directive on a child element of <code>mdcTabBarScrollerBack</code>,
+ * and <code>mdcTabBarScrollerForward</code>.
+ */
 @Directive({
     selector: '[mdcTabBarScrollerInner]'
 })
@@ -22,6 +27,12 @@ export class MdcTabBarScrollerInnerDirective {
     @HostBinding('class.' + CLASS_INDICATOR_INNER) _hostClass = true;
 }
 
+/**
+ * Directive for the 'back' button of a tab bar scroller. Must be the
+ * first child of an <code>mdcTabBarScroller</code>.
+ * Embed an <code>mdcTabBarScrollerInner</code> inside this directive for the
+ * actual icon.
+ */
 @Directive({
     selector: '[mdcTabBarScrollerBack]'
 })
@@ -33,6 +44,12 @@ export class MdcTabBarScrollerBackDirective {
     }
 }
 
+/**
+ * Directive for the 'forward' button of a tab bar scroller. Must be the
+ * last child of an <code>mdcTabBarScroller</code>.
+ * Embed an <code>mdcTabBarScrollerInner</code> inside this directive for the
+ * actual icon.
+ */
 @Directive({
     selector: '[mdcTabBarScrollerForward]'
 })
@@ -44,6 +61,11 @@ export class MdcTabBarScrollerForwardDirective {
     }
 }
 
+/**
+ * Directive for the 'frame' part (containing the tab bar) of a tab bar scroller.
+ * Must be the child of an <code>mdcTabBarScroller</code>, and have an
+ * <code>mdcTabBar</code> as child.
+ */
 @Directive({
     selector: '[mdcTabBarScrollerFrame]'
 })
@@ -69,6 +91,11 @@ export class MdcTabBarScrollerFrameDirective implements AfterContentInit {
     }
 }
 
+/**
+ * Directive for a scrollable tab bar. Add <code>mdcTabBarScrollerBack</code>,
+ * <code>mdcTabBarScrollerFrame</code>, and <code>mdcTabBarScrollerForward</code>
+ * as children for respectively the back button, scrollable tab bar, and forward button.
+ */
 @Directive({
     selector: '[mdcTabBarScroller]'
 })
@@ -77,7 +104,6 @@ export class MdcTabBarScrollerDirective implements AfterContentInit, OnDestroy {
     @ContentChild(MdcTabBarScrollerBackDirective) _back: MdcTabBarScrollerBackDirective;
     @ContentChild(MdcTabBarScrollerForwardDirective) _forward: MdcTabBarScrollerForwardDirective;
     @ContentChild(MdcTabBarScrollerFrameDirective) _scrollFrame: MdcTabBarScrollerFrameDirective;
-    @Input() direction = 'ltr';
     private _adapter: MdcTabBarScrollerAdapter = {
         addClass: (className: string) => this._rndr.addClass(this._el.nativeElement, className),
         removeClass: (className: string) => this._rndr.removeClass(this._el.nativeElement, className),
@@ -98,7 +124,7 @@ export class MdcTabBarScrollerDirective implements AfterContentInit, OnDestroy {
             if (this._back)
                 this._rndr.removeClass(this._back._el.nativeElement, className);
         },
-        isRTL: () => this.direction === 'rtl',
+        isRTL: () => getComputedStyle(this._el.nativeElement).getPropertyValue('direction') === 'rtl',
         registerBackIndicatorClickHandler: (handler: EventListener) => {
             if (this._back)
                 this.registry.listen(this._rndr, 'click', handler, this._back._el);
