@@ -5,6 +5,9 @@ import { Component } from '@angular/core';
   templateUrl: './guides.component.html'
 })
 export class GuidesComponent {
+    static DOC_TYPE = 'docs';
+    static DOC_HREF = 'guides';
+
     constructor() {
     }
 }

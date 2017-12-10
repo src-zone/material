@@ -32,12 +32,12 @@
     {% for parameter in method.params %}
     <tr class="blox-docs-method-parameter-row">
       <td class="blox-docs-method-parameter-cell">
-        <p class="blox-docs-method-parameter-name">
+        <div class="blox-docs-method-parameter-name">
           {$ parameter.name $}
           {%- if parameter.isOptional -%}
             <span class="blox-docs-method-parameter-optional-marker">?</span>
           {%- endif -%}
-        </p>
+        </div>
         <code class="blox-docs-method-parameter-type">{$ parameter.type $}</code>
       </td>
       <td class="blox-docs-method-parameter-description-cell">

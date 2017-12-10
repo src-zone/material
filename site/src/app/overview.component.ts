@@ -8,6 +8,9 @@ const messages = require('./messages.json');
   templateUrl: './overview.component.html'
 })
 export class OverviewComponent {
+    static DOC_TYPE = 'components';
+    static DOC_HREF = 'overview';
+
     components = MDC_DIRECTIVE_DOC_COMPONENTS.map(c => ({
         'title': messages[c.DOC_TYPE + '.' + c.DOC_HREF + '.title'],
         'description': messages[c.DOC_TYPE + '.' + c.DOC_HREF + '.description'],

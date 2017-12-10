@@ -6,6 +6,7 @@
 @import "mdc";
 @import "mixins";
 @import "~highlight.js/styles/default.css";
+@import "typography";
 
 body, html {
   color: rgba(0,0,0,.87);
@@ -133,6 +134,13 @@ blockquote {
   margin: 0;
 }
 
+.blox-component-list {
+  img {
+    width: 38px;
+    height: 38px;
+  }
+}
+
 $blox-component-list-grid: (
   columns: 1,
   gutter: 24px
@@ -143,12 +151,8 @@ $blox-component-list-grid-l: (
   media: $media-l-min-width
 );
 
-ul.blox-component-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-
-  li {
+nav.blox-component-list {
+  section {
     @include grid-column(1, $blox-component-list-grid);
     @include grid-media($blox-component-list-grid-l) {
       @include grid-column(1);
@@ -158,14 +162,13 @@ ul.blox-component-list {
       display: flex;
       align-items: center;
       text-decoration: none;
-      //color: $mdc
 
       .blox-component-list-item-img img {
-        min-width: 72px;
-        height: 72px;
+        min-width: 38px;
+        height: 38px;
         margin-right: 24px;
       }
-      h2 {
+      h2, h3 {
         margin-top: 0;
         margin-bottom: 0;
       }
@@ -346,23 +349,15 @@ p.blox-demo-paragraph {
 }
 
 .blox-intro {
-  font-size: 18px;
-  @media only screen and (max-width: $media-m-min-width - 1px) {
-    font-size: 16px;
+  margin-top: 16px;
+  .mdc-card__supporting-text {
+    @include mdc-typography(subheading1);
   }
-  .blox-inline-svg {
-    height: 20px;
-    width: 20px;
-    top: 4px;
+  [mdcButton] img {
+    height: 18px;
+    width: 18px;
+    top: 3px;
     position: relative;
-    @media only screen and (max-width: $media-m-min-width - 1px) {
-      height: 16px;
-      width: 16px;
-      top: 3px;
-    }
-  }
-  a {
-    text-decoration: none;
   }
 }
 
