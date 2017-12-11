@@ -4,12 +4,12 @@
   {% for selector in class.directiveSelectors %}
     &ngsp;<span class="blox-docs-class-selector-name">{$ selector $}</span>
   {% endfor %}
+  {%- if class.directiveExportAs -%}
+  <br/>
+  <span class="blox-docs-class-export-label">Exported as:</span>&ngsp;
+  <span class="blox-docs-class-export-name">{$ class.directiveExportAs $}</span>
+  {%- endif -%}
 </p>
-{%- endif -%}
-
-{%- if class.directiveExportAs -%}
-<span class="blox-docs-class-export-label">Exported as:</span>&ngsp;
-<span class="blox-docs-class-export-name">{$ class.directiveExportAs $}</span>
 {%- endif -%}
 
 {%- if class.description -%}

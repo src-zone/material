@@ -5,6 +5,9 @@ import { Component } from '@angular/core';
   templateUrl: './gettingstarted.component.html'
 })
 export class GettingstartedComponent {
+    static DOC_TYPE = 'guides';
+    static DOC_HREF = 'gettingStarted';
+    
     codeModule = `import { FormsModule } from '@angular/forms'; // (optional)   
 import { MaterialModule } from '@blox/material';
 
