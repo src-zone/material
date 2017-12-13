@@ -42,7 +42,7 @@
     "@angular/core": "^4.4.4",
     "@angular/forms": "^4.4.4",
     "@angular/router": "^4.4.4",
-    "@types/glob": "^5.0.33",
+    "@types/glob": "^5.0.34",
     "@types/jasmine": "^2.8.2",
     "@types/node": "^8.0.56",
     "@types/rollup": "^0.51.1",
