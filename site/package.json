@@ -48,7 +48,7 @@
   "devDependencies": {
     "@angular-devkit/build-optimizer": "0.0.35",
     "@angular/compiler-cli": "^5.1.0",
-    "@ngtools/webpack": "^1.9.0",
+    "@ngtools/webpack": "^1.9.3",
     "@types/jasmine": "^2.8.2",
     "@types/node": "^8.0.58",
     "@types/selenium-webdriver": "^3.0.8",
