@@ -36,7 +36,7 @@
     "@blox/material": "file:../bundle",
     "angular-highlight-js": "^2.0.1",
     "angulartics2": "^4.2.0",
-    "bourbon": "4.3.4",
+    "bourbon": "^5.0.0",
     "bourbon-neat": "2.0.0",
     "classlist.js": "^1.1.20150312",
     "material-components-web": "^0.26.0",
