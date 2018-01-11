@@ -43,7 +43,7 @@
     "normalize.css": "^7.0.0",
     "rxjs": "^5.5.5",
     "to-string-loader": "^1.1.5",
-    "zone.js": "^0.8.18"
+    "zone.js": "^0.8.20"
   },
   "devDependencies": {
     "@angular-devkit/build-optimizer": "0.0.35",
