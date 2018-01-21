@@ -58,7 +58,7 @@
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
-    "codelyzer": "^4.0.2",
+    "codelyzer": "^4.1.0",
     "copy-webpack-plugin": "^4.2.3",
     "css-loader": "^0.28.7",
     "extract-text-webpack-plugin": "^3.0.2",
