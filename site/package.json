@@ -88,7 +88,7 @@
     "sass-loader": "^6.0.6",
     "shelljs": "^0.7.8",
     "source-map-explorer": "^1.5.0",
-    "style-loader": "^0.19.0",
+    "style-loader": "^0.20.1",
     "ts-helpers": "^1.1.2",
     "tslint": "^5.8.0",
     "tslint-loader": "^3.4.2",
