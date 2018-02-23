@@ -4,7 +4,7 @@
         "commitmsg": "commitlint -e"
     },
     "devDependencies": {
-        "@commitlint/cli": "^5.2.5",
+        "@commitlint/cli": "^6.1.2",
         "@commitlint/config-lerna-scopes": "^5.2.0",
         "husky": "^0.14.3",
         "lerna": "^2.5.1"
