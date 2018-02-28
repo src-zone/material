@@ -79,7 +79,7 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-remap-istanbul": "0.6.0",
     "karma-sourcemap-loader": "^0.3.7",
-    "karma-webpack": "^2.0.6",
+    "karma-webpack": "^2.0.13",
     "lodash": "^4.17.4",
     "mz": "^2.7.0",
     "node-sass": "^4.7.2",
