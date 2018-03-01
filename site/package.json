@@ -33,7 +33,7 @@
     "@angular/http": "^5.2.7",
     "@angular/platform-browser": "^5.2.7",
     "@angular/platform-browser-dynamic": "^5.2.7",
-    "@angular/router": "^5.1.0",
+    "@angular/router": "^5.2.7",
     "@blox/material": "file:../bundle",
     "angular-highlight-js": "^2.0.1",
     "angulartics2": "^4.2.0",
