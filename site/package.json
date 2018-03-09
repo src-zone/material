@@ -31,7 +31,7 @@
     "@angular/core": "^5.2.8",
     "@angular/forms": "^5.2.8",
     "@angular/http": "^5.2.8",
-    "@angular/platform-browser": "^5.1.0",
+    "@angular/platform-browser": "^5.2.8",
     "@angular/platform-browser-dynamic": "^5.1.0",
     "@angular/router": "^5.1.0",
     "@blox/material": "file:../bundle",
