@@ -36,12 +36,12 @@
     "zone.js": ">=0.8.0"
   },
   "devDependencies": {
-    "@angular/common": "^4.4.4",
-    "@angular/compiler": "^4.4.4",
-    "@angular/compiler-cli": "^4.4.4",
-    "@angular/core": "^4.4.4",
-    "@angular/forms": "^4.4.4",
-    "@angular/router": "^4.4.4",
+    "@angular/common": "^4.4.7",
+    "@angular/compiler": "^4.4.7",
+    "@angular/compiler-cli": "^4.4.7",
+    "@angular/core": "^4.4.7",
+    "@angular/forms": "^4.4.7",
+    "@angular/router": "^4.4.7",
     "@types/glob": "^5.0.34",
     "@types/jasmine": "^2.8.2",
     "@types/node": "^8.0.56",
