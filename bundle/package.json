@@ -40,7 +40,7 @@
     "@angular/compiler": "^4.4.7",
     "@angular/compiler-cli": "^4.4.7",
     "@angular/core": "^4.4.7",
-    "@angular/forms": "^4.4.4",
+    "@angular/forms": "^4.4.7",
     "@angular/router": "^4.4.4",
     "@types/glob": "^5.0.34",
     "@types/jasmine": "^2.8.2",
