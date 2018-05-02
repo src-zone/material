@@ -16,7 +16,10 @@
       "node_modules/@types"
     ],
     "outDir": "build",
-    "baseUrl": "./node_modules"
+    "baseUrl": "./node_modules",
+    "paths": {
+      "@blox/material": ["../../bundle"]
+    }
   },
   "compileOnSave": false,
   "buildOnSave": false,

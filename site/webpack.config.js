@@ -3,10 +3,9 @@ const path = require('path');
 const webpack = require('webpack');
 
 // Webpack Plugins
-const CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const PurifyPlugin = require('@angular-devkit/build-optimizer').PurifyPlugin;
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
@@ -71,11 +70,11 @@ module.exports = function makeWebpackConfig(env) {
     {name: 'runtime', src: './src/runtime.ts'},
     {name: 'polyfills', src: './src/polyfills.ts', forRoot: ['app']},
     {name: 'vendor', src: './src/vendor.debug.ts', forRoot: ['app'], build: 'debug'},
-    {name: 'mdc', filter: /.*\/node_modules\/(hammerjs|@material)\/.*\.(js|ts)$/, forRoot: ['app'], build: 'prod'},
-    {name: 'rxjs', filter: /.*\/node_modules\/rxjs\/.*\.(js|ts)$/, forRoot: ['app'], build: 'prod'},
-    {name: 'ngc', filter: /.\/node_modules\/@angular\/c.*\.(js|ts)$/, forRoot: ['app'], build: 'prod'},
-    {name: 'ngx', filter: /.\/node_modules\/@angular\/.*\.(js|ts)$/, forRoot: ['app'], build: 'prod'},
-    {name: 'blx', filter: /.*\/node_modules\/@blox\/.*\.(js|ts)$/, forRoot: ['app'], build: 'prod'},
+    {name: 'mdc', filter: /.*[\\/]node_modules[\\/](hammerjs|@material)[\\/].*\.(js|ts)$/, forRoot: ['app'], build: 'prod'},
+    {name: 'rxjs', filter: /.*[\\/]node_modules[\\/]rxjs[\\/].*\.(js|ts)$/, forRoot: ['app'], build: 'prod'},
+    {name: 'ngc', filter: /.[\\/]node_modules[\\/]@angular[\\/]c.*\.(js|ts)$/, forRoot: ['app'], build: 'prod'},
+    {name: 'ngx', filter: /.[\\/]node_modules[\\/]@angular[\\/].*\.(js|ts)$/, forRoot: ['app'], build: 'prod'},
+    {name: 'blx', filter: /.*[\\/]bundle[\\/]dist[\\/].*\.(js|ts)$/, forRoot: ['app'], build: 'prod'},
     {name: 'app', src: './src/main.ts', template: './src/html/material.html', filename: 'material.html'}
   ];
   const allEntries = entries.filter(function(e) {
@@ -85,15 +84,15 @@ module.exports = function makeWebpackConfig(env) {
   // name of the final css file for this target:
   const cssName = target + '.[contenthash].bundle.css';
 
-  // the common chunks are the entries without 'filename' set, but having 'src' set:
-  const commonChunks = allEntries.filter(function(e){return !e.filename && !!e.src; }).map(function(e){return e.name; });
-
   /**
    * Config
    * Reference: http://webpack.github.io/docs/configuration.html
    * This is the object where all configuration gets set
    */
-  var config = {};
+  var config = {
+    mode: isProd ? 'production' : 'development',
+    optimization: {}
+  };
 
   /**
    * Devtool
@@ -126,7 +125,7 @@ module.exports = function makeWebpackConfig(env) {
     path: root('dist'),
     publicPath: isProd ? '/' : '/',
     filename: isProd ? 'js/[name].[chunkhash].js' : 'js/[name].js',
-    chunkFilename: isProd ? 'js/[id].[chunkhash].chunk.js' : 'js/[id].chunk.js'
+    chunkFilename: isProd ? 'js/[name].[chunkhash].chunk.js' : 'js/[name].chunk.js'
   };
 
   /**
@@ -139,7 +138,12 @@ module.exports = function makeWebpackConfig(env) {
     modules: [path.resolve(__dirname, 'node_modules')],
     // only discover files that have those extensions
     extensions: ['.ts', '.js', '.json', '.css', '.scss', '.html'],
-    alias: Object.assign({'assets': path.resolve(__dirname, 'src/assets/')}, rxPaths),
+    alias: Object.assign(
+      {
+        'assets': path.resolve(__dirname, 'src/assets/'),
+        '@blox/material': path.resolve(__dirname, '../bundle')
+      },
+      rxPaths),
     mainFields: [
       //'es2015', (we can use this once we target es2015)
       'browser',
@@ -200,7 +204,7 @@ module.exports = function makeWebpackConfig(env) {
       {
         test: /\.css$/,
         exclude: root('src', 'app'),
-        loader: isTest ? 'null-loader' : ExtractTextPlugin.extract({fallback: 'style-loader', use: [cssLoaderForExtract, postcssLoader]})
+        loader: isTest ? 'null-loader' : [isProd ? MiniCssExtractPlugin.loader : 'style-loader', cssLoaderForExtract, postcssLoader]
       },
       // all css required in src/app files will be merged in js files
       {test: /\.css$/, include: root('src', 'app'), loaders: ['raw-loader', postcssLoader]},
@@ -211,7 +215,7 @@ module.exports = function makeWebpackConfig(env) {
       {
         test: /\.(scss|sass)$/,
         exclude: root('src', 'app'),
-        loader: isTest ? 'null-loader' : ExtractTextPlugin.extract({fallback: 'style-loader', use: [cssLoaderForExtract, postcssLoader, sassLoader]})
+        loader: isTest ? 'null-loader' : [isProd ? MiniCssExtractPlugin.loader : 'style-loader', cssLoaderForExtract, postcssLoader, sassLoader]
       },
       // all css required in src/app files will be merged in js files
       {test: /\.(scss|sass)$/, exclude: root('src', 'style'), loaders: ['to-string-loader', 'css-loader', postcssLoader, sassLoader]},
@@ -277,8 +281,6 @@ module.exports = function makeWebpackConfig(env) {
       root('./src') // location of your src
     ),
 
-    new webpack.optimize.ModuleConcatenationPlugin(),
-
     new webpack.LoaderOptionsPlugin({
       minimize: isProd,
       debug: false,
@@ -302,24 +304,18 @@ module.exports = function makeWebpackConfig(env) {
     }));
 
   if (!isTest && !isTestWatch) {
-    config.plugins.push(
-      // Generate common chunks if necessary
-      // Reference: https://webpack.github.io/docs/code-splitting.html
-      // Reference: https://webpack.github.io/docs/list-of-plugins.html#commonschunkplugin
-      new CommonsChunkPlugin({
-        names: commonChunks.reverse()
-      })
-    );
-
+    config.optimization.runtimeChunk = 'single';
+    config.optimization.splitChunks = {
+      name : false,
+      cacheGroups: {
+      }
+    };
     allEntries.filter(function(e) {return !!e.filter; }).forEach(function(entry) {
-      let roots = entry.forRoot; //  TODO: if not set take all roots!
-      config.plugins.push(new CommonsChunkPlugin({
+      config.optimization.splitChunks.cacheGroups[entry.name] = {
+        test: entry.filter,
         name: entry.name,
-        chunks: roots,
-        minChunks: (module, count) => {
-          return count >= roots.length && isVendorChunk(module, entry.filter);
-        }
-      }));
+        chunks: 'all', minSize:0, minChunks: 1, reuseExistingChunk: true, enforce: true
+      };
     });
     
     // Inject script and link tags into html files
@@ -339,7 +335,7 @@ module.exports = function makeWebpackConfig(env) {
     // Reference: https://github.com/webpack/extract-text-webpack-plugin
     // Disabled when in test mode or not in build mode
     config.plugins.push(
-      new ExtractTextPlugin({filename: 'css/' + cssName, disable: !isProd})
+      new MiniCssExtractPlugin({filename: 'css/' + cssName, disable: !isProd})
     );
   }
 
@@ -392,14 +388,11 @@ module.exports = function makeWebpackConfig(env) {
       new webpack.HashedModuleIdsPlugin(),
       // Extract the manifest into the html template, to improve cacheability
       // of chunks:
-      new InlineChunkManifestHtmlWebpackPlugin({
-        filename: target + '-manifest.json',
-        dropAsset: true
-      }),
-
-      // Reference: http://webpack.github.io/docs/list-of-plugins.html#noerrorsplugin
-      // Only emit files when there are no errors
-      new webpack.NoEmitOnErrorsPlugin()
+// TODO: this plugin is not yet compatible with webpack-4. It also doesn't seem we need it.
+//      new InlineChunkManifestHtmlWebpackPlugin({
+//        filename: target + '-manifest.json',
+//        dropAsset: true
+//      })
     );
   }
 
@@ -461,8 +454,4 @@ function chunksFor(entries, name) {
   }).map(function(e) {
     return e.name;
   });
-}
-
-function isVendorChunk({resource}, filter) {
-  return resource && resource.replace(/\\/g, '/').match(filter);
 }
