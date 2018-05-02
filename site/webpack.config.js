@@ -156,12 +156,6 @@ module.exports = function makeWebpackConfig(env) {
     hints: isProd ? "warning" : false
   };
 
-  var atlOptions = '';
-  if (isTest && !isTestWatch) {
-    // awesome-typescript-loader needs to output inlineSourceMap for code coverage to work with source maps.
-    atlOptions = 'inlineSourceMap=true&sourceMap=false';
-  }
-
   /**
    * Loaders
    * Reference: http://webpack.github.io/docs/configuration.html#module-loaders
@@ -175,7 +169,7 @@ module.exports = function makeWebpackConfig(env) {
         test: /(?:\.ngfactory\.js|\.ngstyle\.js|\.ts)$/,
         loaders: isProd ?
           [ buildOptimizerLoader, '@ngtools/webpack'] :
-          ['awesome-typescript-loader?' + atlOptions, 'angular2-template-loader'],
+          ['ts-loader', 'angular2-template-loader'],
         exclude: [isTest ? /\.(e2e)\.ts$/ : /\.(spec|e2e)\.ts$/, /node_modules\/(?!(ng2-.+))/]
       },
 
