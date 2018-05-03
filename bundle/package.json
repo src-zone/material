@@ -43,7 +43,7 @@
     "@angular/forms": "^5.2.10",
     "@angular/router": "^5.2.10",
     "@types/glob": "^5.0.35",
-    "@types/jasmine": "^2.8.6",
+    "@types/jasmine": "^2.8.7",
     "@types/node": "^10.0.2",
     "@types/rollup": "^0.54.0",
     "@types/selenium-webdriver": "^3.0.8",
