@@ -1,6 +1,7 @@
 {
     "scripts": {
         "deploy": "lerna publish --conventional-commits",
+        "deploy-minor": "lerna publish --conventional-commits --cd-version minor",
         "commitmsg": "commitlint -e"
     },
     "devDependencies": {
