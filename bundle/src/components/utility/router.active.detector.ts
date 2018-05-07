@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, QueryList } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { takeUntil } from 'rxjs/operators/takeUntil';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { NavigationEnd, Router, RouterLink, RouterLinkWithHref } from '@angular/router';
 
 /**

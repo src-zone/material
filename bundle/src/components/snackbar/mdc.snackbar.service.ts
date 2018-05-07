@@ -1,10 +1,8 @@
 import { Injectable, Optional, Renderer2, SkipSelf } from '@angular/core';
 import { getCorrectEventName } from '@material/animation';
 import { MDCSnackbar, MDCSnackbarFoundation } from '@material/snackbar';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { filter } from 'rxjs/operators/filter';
-import { take } from 'rxjs/operators/take';
+import { Observable ,  Subject } from 'rxjs';
+import { filter ,  take } from 'rxjs/operators';
 import { MdcSnackbarAdapter } from './mdc.snackbar.adapter';
 import { MdcSnackbarMessage } from './mdc.snackbar.message';
 

@@ -2,8 +2,8 @@ import { AfterContentInit, Component, ContentChild, ContentChildren, Directive, 
   Input, OnDestroy, Output, QueryList, Renderer2, Self } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MDCSelectFoundation, util } from '@material/select';
-import { Subject } from 'rxjs/Subject';
-import { takeUntil } from 'rxjs/operators/takeUntil';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { MdcSelectAdapter } from './mdc.select.adapter';
 import { MdcSimpleMenuDirective } from '../menu/mdc.simple.menu.directive';
 import { MdcListDirective, MdcListItemDirective, MdcListFunction } from '../list/mdc.list.directive';
