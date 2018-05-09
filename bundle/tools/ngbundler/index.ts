@@ -1,4 +1,4 @@
-import { rollup, Options, WriteOptions } from 'rollup';
+import { rollup, RollupFileOptions, OutputOptions } from 'rollup';
 const resolve = require('rollup-plugin-node-resolve');
 const sourcemaps = require('rollup-plugin-sourcemaps');
 
@@ -35,7 +35,7 @@ const globals = {
   'tslib': 'tslib'
 };
 
-const inputOptions: Options = <any>{
+const inputOptions: RollupFileOptions = {
     input: 'build/material.js',
     plugins: [
         resolve({jail: '/src', modulesOnly: true}),
@@ -44,18 +44,20 @@ const inputOptions: Options = <any>{
     onwarn: function(warning) {
         // Suppress known error message caused by TypeScript compiled code with Rollup
         // https://github.com/rollup/rollup/wiki/Troubleshooting#this-is-undefined
-        if (warning.code !== 'THIS_IS_UNDEFINED')
-            console.log("Rollup warning: ", warning.message);
+        if (typeof warning === 'string')
+            console.log("Rollup warning: ", warning)
+        else if (warning.code !== 'THIS_IS_UNDEFINED' && warning.code !== 'UNUSED_EXTERNAL_IMPORT')
+            console.log("Rollup warning [", warning.code, "]: ", warning.message);
     },
     external: Object.keys(globals)
 };
-const outputOptionsEs5: WriteOptions = <any>{
+const outputOptionsEs5: OutputOptions = {
     file: 'dist/material.es5.js',
     format: 'es',
     sourcemap: true,
     globals: globals
 };
-const outputOptionsUmd: WriteOptions = <any>{
+const outputOptionsUmd: OutputOptions = {
     file: 'dist/material.umd.js',
     format: 'umd',
     sourcemap: true,
@@ -63,7 +65,7 @@ const outputOptionsUmd: WriteOptions = <any>{
     name: 'blox.material'
 };
 
-async function build(writeOptions: WriteOptions) {
+async function build(writeOptions: OutputOptions) {
   const bundle = await rollup(inputOptions);
   await bundle.write(writeOptions);
 }
