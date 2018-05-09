@@ -6,7 +6,9 @@ import { MDCRipple } from '@material/ripple';
 import { MDCTextFieldFoundation } from '@material/textfield';
 import { MDCTextFieldBottomLineFoundation } from '@material/textfield/bottom-line';
 import { MDCTextFieldHelperTextFoundation } from '@material/textfield/helper-text';
-import { MdcTextFieldAdapter, MdcTextFieldBottomLineAdapter, MdcTextFieldHelperTextAdapter } from './mdc.text-field.adapter';
+import { MDCTextFieldIconFoundation } from '@material/textfield/icon';
+import { MDCTextFieldLabelFoundation } from '@material/textfield/label';
+import { MdcTextFieldAdapter, MdcTextFieldBottomLineAdapter, MdcTextFieldIconAdapter, MdcTextFieldHelperTextAdapter, MdcTextFieldLabelAdapter } from './mdc.text-field.adapter';
 import { AbstractMdcInput } from '../abstract/abstract.mdc.input';
 import { AbstractMdcLabel } from '../abstract/abstract.mdc.label';
 import { asBoolean } from '../../utils/value.utils';
@@ -153,8 +155,26 @@ export class MdcTextFieldInputDirective extends AbstractMdcInput implements OnIn
 })
 export class MdcTextFieldIconDirective {
     @HostBinding('class.mdc-text-field__icon') _cls = true;
+    _mdcAdapter: MdcTextFieldIconAdapter = {
+        setAttr: (name: string, value: string) => {
+            this._rndr.setAttribute(this._el.nativeElement, name, value);
+        },
+        registerInteractionHandler: (evtType: string, handler: EventListener) => {
+            this._reg.listen(this._rndr, evtType, handler, this._el);
+        },
+        deregisterInteractionHandler: (evtType: string, handler: EventListener) => {
+            this._reg.unlisten(evtType, handler);
+        },
+        notifyIconAction: () => {
+            // ignored, the normal (click) event handler is already available for this in angular
+        }
+    };
+    _foundation: {
+        init: Function,
+        destroy: Function
+    } = new MDCTextFieldIconFoundation(this._mdcAdapter);
 
-    constructor(public _el: ElementRef) {
+    constructor(private _rndr: Renderer2, public _el: ElementRef, private _reg: MdcEventRegistry) {
     }
 }
 
@@ -173,8 +193,21 @@ export class MdcTextFieldLabelDirective extends AbstractMdcLabel {
     /** @docs-private */
     @HostBinding() for: string;
     @HostBinding('class.mdc-text-field__label') _cls = true;
+    _mdcAdapter: MdcTextFieldLabelAdapter = {
+        addClass: (className: string) => {
+            this._rndr.addClass(this._elm.nativeElement, className);
+        },
+        removeClass: (className: string) => {
+            this._rndr.removeClass(this._elm.nativeElement, className);
+        },
+        getWidth:() => this._elm.nativeElement.offsetWidth
+    };
+    _foundation: {
+        init: Function,
+        destroy: Function
+    } = new MDCTextFieldLabelFoundation(this._mdcAdapter);
 
-    constructor(public _elm: ElementRef) {
+    constructor(private _rndr: Renderer2, public _elm: ElementRef) {
         super();
     }
 }
@@ -276,29 +309,16 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
         removeClass: (className: string) => {
             this.renderer.removeClass(this.root.nativeElement, className);
         },
-        addClassToLabel: (className: string) => {
-            if (this._label)
-                this.renderer.addClass(this._label._elm.nativeElement, className);
-        },
-        removeClassFromLabel: (className: string) => {
-            if (this._label)
-                this.renderer.removeClass(this._label._elm.nativeElement, className);
-        },
-        setIconAttr: (name: string, value: string) => {
-            if (this._icon)
-                this.renderer.setAttribute(this._icon._el.nativeElement, name, value);
-        },
-        eventTargetHasClass: (target: HTMLElement, className: string) => {
-            return target.classList.contains(className);
+        hasClass: (className) => {
+            if (className === 'mdc-text-field--dense')
+                return this._dense;
+            return this.root.nativeElement.classList.contains(className);
         },
         registerTextFieldInteractionHandler: (evtType: string, handler: EventListener) => {
             this.registry.listen(this.renderer, evtType, handler, this.root);
         },
         deregisterTextFieldInteractionHandler: (evtType: string, handler: EventListener) => {
             this.registry.unlisten(evtType, handler);
-        },
-        notifyIconAction: () => {
-            // ignored, the normal (click) event handler is already available for this in angular
         },
         registerInputInteractionHandler: (evtType: string, handler: EventListener) => {
             if (this._input)
@@ -316,12 +336,18 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
         },
         getNativeInput: () => {
             return {
-                checkValidity: () => this._valid == null ? this._input.valid : !!this._valid,
                 value: this._input.value,
                 disabled: this._input.disabled,
-                badInput: this._input._isBadInput()
+                validity: {
+                    valid: this._valid == null ? this._input.valid : !!this._valid,
+                    badInput: this._input._isBadInput()
+                }
             };
-        }
+        },
+        isFocused: () => this._input && this._input._focused,
+        // TODO only for outline, which is not yet supported:
+        getIdleOutlineStyleValue: (propertyName) => undefined,
+        isRtl: () => getComputedStyle(this.root.nativeElement).getPropertyValue('direction') === 'rtl'
     };
     private bottomLineFoundation: {
         init: Function,
@@ -351,22 +377,28 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
         this.initBox();
         this.foundation = new MDCTextFieldFoundation(this.mdcAdapter, {
             bottomLine: this.bottomLineFoundation,
-            helperText: this.helperText ? this.helperText._foundation : undefined
+            helperText: this.helperText ? this.helperText._foundation : undefined,
+            icon: this._icon ? this._icon._foundation : undefined,
+            label: this._label ? this._label._foundation : undefined
         });
         if (this._helperText)
             this._helperText._foundation.init();
+        if (this._icon)
+            this._icon._foundation.init();
+        if (this._label)
+            this._label._foundation.init();
         this.bottomLineFoundation.init();
         this.foundation.init();
         // TODO: we should actually reassign this if mdcInput changes, eg via ngContentChanges hook
         if (this._input)
             this._input._onChange = (value) => {
-                if (this._input && !this._input._focused) {
+                if (this._input && this._label && !this._input._focused) {
                     // programmatic changes to the input value are not seen by the foundation,
                     // but some states should be updated with the new value:
                     if (value == null || value.toString().length === 0)
-                        this.mdcAdapter.removeClassFromLabel('mdc-text-field__label--float-above');
+                        this._label._mdcAdapter.removeClass('mdc-text-field__label--float-above');
                     else
-                        this.mdcAdapter.addClassToLabel('mdc-text-field__label--float-above');
+                        this._label._mdcAdapter.addClass('mdc-text-field__label--float-above');
                 }
             }
     }
@@ -375,6 +407,12 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
         this.destroyRipple();
         if (this._helperText)
             this._helperText._foundation.destroy();
+        if (this._helperText)
+            this._helperText._foundation.destroy();
+        if (this._icon)
+            this._icon._foundation.destroy();
+        if (this._label)
+            this._label._foundation.destroy();
         this.bottomLineFoundation.destroy();
         this.foundation.destroy();
         this._input._onChange = (value) => {};
@@ -408,7 +446,7 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
         if (value == null) {
             this._valid = null; // reset to null, validity now managed by the input control.
             this.foundation.useCustomValidityChecking_ = false;
-            this.foundation.changeValidity_(this.mdcAdapter.getNativeInput().checkValidity());
+            this.foundation.changeValidity_(this.mdcAdapter.getNativeInput().validity.valid);
         } else if (value !== this._valid) {
             this._valid = asBoolean(value);
             this.foundation.setValid(this._valid);

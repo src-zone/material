@@ -24,6 +24,8 @@ const globals = {
   '@material/textfield': 'mdc.textfield',  // checked, not exported as mdc.textField yet
   '@material/textfield/bottom-line': 'mdc.textfield',
   '@material/textfield/helper-text': 'mdc.textfield',
+  '@material/textfield/icon': 'mdc.textfield',
+  '@material/textfield/label': 'mdc.textfield',
   '@material/toolbar': 'mdc.toolbar',
   '@material/tabs': 'mdc.tabs',
   'rxjs/Observable': 'Rx',

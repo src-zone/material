@@ -19,20 +19,10 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
     providers: [{provide: AbstractDrawerElement, useExisting: forwardRef(() => MdcDrawerToolbarSpacerDirective) }]
 })
 export class MdcDrawerToolbarSpacerDirective extends AbstractDrawerElement {
+    @HostBinding('class.mdc-drawer__toolbar-spacer') _cls = true;
+
     constructor() {
         super();
-    }
-
-    @HostBinding('class.mdc-permanent-drawer__toolbar-spacer') get _isPermanent() {
-        return this._drawerType === 'permanent';
-    }
-
-    @HostBinding('class.mdc-persistent-drawer__toolbar-spacer') get _isPersistent() {
-        return this._drawerType === 'persistent';
-    }
-
-    @HostBinding('class.mdc-temporary-drawer__toolbar-spacer') get _isTemporary() {
-        return this._drawerType === 'temporary';
     }
 }
 
@@ -49,20 +39,10 @@ export class MdcDrawerToolbarSpacerDirective extends AbstractDrawerElement {
     providers: [{provide: AbstractDrawerElement, useExisting: forwardRef(() => MdcDrawerHeaderDirective) }]
 })
 export class MdcDrawerHeaderDirective extends AbstractDrawerElement {
+    @HostBinding('class.mdc-drawer__header') _cls = true;
+
     constructor() {
         super();
-    }
-
-    @HostBinding('class.mdc-permanent-drawer__header') get _isPermanent() {
-        return this._drawerType === 'permanent';
-    }
-
-    @HostBinding('class.mdc-persistent-drawer__header') get _isPersistent() {
-        return this._drawerType === 'persistent';
-    }
-
-    @HostBinding('class.mdc-temporary-drawer__header') get _isTemporary() {
-        return this._drawerType === 'temporary';
     }
 }
 
@@ -76,20 +56,10 @@ export class MdcDrawerHeaderDirective extends AbstractDrawerElement {
     providers: [{provide: AbstractDrawerElement, useExisting: forwardRef(() => MdcDrawerHeaderContentDirective) }]
 })
 export class MdcDrawerHeaderContentDirective extends AbstractDrawerElement {
+    @HostBinding('class.mdc-drawer__header-content') _cls = true;
+
     constructor() {
         super();
-    }
-
-    @HostBinding('class.mdc-permanent-drawer__header-content') get _isPermanent() {
-        return this._drawerType === 'permanent';
-    }
-
-    @HostBinding('class.mdc-persistent-drawer__header-content') get _isPersistent() {
-        return this._drawerType === 'persistent';
-    }
-
-    @HostBinding('class.mdc-temporary-drawer__header-content') get _isTemporary() {
-        return this._drawerType === 'temporary';
     }
 }
 
@@ -102,20 +72,10 @@ export class MdcDrawerHeaderContentDirective extends AbstractDrawerElement {
     providers: [{provide: AbstractDrawerElement, useExisting: forwardRef(() => MdcDrawerContentDirective) }]    
 })
 export class MdcDrawerContentDirective extends AbstractDrawerElement {
+    @HostBinding('class.mdc-drawer__content') _cls = true;
+
     constructor() {
         super();
-    }
-
-    @HostBinding('class.mdc-permanent-drawer__content') get _isPermanent() {
-        return this._drawerType === 'permanent';
-    }
-
-    @HostBinding('class.mdc-persistent-drawer__content') get _isPersistent() {
-        return this._drawerType === 'persistent';
-    }
-
-    @HostBinding('class.mdc-temporary-drawer__content') get _isTemporary() {
-        return this._drawerType === 'temporary';
     }
 }
 
@@ -161,16 +121,12 @@ export class MdcDrawerDirective implements AfterContentInit {
         this.updateTypeForChildren();
     }
 
-    @HostBinding('class.mdc-permanent-drawer') get _isPermanent() {
+    @HostBinding('class.mdc-drawer--permanent') get _isPermanent() {
         return this.type === 'permanent';
     }
 
-    @HostBinding('class.mdc-persistent-drawer__drawer') get _isPersistent() {
-        return this.type === 'persistent';
-    }
-
-    @HostBinding('class.mdc-temporary-drawer__drawer') get _isTemporary() {
-        return this.type === 'temporary';
+    @HostBinding('class.mdc-drawer__drawer') get _isContainedDrawer() {
+        return this.type === 'persistent' || this.type === 'temporary';
     }
 }
 
@@ -252,20 +208,22 @@ export class MdcDrawerContainerDirective implements AfterContentInit, OnDestroy 
     private createAdapter() {
         let adapter: MdcPersistentDrawerAdapter | MdcTemporaryDrawerAdapter = {
             addClass: (className) => {
-                if (!/^mdc-.*-drawer--open$/.test(className)) // *--open is tracked by HostBinding
+                if ('mdc-drawer--open' !== className) // *--open is tracked by HostBinding
                     this._rndr.addClass(this._elm.nativeElement, className);
             },
             removeClass: (className) => {
-                if (!/^mdc-.*-drawer--open$/.test(className)) // *--open is tracked by HostBinding
+                if ('mdc-drawer--open' !== className) // *--open is tracked by HostBinding
                     this._rndr.removeClass(this._elm.nativeElement, className);
             },
             hasClass: (className) => {
-                if (/^mdc-.*-drawer$/.test(className)) 
-                    return true;
-                else if (/^mdc-.*-drawer--open$/.test(className))
+                if ('mdc-drawer--persistent' === className)
+                    return this.type === 'persistent';
+                else if ('mdc-drawer--temporary' === className)
+                    return this.type === 'temporary';
+                else if ('mdc-drawer--open' === className)
                     return this.open;
                 else
-                    return this._elm.nativeElement.classList.contains(className)
+                    return this._elm.nativeElement.classList.contains(className);
             },
             hasNecessaryDom: () => this.hasNecessaryDom(),
             registerInteractionHandler: (evt, handler) => this._registry.listen(this._rndr, util.remapEvent(evt), handler, this._elm, util.applyPassive()),
@@ -300,9 +258,9 @@ export class MdcDrawerContainerDirective implements AfterContentInit, OnDestroy 
                     this._elm.nativeElement.style.setProperty(MDCTemporaryDrawerFoundation.strings.OPACITY_VAR_NAME, value);
             },
             eventTargetHasClass: (target: HTMLElement, className: string) => {
-                if (target === this._elm.nativeElement && this.type === 'temporary' && className === 'mdc-temporary-drawer')
+                if (target === this._elm.nativeElement && className === 'mdc-drawer--temporary')
                     // make sure this returns true even if class HostBinding is not effectuated yet:
-                    return true;
+                    return this.type === 'temporary';
                 return target.classList.contains(className);
             }
         };
@@ -345,20 +303,16 @@ export class MdcDrawerContainerDirective implements AfterContentInit, OnDestroy 
         }
     }
 
-    @HostBinding('class.mdc-persistent-drawer') get _isPersistent() {
+    @HostBinding('class.mdc-drawer--persistent') get _isPersistent() {
         return this.type === 'persistent';
     }
 
-    @HostBinding('class.mdc-temporary-drawer') get _isTemporary() {
+    @HostBinding('class.mdc-drawer--temporary') get _isTemporary() {
         return this.type === 'temporary';
     }
 
-    @HostBinding('class.mdc-persistent-drawer--open') get _isPersistentOpen() {
-        return this.type === 'persistent' && this.open;
-    }
-
-    @HostBinding('class.mdc-temporary-drawer--open') get _isTemporaryOpen() {
-        return this.type === 'temporary' && this.open;
+    @HostBinding('class.mdc-drawer--open') get _isOpenCls() {
+        return (this.type === 'persistent' || this.type === 'temporary') && this.open;
     }
 
     /**

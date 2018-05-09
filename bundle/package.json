@@ -16,16 +16,17 @@
     "material components web"
   ],
   "scripts": {
-    "clean": "rimraf build dist",
+    "clean": "rimraf build dist apidocs",
     "ngc": "ngc -p tsconfig.json",
     "bundle": "ts-node --project tools/ngbundler tools/ngbundler/index.ts",
     "copy-types": "cpy \"**/*.d.ts\" ../dist --cwd=build --parents",
     "copy-metadata": "cpy build/material.metadata.json dist/",
     "apidocs": "ts-node --project tools/dgeni tools/dgeni/index.ts",
-    "build": "npm run clean && npm run ngc && npm run bundle && npm run copy-types && npm run copy-metadata && npm run apidocs"
+    "build-noclean": "npm run ngc && npm run bundle && npm run copy-types && npm run copy-metadata && npm run apidocs",
+    "build": "npm run clean && npm run build-noclean"
   },
   "dependencies": {
-    "material-components-web": "^0.27.0"
+    "material-components-web": "^0.28.0"
   },
   "peerDependencies": {
     "@angular/common": ">=4.0.0",
