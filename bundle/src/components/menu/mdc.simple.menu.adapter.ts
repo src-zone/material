@@ -5,6 +5,7 @@ export interface MdcSimpleMenuAdapter {
     hasClass: (className: string) => boolean,
     hasNecessaryDom: () => boolean,
     getAttributeForEventTarget: (target: Element, attrName: string) => string,
+    eventTargetHasClass: (target: HTMLElement, className: string) => boolean;
     getInnerDimensions: () => {width: number, height: number},
     hasAnchor: () => boolean,
     getAnchorDimensions: () => {width: number, height: number, top: number, right: number, bottom: number, left: number},

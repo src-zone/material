@@ -298,6 +298,12 @@ export class MdcDrawerContainerDirective implements AfterContentInit, OnDestroy 
             updateCssVariable: (value: string) => {
                 if (util.supportsCssCustomProperties())
                     this._elm.nativeElement.style.setProperty(MDCTemporaryDrawerFoundation.strings.OPACITY_VAR_NAME, value);
+            },
+            eventTargetHasClass: (target: HTMLElement, className: string) => {
+                if (target === this._elm.nativeElement && this.type === 'temporary' && className === 'mdc-temporary-drawer')
+                    // make sure this returns true even if class HostBinding is not effectuated yet:
+                    return true;
+                return target.classList.contains(className);
             }
         };
         this.mdcAdapter = adapter;

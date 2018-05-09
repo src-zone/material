@@ -37,6 +37,4 @@ export interface MdcTextFieldAdapter {
     registerBottomLineEventHandler: (evtType: string, handler: EventListener) => void,
     deregisterBottomLineEventHandler: (evtType: string, handler: EventListener) => void,
     getNativeInput: () => {value: string, disabled: boolean, badInput: boolean, checkValidity: () => boolean}
-    getBottomLineFoundation: () => MDCTextFieldBottomLineFoundation,
-    getHelperTextFoundation: () => MDCTextFieldHelperTextFoundation
 }

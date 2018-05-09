@@ -106,10 +106,10 @@ export class MdcListItemTextDirective {
  * Directive for the secondary text of an item with "two line list" styling.
  */
 @Directive({
-    selector: '[mdcListItemTextSecondary]',
+    selector: '[mdcListItemSecondaryText]',
 })
-export class MdcListItemTextSecondaryDirective {
-    @HostBinding('class.mdc-list-item__text__secondary') _cls = true;
+export class MdcListItemSecondaryTextDirective {
+    @HostBinding('class.mdc-list-item__secondary-text') _cls = true;
     
     constructor() {}
 }
