@@ -1,7 +1,7 @@
 import { AfterContentInit, ContentChild, ContentChildren, EventEmitter, forwardRef, QueryList, Directive, ElementRef,
     HostBinding, HostListener, Input, OnDestroy, Optional, Output, Renderer2, Self } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { MDCTabBarFoundation, MDCTabBarScrollerFoundation } from '@material/tabs';
 import { MdcTabBarAdapter } from './mdc.tab.bar.adapter';
 import { asBoolean } from '../../utils/value.utils';
