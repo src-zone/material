@@ -7,7 +7,9 @@ export interface MdcRippleAdapter {
     addClass: (className: string) => void;
     removeClass: (className: string) => void;  
     registerInteractionHandler: (type: string, handler: EventListener) => void;
-    deregisterInteractionHandler: (type: string, handler: EventListener) => void;  
+    deregisterInteractionHandler: (type: string, handler: EventListener) => void;
+    registerDocumentInteractionHandler: (type: string, handler: EventListener) => void;
+    deregisterDocumentInteractionHandler: (type: string, handler: EventListener) => void;
     registerResizeHandler: (handler: EventListener) => void;
     deregisterResizeHandler: (handler: EventListener) => void;
     updateCssVariable: (name: string, value: number | string) => void;

@@ -119,10 +119,10 @@ export class MdcListItemSecondaryTextDirective {
  * This directive, if used, should be the child of an <code>MdcListItemDirective</code>.
  */
 @Directive({
-    selector: '[mdcListItemStartDetail]',
+    selector: '[mdcListItemGraphic]',
 })
-export class MdcListItemStartDetailDirective {
-    @HostBinding('class.mdc-list-item__start-detail') _cls = true;
+export class MdcListItemGraphicDirective {
+    @HostBinding('class.mdc-list-item__graphic') _cls = true;
     
     constructor() {}
 }
@@ -132,10 +132,10 @@ export class MdcListItemStartDetailDirective {
  * This directive, if used, should be the child of an <code>MdcListItemDirective</code>.
  */
 @Directive({
-    selector: '[mdcListItemEndDetail]',
+    selector: '[mdcListItemMeta]',
 })
-export class MdcListItemEndDetailDirective {
-    @HostBinding('class.mdc-list-item__end-detail') _cls = true;
+export class MdcListItemMetaDirective {
+    @HostBinding('class.mdc-list-item__meta') _cls = true;
     
     constructor() {}
 }
@@ -218,7 +218,7 @@ export class MdcListDirective implements AfterContentInit {
     }
 
     /**
-     * When this input is defined and does not have value false, elements with directive <code>mdcListItemStartDetail</code>
+     * When this input is defined and does not have value false, elements with directive <code>mdcListItemGraphic</code>
      * will be styled for avatars: large, circular elements that lend themselves well to contact images, profile pictures, etc. 
      */
     @Input() @HostBinding('class.mdc-list--avatar-list')

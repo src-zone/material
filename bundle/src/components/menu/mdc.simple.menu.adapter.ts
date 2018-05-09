@@ -10,15 +10,11 @@ export interface MdcSimpleMenuAdapter {
     hasAnchor: () => boolean,
     getAnchorDimensions: () => {width: number, height: number, top: number, right: number, bottom: number, left: number},
     getWindowDimensions: () => {width: number, height: number},
-    setScale: (x: number, y: number) => void,
-    setInnerScale: (x: number, y: number) => void,
     getNumberOfItems: () => number,
     registerInteractionHandler: (type: string, handler: EventListener) => void,
     deregisterInteractionHandler: (type: string, handler: EventListener) => void,
     registerBodyClickHandler: (handler: EventListener) => void,
     deregisterBodyClickHandler: (handler: EventListener) => void,
-    getYParamsForItemAtIndex: (index: number) => {top: number, height: number},
-    setTransitionDelayForItemAtIndex: (index: number, value: string | null) => void,
     getIndexForEventTarget: (target: EventTarget) => number,
     notifySelected: (evtData: {index: number}) => void,
     notifyCancel: () => void,
@@ -31,5 +27,5 @@ export interface MdcSimpleMenuAdapter {
     isRtl: () => boolean,
     setTransformOrigin: (origin: string) => void,
     setPosition: (position: {top: string | undefined, right: string | undefined, bottom: string | undefined, left: string | undefined}) => void,
-    getAccurateTime: () => number
+    setMaxHeight: (value: string) => void
 }

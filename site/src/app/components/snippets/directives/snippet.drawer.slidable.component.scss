@@ -7,7 +7,7 @@
     height: 400px;
 }
 
-.mdc-temporary-drawer {
+.mdc-drawer--temporary {
     // the default position is fixed, but in this demo we want to position the drawer
     // inside its parent, not fixed to the viewport:
     position: absolute;

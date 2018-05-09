@@ -130,12 +130,6 @@ export class MdcSimpleMenuDirective implements AfterContentInit, OnDestroy {
             width: this.viewport ? this.viewport.clientWidth : window.innerWidth,
             height: this.viewport ? this.viewport.clientHeight : window.innerHeight
         }),
-        setScale: (x: number, y: number) => {
-            this._elm.nativeElement.style[util.getTransformPropertyName(window)] = `scale(${x}, ${y})`;
-        },
-        setInnerScale: (x: number, y: number) => {
-            this._list._elm.nativeElement.style[util.getTransformPropertyName(window)] = `scale(${x}, ${y})`;
-        },
         getNumberOfItems: () => this._list._items.length,
         registerInteractionHandler: (type: string, handler: EventListener) => {
             this._registry.listen(this._rndr, type, handler, this._elm);
@@ -148,13 +142,6 @@ export class MdcSimpleMenuDirective implements AfterContentInit, OnDestroy {
         },
         deregisterBodyClickHandler: (handler: EventListener) => {
             this._registry.unlisten('click', handler);
-        },
-        getYParamsForItemAtIndex: (index: number) => {
-            const {offsetTop: top, offsetHeight: height} = this._list._items.toArray()[index]._elm.nativeElement;
-            return {top, height};
-        },
-        setTransitionDelayForItemAtIndex: (index: number, value: string | null) => {
-            this._list._items.toArray()[index]._elm.nativeElement.style.setProperty('transition-delay', value)
         },
         getIndexForEventTarget: (target: EventTarget) => this._list._items.toArray().map(i => i._elm.nativeElement).indexOf(target),
         notifySelected: (evtData: {index: number}) => {
@@ -193,7 +180,9 @@ export class MdcSimpleMenuDirective implements AfterContentInit, OnDestroy {
             this._rndr.setStyle(el, 'top', 'top' in position ? position.top : null);
             this._rndr.setStyle(el, 'bottom', 'bottom' in position ? position.bottom : null);
         },
-        getAccurateTime: () => window.performance.now()
+        setMaxHeight: (value: string) => {
+            this._elm.nativeElement.style.maxHeight = value;
+        }
     };
     private foundation: {
         open(arg?: {focusIndex?: number}),

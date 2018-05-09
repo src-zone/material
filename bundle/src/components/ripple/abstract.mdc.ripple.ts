@@ -26,6 +26,8 @@ export abstract class AbstractMdcRipple {
         deregisterInteractionHandler: (type: string, handler: EventListener) => {
             this._registry.unlisten(type, handler);
         },
+        registerDocumentInteractionHandler: (type: string, handler: EventListener) => this._registry.listenElm(this._renderer, type, handler, document),
+        deregisterDocumentInteractionHandler: (type: string, handler: EventListener) => this._registry.unlisten(type, handler),
         registerResizeHandler: (handler: EventListener) => {
             this._registry.listenElm(this._renderer, 'resize', handler, window);
         },
