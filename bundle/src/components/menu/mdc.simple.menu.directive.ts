@@ -106,6 +106,7 @@ export class MdcSimpleMenuDirective implements AfterContentInit, OnDestroy {
         },
         hasNecessaryDom: () => this._listQuery.length != 0,
         getAttributeForEventTarget: (target: Element, attrName: string) => target.getAttribute(attrName),
+        eventTargetHasClass: (target: HTMLElement, className: string) => target.classList.contains(className),
         getInnerDimensions: () => {
             let elm = this._list._elm.nativeElement;
             return {width: elm.offsetWidth, height: elm.offsetHeight};

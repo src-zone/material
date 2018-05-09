@@ -15,7 +15,7 @@ const defaultMetaDescription = messages['default.meta.description'];
     templateUrl: './app.component.html'
 })
 export class AppComponent {
-    year = 2017;
+    year = new Date().getFullYear();
 
     constructor(
         private titleService: Title,

@@ -314,12 +314,6 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
         deregisterBottomLineEventHandler: (evtType: string, handler: EventListener) => {
              this.registry.unlisten(evtType, handler);
         },
-        getBottomLineFoundation: () => {
-            return this.bottomLineFoundation;
-        },
-        getHelperTextFoundation: () => {
-            return undefined;
-        },
         getNativeInput: () => {
             return {
                 checkValidity: () => this._valid == null ? this._input.valid : !!this._valid,
@@ -341,7 +335,7 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
         useCustomValidityChecking_: boolean,
         setValid(isValid: boolean),
         changeValidity_(isValid: boolean)
-    } = new MDCTextFieldFoundation(this.mdcAdapter);
+    };
 
     constructor(private renderer: Renderer2, private root: ElementRef, private registry: MdcEventRegistry) {
         super(root, renderer, registry);
@@ -355,6 +349,10 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
         this.renderer.addClass(this._bottomLineElm, CLASS_BOTTOM_LINE);
         this.renderer.appendChild(this.root.nativeElement, this._bottomLineElm);
         this.initBox();
+        this.foundation = new MDCTextFieldFoundation(this.mdcAdapter, {
+            bottomLine: this.bottomLineFoundation,
+            helperText: this.helperText ? this.helperText._foundation : undefined
+        });
         if (this._helperText)
             this._helperText._foundation.init();
         this.bottomLineFoundation.init();
