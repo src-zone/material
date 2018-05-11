@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-       <a name="0.9.0"></a>
+<a name="0.9.0"></a>
 # [0.9.0](https://github.com/src-zone/material/compare/v0.7.0...v0.9.0) (2018-05-11)
 
 
@@ -17,60 +17,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * upgrade to material-web-components 0.27.0 ([b4e40c1](https://github.com/src-zone/material/commit/b4e40c1))
 
 
-### BREAKING CHANGES
-
-* * upgrade to material-components-web 0.35.1
-* MdcSelectLabelDirective is removed. Use MdcFloatingLabel instead.
- (following upstream changes in material-components-web 0.35.0)
-* mdcSelectLabel is removed. Use mdcFlatingLabel instead.
- (following upstream changes in material-components-web 0.35.0)
-* mdcButton property `stroked` is renamed to `outlined`.
- (following upstream changes in material-components-web 0.35.0)
-* * upgrade to material-components-web 0.34.1
-* MdcTextFieldLabelDirective is renamed to MdcFloatingLabelDirective
- (following upstream changes in material-components-web 0.32.0)
-* mdcTextFieldLabel is renamed to mdcFloatingLabel
- (following upstream changes in material-components-web 0.32.0)
-* mdcButton input compact has been removed
- (following upstream changes in material-components-web 0.33.0)
-* mdcCard input compact has been removed (since it was removed
- from mdcButton)
-* mdcSelect is now based on the native select control and is
- not compatible with the old mdcSelect directives
- (following upstream changes in material-components-web 0.34.0).
- Please check the documentation for mdcSelect, mdcSelectControl,
- and mdcSelectLabel.
-* * dropped compatibility with Angular 4.x, Angular 5 or newer is
- required
-* upgrade to material-components-web 0.31.0
-* mdcSimpleMenu renamed to mdcMenu
- (following upstream changes in material-components-web 0.30.0)
-* MdcSimpleMenuDirective renamed to MdcMenuDirective
- (following upstream changes in material-components-web 0.30.0)
-* mdc-card directives removed: mdcCardHorizontal, mdcCardPrimary,
- mdcCardTitle, mdcCardSubtitle, mdcCardText, mdcCardMediaItem
- (following upstream changes in material-components-web 0.30.0)
-* mdc-card directives added: mdcCardMediaContent, mdcCardActionButtons,
- mdcCardActionIcons, mdcCardPrimaryAction, mdcIcon
- (following upstream changes in material-components-web 0.30.0 and
- 0.31.0)
-* mdcTextField output bottomLineAnimationEnd has been removed
- (following upstream changes in material-components-web 0.30.0)
-* * upgrade to material-components-web 0.28.0
-* mdcListItemStartDetail renamed to mdcListItemGraphic
-* MdcListItemStartDetailDirective renamed to MdcListItemGraphicDirective
-* mdcListItemEndDetail renamed to mdcListItemMeta
-* MdcListItemEndDetailDirective renamed to MdcListItemGraphicDirective
-* * mdcSelect has been removed for now, will be readded when
- upgrading to material-web-components 0.34.0
-* mdcListItemTextSecondary was renamed to mdcListItemSecondaryText
-* MdcListItemTextSecondaryDirective was renamed to
- MdcListItemSecondaryTextDirective
 
 
-
-
-       <a name="0.8.0"></a>
+<a name="0.8.0"></a>
 # [0.8.0](https://github.com/src-zone/material/compare/v0.7.0...v0.8.0) (2018-05-02)
 
 
@@ -78,7 +27,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package material-demo
 
-      <a name="0.7.0"></a>
+<a name="0.7.0"></a>
 # [0.7.0](https://github.com/src-zone/material/compare/v0.6.0...v0.7.0) (2017-12-04)
 
 
@@ -95,7 +44,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-  <a name="0.6.0"></a>
+<a name="0.6.0"></a>
 # [0.6.0](https://github.com/src-zone/material/compare/v0.5.0...v0.6.0) (2017-11-14)
 
 
@@ -152,24 +101,6 @@ mdcTextfield to mdcTextField and mdcFormfield to mdcFormField.
 * **select:** directives supporting all mdc-select variants ([d0fdbae](https://bitbucket.org/src-zone/material/commits/d0fdbae))
 * **site:** integrate Tag Manager in documentation site ([d85038d](https://bitbucket.org/src-zone/material/commits/d85038d))
 * **snackbar:** implement and document MdcSnackbarService ([924742f](https://bitbucket.org/src-zone/material/commits/924742f))
-
-
-### BREAKING CHANGES
-
-* all properties have been renamed to not include the
-mdc prefix. This brings naming conventions in line with modules
-maintained by the angular core teams.
-* **tab,menu:** mdcSelect properties for menu and tab renamed to
-respectively pick, and activate. To prevent nameclashes with the
-'mdcSelect' directive being worked on right now.
-Please note: we have decided to drop the 'mdc' prefix from
-properties, to be more in line in how other libs name their
-properties, and for a more convenient (shorter) names.
-* use 'mdc' prefix for mdcExpansionratio property,
-to bring the naming inline with other properties of Blox Material.
-* rename mdcToolbarIconMenu to mdcToolbarMenuIcon,
-follows upstream change from mdc-toolbar__icon--menu to
-mdc-toolbar__menu-icon
 
 
 
