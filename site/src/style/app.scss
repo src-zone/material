@@ -108,6 +108,13 @@ header {
         z-index: 5; // otherwise in ie11 the element that pushes it of screen
                     // prevents the tabs from being clicked
         
+        .mdc-tab {
+          @include mdc-tab-ink-color(text-secondary-on-primary);
+          &:hover {
+            @include mdc-tab-ink-color(text-primary-on-primary);
+          }
+        }
+        
         .mdc-tab--active {
           color: #00ffff;
           @include mdc-theme-prop(color, secondary-light);
@@ -248,7 +255,7 @@ blox-code-sample {
   }
 }
 
-.mdc-toolbar a {
+.mdc-toolbar a.blox-home-link {
   text-decoration: none;
   color: inherit;
 }
@@ -350,13 +357,20 @@ p.blox-demo-paragraph {
 
 .blox-intro {
   margin-top: 16px;
-  .mdc-card__supporting-text {
-    @include mdc-typography(subheading1);
+  h1 {
+    padding: 16px;
+    margin: 0;
+    @include mdc-typography('title');
+  }
+  p {
+    @include mdc-typography('subheading1');
+    padding: 0 16px;
+    margin: 0;
   }
   [mdcButton] img {
     height: 18px;
     width: 18px;
-    top: 3px;
+    top: -2px;
     position: relative;
   }
 }

@@ -108,7 +108,7 @@ export class MdcCheckboxDirective extends AbstractMdcRipple implements AfterCont
 
     private addBackground() {
         let path = this.renderer.createElement('path', 'svg');
-        this.renderer.addClass(path, 'mdc-checkbox__checkmark__path');
+        this.renderer.addClass(path, 'mdc-checkbox__checkmark-path');
         this.renderer.setAttribute(path, 'fill', 'none');
         this.renderer.setAttribute(path, 'stroke', 'white');
         this.renderer.setAttribute(path, 'd', 'M1.73,12.91 8.1,19.28 22.79,4.59');

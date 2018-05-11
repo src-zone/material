@@ -26,7 +26,7 @@
     "build": "npm run clean && npm run build-noclean"
   },
   "dependencies": {
-    "material-components-web": "^0.29.0"
+    "material-components-web": "^0.31.0"
   },
   "peerDependencies": {
     "@angular/common": ">=4.0.0",

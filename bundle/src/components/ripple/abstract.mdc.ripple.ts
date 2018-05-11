@@ -19,6 +19,7 @@ export abstract class AbstractMdcRipple {
         isSurfaceDisabled: () => this.isRippleSurfaceDisabled(),
         addClass: (className: string) => this.addClassToRipple(className),
         removeClass: (className: string) => this.removeClassFromRipple(className),
+        containsEventTarget: (target: EventTarget) => this._rippleElm.nativeElement.contains(target),
         registerInteractionHandler: (type: string, handler: EventListener) => {
             const target = (type === 'mouseup' || type === 'pointerup') ? window : this.getRippleInteractionElement().nativeElement;
             this._registry.listenElm(this._renderer, type, handler, target, util.applyPassive());

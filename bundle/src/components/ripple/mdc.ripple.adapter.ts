@@ -5,7 +5,8 @@ export interface MdcRippleAdapter {
     isSurfaceActive: () => boolean;
     isSurfaceDisabled: () => boolean;
     addClass: (className: string) => void;
-    removeClass: (className: string) => void;  
+    removeClass: (className: string) => void;
+    containsEventTarget: (target: EventTarget) => boolean;
     registerInteractionHandler: (type: string, handler: EventListener) => void;
     deregisterInteractionHandler: (type: string, handler: EventListener) => void;
     registerDocumentInteractionHandler: (type: string, handler: EventListener) => void;

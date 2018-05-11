@@ -51,7 +51,7 @@ export class MdcListItemDirective {
     @HostBinding('attr.role') public _role = null;
     private _disabled = false;
     /**
-     * When a list is used inside an <code>mdcSimpleMenu</code>, or <code>mdcSelect</code>,
+     * When a list is used inside an <code>mdcMenu</code>, or <code>mdcSelect</code>,
      * this property can be used to assign a value to this choice/selection item.
      */
     @Input() value;
@@ -59,9 +59,9 @@ export class MdcListItemDirective {
     constructor(public _elm: ElementRef) {}
 
     /**
-     * When a list is used inside an <code>mdcSimpleMenu</code>, or <code>mdcSelect</code>,
+     * When a list is used inside an <code>mdcMenu</code>, or <code>mdcSelect</code>,
      * this property can be used to disable the item. When disabled, the list-item will have
-     * the <code>aria-disabled</code> attribute, and for  <code>mdcSimpleMenu</code>,
+     * the <code>aria-disabled</code> attribute, and for  <code>mdcMenu</code>,
      * or <code>mdcSelect</code> will set the <code>tabindex</code> to <code>-1</code>.
      */
     @Input()
@@ -149,7 +149,7 @@ export enum MdcListFunction {
  * The children of this directive should either be <code>MdcListItemDirective</code>,
  * or <code>MdcListDividerDirective</code> elements.
  * This directive can optionally be contained in a <code>MdcListGroupDirective</code>, in a
- * <code>MdcSimpleMenuDirective</code>, or in a <code>MdcSelectDirective</code>.
+ * <code>MdcMenuDirective</code>, or in a <code>MdcSelectDirective</code>.
  */
 @Directive({
     selector: '[mdcList]',
@@ -195,7 +195,7 @@ export class MdcListDirective implements AfterContentInit {
         return (this._hidden && this._function === MdcListFunction.menu) ? 'true' : null;
     }
 
-    @HostBinding('class.mdc-simple-menu__items') get _isMenu() {
+    @HostBinding('class.mdc-menu__items') get _isMenu() {
         return this._function === MdcListFunction.menu || this._function === MdcListFunction.select;
     }
 

@@ -5,140 +5,135 @@
   </div>
   <label mdcFormFieldLabel>RTL</label>
 </div>
+<div mdcFormField>
+  <div mdcCheckbox>
+    <input mdcCheckboxInput type="checkbox" [(ngModel)]="outlined"/>
+  </div>
+  <label mdcFormFieldLabel>Outlined</label>
+</div>
 <section [dir]="dir" class="custom-card-container">
-  <div mdcCard>
-    <section mdcCardMedia class="custom-card__16-9-media"></section>
-    <section mdcCardText>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor.
+  
+  <div mdcCard [outlined]="outlined">
+    <a mdcCardPrimaryAction href="javascript:void(0)">
+      <section mdcCardMedia size="16-9"></section>
+      <div class="custom-card__primary">
+        <h2>Our Changing Planet</h2>
+        <h3>by Kurt Wagner</h3>
+      </div>
+      <div class="custom-card__secondary">
+        Visit ten places on our planet that are undergoing the biggest changes today.
+      </div>
+    </a>
+  </div>
+
+  <div mdcCard [outlined]="outlined" class="custom-card">
+    <a mdcCardPrimaryAction href="javascript:void(0)">
+      <div class="custom-card__primary">
+        <h2>Our Changing Planet</h2>
+        <h3>by Kurt Wagner</h3>
+      </div>
+      <div class="custom-card__secondary">
+        Visit ten places on our planet that are undergoing the biggest changes today.
+      </div>
+    </a>
+    <section mdcCardActions>
+      <div mdcCardActionButtons>
+        <button mdcButton>Read</button>
+        <button mdcButton>Bookmark</button>
+      </div>
+      <div mdcCardActionIcons>
+        <i mdcIconToggle class="material-icons"
+          labelOn="Remove from favorites" labelOff="Add to favorites"
+          iconOn="favorite" iconOff="favorite_border"></i>
+        <i mdcIcon class="material-icons" tabindex="0" role="button" title="Share">share</i>
+        <i mdcIcon class="material-icons" tabindex="0" role="button" title="More options">more_vert</i>
+      </div>
     </section>
   </div>
 
-  <div mdcCard class="custom-card--with-avatar">
-    <section mdcCardPrimary>
-      <div class="custom-card__avatar"></div>
-      <h1 mdcCardTitle>Title</h1>
-      <h2 mdcCardSubtitle>Subhead</h2>
-    </section>
-    <section mdcCardMedia class="custom-card__16-9-media"></section>
-    <section mdcCardText>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor.
-    </section>
-    <section mdcCardActions compact>
-      <button mdcButton>Action 1</button>
-      <button mdcButton>Action 2</button>
-    </section>
-  </div>
-
-  <div mdcCard class="custom-card--with-avatar">
-    <section mdcCardPrimary>
-      <div class="custom-card__avatar"></div>
-      <h1 mdcCardTitle>Title</h1>
-      <h2 mdcCardSubtitle>Subhead</h2>
-    </section>
-    <section mdcCardMedia class="custom-card__16-9-media"></section>
-    <section mdcCardActions vertical compact>
-      <button mdcButton>Action 1</button>
-      <button mdcButton>Action 2</button>
-    </section>
-  </div>
-
-  <div mdcCard>
-    <section mdcCardMedia class="custom-card__16-9-media"></section>
-    <section mdcCardPrimary>
-      <h1 mdcCardTitle large>Title goes here</h1>
-      <h2 mdcCardSubtitle>Subtitle here</h2>
-    </section>
-    <section mdcCardActions compact>
-      <button mdcButton>Action 1</button>
-      <button mdcButton>Action 2</button>
-    </section>
-  </div>
-
-  <div mdcCard>
-    <section mdcCardPrimary>
-      <h1 mdcCardTitle large>Title goes here</h1>
-      <h2 mdcCardSubtitle>Subtitle here</h2>
-    </section>
-    <section mdcCardText>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-    </section>
-    <section mdcCardActions compact>
-      <button mdcButton>Action 1</button>
-      <button mdcButton>Action 2</button>
-    </section>
-  </div>
-
-  <div mdcCard class="mdc-card--theme-dark custom-card--bg-demo">
-    <section mdcCardPrimary>
-      <h1 mdcCardTitle large>Title goes here</h1>
-      <h2 mdcCardSubtitle>Subtitle here</h2>
-    </section>
-    <section mdcCardActions compact>
-      <button mdcButton class="mdc-button--theme-dark">Action 1</button>
-      <button mdcButton class="mdc-button--theme-dark">Action 2</button>
-    </section>
-  </div>
-
-  <div mdcCard class="custom-card--small">
-    <section mdcCardMedia>
-      <h1 mdcCardTitle large>Title</h1>
-    </section>
-    <section mdcCardActions compact>
-      <button mdcButton>Action 1</button>
-    </section>
-  </div>
-
-  <div mdcCard>
-    <div mdcCardHorizontal>
-      <section mdcCardPrimary>
-        <h1 mdcCardTitle large>Title here</h1>
-        <h2 mdcCardSubtitle>Subtitle here</h2>
-      </section>
-      <img mdcCardMediaItem src="assets/img/mdc-demos/1-1.jpg">
-    </div>
-    <section mdcCardActions compact>
-      <button mdcButton>Action 1</button>
-      <button mdcButton>Action 2</button>
-    </section>
-  </div>
-
-  <div mdcCard>
-    <div mdcCardHorizontal>
-      <section mdcCardPrimary>
-        <h1 mdcCardTitle large>Title here</h1>
-        <h2 mdcCardSubtitle>Subtitle here</h2>
-      </section>
-      <img mdcCardMediaItem sizeFactor="1.5" src="assets/img/mdc-demos/1-1.jpg">
-    </div>
-    <section mdcCardActions compact>
-      <button mdcButton>Action 1</button>
-      <button mdcButton>Action 2</button>
-    </section>
-  </div>
-
-  <div mdcCard>
-    <div mdcCardHorizontal>
-      <section mdcCardPrimary>
-        <h1 mdcCardTitle large>Title here</h1>
-        <h2 mdcCardSubtitle>Subtitle here</h2>
-      </section>
-      <img mdcCardMediaItem sizeFactor="2" src="assets/img/mdc-demos/1-1.jpg">
-    </div>
-    <section mdcCardActions compact>
-      <button mdcButton>Action 1</button>
-      <button mdcButton>Action 2</button>
-    </section>
-  </div>
-
-  <div mdcCard>
-    <div mdcCardHorizontal>
-      <img mdcCardMediaItem sizeFactor="3" src="assets/img/mdc-demos/1-1.jpg">
-      <section mdcCardActions vertical>
-        <button mdcButton>A1</button>
-        <button mdcButton>A2</button>
-      </section>
+  <div mdcCard [outlined]="outlined" class="custom-card-photo">
+    <a mdcCardPrimaryAction href="javascript:void(0)">
+      <div mdcCardMedia size="square">
+        <div mdcCardMediaContent>
+          <h2>Vacation Photos</h2>
+        </div>
+      </div>
+    </a>
+    <div mdcCardActions mdcCardActionIcons>
+      <i mdcIconToggle class="material-icons"
+        labelOn="Remove from favorites" labelOff="Add to favorites"
+        iconOn="favorite" iconOff="favorite_border"></i>
+      <i mdcIconToggle class="material-icons"
+        labelOn="Remove bookmark" labelOff="Add bookmark"
+        iconOn="bookmark" iconOff="bookmark_border"></i>
+      <i mdcIcon class="material-icons" tabindex="0" role="button" title="Share">share</i>
     </div>
   </div>
+
+  <div mdcCard [outlined]="outlined">
+    <div class="custom-card-group-heading">Headlines</div>
+
+    <hr mdcListDivider>
+
+    <a class="custom-card-article" mdcRipple href="javascript:void(0)">
+      <h2>Copper on the rise</h2>
+      <p>
+        Copper price soars amid global market optimism and increased demand.
+      </p>
+    </a>
+
+    <hr mdcListDivider>
+
+    <a class="custom-card-article" mdcRipple href="javascript:void(0)">
+      <h2>U.S. tech startups rebound</h2>
+      <p>
+        Favorable business conditions have allowed startups to secure more fundraising deals compared to last
+        year.
+      </p>
+    </a>
+
+    <hr mdcListDivider>
+
+    <a class="custom-card-article" mdcRipple href="javascript:void(0)">
+      <h2>Asia's clean energy ambitions</h2>
+      <p>
+        China plans to invest billions of dollars for the development of over 300 clean energy projects in
+        Southeast Asia.
+      </p>
+    </a>
+
+    <hr mdcListDivider>
+
+    <div mdcCardActions fullBleed>
+      <a mdcButton href="javascript:void(0)">
+        All Business Headlines <i class="material-icons" aria-hidden="true">arrow_forward</i>
+      </a>
+    </div>
+  </div>
+
+  <div mdcCard [outlined]="outlined" class="custom-card-music">
+    <a mdcCardPrimaryAction href="javascript:void(0)">
+      <div class="custom-card-music-row">
+        <div mdcCardMedia size="square"></div>
+        <div class="custom-card-music-info">
+          <h2>Rozes</h2>
+          <div class="custom-card-music-artist">Under the Grave</div>
+          <div class="custom-card-music-year">(2016)</div>
+        </div>
+      </div>
+    </a>
+    <hr mdcListDivider>
+    <div mdcCardActions>
+      <div mdcCardActionButtons>Rate this album</div>
+      <div mdcCardActionIcons>
+        <i class="material-icons" title="1 star">star_border</i>
+        <i class="material-icons" title="2 stars">star_border</i>
+        <i class="material-icons" title="3 stars">star_border</i>
+        <i class="material-icons" title="4 stars">star_border</i>
+        <i class="material-icons" title="5 stars">star_border</i>
+      </div>
+    </div>
+  </div>
+
 </section>
 </div><div class="snippet-skip-line"></div>

@@ -4,18 +4,19 @@ import { AfterContentInit, AfterViewInit, Component, ContentChild, ContentChildr
 import { NgControl } from '@angular/forms';
 import { MDCRipple } from '@material/ripple';
 import { MDCTextFieldFoundation } from '@material/textfield';
-import { MDCTextFieldBottomLineFoundation } from '@material/textfield/bottom-line';
+import { MDCLineRippleFoundation } from '@material/line-ripple';
 import { MDCTextFieldHelperTextFoundation } from '@material/textfield/helper-text';
 import { MDCTextFieldIconFoundation } from '@material/textfield/icon';
 import { MDCTextFieldLabelFoundation } from '@material/textfield/label';
-import { MdcTextFieldAdapter, MdcTextFieldBottomLineAdapter, MdcTextFieldIconAdapter, MdcTextFieldHelperTextAdapter, MdcTextFieldLabelAdapter } from './mdc.text-field.adapter';
+import { MdcTextFieldAdapter, MdcTextFieldIconAdapter, MdcTextFieldHelperTextAdapter, MdcTextFieldLabelAdapter } from './mdc.text-field.adapter';
+import { MdcLineRippleAdapter } from '../line-ripple/mdc.line-ripple.adapter';
 import { AbstractMdcInput } from '../abstract/abstract.mdc.input';
 import { AbstractMdcLabel } from '../abstract/abstract.mdc.label';
 import { asBoolean } from '../../utils/value.utils';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
-const CLASS_BOTTOM_LINE = 'mdc-text-field__bottom-line';
+const CLASS_LINE_RIPPLE = 'mdc-line-ripple';
 
 let nextId = 1;
 
@@ -284,23 +285,19 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
     @ContentChild(MdcTextFieldInputDirective) _input: MdcTextFieldInputDirective;
     @ContentChild(MdcTextFieldLabelDirective) _label: MdcTextFieldLabelDirective;
     @ContentChildren('label', {descendants: true, read: ElementRef}) _labels: QueryList<ElementRef>;
-    /**
-     * Event emitted when the bottom line has finished the activate or deactivate animation. 
-     */
-    @Output() bottomLineAnimationEnd: EventEmitter<void> = new EventEmitter<void>();
     private _helperText: MdcTextFieldHelperTextDirective;
     private _initialized = false;
     private _box = false;
     private _dense = false;
     private _bottomLineElm: HTMLElement = null;
     private _valid: boolean = null;
-    private mdcBottomLineAdapter: MdcTextFieldBottomLineAdapter = {
+    private mdcLineRippleAdapter: MdcLineRippleAdapter = {
         addClass: (className: string) => this.renderer.addClass(this._bottomLineElm, className),
         removeClass: (className: string) => this.renderer.removeClass(this._bottomLineElm, className),
+        hasClass: (className) => this._bottomLineElm.classList.contains(className),
         setAttr: (name: string, value: string) => this.renderer.setAttribute(this._bottomLineElm, name, value),
         registerEventHandler: (evtType: string, handler: EventListener) => this.registry.listenElm(this.renderer, evtType, handler, this._bottomLineElm),
-        deregisterEventHandler: (evtType: string, handler: EventListener) => this.registry.unlisten(evtType, handler),
-        notifyAnimationEnd: () => this.bottomLineAnimationEnd.emit()
+        deregisterEventHandler: (evtType: string, handler: EventListener) => this.registry.unlisten(evtType, handler)
     };
     private mdcAdapter: MdcTextFieldAdapter = {
         addClass: (className: string) => {
@@ -345,16 +342,18 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
             };
         },
         isFocused: () => this._input && this._input._focused,
-        // TODO only for outline, which is not yet supported:
-        getIdleOutlineStyleValue: (propertyName) => undefined,
-        isRtl: () => getComputedStyle(this.root.nativeElement).getPropertyValue('direction') === 'rtl'
+        activateLineRipple: () => this.bottomLineFoundation.activate(),
+        deactivateLineRipple: () => this.bottomLineFoundation.deactivate(),
+        setLineRippleTransformOrigin: (normalizedX: number) => this.bottomLineFoundation.setRippleCenter(normalizedX),
+        shakeLabel: (shouldShake: boolean) => this._label._foundation.shake(shouldShake),
     };
     private bottomLineFoundation: {
         init: Function,
         destroy: Function,
         activate: Function,
-        deactivate: Function
-    } = new MDCTextFieldBottomLineFoundation(this.mdcBottomLineAdapter);
+        deactivate: Function,
+        setRippleCenter: (x: number) => void
+    } = new MDCLineRippleFoundation(this.mdcLineRippleAdapter);
     private foundation: {
         init: Function,
         destroy: Function,
@@ -372,11 +371,11 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
             this._label.for = this._input.id;
         this._initialized = true;
         this._bottomLineElm = this.renderer.createElement('div');
-        this.renderer.addClass(this._bottomLineElm, CLASS_BOTTOM_LINE);
+        this.renderer.addClass(this._bottomLineElm, CLASS_LINE_RIPPLE);
         this.renderer.appendChild(this.root.nativeElement, this._bottomLineElm);
         this.initBox();
         this.foundation = new MDCTextFieldFoundation(this.mdcAdapter, {
-            bottomLine: this.bottomLineFoundation,
+            lineRipple: this.bottomLineFoundation,
             helperText: this.helperText ? this.helperText._foundation : undefined,
             icon: this._icon ? this._icon._foundation : undefined,
             label: this._label ? this._label._foundation : undefined

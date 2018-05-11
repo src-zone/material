@@ -1,4 +1,3 @@
-import { MDCTextFieldBottomLineFoundation } from '@material/textfield/bottom-line';
 import { MDCTextFieldHelperTextFoundation } from '@material/textfield/helper-text';
 
 /** @docs-private */
@@ -9,16 +8,6 @@ export interface MdcTextFieldHelperTextAdapter {
     setAttr: (name: string, value: string) => void,
     removeAttr: (name: string) => void,
     setContent: (content: string) => void
-}
-
-/** @docs-private */
-export interface MdcTextFieldBottomLineAdapter {
-    addClass: (className: string) => void,
-    removeClass: (className: string) => void,
-    setAttr: (name: string, value: string) => void,
-    registerEventHandler: (evtType: string, handler: EventListener) => void,
-    deregisterEventHandler: (evtType: string, handler: EventListener) => void,
-    notifyAnimationEnd: () => void
 }
 
 /** @docs-private */
@@ -49,6 +38,8 @@ export interface MdcTextFieldAdapter {
     deregisterBottomLineEventHandler: (evtType: string, handler: EventListener) => void,
     getNativeInput: () => {value: string, disabled: boolean, validity: {badInput: boolean, valid: boolean}},
     isFocused: () => boolean,
-    getIdleOutlineStyleValue: (propertyName) => string,
-    isRtl: () => boolean
+    activateLineRipple: () => void,
+    deactivateLineRipple: () => void,
+    setLineRippleTransformOrigin: (normalizedX: number) => void
+    shakeLabel: (shouldShake: boolean) => void,
 }
