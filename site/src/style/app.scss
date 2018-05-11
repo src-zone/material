@@ -109,10 +109,10 @@ header {
                     // prevents the tabs from being clicked
         
         .mdc-tab {
-          @include mdc-states(text-secondary-on-primary); // use light ripple, instead of dark
-          @include mdc-tab-ink-color(text-secondary-on-primary);
+          @include mdc-states(text-secondary-on-dark); // use light ripple, instead of dark
+          @include mdc-tab-ink-color(text-secondary-on-dark);
           &:hover {
-            @include mdc-tab-ink-color(text-primary-on-primary);
+            @include mdc-tab-ink-color(on-primary);
           }
         }
         .mdc-tab--active {
@@ -359,10 +359,10 @@ p.blox-demo-paragraph {
   h1 {
     padding: 16px;
     margin: 0;
-    @include mdc-typography('title');
+    @include mdc-typography('headline6');
   }
   p {
-    @include mdc-typography('subheading1');
+    @include mdc-typography('subtitle2');
     padding: 0 16px;
     margin: 0;
   }

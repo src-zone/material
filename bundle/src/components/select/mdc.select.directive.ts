@@ -2,17 +2,18 @@ import { AfterContentInit, ContentChild, Directive, ElementRef, forwardRef, Host
   Input, OnDestroy, OnInit, Optional, Renderer2, Self } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { MDCSelectFoundation } from '@material/select';
-import { MDCSelectLabelFoundation } from '@material/select/label';
-import { MDCSelectBottomLineFoundation } from '@material/select/bottom-line';
-import { MdcSelectAdapter, MdcSelectLabelAdapter, MdcSelectBottomLineAdapter } from './mdc.select.adapter';
+import { MDCFloatingLabelFoundation } from '@material/floating-label';
+import { MDCLineRippleFoundation } from '@material/line-ripple';
+import { MdcSelectAdapter } from './mdc.select.adapter';
+import { MdcFloatingLabelDirective } from '../floating-label/mdc.floating-label.directive';
+import { MdcLineRippleAdapter } from '../line-ripple/mdc.line-ripple.adapter';
 import { AbstractMdcInput } from '../abstract/abstract.mdc.input';
 import { asBoolean } from '../../utils/value.utils';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
 const CLASS_SELECT = 'mdc-select';
 const CLASS_SELECT_CONTROL = 'mdc-select__native-control';
-const CLASS_SELECT_LABEL = 'mdc-select__label';
-const CLASS_SELECT_LINE = 'mdc-select__bottom-line';
+const CLASS_LINE_RIPPLE = 'mdc-line-ripple';
 
 let nextId = 1;
 
@@ -52,8 +53,8 @@ export class MdcSelectControlDirective extends AbstractMdcInput implements OnIni
 
     /**
      * Mirrors the <code>id</code> attribute. If no id is assigned, this directive will
-     * assign a unique id by itself. If an <code>mdcSelectLabel</code> for this text-field
-     * is available, the <code>mdcSelectLabel</code> will automatically set its <code>for</code>
+     * assign a unique id by itself. If an <code>mdcFloatingLabel</code> for this select control
+     * is available, the <code>mdcFloatingLabel</code> will automatically set its <code>for</code>
      * attribute to this <code>id</code> value.
      */
     @HostBinding()
@@ -84,44 +85,9 @@ export class MdcSelectControlDirective extends AbstractMdcInput implements OnIni
 }
 
 /**
- * Directive for the label of an <code>mdcSelect</code> selection control.
- * Should be used as a child element of the <code>mdcSelect</code>,
- * immediately after the <code>mdcSelectControl</code>.
- */
-@Directive({
-    selector: '[mdcSelectLabel]'
-})
-export class MdcSelectLabelDirective implements AfterContentInit {
-    @HostBinding('class.' + CLASS_SELECT_LABEL) _cls = true;
-    _initialized = false;
-    _adapter: MdcSelectLabelAdapter = {
-        addClass: (className: string) => {this._rndr.addClass(this._elm.nativeElement, className); },
-        removeClass: (className: string) => {this._rndr.removeClass(this._elm.nativeElement, className); }
-    };
-    _foundation: {
-        init(),
-        destroy(),
-        styleFloat(value: boolean)
-    } = <any>new MDCSelectLabelFoundation(this._adapter);
-
-    constructor(public _elm: ElementRef, private _rndr: Renderer2) {
-    }
-
-    ngAfterContentInit() {
-        this._foundation.init();
-        this._initialized = true;
-    }
-
-    ngOnDestroy() {
-        this._foundation.destroy();
-        this._initialized = false;
-    }
-}
-
-/**
  * Directive for a spec aligned material design 'Select Control'.
  * This directive should wrap an <code>mdcSelectControl</code>, and an
- * <code>mdcSelectLabel</code> directive.
+ * <code>mdcFloatingLabel</code> directive.
  */
 @Directive({
     selector: '[mdcSelect]'
@@ -129,24 +95,32 @@ export class MdcSelectLabelDirective implements AfterContentInit {
 export class MdcSelectDirective implements AfterContentInit, OnDestroy {
     @HostBinding('class.' + CLASS_SELECT) _cls = true;
     @ContentChild(MdcSelectControlDirective) _control: MdcSelectControlDirective;
-    @ContentChild(MdcSelectLabelDirective) _label: MdcSelectLabelDirective;
+    @ContentChild(MdcFloatingLabelDirective) _label: MdcFloatingLabelDirective;
     private _initialized = false;
     private _bottomLineElm: HTMLElement = null;
-    private _bottomLineAdapter: MdcSelectBottomLineAdapter;
-    private _bottomLineFoundation: {
-        init(),
-        destroy(),
-        activate(),
-        deactivate()
-    } = <any>new MDCSelectBottomLineFoundation(this._bottomLineAdapter);
+    private _lineRippleAdapter: MdcLineRippleAdapter = {
+        addClass: (className: string) => this._rndr.addClass(this._bottomLineElm, className),
+        removeClass: (className: string) => this._rndr.removeClass(this._bottomLineElm, className),
+        hasClass: (className) => this._bottomLineElm.classList.contains(className),
+        setStyle: (name: string, value: string) => this._rndr.setStyle(this._bottomLineElm, name, value),
+        registerEventHandler: (evtType: string, handler: EventListener) => this._registry.listenElm(this._rndr, evtType, handler, this._bottomLineElm),
+        deregisterEventHandler: (evtType: string, handler: EventListener) => this._registry.unlisten(evtType, handler)
+    };
+    private _lineRippleFoundation: {
+        init: Function,
+        destroy: Function,
+        activate: Function,
+        deactivate: Function,
+        setRippleCenter: (x: number) => void
+    } = new MDCLineRippleFoundation(this._lineRippleAdapter);
     private adapter: MdcSelectAdapter = {
         addClass: (className: string) => {this._rndr.addClass(this._elm.nativeElement, className); },
         removeClass: (className: string) => {this._rndr.removeClass(this._elm.nativeElement, className); },
         floatLabel: (value: boolean) => {
-            if (this._label) this._label._foundation.styleFloat(value);
+            if (this._label) this._label._foundation.float(value);
         },
-        activateBottomLine: () => this._bottomLineFoundation.activate(),
-        deactivateBottomLine: () => this._bottomLineFoundation.deactivate(),
+        activateBottomLine: () => this._lineRippleFoundation.activate(),
+        deactivateBottomLine: () => this._lineRippleFoundation.deactivate(),
         setDisabled: (disabled: boolean) => this._control._elm.nativeElement.disabled = disabled,
         registerInteractionHandler: (type, handler) => this._control._registry.listen(this._rndr, type, handler, this._control._elm),
         deregisterInteractionHandler: (type, handler) => this._control._registry.unlisten(type, handler),
@@ -163,19 +137,19 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
         setSelectedIndex(index: number)
     } = new MDCSelectFoundation(this.adapter);
 
-    constructor(private _elm: ElementRef, private _rndr: Renderer2) {
+    constructor(private _elm: ElementRef, private _rndr: Renderer2, private _registry: MdcEventRegistry) {
     }
 
     ngAfterContentInit() {
         if (!this._control || !this._label)
-            throw new Error('mdcSelect requires an embedded mdcSelectControl and mdcSelectLabel');
+            throw new Error('mdcSelect requires an embedded mdcSelectControl and mdcFloatingLabel');
         if (!this._label._initialized)
-            throw new Error('mdcSelectLabel not properly initialized');
+            throw new Error('mdcFloatingLabel not properly initialized');
         // add bottom line:
         this._bottomLineElm = this._rndr.createElement('div');
-        this._rndr.addClass(this._bottomLineElm, CLASS_SELECT_LINE);
+        this._rndr.addClass(this._bottomLineElm, CLASS_LINE_RIPPLE);
         this._rndr.appendChild(this._elm.nativeElement, this._bottomLineElm);
-        this._bottomLineFoundation.init();
+        this._lineRippleFoundation.init();
         this.foundation.init();
         this._initialized = true;
         
@@ -184,7 +158,7 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this._bottomLineFoundation.destroy();
+        this._lineRippleFoundation.destroy();
         this.foundation.destroy();
         this._control._onChange = (value) => {};
     }

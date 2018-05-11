@@ -13,15 +13,3 @@ export interface MdcSelectAdapter {
     getValue: () => string,
     setValue: (value: string) => void
 }
-
-/** @docs-private */
-export interface MdcSelectLabelAdapter {
-    addClass: (className: string) => void,
-    removeClass: (className: string) => void
-}
-
-/** @docs-private */
-export interface MdcSelectBottomLineAdapter {
-    addClass: (className: string) => void,
-    removeClass: (className: string) => void
-}

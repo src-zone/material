@@ -41,7 +41,7 @@ import { MdcMenuAnchorDirective, MdcMenuDirective } from './components/menu/mdc.
 import { MdcRadioDirective,
     MdcRadioInputDirective } from './components/radio/mdc.radio.directive';
 import { MdcRippleDirective } from './components/ripple/mdc.ripple.directive';
-import { MdcSelectDirective, MdcSelectControlDirective, MdcSelectLabelDirective } from './components/select/mdc.select.directive';
+import { MdcSelectDirective, MdcSelectControlDirective } from './components/select/mdc.select.directive';
 import { MdcSliderDirective,
     MdcFormsSliderDirective } from './components/slider/mdc.slider.directive';
 import { MdcSnackbarService, MDC_SNACKBAR_PROVIDER } from './components/snackbar/mdc.snackbar.service';
@@ -113,7 +113,7 @@ export { MdcMenuAnchorDirective, MdcMenuDirective } from './components/menu/mdc.
 export { MdcRadioDirective,
     MdcRadioInputDirective } from './components/radio/mdc.radio.directive';
 export { MdcRippleDirective } from './components/ripple/mdc.ripple.directive';
-export { MdcSelectDirective, MdcSelectControlDirective, MdcSelectLabelDirective } from './components/select/mdc.select.directive';
+export { MdcSelectDirective, MdcSelectControlDirective } from './components/select/mdc.select.directive';
 export { MdcSliderDirective,
     MdcFormsSliderDirective } from './components/slider/mdc.slider.directive';
 export { MdcSnackbarMessage } from './components/snackbar/mdc.snackbar.message';
@@ -171,7 +171,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcMenuAnchorDirective, MdcMenuDirective,
         MdcRadioDirective, MdcRadioInputDirective,
         MdcRippleDirective,
-        MdcSelectDirective, MdcSelectControlDirective, MdcSelectLabelDirective,
+        MdcSelectDirective, MdcSelectControlDirective,
         MdcSliderDirective, MdcFormsSliderDirective,
         MdcSwitchInputDirective, MdcSwitchDirective,
         MdcTabDirective, MdcTabIconDirective, MdcTabIconTextDirective,
@@ -200,7 +200,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcMenuAnchorDirective, MdcMenuDirective,
         MdcRadioDirective, MdcRadioInputDirective,
         MdcRippleDirective,
-        MdcSelectDirective, MdcSelectControlDirective, MdcSelectLabelDirective,
+        MdcSelectDirective, MdcSelectControlDirective,
         MdcSliderDirective, MdcFormsSliderDirective,
         MdcSwitchInputDirective, MdcSwitchDirective,
         MdcTabDirective, MdcTabIconDirective, MdcTabIconTextDirective,

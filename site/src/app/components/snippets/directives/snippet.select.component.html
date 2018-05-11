@@ -9,7 +9,7 @@
     <option value="meat">Meat, Poultry, Fish, Dry Beans, Eggs, and Nuts</option>
     <option value="fats">Fats, Oils, and Sweets</option>
   </select>
-  <label mdcSelectLabel>Pick a Food Group</label>
+  <label mdcFloatingLabel>Pick a Food Group</label>
 </div>
 <br/><br/>
 <div>Your choice: {{value}}</div>
@@ -21,7 +21,7 @@
   </div>
   <label mdcFormFieldLabel>Disable controls</label>
 </div>
-<button mdcButton stroked (click)="clear()">Clear Value</button>
-<button mdcButton stroked (click)="value = 'vegetables'">Vegetables</button>
-<button mdcButton stroked (click)="value = 'fruit'">Fruit</button>
+<button mdcButton outlined (click)="clear()">Clear Value</button>
+<button mdcButton outlined (click)="value = 'vegetables'">Vegetables</button>
+<button mdcButton outlined (click)="value = 'fruit'">Fruit</button>
 </fieldset><div class="snippet-skip-line"></div>

@@ -16,7 +16,7 @@
 [mdcDrawerHeader], [mdcDrawerToolbarSpacer] {
     // color the header variants the same way as the toolbar:
     @include mdc-theme-prop(background-color, primary);
-    @include mdc-theme-prop(color, text-primary-on-primary);
+    @include mdc-theme-prop(color, on-primary);
 }
 
 // Stack toolbar and main on top of each other:

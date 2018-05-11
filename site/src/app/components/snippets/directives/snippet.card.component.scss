@@ -17,24 +17,24 @@
     .custom-card__primary {
         padding: 1rem;
         h2 {
-            @include mdc-typography('title');
+            @include mdc-typography('headline6');
             margin: 0;
         }
         h3 {
-            @include mdc-typography('subheading1');
+            @include mdc-typography('subtitle2');
             @include mdc-theme-prop(color, text-secondary-on-background);
             margin: 0;
         }
     }
 
     .custom-card__secondary {
-        @include mdc-typography('body1');
+        @include mdc-typography('body2');
         @include mdc-theme-prop(color, text-secondary-on-background);
         padding: 0 1rem 8px;
     }
 
     .custom-card-group-heading {
-        @include mdc-typography('subheading1');
+        @include mdc-typography('subtitle2');
         @include mdc-theme-prop(color, text-secondary-on-light);
         padding: 8px 16px;
     }
@@ -45,11 +45,11 @@
         color: inherit;
 
         h2 {
-            @include mdc-typography('headline');
+            @include mdc-typography('headline5');
             margin: 0 0 4px 0;                
         }
         p {
-            @include mdc-typography('body1');
+            @include mdc-typography('body2');
             @include mdc-theme-prop(color, text-secondary-on-light);
             margin: 0;
         }
@@ -66,7 +66,7 @@
             h2 {
                 padding: 8px 16px;
                 margin: 0;
-                @include mdc-typography('subheading2');
+                @include mdc-typography('subtitle1');
                 background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.5) 100%);
                 color: white;
             }
@@ -104,17 +104,17 @@
             padding: 8px 16px;
 
             h2 {
-                @include mdc-typography('headline');
+                @include mdc-typography('headline5');
                 margin: 0;
             }
 
             .custom-card-music-artist {
-                @include mdc-typography('body1');
+                @include mdc-typography('body2');
             }
 
 
             .custom-card-music-year {
-                @include mdc-typography('body1');
+                @include mdc-typography('body2');
             }
         }
     }
