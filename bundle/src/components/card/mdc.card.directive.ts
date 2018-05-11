@@ -102,7 +102,6 @@ export class MdcCardActionsDirective implements AfterContentInit {
     @ContentChildren(MdcButtonDirective, {descendants: true}) _buttons: QueryList<MdcButtonDirective>;
     @ContentChildren(AbstractMdcIcon, {descendants: true}) _icons: QueryList<MdcButtonDirective>;
     private _initialized = false;
-    private _compact: boolean;
     private _fullBleed = false;
 
     constructor(private renderer: Renderer2) {}
@@ -124,11 +123,6 @@ export class MdcCardActionsDirective implements AfterContentInit {
             this._buttons.forEach(btn => {
                 this.renderer.addClass(btn._elm.nativeElement, 'mdc-card__action');
                 this.renderer.addClass(btn._elm.nativeElement, 'mdc-card__action--button');
-                if (this._compact != null)
-                    if (this._compact)
-                        btn.compact = true;
-                    else
-                        btn.compact = false;
             });
     }
 
@@ -138,29 +132,6 @@ export class MdcCardActionsDirective implements AfterContentInit {
                 this.renderer.addClass(icon._elm.nativeElement, 'mdc-card__action');
                 this.renderer.addClass(icon._elm.nativeElement, 'mdc-card__action--icon');
             });
-    }
-
-
-    /**
-     * When this input is defined and does not have value false, all contained buttons
-     * will automagically get compact styling, which is equal to setting the <code>compact</code>
-     * input on the buttons individually.
-     */
-    @Input()
-    get compact() {
-        return this._compact;
-    }
-
-    set compact(val: any) {
-        if (val == null)
-            this._compact = val;
-        else {
-            val = asBoolean(val);
-            if (this._compact !== val) {
-                this._compact = val;
-                this._initButtons();
-            }
-        }
     }
 
     /**

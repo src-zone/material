@@ -3,7 +3,7 @@
   <div mdcTextField [helperText]="input1Help" [box]="box" [dense]="dense">
     <input mdcTextFieldInput type="text" #input1="ngModel" [(ngModel)]="field1" [disabled]="disabled"
       [required]="required"/>
-    <label mdcTextFieldLabel>Input with Helper Text</label>
+    <label mdcFloatingLabel>Input with Helper Text</label>
   </div>
   <p mdcTextFieldHelperText #input1Help="mdcHelperText" [persistent]="persistent">
     Help text
@@ -12,7 +12,7 @@
   <div mdcTextField [helperText]="input2Help" [box]="box" [dense]="dense">
     <input mdcTextFieldInput type="text" #input2="ngModel" [(ngModel)]="field2" [disabled]="disabled"
       minlength="8" [required]="required"/>
-    <label mdcTextFieldLabel>Input with Validation</label>
+    <label mdcFloatingLabel>Input with Validation</label>
   </div>
   <p mdcTextFieldHelperText #input2Help="mdcHelperText" validation [persistent]="persistent">
     <span *ngIf="input2.errors?.required">Input is required</span>

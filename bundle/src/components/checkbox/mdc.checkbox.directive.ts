@@ -71,6 +71,8 @@ export class MdcCheckboxDirective extends AbstractMdcRipple implements AfterCont
         removeClass: (className: string) => {
             this.renderer.removeClass(this.root.nativeElement, className);
         },
+        setNativeControlAttr: (attr: string, value: string) => this._renderer.setAttribute(this._input._elm.nativeElement, attr, value),
+        removeNativeControlAttr: (attr: string) => this._renderer.removeAttribute(this._input._elm.nativeElement, attr),
         registerAnimationEndHandler: (handler: EventListener) => {
             this.registry.listen(this.renderer, 'animationend', handler, this.root);
         },

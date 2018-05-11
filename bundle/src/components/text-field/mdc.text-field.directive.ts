@@ -7,8 +7,10 @@ import { MDCTextFieldFoundation } from '@material/textfield';
 import { MDCLineRippleFoundation } from '@material/line-ripple';
 import { MDCTextFieldHelperTextFoundation } from '@material/textfield/helper-text';
 import { MDCTextFieldIconFoundation } from '@material/textfield/icon';
-import { MDCTextFieldLabelFoundation } from '@material/textfield/label';
-import { MdcTextFieldAdapter, MdcTextFieldIconAdapter, MdcTextFieldHelperTextAdapter, MdcTextFieldLabelAdapter } from './mdc.text-field.adapter';
+import { MDCFloatingLabelFoundation } from '@material/floating-label';
+import { MdcTextFieldAdapter, MdcTextFieldIconAdapter, MdcTextFieldHelperTextAdapter } from './mdc.text-field.adapter';
+import { MdcFloatingLabelAdapter } from '../floating-label/mdc.floating-label.adapter';
+import { MdcFloatingLabelDirective } from '../floating-label/mdc.floating-label.directive';
 import { MdcLineRippleAdapter } from '../line-ripple/mdc.line-ripple.adapter';
 import { AbstractMdcInput } from '../abstract/abstract.mdc.input';
 import { AbstractMdcLabel } from '../abstract/abstract.mdc.label';
@@ -55,8 +57,8 @@ export class MdcTextFieldInputDirective extends AbstractMdcInput implements OnIn
 
     /**
      * Mirrors the <code>id</code> attribute. If no id is assigned, this directive will
-     * assign a unique id by itself. If an <code>mdcTextFielLabel</code> for this text-field
-     * is available, the <code>mdcTextFieldLabel</code> will automatically set its <code>for</code>
+     * assign a unique id by itself. If an <code>mdcFloatingLabel</code> for this text-field
+     * is available, the <code>mdcFloatingLabel</code> will automatically set its <code>for</code>
      * attribute to this <code>id</code> value.
      */
     @HostBinding()
@@ -180,40 +182,6 @@ export class MdcTextFieldIconDirective {
 }
 
 /**
- * Directive for the label of a text-field (see <code>MdcTextFieldDirective</code>).
- * Add this just after the <code>mdcTextFieldInput</code> as a direct child of an
- * <code>mdcTextField</code>. There is no need to assign the <code>for</code>
- * attribute, the label will automatically get its for attribute assigned to the
- * id of the <code>mdcInput</code>.
- */
-@Directive({
-    selector: 'label[mdcTextFieldLabel]',
-    providers: [{provide: AbstractMdcLabel, useExisting: forwardRef(() => MdcTextFieldLabelDirective) }]
-})
-export class MdcTextFieldLabelDirective extends AbstractMdcLabel {
-    /** @docs-private */
-    @HostBinding() for: string;
-    @HostBinding('class.mdc-text-field__label') _cls = true;
-    _mdcAdapter: MdcTextFieldLabelAdapter = {
-        addClass: (className: string) => {
-            this._rndr.addClass(this._elm.nativeElement, className);
-        },
-        removeClass: (className: string) => {
-            this._rndr.removeClass(this._elm.nativeElement, className);
-        },
-        getWidth:() => this._elm.nativeElement.offsetWidth
-    };
-    _foundation: {
-        init: Function,
-        destroy: Function
-    } = new MDCTextFieldLabelFoundation(this._mdcAdapter);
-
-    constructor(private _rndr: Renderer2, public _elm: ElementRef) {
-        super();
-    }
-}
-
-/**
  * Directive for an optional helper-text to show supplemental information or validation
  * messages for an <code>mdcTextField</code>.
  * Add this just after the <code>mdcTextField</code> as a sibbling element to the
@@ -272,7 +240,7 @@ export class MdcTextFieldHelperTextDirective {
 
 /**
  * Material design text-field. It is required to add at least an input
- * (<code>mdcTextFieldInput</code>), and alabel (<code>mdcTextFieldLabel</code>) as child
+ * (<code>mdcTextFieldInput</code>), and a label (<code>mdcFloatingLabel</code>) as child
  * elements.
  */
 @Directive({
@@ -283,7 +251,7 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
     @HostBinding('class.mdc-text-field') _cls = true;
     @ContentChild(MdcTextFieldIconDirective) _icon: MdcTextFieldIconDirective;
     @ContentChild(MdcTextFieldInputDirective) _input: MdcTextFieldInputDirective;
-    @ContentChild(MdcTextFieldLabelDirective) _label: MdcTextFieldLabelDirective;
+    @ContentChild(MdcFloatingLabelDirective) _label: MdcFloatingLabelDirective;
     @ContentChildren('label', {descendants: true, read: ElementRef}) _labels: QueryList<ElementRef>;
     private _helperText: MdcTextFieldHelperTextDirective;
     private _initialized = false;
@@ -295,7 +263,7 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
         addClass: (className: string) => this.renderer.addClass(this._bottomLineElm, className),
         removeClass: (className: string) => this.renderer.removeClass(this._bottomLineElm, className),
         hasClass: (className) => this._bottomLineElm.classList.contains(className),
-        setAttr: (name: string, value: string) => this.renderer.setAttribute(this._bottomLineElm, name, value),
+        setStyle: (name: string, value: string) => this.renderer.setStyle(this._bottomLineElm, name, value),
         registerEventHandler: (evtType: string, handler: EventListener) => this.registry.listenElm(this.renderer, evtType, handler, this._bottomLineElm),
         deregisterEventHandler: (evtType: string, handler: EventListener) => this.registry.unlisten(evtType, handler)
     };
@@ -324,13 +292,12 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
         deregisterInputInteractionHandler: (evtType: string, handler: EventListener) => {
             this.registry.unlisten(evtType, handler);
         },
-        registerBottomLineEventHandler: (evtType: string, handler: EventListener) => {
-            if (this._bottomLineElm)
-                this.registry.listenElm(this.renderer, evtType, handler, this._bottomLineElm);
+        registerValidationAttributeChangeHandler: (handler: (arg: Array<any>) => void) => {
+            const observer = new MutationObserver(handler);
+            observer.observe(this._input._elm.nativeElement, {attributes: true});
+            return observer;
         },
-        deregisterBottomLineEventHandler: (evtType: string, handler: EventListener) => {
-             this.registry.unlisten(evtType, handler);
-        },
+        deregisterValidationAttributeChangeHandler: (observer: MutationObserver) => observer.disconnect(),
         getNativeInput: () => {
             return {
                 value: this._input.value,
@@ -342,10 +309,14 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
             };
         },
         isFocused: () => this._input && this._input._focused,
+        isRtl: () => getComputedStyle(this.root.nativeElement).getPropertyValue('direction') === 'rtl',
         activateLineRipple: () => this.bottomLineFoundation.activate(),
         deactivateLineRipple: () => this.bottomLineFoundation.deactivate(),
         setLineRippleTransformOrigin: (normalizedX: number) => this.bottomLineFoundation.setRippleCenter(normalizedX),
         shakeLabel: (shouldShake: boolean) => this._label._foundation.shake(shouldShake),
+        floatLabel: (shouldFloat: boolean) => this._label._foundation.float(shouldFloat),
+        hasLabel: () => !!this._label,
+        getLabelWidth: () => this._label._foundation.getWidth()
     };
     private bottomLineFoundation: {
         init: Function,
@@ -384,8 +355,8 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
             this._helperText._foundation.init();
         if (this._icon)
             this._icon._foundation.init();
-        if (this._label)
-            this._label._foundation.init();
+        if (this._label && !this._label._initialized)
+            throw new Error('mdcFloatingLabel initialized after parent mdcTextField')
         this.bottomLineFoundation.init();
         this.foundation.init();
         // TODO: we should actually reassign this if mdcInput changes, eg via ngContentChanges hook
@@ -394,10 +365,7 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
                 if (this._input && this._label && !this._input._focused) {
                     // programmatic changes to the input value are not seen by the foundation,
                     // but some states should be updated with the new value:
-                    if (value == null || value.toString().length === 0)
-                        this._label._mdcAdapter.removeClass('mdc-text-field__label--float-above');
-                    else
-                        this._label._mdcAdapter.addClass('mdc-text-field__label--float-above');
+                    this._label._foundation.float(value != null && value.toString().length !== 0);
                 }
             }
     }
@@ -410,8 +378,6 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
             this._helperText._foundation.destroy();
         if (this._icon)
             this._icon._foundation.destroy();
-        if (this._label)
-            this._label._foundation.destroy();
         this.bottomLineFoundation.destroy();
         this.foundation.destroy();
         this._input._onChange = (value) => {};

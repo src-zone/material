@@ -246,10 +246,6 @@ export class MdcMenuDirective implements AfterContentInit, OnDestroy {
     get _list(): MdcListDirective {
         return this._listQuery.first;
     }
-
-    @HostBinding('class.mdc-select__menu') get _isSelect() {
-        return this._function === MdcListFunction.select;
-    }
     
     /**
      * When this input is defined and does not have value false, the menu will be opened,

@@ -18,10 +18,7 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 })
 export class MdcButtonDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-button') _cls = true;
-    private _compact = false;
     private _dense = false;
-    private _primary = false;
-    private _accent = false;
     private _raised = false;
     private _stroked = false;
 
@@ -61,19 +58,6 @@ export class MdcButtonDirective extends AbstractMdcRipple implements AfterConten
 
     set stroked(val: any) {
         this._stroked = asBoolean(val);
-    }
-
-    /**
-     * When this input is defined and does not have value false, the amount of horizontal padding
-     * in the button will be reduced.
-     */
-    @HostBinding('class.mdc-button--compact') @Input()
-    get compact() {
-        return this._compact;
-    }
-
-    set compact(val: any) {
-        this._compact = asBoolean(val);
     }
 
     /**

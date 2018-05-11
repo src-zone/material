@@ -2,7 +2,7 @@ import { AfterContentInit, AfterViewInit, Component, ContentChild, ContentChildr
   HostBinding, HostListener, Input, OnDestroy, Optional, Output, Provider, Renderer2, Self, ViewChild,
   ViewEncapsulation } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { MDCToolbar, MDCToolbarFoundation, util } from '@material/toolbar';
+import { MDCToolbar, MDCToolbarFoundation } from '@material/toolbar';
 import { MdcToolbarAdapter } from './mdc.toolbar.adapter';
 import { asBoolean } from '../../utils/value.utils';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
@@ -183,21 +183,21 @@ export class MdcToolbarDirective implements AfterViewInit, OnDestroy {
         },            
         registerScrollHandler: (handler: EventListener) => {
             if (this._viewport)
-                this._viewport.addEventListener('scroll', handler, util.applyPassive());
+                this._viewport.addEventListener('scroll', handler);
             else
-                window.addEventListener('scroll', handler, util.applyPassive());
+                window.addEventListener('scroll', handler);
         },
         deregisterScrollHandler: (handler: EventListener) => {
             if (this._viewport)
-                this._viewport.removeEventListener('scroll', handler, util.applyPassive());
+                this._viewport.removeEventListener('scroll', handler);
             else
-                window.removeEventListener('scroll', handler, util.applyPassive());
+                window.removeEventListener('scroll', handler);
         },
         registerResizeHandler: (handler: EventListener) => {
-            window.addEventListener('resize', handler, util.applyPassive());
+            window.addEventListener('resize', handler);
         },
         deregisterResizeHandler: (handler: EventListener) => {
-            window.removeEventListener('resize', handler, util.applyPassive());
+            window.removeEventListener('resize', handler);
         },
         getViewportWidth: () => this._viewport ? this._viewport.clientWidth : window.innerWidth,
         getViewportScrollY: () => this._viewport ? this._viewport.scrollTop : window.pageYOffset,
@@ -230,10 +230,13 @@ export class MdcToolbarDirective implements AfterViewInit, OnDestroy {
         // Using ngAfterViewInit instead of ngAfterContentInit, because the MDCToolbarFoundation.init
         // uses MdcToolbarAdapter.hasClass on classes that we bind in this component. Those classes are only
         // available after the view is fully initialized.
+        // TODO: in other components we just check the property value instead of the class (property based on
+        //   the classname given to the adapter), so that ngAfterContentInit can be used after all. That
+        //   seems a nicer strategy.
         this._initialized = true;
         if (this._viewport) {
             this._mdcViewPortScrollListener = () => {this._updateViewPort();}
-            this._viewport.addEventListener('scroll', this._mdcViewPortScrollListener, util.applyPassive());
+            this._viewport.addEventListener('scroll', this._mdcViewPortScrollListener);
         }
         this._updateViewPort();
         this.foundation.init();
@@ -241,7 +244,7 @@ export class MdcToolbarDirective implements AfterViewInit, OnDestroy {
 
     ngOnDestroy() {
         if (this._mdcViewPortScrollListener)
-            this._viewport.removeEventListener('scroll', this._mdcViewPortScrollListener, util.applyPassive());
+            this._viewport.removeEventListener('scroll', this._mdcViewPortScrollListener);
         this.foundation.destroy();
     }
 
