@@ -8,19 +8,19 @@
 <p>Customize slider:</p>
 <div mdcTextField>
   <input mdcTextFieldInput [ngModel]="value" (blur)="value = $event.target.value" required />
-  <label mdcTextFieldLabel>Current Value</label>
+  <label mdcFloatingLabel>Current Value</label>
 </div>
 <div mdcTextField>
   <input mdcTextFieldInput [ngModel]="min" (blur)="min = $event.target.value" required />
-  <label mdcTextFieldLabel>Min Value</label>
+  <label mdcFloatingLabel>Min Value</label>
 </div>
 <div mdcTextField>
   <input mdcTextFieldInput [ngModel]="max" (blur)="max = $event.target.value" required />
-  <label mdcTextFieldLabel>Max Value</label>
+  <label mdcFloatingLabel>Max Value</label>
 </div>
 <div mdcTextField>
   <input mdcTextFieldInput [ngModel]="step" (blur)="step = $event.target.value" required />
-  <label mdcTextFieldLabel>Step</label>
+  <label mdcFloatingLabel>Step</label>
 </div>
 <div mdcFormField>
   <div mdcCheckbox>

@@ -10,6 +10,7 @@ import { ListDirectivesComponent } from './list.directives.component';
 import { MenuDirectivesComponent } from './menu.directives.component';
 import { RadioDirectivesComponent } from './radio.directives.component';
 import { RippleDirectivesComponent } from './ripple.directives.component';
+import { SelectDirectivesComponent } from './select.directives.component';
 import { SliderDirectivesComponent } from './slider.directives.component';
 import { SnackbarDirectivesComponent } from './snackbar.directives.component';
 import { SwitchDirectivesComponent } from './switch.directives.component';
@@ -30,6 +31,7 @@ export * from './list.directives.component';
 export * from './menu.directives.component';
 export * from './radio.directives.component';
 export * from './ripple.directives.component';
+export * from './select.directives.component';
 export * from './slider.directives.component';
 export * from './snackbar.directives.component';
 export * from './switch.directives.component';
@@ -51,6 +53,7 @@ export const MDC_DIRECTIVE_DOC_COMPONENTS = [
     MenuDirectivesComponent,
     RadioDirectivesComponent,
     RippleDirectivesComponent,
+    SelectDirectivesComponent,
     SliderDirectivesComponent,
     SnackbarDirectivesComponent,
     SwitchDirectivesComponent,

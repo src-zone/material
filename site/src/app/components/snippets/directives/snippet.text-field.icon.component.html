@@ -3,7 +3,7 @@
   <i mdcTextFieldIcon class="material-icons">face</i>
   <input mdcTextFieldInput type="text" #input1="ngModel" [(ngModel)]="field1" [disabled]="disabled"
     [required]="required"/>
-  <label mdcTextFieldLabel>Input 1</label>
+  <label mdcFloatingLabel>Input 1</label>
 </div>
 <p mdcTextFieldHelperText #input1Help="mdcHelperText" [persistent]="persistent">
   Input with leading icon
@@ -11,7 +11,7 @@
 <div mdcTextField [helperText]="input2Help" [box]="box" [dense]="dense">
   <input mdcTextFieldInput type="text" #input2="ngModel" [(ngModel)]="field2" [disabled]="disabled"
       [required]="required"/>
-  <label mdcTextFieldLabel>Input 2</label>
+  <label mdcFloatingLabel>Input 2</label>
   <i mdcTextFieldIcon (click)="clearField2()" tabindex="0" class="material-icons">delete</i>
 </div>
 <p mdcTextFieldHelperText #input2Help="mdcHelperText" [persistent]="persistent">

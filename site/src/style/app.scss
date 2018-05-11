@@ -109,18 +109,17 @@ header {
                     // prevents the tabs from being clicked
         
         .mdc-tab {
+          @include mdc-states(text-secondary-on-primary); // use light ripple, instead of dark
           @include mdc-tab-ink-color(text-secondary-on-primary);
           &:hover {
             @include mdc-tab-ink-color(text-primary-on-primary);
           }
         }
-        
         .mdc-tab--active {
-          color: #00ffff;
-          @include mdc-theme-prop(color, secondary-light);
+          @include mdc-theme-prop(color, secondary);
         }
         .mdc-tab-bar__indicator {
-          @include mdc-theme-prop(background-color, secondary-light);
+          @include mdc-theme-prop(background-color, secondary);
         }
       }
     }

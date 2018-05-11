@@ -14,6 +14,7 @@ export * from './snippet.menu.component';
 export * from './snippet.snackbar.component';
 export * from './snippet.radio.component';
 export * from './snippet.ripple.component';
+export * from './snippet.select.component';
 export * from './snippet.slider.component';
 export * from './snippet.switch.component';
 export * from './snippet.tab.simple.component';

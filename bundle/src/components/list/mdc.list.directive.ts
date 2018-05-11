@@ -141,7 +141,7 @@ export class MdcListItemMetaDirective {
 }
 
 export enum MdcListFunction {
-    plain, menu, select
+    plain, menu
 };
 
 /**
@@ -179,8 +179,6 @@ export class MdcListDirective implements AfterContentInit {
         let itemRole = null;
         if (this._function === MdcListFunction.menu)
             itemRole = 'menuitem';
-        else if (this._function === MdcListFunction.select)
-            itemRole = 'option';
         this._items.forEach(item => {
             item._role = itemRole;
         });
@@ -188,7 +186,6 @@ export class MdcListDirective implements AfterContentInit {
 
     @HostBinding('attr.role') get _role() {
         return (this._function === MdcListFunction.menu) ? 'menu' : null;
-        // Note: role="listbox" is set on the mdcSelect, not on this mdcList
     }
 
     @HostBinding('attr.aria-hidden') get _ariaHidden() {
@@ -196,7 +193,7 @@ export class MdcListDirective implements AfterContentInit {
     }
 
     @HostBinding('class.mdc-menu__items') get _isMenu() {
-        return this._function === MdcListFunction.menu || this._function === MdcListFunction.select;
+        return this._function === MdcListFunction.menu;
     }
 
     _setFunction(val: MdcListFunction) {

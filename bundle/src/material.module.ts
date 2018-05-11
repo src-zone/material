@@ -19,6 +19,7 @@ import { MdcDrawerDirective,
 import { MdcElevationDirective } from './components/elevation/mdc.elevation.directive';
 import { MdcFabDirective,
     MdcFabIconDirective } from './components/fab/mdc.fab.directive';
+import { MdcFloatingLabelDirective } from './components/floating-label/mdc.floating-label.directive';
 import { MdcFormFieldDirective,
     MdcFormFieldInputDirective,
     MdcFormFieldLabelDirective } from './components/form-field/mdc.form-field.directive';
@@ -40,6 +41,7 @@ import { MdcMenuAnchorDirective, MdcMenuDirective } from './components/menu/mdc.
 import { MdcRadioDirective,
     MdcRadioInputDirective } from './components/radio/mdc.radio.directive';
 import { MdcRippleDirective } from './components/ripple/mdc.ripple.directive';
+import { MdcSelectDirective, MdcSelectControlDirective, MdcSelectLabelDirective } from './components/select/mdc.select.directive';
 import { MdcSliderDirective,
     MdcFormsSliderDirective } from './components/slider/mdc.slider.directive';
 import { MdcSnackbarService, MDC_SNACKBAR_PROVIDER } from './components/snackbar/mdc.snackbar.service';
@@ -59,7 +61,6 @@ import { MdcTabBarScrollerDirective,
 import { MdcTextFieldDirective,
     MdcTextFieldInputDirective,
     MdcTextFieldIconDirective,
-    MdcTextFieldLabelDirective,
     MdcTextFieldHelperTextDirective } from './components/text-field/mdc.text-field.directive';
 import { MdcToolbarDirective,
     MdcToolbarRowDirective,
@@ -90,6 +91,7 @@ export { MdcDrawerDirective,
 export { MdcElevationDirective } from './components/elevation/mdc.elevation.directive';
 export { MdcFabDirective,
     MdcFabIconDirective } from './components/fab/mdc.fab.directive';
+export { MdcFloatingLabelDirective } from './components/floating-label/mdc.floating-label.directive';
 export { MdcFormFieldDirective,
     MdcFormFieldInputDirective,
     MdcFormFieldLabelDirective } from './components/form-field/mdc.form-field.directive';
@@ -111,6 +113,7 @@ export { MdcMenuAnchorDirective, MdcMenuDirective } from './components/menu/mdc.
 export { MdcRadioDirective,
     MdcRadioInputDirective } from './components/radio/mdc.radio.directive';
 export { MdcRippleDirective } from './components/ripple/mdc.ripple.directive';
+export { MdcSelectDirective, MdcSelectControlDirective, MdcSelectLabelDirective } from './components/select/mdc.select.directive';
 export { MdcSliderDirective,
     MdcFormsSliderDirective } from './components/slider/mdc.slider.directive';
 export { MdcSnackbarMessage } from './components/snackbar/mdc.snackbar.message';
@@ -131,7 +134,6 @@ export { MdcTabBarScrollerDirective,
 export { MdcTextFieldDirective,
     MdcTextFieldInputDirective,
     MdcTextFieldIconDirective,
-    MdcTextFieldLabelDirective,
     MdcTextFieldHelperTextDirective } from './components/text-field/mdc.text-field.directive';
 export { MdcToolbarDirective,
     MdcToolbarRowDirective,
@@ -159,6 +161,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcDrawerDirective, MdcDrawerContainerDirective, MdcDrawerToolbarSpacerDirective, MdcDrawerHeaderDirective, MdcDrawerHeaderContentDirective, MdcDrawerContentDirective,
         MdcElevationDirective,
         MdcFabDirective, MdcFabIconDirective,
+        MdcFloatingLabelDirective,
         MdcFormFieldDirective, MdcFormFieldInputDirective, MdcFormFieldLabelDirective,
         MdcIconDirective,
         MdcIconToggleDirective, MdcIconToggleIconDirective, MdcFormsIconToggleDirective,
@@ -168,13 +171,14 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcMenuAnchorDirective, MdcMenuDirective,
         MdcRadioDirective, MdcRadioInputDirective,
         MdcRippleDirective,
+        MdcSelectDirective, MdcSelectControlDirective, MdcSelectLabelDirective,
         MdcSliderDirective, MdcFormsSliderDirective,
         MdcSwitchInputDirective, MdcSwitchDirective,
         MdcTabDirective, MdcTabIconDirective, MdcTabIconTextDirective,
         MdcTabRouterDirective,
         MdcTabBarDirective,
         MdcTabBarScrollerDirective, MdcTabBarScrollerInnerDirective, MdcTabBarScrollerBackDirective, MdcTabBarScrollerForwardDirective, MdcTabBarScrollerFrameDirective,
-        MdcTextFieldDirective, MdcTextFieldInputDirective, MdcTextFieldIconDirective, MdcTextFieldLabelDirective, MdcTextFieldHelperTextDirective,
+        MdcTextFieldDirective, MdcTextFieldInputDirective, MdcTextFieldIconDirective, MdcTextFieldHelperTextDirective,
         MdcToolbarDirective, MdcToolbarRowDirective, MdcToolbarSectionDirective, MdcToolbarTitleDirective, MdcToolbarIcon, MdcToolbarMenuIcon, MdcToolbarFixedAdjustDirective,
         MdcScrollbarResizeDirective
     ],
@@ -186,6 +190,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcDrawerDirective, MdcDrawerContainerDirective, MdcDrawerToolbarSpacerDirective, MdcDrawerHeaderDirective, MdcDrawerHeaderContentDirective, MdcDrawerContentDirective,
         MdcElevationDirective,
         MdcFabDirective, MdcFabIconDirective,
+        MdcFloatingLabelDirective,
         MdcFormFieldDirective, MdcFormFieldInputDirective, MdcFormFieldLabelDirective,
         MdcIconDirective,
         MdcIconToggleDirective, MdcIconToggleIconDirective, MdcFormsIconToggleDirective,
@@ -195,13 +200,14 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcMenuAnchorDirective, MdcMenuDirective,
         MdcRadioDirective, MdcRadioInputDirective,
         MdcRippleDirective,
+        MdcSelectDirective, MdcSelectControlDirective, MdcSelectLabelDirective,
         MdcSliderDirective, MdcFormsSliderDirective,
         MdcSwitchInputDirective, MdcSwitchDirective,
         MdcTabDirective, MdcTabIconDirective, MdcTabIconTextDirective,
         MdcTabRouterDirective,
         MdcTabBarDirective,
         MdcTabBarScrollerDirective, MdcTabBarScrollerInnerDirective, MdcTabBarScrollerBackDirective, MdcTabBarScrollerForwardDirective, MdcTabBarScrollerFrameDirective,
-        MdcTextFieldDirective, MdcTextFieldInputDirective, MdcTextFieldIconDirective, MdcTextFieldLabelDirective, MdcTextFieldHelperTextDirective,
+        MdcTextFieldDirective, MdcTextFieldInputDirective, MdcTextFieldIconDirective, MdcTextFieldHelperTextDirective,
         MdcToolbarDirective, MdcToolbarRowDirective, MdcToolbarSectionDirective, MdcToolbarTitleDirective, MdcToolbarIcon, MdcToolbarMenuIcon, MdcToolbarFixedAdjustDirective,
         MdcScrollbarResizeDirective
     ]

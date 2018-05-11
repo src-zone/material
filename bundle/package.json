@@ -26,13 +26,13 @@
     "build": "npm run clean && npm run build-noclean"
   },
   "dependencies": {
-    "material-components-web": "^0.31.0"
+    "material-components-web": "^0.34.1"
   },
   "peerDependencies": {
-    "@angular/common": ">=4.0.0",
-    "@angular/core": ">=4.0.0",
-    "@angular/forms": ">=4.0.0",
-    "@angular/router": ">=4.0.0",
+    "@angular/common": ">=5.0.0",
+    "@angular/core": ">=5.0.0",
+    "@angular/forms": ">=5.0.0",
+    "@angular/router": ">=5.0.0",
     "rxjs": ">=5.5.0",
     "zone.js": ">=0.8.0"
   },

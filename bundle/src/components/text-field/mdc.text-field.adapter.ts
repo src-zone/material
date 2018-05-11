@@ -19,13 +19,6 @@ export interface MdcTextFieldIconAdapter {
 }
 
 /** @docs-private */
-export interface MdcTextFieldLabelAdapter {
-    addClass: (className: string) => void,
-    removeClass: (className: string) => void,
-    getWidth: () => number
-}
-
-/** @docs-private */
 export interface MdcTextFieldAdapter {
     addClass: (className: string) => void,
     removeClass: (className: string) => void,
@@ -34,12 +27,16 @@ export interface MdcTextFieldAdapter {
     deregisterTextFieldInteractionHandler: (evtType: string, handler: EventListener) => void,
     registerInputInteractionHandler: (evtType: string, handler: EventListener) => void,
     deregisterInputInteractionHandler: (evtType: string, handler: EventListener) => void,
-    registerBottomLineEventHandler: (evtType: string, handler: EventListener) => void,
-    deregisterBottomLineEventHandler: (evtType: string, handler: EventListener) => void,
+    registerValidationAttributeChangeHandler: (handler: (arg: Array<any>) => void) => MutationObserver,
+    deregisterValidationAttributeChangeHandler: (observer: MutationObserver) => void,
     getNativeInput: () => {value: string, disabled: boolean, validity: {badInput: boolean, valid: boolean}},
     isFocused: () => boolean,
+    isRtl: () => boolean,
     activateLineRipple: () => void,
     deactivateLineRipple: () => void,
     setLineRippleTransformOrigin: (normalizedX: number) => void
     shakeLabel: (shouldShake: boolean) => void,
+    floatLabel: (shouldFloat: boolean) => void,
+    hasLabel: () => boolean,
+    getLabelWidth: () => number
 }
