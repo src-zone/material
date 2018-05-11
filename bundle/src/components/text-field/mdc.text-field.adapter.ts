@@ -13,6 +13,7 @@ export interface MdcTextFieldHelperTextAdapter {
 /** @docs-private */
 export interface MdcTextFieldIconAdapter {
     setAttr: (name: string, value: string) => void,
+    removeAttr: (name: string) => void,
     registerInteractionHandler: (evtType: string, handler: EventListener) => void,
     deregisterInteractionHandler: (evtType: string, handler: EventListener) => void,
     notifyIconAction: () => void

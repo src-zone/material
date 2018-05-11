@@ -159,9 +159,8 @@ export class MdcTextFieldInputDirective extends AbstractMdcInput implements OnIn
 export class MdcTextFieldIconDirective {
     @HostBinding('class.mdc-text-field__icon') _cls = true;
     _mdcAdapter: MdcTextFieldIconAdapter = {
-        setAttr: (name: string, value: string) => {
-            this._rndr.setAttribute(this._el.nativeElement, name, value);
-        },
+        setAttr: (name: string, value: string) => this._rndr.setAttribute(this._el.nativeElement, name, value),
+        removeAttr: (name: string) => this._rndr.removeAttribute(this._el.nativeElement, name),
         registerInteractionHandler: (evtType: string, handler: EventListener) => {
             this._reg.listen(this._rndr, evtType, handler, this._el);
         },

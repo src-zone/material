@@ -190,7 +190,7 @@ export class MdcCardDirective {
      * When this input is set to a value other than false, the card will have a
      * hairline stroke instead of a shadow.
      */
-    @HostBinding('class.mdc-card--stroked') @Input()
+    @HostBinding('class.mdc-card--outlined') @Input()
     get outlined() {
         return this._outlined;
     }

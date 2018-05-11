@@ -20,7 +20,7 @@ export class MdcButtonDirective extends AbstractMdcRipple implements AfterConten
     @HostBinding('class.mdc-button') _cls = true;
     private _dense = false;
     private _raised = false;
-    private _stroked = false;
+    private _outlined = false;
 
     constructor(public _elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry) {
         super(_elm, renderer, registry);
@@ -51,13 +51,13 @@ export class MdcButtonDirective extends AbstractMdcRipple implements AfterConten
      * When this input is defined and does not have value false, the button will be styled 
      * flush with the surface and have a visible border.
      */
-    @HostBinding('class.mdc-button--stroked') @Input()
-    get stroked() {
-        return this._stroked;
+    @HostBinding('class.mdc-button--outlined') @Input()
+    get outlined() {
+        return this._outlined;
     }
 
-    set stroked(val: any) {
-        this._stroked = asBoolean(val);
+    set outlined(val: any) {
+        this._outlined = asBoolean(val);
     }
 
     /**

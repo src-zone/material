@@ -1,11 +1,11 @@
 body { @include mdc-typography-base; }
-h1 { @include mdc-typography(headline); }
-h2 { @include mdc-typography(title); }
-h3 { @include mdc-typography(subheading2); }
-h4 { @include mdc-typography(subheading1); }
+h1 { @include mdc-typography(headline5); }
+h2 { @include mdc-typography(headline6); }
+h3 { @include mdc-typography(subtitle1); }
+h4 { @include mdc-typography(subtitle2); }
 p, blockquote {
-    @include mdc-typography(body1);
+    @include mdc-typography(body2);
     &.blox-strong {
-        @include mdc-typography(body2);
+        @include mdc-typography(body1);
     }
 }
