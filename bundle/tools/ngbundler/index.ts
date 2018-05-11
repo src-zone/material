@@ -14,7 +14,9 @@ const globals = {
   '@material/form-field': 'mdc.formField',
   '@material/icon-toggle': 'mdc.iconToggle',
   '@material/linear-progress': 'mdc.linearProgress',
-  '@material/menu': 'mdc.menu',    
+  '@material/line-ripple': 'mdc.lineRipple',
+  '@material/menu': 'mdc.menu',
+  '@material/menu/util': 'mdc.menu',
   '@material/radio': 'mdc.radio',
   '@material/ripple': 'mdc.ripple',
   '@material/select': 'mdc.select',
@@ -22,7 +24,6 @@ const globals = {
   '@material/switch': 'mdc.switch',
   '@material/snackbar': 'mdc.snackbar',
   '@material/textfield': 'mdc.textfield',  // checked, not exported as mdc.textField yet
-  '@material/textfield/bottom-line': 'mdc.textfield',
   '@material/textfield/helper-text': 'mdc.textfield',
   '@material/textfield/icon': 'mdc.textfield',
   '@material/textfield/label': 'mdc.textfield',

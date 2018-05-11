@@ -2,14 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MdcButtonDirective } from './components/button/mdc.button.directive';
 import { MdcCardDirective,
-    MdcCardHorizontalDirective,
-    MdcCardPrimaryDirective,
-    MdcCardTitleDirective,
-    MdcCardSubtitleDirective,
-    MdcCardTextDirective,
     MdcCardMediaDirective,
-    MdcCardMediaItemDirective,
-    MdcCardActionsDirective } from './components/card/mdc.card.directive';
+    MdcCardMediaContentDirective,
+    MdcCardActionButtonsDirective,
+    MdcCardActionIconsDirective,
+    MdcCardActionsDirective,
+    MdcCardPrimaryActionDirective } from './components/card/mdc.card.directive';
 import { MdcCheckboxDirective,
     MdcCheckboxInputDirective } from './components/checkbox/mdc.checkbox.directive';
 import { MdcDrawerDirective,
@@ -24,6 +22,7 @@ import { MdcFabDirective,
 import { MdcFormFieldDirective,
     MdcFormFieldInputDirective,
     MdcFormFieldLabelDirective } from './components/form-field/mdc.form-field.directive';
+import { MdcIconDirective } from './components/icon/mdc.icon.directive';
 import { MdcIconToggleDirective,
     MdcIconToggleIconDirective,
     MdcFormsIconToggleDirective } from './components/icon-toggle/mdc.icon-toggle.directive';
@@ -37,7 +36,7 @@ import { MdcListDividerDirective,
     MdcListDirective,
     MdcListGroupSubHeaderDirective,
     MdcListGroupDirective } from './components/list/mdc.list.directive';
-import { MdcMenuAnchorDirective, MdcSimpleMenuDirective } from './components/menu/mdc.simple.menu.directive';
+import { MdcMenuAnchorDirective, MdcMenuDirective } from './components/menu/mdc.menu.directive';
 import { MdcRadioDirective,
     MdcRadioInputDirective } from './components/radio/mdc.radio.directive';
 import { MdcRippleDirective } from './components/ripple/mdc.ripple.directive';
@@ -74,14 +73,12 @@ import { MdcEventRegistry, MDC_EVENT_REGISTRY_PROVIDER } from './utils/mdc.event
 
 export { MdcButtonDirective } from './components/button/mdc.button.directive';
 export { MdcCardDirective,
-    MdcCardHorizontalDirective,
-    MdcCardPrimaryDirective,
-    MdcCardTitleDirective,
-    MdcCardSubtitleDirective,
-    MdcCardTextDirective,
     MdcCardMediaDirective,
-    MdcCardMediaItemDirective,
-    MdcCardActionsDirective } from './components/card/mdc.card.directive';
+    MdcCardMediaContentDirective,
+    MdcCardActionButtonsDirective,
+    MdcCardActionIconsDirective,
+    MdcCardActionsDirective,
+    MdcCardPrimaryActionDirective } from './components/card/mdc.card.directive';
 export { MdcCheckboxDirective,
     MdcCheckboxInputDirective } from './components/checkbox/mdc.checkbox.directive';
 export { MdcDrawerDirective,
@@ -96,6 +93,7 @@ export { MdcFabDirective,
 export { MdcFormFieldDirective,
     MdcFormFieldInputDirective,
     MdcFormFieldLabelDirective } from './components/form-field/mdc.form-field.directive';
+export { MdcIconDirective } from './components/icon/mdc.icon.directive';
 export { MdcIconToggleDirective,
     MdcIconToggleIconDirective,
     MdcFormsIconToggleDirective } from './components/icon-toggle/mdc.icon-toggle.directive';
@@ -109,7 +107,7 @@ export { MdcListDividerDirective,
     MdcListDirective,
     MdcListGroupSubHeaderDirective,
     MdcListGroupDirective } from './components/list/mdc.list.directive';
-export { MdcMenuAnchorDirective, MdcSimpleMenuDirective } from './components/menu/mdc.simple.menu.directive';    
+export { MdcMenuAnchorDirective, MdcMenuDirective } from './components/menu/mdc.menu.directive';    
 export { MdcRadioDirective,
     MdcRadioInputDirective } from './components/radio/mdc.radio.directive';
 export { MdcRippleDirective } from './components/ripple/mdc.ripple.directive';
@@ -155,18 +153,19 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
     ],
     declarations: [
         MdcButtonDirective,
-        MdcCardDirective, MdcCardHorizontalDirective, MdcCardPrimaryDirective, MdcCardTitleDirective, MdcCardSubtitleDirective,
-        MdcCardTextDirective, MdcCardMediaDirective, MdcCardMediaItemDirective, MdcCardActionsDirective,
+        MdcCardDirective, MdcCardMediaDirective, MdcCardMediaContentDirective,
+        MdcCardActionButtonsDirective, MdcCardActionIconsDirective, MdcCardActionsDirective, MdcCardPrimaryActionDirective,
         MdcCheckboxDirective, MdcCheckboxInputDirective,
         MdcDrawerDirective, MdcDrawerContainerDirective, MdcDrawerToolbarSpacerDirective, MdcDrawerHeaderDirective, MdcDrawerHeaderContentDirective, MdcDrawerContentDirective,
         MdcElevationDirective,
         MdcFabDirective, MdcFabIconDirective,
         MdcFormFieldDirective, MdcFormFieldInputDirective, MdcFormFieldLabelDirective,
+        MdcIconDirective,
         MdcIconToggleDirective, MdcIconToggleIconDirective, MdcFormsIconToggleDirective,
         MdcLinearProgressDirective,
         MdcListDividerDirective, MdcListItemDirective, MdcListItemTextDirective, MdcListItemSecondaryTextDirective,
         MdcListItemGraphicDirective, MdcListItemMetaDirective, MdcListDirective, MdcListGroupSubHeaderDirective, MdcListGroupDirective,
-        MdcMenuAnchorDirective, MdcSimpleMenuDirective,
+        MdcMenuAnchorDirective, MdcMenuDirective,
         MdcRadioDirective, MdcRadioInputDirective,
         MdcRippleDirective,
         MdcSliderDirective, MdcFormsSliderDirective,
@@ -181,18 +180,19 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
     ],
     exports: [
         MdcButtonDirective,
-        MdcCardDirective, MdcCardHorizontalDirective, MdcCardPrimaryDirective, MdcCardTitleDirective, MdcCardSubtitleDirective,
-        MdcCardTextDirective, MdcCardMediaDirective, MdcCardMediaItemDirective, MdcCardActionsDirective,
+        MdcCardDirective, MdcCardMediaDirective, MdcCardMediaContentDirective,
+        MdcCardActionButtonsDirective, MdcCardActionIconsDirective, MdcCardActionsDirective, MdcCardPrimaryActionDirective,
         MdcCheckboxDirective, MdcCheckboxInputDirective,
         MdcDrawerDirective, MdcDrawerContainerDirective, MdcDrawerToolbarSpacerDirective, MdcDrawerHeaderDirective, MdcDrawerHeaderContentDirective, MdcDrawerContentDirective,
         MdcElevationDirective,
         MdcFabDirective, MdcFabIconDirective,
         MdcFormFieldDirective, MdcFormFieldInputDirective, MdcFormFieldLabelDirective,
+        MdcIconDirective,
         MdcIconToggleDirective, MdcIconToggleIconDirective, MdcFormsIconToggleDirective,
         MdcLinearProgressDirective,
         MdcListDividerDirective, MdcListItemDirective, MdcListItemTextDirective, MdcListItemSecondaryTextDirective,
         MdcListItemGraphicDirective, MdcListItemMetaDirective, MdcListDirective, MdcListGroupSubHeaderDirective, MdcListGroupDirective,
-        MdcMenuAnchorDirective, MdcSimpleMenuDirective,
+        MdcMenuAnchorDirective, MdcMenuDirective,
         MdcRadioDirective, MdcRadioInputDirective,
         MdcRippleDirective,
         MdcSliderDirective, MdcFormsSliderDirective,

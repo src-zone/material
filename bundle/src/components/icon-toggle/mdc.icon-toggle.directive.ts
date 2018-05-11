@@ -7,6 +7,7 @@ import { MDCIconToggleFoundation } from '@material/icon-toggle';
 import { MdcIconToggleAdapter } from './mdc.icon-toggle.adapter';
 import { asBoolean, asBooleanOrNull } from '../../utils/value.utils';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
+import { AbstractMdcIcon } from '../icon/abstract.mdc.icon';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
 interface MdcIconToggleChangeEvent {
@@ -37,9 +38,10 @@ export class MdcIconToggleIconDirective {
  * ripple styles).
  */
 @Directive({
-    selector: '[mdcIconToggle]'
+    selector: '[mdcIconToggle]',
+    providers: [{provide: AbstractMdcIcon, useExisting: forwardRef(() => MdcIconToggleDirective) }]
 })
-export class MdcIconToggleDirective extends AbstractMdcRipple implements AfterContentInit {
+export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterContentInit {
     @HostBinding('class.mdc-icon-toggle') _hostClass = true;
     @HostBinding('attr.role') _role: string = 'button';
     @ContentChild(MdcIconToggleIconDirective, {read: ElementRef}) _innerIcon: ElementRef;

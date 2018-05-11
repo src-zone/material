@@ -31,7 +31,7 @@
     "components.list.meta.description": "List (mdcList) component of ${default.meta.description}",
     "components.menu.title": "Menu",
     "components.menu.description": "Pop over menus",
-    "components.menu.meta.description": "Simple Menu (mdcSimpleMenu) component of ${default.meta.description}",
+    "components.menu.meta.description": "Menu (mdcMenu) component of ${default.meta.description}",
     "components.radio.title": "Radio Button",
     "components.radio.description": "Single selection controls",
     "components.radio.meta.description": "Radio Button (mdcRadio) component of ${default.meta.description}",

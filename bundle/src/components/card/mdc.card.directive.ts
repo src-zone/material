@@ -1,123 +1,129 @@
-import { AfterContentInit, AfterViewInit, Component, ContentChild, ContentChildren, Directive, ElementRef, HostBinding, HostListener,
-  Input, OnDestroy, QueryList, Renderer2, ViewEncapsulation } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, ContentChild, ContentChildren, Directive, ElementRef, forwardRef,
+  HostBinding, HostListener, Input, OnDestroy, QueryList, Renderer2, ViewEncapsulation } from '@angular/core';
 import { asBoolean } from '../../utils/value.utils';
+import { AbstractMdcIcon } from '../icon/abstract.mdc.icon';
 import { MdcButtonDirective } from '../button/mdc.button.directive';
+import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
+import { MdcEventRegistry } from '../../utils/mdc.event.registry';
+
+// TODO mdc-card__actions--full-bleed`
 
 /**
- * Directive for the primary area (containing titles and subtitles) of a card.
- * The primary area is typically composed of a title (<code>MdcCardTitleDirective</code>),
- * and subtitle (<code>MdcCardSubtitleDirective</code>).
- * This directive should be put inside the card itself (<code>MdcCardDirective</code>),
- * or inside an horizontal block in the card (<code>MdcCardHorizontalDirective</code>).
- */
-@Directive({
-    selector: '[mdcCardPrimary]'
-})
-export class MdcCardPrimaryDirective {
-    @HostBinding('class.mdc-card__primary') _cls = true;
-
-    constructor() {}
-}
-
-/**
- * Directive for the title of a card. Should be put inside the primary area
- * (<code>MdcCardPrimaryDirective</code>) of a card.
- */
-@Directive({
-    selector: '[mdcCardTitle]',
-})
-export class MdcCardTitleDirective {
-    @HostBinding('class.mdc-card__title') _cls = true;
-    private _large = false;
-    
-    constructor() {}
-
-    /**
-     * When this input is defined and does not have value false,
-     * the title will be made larger.
-     */
-    @HostBinding('class.mdc-card__title--large') @Input()
-    get large() {
-        return this._large;
-    }
-
-    set large(val: any) {
-        this._large = asBoolean(val);
-    }
-}
-
-/**
- * Directive for the subtitle of a card. Should be put inside the primary area
- * (<code>MdcCardPrimaryDirective</code>) of a card.
- */
-@Directive({
-    selector: '[mdcCardSubtitle]',
-})
-export class MdcCardSubtitleDirective {
-    @HostBinding('class.mdc-card__subtitle') _cls = true;
-    
-    constructor() {}
-}
-
-/**
- * Directive for the textual content of the card.
- * If used, this directive should be put inside the card itself ( (<code>MdcCardDirective</code>)),
- * or inside an horizontal block in the card (<code>MdcCardHorizontalDirective</code>)
- */
-@Directive({
-    selector: '[mdcCardText]',
-})
-export class MdcCardTextDirective {
-    @HostBinding('class.mdc-card__supporting-text') _cls = true;
-
-    constructor() {}
-}
-
-/**
- * Directive for rich media embedded in cards.
+ * Directive for an area that displays a custom background-image. See the <code>size</code>
+ * property for the sizing of the image.
  * If used, this directive should be put inside the card itself (<code>MdcCardDirective</code>).
- * For media items inside an horizonal block, use <code>MdcCardMediaItemDirective</code>
- * instead.
+ * Add an <code>mdcCardMediaContent</code> as sub-element for displaying a title, text,
+ * or icon on top of the background image. 
  */
 @Directive({
     selector: '[mdcCardMedia]',
 })
 export class MdcCardMediaDirective {
     @HostBinding('class.mdc-card__media') _cls = true;
+    private _size: 'cover' | '16-9' | 'square' = 'cover';
+        
+    constructor() {}
+
+    @HostBinding('class.mdc-card__media--square') get _square() {
+        return this._size === 'square';
+    }
+
+    @HostBinding('class.mdc-card__media--16-9') get _size2() {
+        return this._size === '16-9';
+    }
+
+    /**
+     * Directive to select size to which this element's background-image should
+     * be scaled. Can be one of 'cover', '16-9', or 'square'. The default value
+     * is 'cover'.
+     */
+    @Input() get size(): 'cover' | '16-9' | 'square' {
+        return this._size;
+    }
+    
+    set size(val: 'cover' | '16-9' | 'square') {
+        this._size = val;
+    }
+}
+
+/**
+ * Directive for displaying text on top of a <code>mdcCardMedia</code> element.
+ * This directive should be used as child element of the <code>mdcCardMedia</code>, and
+ * creates an absolutely positioned box the same size as the media area.
+ */
+@Directive({
+    selector: '[mdcCardMediaContent]'
+})
+export class MdcCardMediaContentDirective {
+    @HostBinding('class.mdc-card__media-content') _cls = true;
     
     constructor() {}
 }
 
 /**
- * Directive for showing the different actions a user can take. Composed of one or more
+ * Directive for displaying the button card actions. Composed of one or more
  * card actions, which must be buttons that have the <code>MdcButtonDirective</code>.
- * (Icon buttons as actions are currently not supported by the upstream Material Components
- * Web library. Once they are supported, we'll add support for them as card actions too).
+ * This directive should be placed inside an <code>MdcCardActionsDirective</code>.
  */
 @Directive({
-    selector: '[mdcCardActions]'
+    selector: '[mdcCardActionButtons]'
 })
-export class MdcCardActionsDirective implements AfterContentInit  {
+export class MdcCardActionButtonsDirective {
+    @HostBinding('class.mdc-card__action-buttons') _cls = true;
+
+    constructor() {}
+}
+
+/**
+ * Directive for displaying the icon card actions. Composed of one or more
+ * card actions, which must be icons (for instance <code>mdcIconToggle</code>.
+ * This directive should be placed inside an <code>MdcCardActionsDirective</code>.
+ */
+@Directive({
+    selector: '[mdcCardActionIcons]'
+})
+export class MdcCardActionIconsDirective {
+    @HostBinding('class.mdc-card__action-icons') _cls = true;
+    
+    constructor() {}
+}
+
+/**
+ * Directive for showing the different actions a user can take. Use
+ * <code>mdcButton</code>, <code>mdcIcon</code>, or <code>mdcIconToggle</code> as child elements.
+ * If you want to use both buttons and icons in the same row, wrap them in
+ * <code>mdcCardActionButtons</code>, and <code>mdcCardActionIcons</code> directives.
+ */
+@Directive({
+    selector: '[mdcCardActions]',
+})
+export class MdcCardActionsDirective implements AfterContentInit {
     @HostBinding('class.mdc-card__actions') _cls = true;
-    @ContentChildren(MdcButtonDirective, {descendants: false}) _children: QueryList<MdcButtonDirective>;
+    @ContentChildren(MdcButtonDirective, {descendants: true}) _buttons: QueryList<MdcButtonDirective>;
+    @ContentChildren(AbstractMdcIcon, {descendants: true}) _icons: QueryList<MdcButtonDirective>;
     private _initialized = false;
     private _compact: boolean;
-    private _vertical = false;
+    private _fullBleed = false;
 
     constructor(private renderer: Renderer2) {}
 
     ngAfterContentInit() {
         this._initialized = true;
-        this._initChildren();
-        this._children.changes.subscribe(() => {
-            this._initChildren();
+        this._initButtons();
+        this._initIcons();
+        this._buttons.changes.subscribe(() => {
+            this._initButtons();
         });
+        this._icons.changes.subscribe(() => {
+            this._initIcons();
+        })
     }
 
-    private _initChildren() {
+    private _initButtons() {
         if (this._initialized)
-            this._children.forEach(btn => {
+            this._buttons.forEach(btn => {
                 this.renderer.addClass(btn._elm.nativeElement, 'mdc-card__action');
+                this.renderer.addClass(btn._elm.nativeElement, 'mdc-card__action--button');
                 if (this._compact != null)
                     if (this._compact)
                         btn.compact = true;
@@ -126,8 +132,17 @@ export class MdcCardActionsDirective implements AfterContentInit  {
             });
     }
 
+    private _initIcons() {
+        if (this._initialized)
+            this._icons.forEach(icon => {
+                this.renderer.addClass(icon._elm.nativeElement, 'mdc-card__action');
+                this.renderer.addClass(icon._elm.nativeElement, 'mdc-card__action--icon');
+            });
+    }
+
+
     /**
-     * When this input is defined and does not have value false, all contained buttions
+     * When this input is defined and does not have value false, all contained buttons
      * will automagically get compact styling, which is equal to setting the <code>compact</code>
      * input on the buttons individually.
      */
@@ -143,101 +158,73 @@ export class MdcCardActionsDirective implements AfterContentInit  {
             val = asBoolean(val);
             if (this._compact !== val) {
                 this._compact = val;
-                this._initChildren();
+                this._initButtons();
             }
         }
     }
 
     /**
-     * When this input is defined and does not have value false, the actions are layed out
-     * vertically inside of horizontally.
+     * When this input is defined and does not have value false, the contained
+     * button takes up the entire width of the action row. This should be used only when
+     * there is a single button contained in the directive.
      */
-    @HostBinding('class.mdc-card__actions--vertical') @Input()
-    get vertical() {
-        return this._vertical;
+    @HostBinding('class.mdc-card__actions--full-bleed') @Input()
+    get fullBleed() {
+        return this._fullBleed;
     }
 
-    set vertical(val: any) {
-        this._vertical = asBoolean(val);
+    set fullBleed(val: any) {
+        this._fullBleed = asBoolean(val);
     }
 }
 
 /**
- * Directive for stacking multiple card blocks horizontally instead of vertically inside the card.
- * This directive should be put inside the card itself (<code>MdcCardDirective</code>) and wraps
- * the blocks that should be stacked horizontally, such as <code>MdcCardPrimaryDirective</code>,
- * <code>MdcCardMediaItemDirective</code>, and <code>MdcCardActionsDirective</code>.
+ * Directive for the main tappable area of the card (so should be a child of <code>mdcCard</code>).
+ * Typically contains most (or all) card content except <code>mdcCardActions</code>.
+ * Only applicable to cards that have a primary action that the main surface should trigger.
  */
 @Directive({
-    selector: '[mdcCardHorizontal]',
+    selector: '[mdcCardPrimaryAction]',
 })
-export class MdcCardHorizontalDirective {
-    @HostBinding('class.mdc-card__horizontal-block') _cls = true;
-    
-    constructor() {}
-}
+export class MdcCardPrimaryActionDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
+    @HostBinding('class.mdc-card__primary-action') _cls = true;
 
-/**
- * Directive for media items. They are intended for use in horizontal blocks, taking up a fixed height,
- * rather than stretching to the width of the card.
- * Use the <code>sizeFactor</code> input to select from some predefined media item sizes.
- */
-@Directive({
-    selector: '[mdcCardMediaItem]',
-})
-export class MdcCardMediaItemDirective {
-    @HostBinding('class.mdc-card__media-item') _cls = true;
-    private _size = 1;
-    
-    constructor() {}
-
-    @HostBinding('class.mdc-card__media-item--1dot5x') get _size1dot5() {
-        return this._size === 1.5;
+    constructor(elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry) {
+        super(elm, renderer, registry);
     }
 
-    @HostBinding('class.mdc-card__media-item--2x') get _size2() {
-        return this._size === 2;
+    ngAfterContentInit() {
+        this.initRipple();
     }
-
-    @HostBinding('class.mdc-card__media-item--3x') get _size3() {
-        return this._size === 3;
-    }
-
-    /**
-     * Directive to select the media item size. Possible values are:<br/>
-     * 1 (the default): sets the height to 80px.<br/>
-     * 1.5: sets the height to 120px.<br/>
-     * 2: sets the height to 160px.<br/>
-     * 3: sets the height to 240px.<br/>
-     * Any other value will reset <code>sizeFactor</code> to 1, to have a 80px height.
-     */
-    @Input()
-    get sizeFactor() {
-        return this._size;
-    }
-    
-    set sizeFactor(val: any) {
-        if (+val === 1.5)
-            this._size = 1.5;
-        else if (+val === 2)
-            this._size = 2;
-        else if (+val === 3)
-            this._size = 3;
-        else
-            this._size = 1;
+  
+    ngOnDestroy() {
+        this.destroyRipple();
     }
 }
 
 /**
  * Directive for a material designed card. The card can be composed with the following directives:
- * <code>MdcCardPrimaryDirective</code>, <code>MdcCardTextDirective</code>, <code>MdcCardMediaDirective</code>,
- * <code>MdcCardActionsDirective</code>, <code>MdcCardHorizontalDirective</code>.
+ * <code>MdcCardMediaDirective</code>, <code>MdcCardActionsDirective</code>
  */
 @Directive({
     selector: '[mdcCard]'
 })
 export class MdcCardDirective {
     @HostBinding('class.mdc-card') _cls = true;
+    private _outlined = false;
 
     constructor() {}
+
+    /**
+     * When this input is set to a value other than false, the card will have a
+     * hairline stroke instead of a shadow.
+     */
+    @HostBinding('class.mdc-card--stroked') @Input()
+    get outlined() {
+        return this._outlined;
+    }
+
+    set outlined(val: any) {
+        this._outlined = asBoolean(val);
+    }
 }

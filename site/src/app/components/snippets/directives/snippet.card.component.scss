@@ -1,71 +1,129 @@
+@import "@material/theme/mixins";
+@import "@material/typography/mixins";
+@import "@material/rtl/mixins";
+@import "@material/card/mixins";
+
 .custom-card-container {
-    //display: inline-block;
     display: flex;
     align-items: flex-start;
     flex-flow: row wrap;
 }
 
 [mdcCard] {
-    //float: left;
-    //vertical-align: top;
     min-width: 320px;
     max-width: 21.875rem;
     margin: 24px;
-}
 
-@media(min-width: 768px) {
-    [mdcCard] {
-        margin-bottom: 24px;
-    }
-}
-
-.custom-card--with-avatar {
-    [mdcCardPrimary] {
-        position: relative;
-    }
-    
-    .custom-card__avatar {
-        position: absolute;
-        background: #bdbdbd;
-        height: 2.5rem;
-        width: 2.5rem;
-        border-radius: 50%;
+    .custom-card__primary {
+        padding: 1rem;
+        h2 {
+            @include mdc-typography('title');
+            margin: 0;
+        }
+        h3 {
+            @include mdc-typography('subheading1');
+            @include mdc-theme-prop(color, text-secondary-on-background);
+            margin: 0;
+        }
     }
 
-    [mdcCardTitle],
-    [mdcCardSubtitle] {
-        margin-left: 56px;
+    .custom-card__secondary {
+        @include mdc-typography('body1');
+        @include mdc-theme-prop(color, text-secondary-on-background);
+        padding: 0 1rem 8px;
     }
-}
 
-[dir="rtl"] .custom-card--with-avatar [mdcCardTitle],
-[dir="rtl"] .custom-card--with-avatar [mdcCardSubtitle] {
-    margin-right: 56px;
-    margin-left: initial;
-}
+    .custom-card-group-heading {
+        @include mdc-typography('subheading1');
+        @include mdc-theme-prop(color, text-secondary-on-light);
+        padding: 8px 16px;
+    }
 
-.custom-card__16-9-media {
-    background-image: url("~assets/img/mdc-demos/16-9.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: 12.313rem;
-}
+    .custom-card-article {
+        padding: 16px;
+        text-decoration: none;
+        color: inherit;
 
-.custom-card--small [mdcCardMedia] {
-    background-image: url("~assets/img/mdc-demos/1-1.bg.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: 10.938rem;
-}
+        h2 {
+            @include mdc-typography('headline');
+            margin: 0 0 4px 0;                
+        }
+        p {
+            @include mdc-typography('body1');
+            @include mdc-theme-prop(color, text-secondary-on-light);
+            margin: 0;
+        }
+    }
 
-.custom-card--bg-demo {
-    height: 21.875rem;
-    background-image: url("~assets/img/mdc-demos/1-1.bg.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
+    &.custom-card-photo {
+        max-width: 200px;
+        min-width: 100px;
 
-    [mdcCardPrimary],
-    [mdcCardActions] {
-        background: rgba(0, 0, 0, .4);
+        [mdcCardMediaContent] {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            h2 {
+                padding: 8px 16px;
+                margin: 0;
+                @include mdc-typography('subheading2');
+                background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.5) 100%);
+                color: white;
+            }
+        }
+    }
+
+    &.custom-card-music {
+        @include mdc-card-corner-radius(24px 4px);
+        @include mdc-rtl {
+            @include mdc-card-corner-radius(4px 24px);
+        }
+
+        .custom-card-music-row {
+            display: flex;
+            border-top-left-radius: inherit;
+            @include mdc-rtl {
+                border-top-left-radius: 0;
+                border-top-right-radius: inherit;
+            }
+        }
+
+        [mdcCardMedia] {
+            width: 110px;
+            border-top-left-radius: inherit;
+          
+            @include mdc-rtl {
+              border-top-left-radius: 0;
+              border-top-right-radius: inherit;
+            }
+        }
+
+        .custom-card-music-info {
+            display: flex;
+            flex-direction: column;
+            padding: 8px 16px;
+
+            h2 {
+                @include mdc-typography('headline');
+                margin: 0;
+            }
+
+            .custom-card-music-artist {
+                @include mdc-typography('body1');
+            }
+
+
+            .custom-card-music-year {
+                @include mdc-typography('body1');
+            }
+        }
+    }
+
+    .mdc-card__media--16-9 {
+        background-image: url("~assets/img/mdc-demos/16-9.jpg");
+    }
+
+    .mdc-card__media--square {
+        background-image: url("~assets/img/mdc-demos/1-1.jpg");
     }
 }
