@@ -37,6 +37,18 @@ jobs:
       - store_artifacts:
           path: bundle/coverage
       - run: bash <(curl -s https://codecov.io/bash)
+  publish-bundle:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: Authenticate with NPM
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+      - run:
+          name: Publish Blox Material
+          command: npm publish
   build-site:
     <<: *defaults
     steps:
@@ -64,6 +76,14 @@ workflows:
       - test-bundle:
           requires:
             - build-bundle
+      - publish-bundle:
+          requires:
+            - test-bundle
+          filters:
+            tags:
+              only: /^v[0-9]+(\.[0-9]+)*/
+            branches:
+              ignore: /.*/
       - build-site:
           requires:
             - build-bundle
