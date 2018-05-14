@@ -36,7 +36,7 @@ jobs:
       - run: cd bundle && npm run test
       - store_artifacts:
           path: bundle/coverage
-      - run: bash <(curl -s https://codecov.io/bash)
+      - run: bash <(curl -s https://codecov.io/bash) -F material,unittest
   publish-bundle:
     <<: *defaults
     steps:
@@ -88,21 +88,35 @@ workflows:
   build-and-test:
     jobs:
       - build-bundle
+          filters:
+            tags:
+              only: /.*/
       - test-bundle:
           requires:
             - build-bundle
+          filters:
+            tags:
+              only: /.*/
       - publish-bundle:
           requires:
             - test-bundle
           filters:
             tags:
-              only: /^v[0-9]+(\.[0-9]+)*/
+              only: /^v[0-9]+(\.[0-9]+)*([-].*)?$/
             branches:
               ignore: /.*/
       - build-site:
           requires:
             - build-bundle
+          filters:
+            tags:
+              only: /^v[0-9]+(\.[0-9]+)*([-].*)?$/
       - deploy-site:
           requires:
             - test-bundle
             - build-site
+          filters:
+            tags:
+              only: /^v[0-9]+(\.[0-9]+)*([-].*)?$/
+            branches:
+              only: master
