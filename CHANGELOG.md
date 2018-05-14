@@ -1,11 +1,17 @@
 # Change Log
 
-This changelog contains the most recent changes of both the `@blox/material` package,
-and the demo site. Please go to [bundle/CHANGELOG](bundle/CHANGELOG.md) for changes
-only relating to the `@blox/material` npm package.
+All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-<a name="0.11.0"></a>
+      <a name="0.12.0"></a>
+# [0.12.0](https://github.com/src-zone/material/compare/v0.11.0...v0.12.0) (2018-05-14)
+
+
+
+
+**Note:** Version bump only for package undefined
+
+      <a name="0.11.0"></a>
 # [0.11.0](https://github.com/src-zone/material/compare/v0.10.0...v0.11.0) (2018-05-14)
 
 
@@ -37,7 +43,7 @@ to Angular 6 when possible!
 
 
 
-    <a name="0.9.0"></a>
+  <a name="0.9.0"></a>
 # [0.9.0](https://github.com/src-zone/material/compare/v0.8.0...v0.9.0) (2018-05-11)
 
 
@@ -104,7 +110,7 @@ MdcListItemSecondaryTextDirective
 
 
 
-  <a name="0.8.0"></a>
+<a name="0.8.0"></a>
 # [0.8.0](https://github.com/src-zone/material/compare/v0.7.0...v0.8.0) (2018-05-02)
 
 

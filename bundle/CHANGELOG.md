@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.12.0"></a>
+# [0.12.0](https://github.com/src-zone/material/compare/v0.11.0...v0.12.0) (2018-05-14)
+
+
+
+
+**Note:** Version bump only for package @blox/material
+
 <a name="0.11.0"></a>
 # [0.11.0](https://github.com/src-zone/material/compare/v0.10.0...v0.11.0) (2018-05-14)
 
