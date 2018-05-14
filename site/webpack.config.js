@@ -163,7 +163,8 @@ module.exports = function makeWebpackConfig(env) {
       {
         test: /\.js$/,
         loaders: ["source-map-loader"],
-        enforce: "pre"
+        enforce: "pre",
+        exclude: /(?:\.ngfactory\.js|\.ngstyle\.js)$/
       },
 
       // Support for .ts files.
