@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig-base.json",
+  "compilerOptions": {
+    "outDir": "build"
+  },
+  "files": [
+    "src/material.module.ts"
+  ],
+  "angularCompilerOptions": {
+    "skipMetadataEmit" : false,
+    "strictMetadataEmit": true,
+    "skipTemplateCodegen": true,
+    "flatModuleOutFile": "material.js",
+    "flatModuleId": "@blox/material",
+    "annotateForClosureCompiler": true,
+    "preserveWhitespaces": false
+  }
+}
+

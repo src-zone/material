@@ -1,33 +1,8 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "module": "es2015",
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "sourceMap": true,
-    "noEmitHelpers": true,
-    "importHelpers": true,
-    "skipLibCheck": true,
-    "declaration": true,
-    "outDir": "build",
-    "lib": [
-      "es2015",
-      "dom"
-    ]
-  },
-  "files": [
-    "src/material.module.ts"
-  ],
-  "compileOnSave": false,
-  "buildOnSave": false,
-  "angularCompilerOptions": {
-    "skipMetadataEmit" : false,
-    "strictMetadataEmit": true,
-    "skipTemplateCodegen": true,
-    "flatModuleOutFile": "material.js",
-    "flatModuleId": "@blox/material",
-    "annotateForClosureCompiler": true,
-    "preserveWhitespaces": false
-  }
+  "extends": "./tsconfig-base.json",
+  "include": [
+    "node_modules/@types",
+    "src/**/*.ts",
+    "karma.conf.ts"
+  ]
 }
