@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.10.0"></a>
+# [0.10.0](https://github.com/src-zone/material/compare/v0.9.0...v0.10.0) (2018-05-14)
+
+
+### Features
+
+* demo site upgrade to angular 6 ([9a49d0d](https://github.com/src-zone/material/commit/9a49d0d))
+
+
+
+
 <a name="0.9.0"></a>
 # [0.9.0](https://github.com/src-zone/material/compare/v0.8.0...v0.9.0) (2018-05-11)
 

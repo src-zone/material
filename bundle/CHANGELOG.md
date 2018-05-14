@@ -3,7 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-<a name="0.9.0"></a>
+      <a name="0.10.0"></a>
+# [0.10.0](https://github.com/src-zone/material/compare/v0.9.0...v0.10.0) (2018-05-14)
+
+
+*  feat: add compatibility with rxjs 6 and angular 6 (#611) ([03d71fd](https://github.com/src-zone/material/commit/03d71fd)), closes [#611](https://github.com/src-zone/material/issues/611)
+
+
+### BREAKING CHANGES
+
+*   The RXJS imports are now optimized for RXJS6.
+Effectively when using Angular 5 and thus RXJS 5,
+more code from RXJS may end up in your bundles,
+leading to a larger bundle size. This DOES NOT
+affect Angular 6 and RXJS 6. We suggest to upgrade
+to Angular 6 when possible!
+
+
+
+
+      <a name="0.9.0"></a>
 # [0.9.0](https://github.com/src-zone/material/compare/v0.8.0...v0.9.0) (2018-05-11)
 
 
@@ -20,52 +39,52 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### BREAKING CHANGES
 
 * upgrade to material-components-web 0.35.1
-  * MdcSelectLabelDirective is removed. Use MdcFloatingLabel instead.
-    (following upstream changes in material-components-web 0.35.0)
-  * mdcSelectLabel is removed. Use mdcFlatingLabel instead.
-    (following upstream changes in material-components-web 0.35.0)
-  * mdcButton property `stroked` is renamed to `outlined`.
-    (following upstream changes in material-components-web 0.35.0)
+* MdcSelectLabelDirective is removed. Use MdcFloatingLabel instead.
+  (following upstream changes in material-components-web 0.35.0)
+* mdcSelectLabel is removed. Use mdcFlatingLabel instead.
+  (following upstream changes in material-components-web 0.35.0)
+* mdcButton property `stroked` is renamed to `outlined`.
+  (following upstream changes in material-components-web 0.35.0)
 * upgrade to material-components-web 0.34.1
-  * MdcTextFieldLabelDirective is renamed to MdcFloatingLabelDirective
-    (following upstream changes in material-components-web 0.32.0)
-  * mdcTextFieldLabel is renamed to mdcFloatingLabel
-    (following upstream changes in material-components-web 0.32.0)
-  * mdcButton input compact has been removed
-    (following upstream changes in material-components-web 0.33.0)
-  * mdcCard input compact has been removed (since it was removed
-    from mdcButton)
-  * mdcSelect is now based on the native select control and is
-    not compatible with the old mdcSelect directives
-    (following upstream changes in material-components-web 0.34.0).
-    Please check the documentation for mdcSelect, mdcSelectControl,
-    and mdcSelectLabel.
+* MdcTextFieldLabelDirective is renamed to MdcFloatingLabelDirective
+  (following upstream changes in material-components-web 0.32.0)
+* mdcTextFieldLabel is renamed to mdcFloatingLabel
+  (following upstream changes in material-components-web 0.32.0)
+* mdcButton input compact has been removed
+  (following upstream changes in material-components-web 0.33.0)
+* mdcCard input compact has been removed (since it was removed
+  from mdcButton)
+* mdcSelect is now based on the native select control and is
+  not compatible with the old mdcSelect directives
+  (following upstream changes in material-components-web 0.34.0).
+  Please check the documentation for mdcSelect, mdcSelectControl,
+  and mdcSelectLabel.
 * dropped compatibility with Angular 4.x, Angular 5 or newer is
-  required
+required
 * upgrade to material-components-web 0.31.0
-  * mdcSimpleMenu renamed to mdcMenu
-    (following upstream changes in material-components-web 0.30.0)
-  * MdcSimpleMenuDirective renamed to MdcMenuDirective
-    (following upstream changes in material-components-web 0.30.0)
-  * mdc-card directives removed: mdcCardHorizontal, mdcCardPrimary,
-    mdcCardTitle, mdcCardSubtitle, mdcCardText, mdcCardMediaItem
-    (following upstream changes in material-components-web 0.30.0)
-  * mdc-card directives added: mdcCardMediaContent, mdcCardActionButtons,
-    mdcCardActionIcons, mdcCardPrimaryAction, mdcIcon
-    (following upstream changes in material-components-web 0.30.0 and
-    0.31.0)
-  * mdcTextField output bottomLineAnimationEnd has been removed
-    (following upstream changes in material-components-web 0.30.0)
+* mdcSimpleMenu renamed to mdcMenu
+  (following upstream changes in material-components-web 0.30.0)
+* MdcSimpleMenuDirective renamed to MdcMenuDirective
+  (following upstream changes in material-components-web 0.30.0)
+* mdc-card directives removed: mdcCardHorizontal, mdcCardPrimary,
+  mdcCardTitle, mdcCardSubtitle, mdcCardText, mdcCardMediaItem
+  (following upstream changes in material-components-web 0.30.0)
+* mdc-card directives added: mdcCardMediaContent, mdcCardActionButtons,
+  mdcCardActionIcons, mdcCardPrimaryAction, mdcIcon
+  (following upstream changes in material-components-web 0.30.0 and
+  0.31.0)
+* mdcTextField output bottomLineAnimationEnd has been removed
+  (following upstream changes in material-components-web 0.30.0)
 * upgrade to material-components-web 0.28.0
-  * mdcListItemStartDetail renamed to mdcListItemGraphic
-  * MdcListItemStartDetailDirective renamed to MdcListItemGraphicDirective
-  * mdcListItemEndDetail renamed to mdcListItemMeta
-  * MdcListItemEndDetailDirective renamed to MdcListItemGraphicDirective
+* mdcListItemStartDetail renamed to mdcListItemGraphic
+* MdcListItemStartDetailDirective renamed to MdcListItemGraphicDirective
+* mdcListItemEndDetail renamed to mdcListItemMeta
+* MdcListItemEndDetailDirective renamed to MdcListItemGraphicDirective
 * upgrade to material-components-web 0.27.0
-  * mdcListItemTextSecondary was renamed to mdcListItemSecondaryText
-  * MdcListItemTextSecondaryDirective was renamed to
-    MdcListItemSecondaryTextDirective
-  * The 'isActive' property of mdcTab and mdcTabRouter is renamed to 'active'.
+* mdcListItemTextSecondary was renamed to mdcListItemSecondaryText
+* MdcListItemTextSecondaryDirective was renamed to
+  MdcListItemSecondaryTextDirective
+* The 'isActive' property of mdcTab and mdcTabRouter is renamed to 'active'.
 
 
 
