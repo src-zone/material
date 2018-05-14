@@ -62,14 +62,14 @@ export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterCont
     private mdcAdapter: MdcIconToggleAdapter = {
         addClass: (className: string) => {
             let inner = this._innerIcon && this._iconIsClass !== false && (className === this._iconOn || className === this._iconOff);
-            this.renderer.addClass(inner ? this._innerIcon.nativeElement : this.elm.nativeElement, className);
+            this.renderer.addClass(inner ? this._innerIcon.nativeElement : this._elm.nativeElement, className);
         },
         removeClass: (className: string) => {
             let inner = this._innerIcon && this._iconIsClass !== false && (className === this._iconOn || className === this._iconOff);            
-            this.renderer.removeClass(inner ? this._innerIcon.nativeElement : this.elm.nativeElement, className);
+            this.renderer.removeClass(inner ? this._innerIcon.nativeElement : this._elm.nativeElement, className);
         },
         registerInteractionHandler: (type: string, handler: EventListener) => {
-            this.registry.listen(this.renderer, type, handler, this.elm);
+            this.registry.listen(this.renderer, type, handler, this._elm);
         },
         deregisterInteractionHandler: (type: string, handler: EventListener) => {
             this.registry.unlisten(type, handler);
@@ -78,13 +78,13 @@ export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterCont
             if (this._innerIcon)
                 this._innerIcon.nativeElement.textContent = text;
             else
-                this.elm.nativeElement.textContent = text;
+                this._elm.nativeElement.textContent = text;
         },
-        getTabIndex: () => this.elm.nativeElement.tabIndex,
-        setTabIndex: (tabIndex: number) => { this.elm.nativeElement.tabIndex = tabIndex; },
-        getAttr: (name: string) => this.elm.nativeElement.getAttribute(name),
-        setAttr: (name: string, value: string) => { this.renderer.setAttribute(this.elm.nativeElement, name, value); },
-        rmAttr: (name: string) => { this.renderer.removeAttribute(this.elm.nativeElement, name); },
+        getTabIndex: () => this._elm.nativeElement.tabIndex,
+        setTabIndex: (tabIndex: number) => { this._elm.nativeElement.tabIndex = tabIndex; },
+        getAttr: (name: string) => this._elm.nativeElement.getAttribute(name),
+        setAttr: (name: string, value: string) => { this.renderer.setAttribute(this._elm.nativeElement, name, value); },
+        rmAttr: (name: string) => { this.renderer.removeAttribute(this._elm.nativeElement, name); },
         notifyChange: (evtData: MdcIconToggleChangeEvent) => {
             this._onChange(evtData.isOn);
             this.isOnChange.emit(evtData.isOn);
@@ -101,8 +101,8 @@ export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterCont
         isKeyboardActivated(): boolean
     } = new MDCIconToggleFoundation(this.mdcAdapter);
 
-    constructor(private elm: ElementRef, private renderer: Renderer2, private registry: MdcEventRegistry) {
-        super(elm, renderer, registry);
+    constructor(_elm: ElementRef, private renderer: Renderer2, private registry: MdcEventRegistry) {
+        super(_elm, renderer, registry);
     }
   
     ngAfterContentInit() {
@@ -137,26 +137,32 @@ export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterCont
         if (this._initialized) {
             this.initializeData();
             this.foundation.refreshToggleData();
+            // refreshToggleData does not actually apply the new config to the icon:
+            this.foundation.toggle(this.foundation.isOn());
         }
     }
 
     private initDefaultAttributes() {
-        if (!this.elm.nativeElement.hasAttribute('tabindex'))
+        if (!this._elm.nativeElement.hasAttribute('tabindex'))
             // unless overridden by another tabIndex, we want icon-toggles to
             // participate in tabbing (the foundation will remove the tabIndex
             // when the icon-toggle is disabled):
-            this.elm.nativeElement.tabIndex = 0;
+            this._elm.nativeElement.tabIndex = 0;
     }
 
     private initializeData() {
         // iconOn/iconOff are classes when the iconIsClass is true, or when iconIsClass is not set,
         //  and _innerIcon is used (because _innerIcon is specifically for cases where icons are set via pseudo elements
         //  by using classes):
-        let iconIsClass = this._iconIsClass == null ? this._innerIcon != null : this._iconIsClass;
-        this.renderer.setAttribute(this.elm.nativeElement, 'data-toggle-on',
+        let iconIsClass = this.renderIconAsClass;
+        this.renderer.setAttribute(this._elm.nativeElement, 'data-toggle-on',
                 this.createDataAttrForToggle(this._labelOn, this._iconOn, iconIsClass));
-        this.renderer.setAttribute(this.elm.nativeElement, 'data-toggle-off',
+        this.renderer.setAttribute(this._elm.nativeElement, 'data-toggle-off',
                 this.createDataAttrForToggle(this._labelOff, this._iconOff, iconIsClass));
+    }
+
+    private get renderIconAsClass() {
+        return this._iconIsClass == null ? this._innerIcon != null : this._iconIsClass;
     }
 
     private createDataAttrForToggle(label: string, icon: string, iconIsClass: boolean) {
@@ -200,7 +206,7 @@ export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterCont
     /** @docs-private */
     protected computeRippleBoundingRect() {
         const dim = 48;
-        const {left, top} = this.elm.nativeElement.getBoundingClientRect();
+        const {left, top} = this._elm.nativeElement.getBoundingClientRect();
         return {
             left,
             top,
@@ -254,8 +260,14 @@ export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterCont
     }
 
     set iconOn(value: string) {
-        this._iconOn = value;
-        this.refreshData();
+        if (value !== this._iconOn) {
+            if (this.renderIconAsClass)
+                // the adapter doesn't clean up old classes; this class may be set,
+                // in which case after it's changed the foundation won't be able to remove it anymore:
+                this.mdcAdapter.removeClass(this._iconOn);
+            this._iconOn = value;
+            this.refreshData();
+        }
     }
 
     /**
@@ -266,12 +278,18 @@ export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterCont
     }
 
     set iconOff(value: string) {
-        this._iconOff = value;
-        this.refreshData();
+        if (value !== this._iconOff) {
+            if (this.renderIconAsClass)
+                // the adapter doesn't clean up old classes; this class may be set,
+                // in which case after it's changed the foundation won't be able to remove it anymore:
+                this.mdcAdapter.removeClass(this._iconOff);
+            this._iconOff = value;
+            this.refreshData();
+        }
     }
 
     /**
-     * Some icon fonst (such as Font Awesome) use CSS class names to select the icon to show.
+     * Some icon fonts (such as Font Awesome) use CSS class names to select the icon to show.
      * Others, such as the Material Design Icons from Google use ligatures (allowing selection of
      * the icon by using their textual name). When <code>iconIsClass</code> is true, the directive
      * assumes <code>iconOn</code>, and <code>iconOff</code> represent class names. When

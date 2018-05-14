@@ -2,7 +2,7 @@
 /node_modules/
 /bundle/apidocs/
 /bundle/build/
-/bundle/compiled/
+/bundle/coverage/
 /bundle/dist/
 /bundle/node_modules/
 /site/build/

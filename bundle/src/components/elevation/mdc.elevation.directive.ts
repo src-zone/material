@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostBinding, Input, AfterContentInit, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, HostBinding, Input, Renderer2 } from '@angular/core';
 import { MDCRipple } from '@material/ripple';
 import { MDCRippleFoundation } from '@material/ripple';
 import { asBoolean, asBooleanOrNull } from '../../utils/value.utils';
@@ -10,18 +10,13 @@ import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 @Directive({
     selector: '[mdcElevation]'
 })
-export class MdcElevationDirective implements AfterContentInit {
+export class MdcElevationDirective {
     private _z: number = null;
     private _transition;
 
-    constructor(private rndr: Renderer2, private elm: ElementRef) {
+    constructor(private rndr: Renderer2, private _elm: ElementRef) {
     }
-
-    ngAfterContentInit() {
-        if (this._z == null)
-            this.mdcElevation = 1;
-    }
-
+    
     /**
      * Input for setting the elevation (z-space). The value sould be in the range [0, 24].
      * When set to 0, the element will not be elevated! The default value is 1.
@@ -36,10 +31,12 @@ export class MdcElevationDirective implements AfterContentInit {
             newValue = 0;
         if (newValue > 24)
             newValue = 24;
+        if (isNaN(newValue))
+            newValue = 0;
         if (newValue !== this._z) {
             if (this._z != null)
-                this.rndr.removeClass(this.elm.nativeElement, 'mdc-elevation--z' + this._z);
-            this.rndr.addClass(this.elm.nativeElement, 'mdc-elevation--z' + newValue);
+                this.rndr.removeClass(this._elm.nativeElement, 'mdc-elevation--z' + this._z);
+            this.rndr.addClass(this._elm.nativeElement, 'mdc-elevation--z' + newValue);
         }
         this._z = newValue;
     }
