@@ -7,6 +7,7 @@
   "bugs": "https://github.com/src-zone/material/issues",
   "repository": "github:src-zone/material",
   "homepage": "https://blox.src.zone/material",
+  "sideEffects": false,
   "main": "dist/material.umd.js",
   "module": "dist/material.es5.js",
   "types": "dist/material.d.ts",
