@@ -42,10 +42,7 @@ workflows:
   version: 2
   build-and-test:
     jobs:
-      - install-bundle
-      - build-bundle:
-          requires:
-            - install-bundle
+      - build-bundle
       - test-bundle:
           requires:
             - build-bundle
