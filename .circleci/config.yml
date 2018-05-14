@@ -26,6 +26,7 @@ jobs:
   build-bundle:
     <<: *defaults
     steps:
+      - checkout
       - attach_workspace:
           at: bundle
       - run: cd bundle && npm run build
@@ -38,6 +39,7 @@ jobs:
   test-bundle:
     <<: *defaults
     steps:
+      - checkout
       - attach_workspace:
           at: bundle
       - run: cd bundle && npm run test
