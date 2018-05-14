@@ -13,8 +13,6 @@ const AngularCompilerPlugin = require('@ngtools/webpack').AngularCompilerPlugin;
 const InlineChunkManifestHtmlWebpackPlugin = require('inline-chunk-manifest-html-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-const rxPaths = require('rxjs/_esm5/path-mapping');
-
 /**
  * Env
  * Get npm lifecycle event to identify the environment
@@ -69,7 +67,7 @@ module.exports = function makeWebpackConfig(env) {
   let entries = [
     {name: 'runtime', src: './src/runtime.ts'},
     {name: 'polyfills', src: './src/polyfills.ts', forRoot: ['app']},
-    {name: 'vendor', src: './src/vendor.debug.ts', forRoot: ['app'], build: 'debug'},
+    {name: 'env', src: './src/env.debug.ts', forRoot: ['app'], build: 'debug'},
     {name: 'mdc', filter: /.*[\\/]node_modules[\\/](hammerjs|@material)[\\/].*\.(js|ts)$/, forRoot: ['app'], build: 'prod'},
     {name: 'rxjs', filter: /.*[\\/]node_modules[\\/]rxjs[\\/].*\.(js|ts)$/, forRoot: ['app'], build: 'prod'},
     {name: 'ngc', filter: /.[\\/]node_modules[\\/]@angular[\\/]c.*\.(js|ts)$/, forRoot: ['app'], build: 'prod'},
@@ -138,13 +136,10 @@ module.exports = function makeWebpackConfig(env) {
     modules: [path.resolve(__dirname, 'node_modules')],
     // only discover files that have those extensions
     extensions: ['.ts', '.js', '.json', '.css', '.scss', '.html'],
-    alias: Object.assign(
-      {
+    alias: {
         'assets': path.resolve(__dirname, 'src/assets/'),
         '@blox/material': path.resolve(__dirname, '../bundle')
-      },
-      rxPaths),
-    mainFields: [
+    }, mainFields: [
       //'es2015', (we can use this once we target es2015)
       'browser',
       'module',
@@ -164,6 +159,13 @@ module.exports = function makeWebpackConfig(env) {
    */
   config.module = {
     rules: [
+      // chain source map data from earlier transpiled sources:
+      {
+        test: /\.js$/,
+        loaders: ["source-map-loader"],
+        enforce: "pre"
+      },
+
       // Support for .ts files.
       {
         test: /(?:\.ngfactory\.js|\.ngstyle\.js|\.ts)$/,
@@ -174,8 +176,10 @@ module.exports = function makeWebpackConfig(env) {
       },
 
       {
-        "test": isProd ? /\.js$/ : /\.doesnotmatchanything$/,
-        loaders: [buildOptimizerLoader],
+        "test": /\.js$/,
+        loaders: isProd ?
+          [buildOptimizerLoader] :
+          [],
         exclude: /(?:node_modules[\\/]\@material[\\/].*\.js$)|(?:\.ngfactory\.js$)|(?:\.ngstyle\.js$)/
       },
       
@@ -234,7 +238,7 @@ module.exports = function makeWebpackConfig(env) {
       enforce: 'post',
       include: path.resolve('src'),
       loader: 'istanbul-instrumenter-loader',
-      exclude: [/\.spec\.ts$/, /\.e2e\.ts$/, /node_modules/]
+      exclude: [/\.spec\.ts$/, /\.e2e\.ts$/, /test\.ts$/, /node_modules/]
     });
   }
 
@@ -267,13 +271,6 @@ module.exports = function makeWebpackConfig(env) {
         target: JSON.stringify(target)
       }
     }),
-
-    // Workaround needed for angular 2 angular/angular#11580
-    new webpack.ContextReplacementPlugin(
-      // The (\\|\/) piece accounts for path separators in *nix and Windows
-      /angular(\\|\/)core(\\|\/)@angular/,
-      root('./src') // location of your src
-    ),
 
     new webpack.LoaderOptionsPlugin({
       minimize: isProd,

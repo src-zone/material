@@ -3,8 +3,7 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { Angulartics2 } from 'angulartics2';
 import { Angulartics2GoogleTagManager } from 'angulartics2/gtm';
-import { filter } from 'rxjs/operators/filter';
-import { map } from 'rxjs/operators/map';
+import { filter, map } from 'rxjs/operators';
 
 const messages = require('./messages.json');
 const defaultTitle = messages['default.title'];
