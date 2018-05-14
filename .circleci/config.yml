@@ -1,7 +1,7 @@
 # CircleCI 2.0 configuration file
 version: 2
 defaults: &defaults
-  working_directory: /home/build/material
+  working_directory: ~/repo
   docker:
     - image: circleci/node:8.11.1-browsers
 jobs:
