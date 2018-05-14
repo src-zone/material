@@ -5,7 +5,7 @@ defaults: &defaults
   docker:
     - image: circleci/node:8.11.1-browsers
 jobs:
-  install-bundle:
+  build-bundle:
     <<: *defaults
     steps:
       - checkout
@@ -15,6 +15,7 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
       - run: cd bundle && npm install
+      - run: cd bundle && npm run build
       - save_cache:
           paths:
             - bundle/node_modules
@@ -23,16 +24,6 @@ jobs:
           root: bundle
           paths:
             - node_modules
-  build-bundle:
-    <<: *defaults
-    steps:
-      - checkout
-      - attach_workspace:
-          at: bundle
-      - run: cd bundle && npm run build
-      - persist_to_workspace: 
-          root: bundle
-          paths:
             - apidocs
             - build
             - dist
