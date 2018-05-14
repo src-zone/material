@@ -50,7 +50,7 @@ async function tagRelease () {
     await git.commit('v' + version, status.modified);
     console.log('tagging version v' + version);
     await git.tag(['-a', 'v' + version, '-m', 'v' + version]);
-    //await git.push();
+    await git.push();
 }
 
 tagRelease().then(
