@@ -29,12 +29,8 @@ const globals = {
   '@material/textfield/icon': 'mdc.textfield',
   '@material/toolbar': 'mdc.toolbar',
   '@material/tabs': 'mdc.tabs',
-  'rxjs/Observable': 'Rx',
-  'rxjs/Subject': 'Rx',
-  'rxjs/Subscription': 'Rx',    
-  'rxjs/operators/filter': 'Rx',
-  'rxjs/operators/take': 'Rx',
-  'rxjs/operators/takeUntil': 'Rx',
+  'rxjs': 'rxjs', 
+  'rxjs/operators': 'rxjs.operators',
   'tslib': 'tslib'
 };
 
