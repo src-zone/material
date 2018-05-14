@@ -7,27 +7,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 # [0.12.0](https://github.com/src-zone/material/compare/v0.11.0...v0.12.0) (2018-05-14)
 
 
-
-
-**Note:** Version bump only for package undefined
-
-      <a name="0.11.0"></a>
-# [0.11.0](https://github.com/src-zone/material/compare/v0.10.0...v0.11.0) (2018-05-14)
+* **Please note: version 0.10.0 and 0.11.0 should not be used!**
 
 
 ### Features
 
 * demo site upgrade to angular 6 ([#614](https://github.com/src-zone/material/issues/614)) ([1973923](https://github.com/src-zone/material/commit/1973923))
 * set "sideEffects" false in package.json for more agressive tree shaking ([#612](https://github.com/src-zone/material/issues/612), [#609](https://github.com/src-zone/material/issues/609)) ([ef95953](https://github.com/src-zone/material/commit/ef95953))
-
-
-
-
-<a name="0.10.0"></a>
-# [0.10.0](https://github.com/src-zone/material/compare/v0.9.0...v0.10.0) (2018-05-14)
-
-
-*  feat: add compatibility with rxjs 6 and angular 6 (#611) ([03d71fd](https://github.com/src-zone/material/commit/03d71fd)), closes [#611](https://github.com/src-zone/material/issues/611)
+*  add compatibility with rxjs 6 and angular 6 (#611) ([03d71fd](https://github.com/src-zone/material/commit/03d71fd)), closes [#611](https://github.com/src-zone/material/issues/611)
 
 
 
@@ -43,7 +30,7 @@ to Angular 6 when possible!
 
 
 
-  <a name="0.9.0"></a>
+<a name="0.9.0"></a>
 # [0.9.0](https://github.com/src-zone/material/compare/v0.8.0...v0.9.0) (2018-05-11)
 
 

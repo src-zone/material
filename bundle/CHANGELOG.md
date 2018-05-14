@@ -4,29 +4,15 @@ All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
 <a name="0.12.0"></a>
-# [0.12.0](https://github.com/src-zone/material/compare/v0.11.0...v0.12.0) (2018-05-14)
+# [0.12.0](https://github.com/src-zone/material/compare/v0.9.0...v0.12.0) (2018-05-14)
 
 
-
-
-**Note:** Version bump only for package @blox/material
-
-<a name="0.11.0"></a>
-# [0.11.0](https://github.com/src-zone/material/compare/v0.10.0...v0.11.0) (2018-05-14)
-
+* **Please note: version 0.10.0 and 0.11.0 should not be used!**
 
 ### Features
 
 * set "sideEffects" false in package.json for more agressive tree shaking ([#612](https://github.com/src-zone/material/issues/612), [#609](https://github.com/src-zone/material/issues/609)) ([ef95953](https://github.com/src-zone/material/commit/ef95953))
-
-
-
-
-<a name="0.10.0"></a>
-# [0.10.0](https://github.com/src-zone/material/compare/v0.9.0...v0.10.0) (2018-05-14)
-
-
-*  feat: add compatibility with rxjs 6 and angular 6 (#611) ([03d71fd](https://github.com/src-zone/material/commit/03d71fd)), closes [#611](https://github.com/src-zone/material/issues/611)
+* add compatibility with rxjs 6 and angular 6 (#611) ([03d71fd](https://github.com/src-zone/material/commit/03d71fd)), closes [#611](https://github.com/src-zone/material/issues/611)
 
 
 ### BREAKING CHANGES

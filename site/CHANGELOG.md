@@ -3,8 +3,11 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-<a name="0.10.0"></a>
-# [0.10.0](https://github.com/src-zone/material/compare/v0.9.0...v0.10.0) (2018-05-14)
+<a name="0.12.0"></a>
+# [0.10.0](https://github.com/src-zone/material/compare/v0.9.0...v0.12.0) (2018-05-14)
+
+
+* **Please note: version 0.10.0 and 0.11.0 should not be used!**
 
 
 ### Features
