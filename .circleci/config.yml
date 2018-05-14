@@ -36,6 +36,8 @@ jobs:
       - run: cd bundle && npm run test
       - store_artifacts:
           path: bundle/coverage
+      - store_test_results:
+          path: bundle/coverage/junit
       - run: bash <(curl -s https://codecov.io/bash) -F material,unittest
   publish-bundle:
     <<: *defaults

@@ -25,7 +25,8 @@ module.exports = (config) => {
             require('karma-sourcemap-loader'),
             require('karma-spec-reporter'),
             require('karma-coverage-istanbul-reporter'),
-            require("istanbul-instrumenter-loader")
+            require('istanbul-instrumenter-loader'),
+            require('karma-junit-reporter')
         ],
 
         // otherwise the test/test.ts file is served as video/mp2t
@@ -33,7 +34,8 @@ module.exports = (config) => {
         mime: { 'text/x-typescript': ['ts','tsx'] },
 
         files: [
-            { pattern: 'src/test.ts', watched: false }
+            { pattern: 'src/test.ts', watched: false },
+            'node_modules/material-components-web/dist/material-components-web.css'
         ],
 
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
@@ -103,13 +105,19 @@ module.exports = (config) => {
         },
 
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ['spec', 'coverage-istanbul'],
+        reporters: ['spec', 'coverage-istanbul', 'junit'],
 
         coverageIstanbulReporter: {
             reports: ['html', 'lcovonly'],
             dir: path.join(__dirname, 'coverage'),
             combineBrowserReports: true,
             fixWebpackSourcePaths: true
+        },
+
+        junitReporter: {
+            outputDir: path.join(__dirname, 'coverage', 'junit'),
+            outputFile: 'junit.xml',
+            useBrowserName: false
         },
 
         port: 9876,
