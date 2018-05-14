@@ -116,7 +116,7 @@ module.exports = (config) => {
 
         junitReporter: {
             outputDir: path.join(__dirname, 'coverage', 'junit'),
-            outputFile: 'junit.xml',
+            outputFile: 'all/junit.xml',
             useBrowserName: false
         },
 
