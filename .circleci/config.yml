@@ -11,38 +11,50 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package-lock.json" }}
+          - v1-bundle-dependencies-{{ checksum "package-lock.json" }}
           # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+          - v1-bundle-dependencies-
       - run: cd bundle && npm install
       - run: cd bundle && npm run build
       - save_cache:
           paths:
             - bundle/node_modules
-          key: m-bundle-dependencies-{{ checksum "package-lock.json" }}
+          key: v1-bundle-dependencies-{{ checksum "package-lock.json" }}
       - persist_to_workspace: 
-          root: bundle
+          root: .
           paths:
-            - node_modules
-            - apidocs
-            - build
-            - dist
+            - bundle/node_modules
+            - bundle/apidocs
+            - bundle/build
+            - bundle/dist
   test-bundle:
     <<: *defaults
     steps:
       - checkout
       - attach_workspace:
-          at: bundle
+          at: .
       - run: cd bundle && npm run test
       - store_artifacts:
           path: bundle/coverage
       - run: bash <(curl -s https://codecov.io/bash)
-
+  build-site:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run: cd site && npm install
+      - run: cd site && npm run build
+      - store_artifacts:
+          path: site/dist
 workflows:
   version: 2
   build-and-test:
     jobs:
       - build-bundle
       - test-bundle:
+          requires:
+            - build-bundle
+      - build-site:
           requires:
             - build-bundle
