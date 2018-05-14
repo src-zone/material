@@ -1,7 +1,7 @@
 import { AfterContentInit, ChangeDetectorRef, ContentChild, ContentChildren, EventEmitter, forwardRef, QueryList, Directive, ElementRef,
     HostBinding, HostListener, Input, OnChanges, OnDestroy, Optional, Output, Renderer2, Self } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { takeUntil } from 'rxjs/operators/takeUntil';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { NgControl } from '@angular/forms';
 import { NavigationEnd, Router, RouterLink, RouterLinkWithHref } from '@angular/router';
 import { MDCTabFoundation } from '@material/tabs';
