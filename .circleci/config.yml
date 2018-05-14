@@ -66,8 +66,23 @@ jobs:
           paths:
             - site/node_modules
           key: v1-site-dependencies-{{ checksum "site/package-lock.json" }}
+      - persist_to_workspace: 
+          root: .
+          paths:
+            - site/node_modules
+            - site/dist
       - store_artifacts:
           path: site/dist
+  deploy-site:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: Deploying blox.src.zone/material
+          command: echo "The deploy-site job is not implemented yet!"
+
 workflows:
   version: 2
   build-and-test:
@@ -87,3 +102,7 @@ workflows:
       - build-site:
           requires:
             - build-bundle
+      - deploy-site:
+          requires:
+            - test-bundle
+            - build-site
