@@ -1,9 +1,11 @@
 # Change Log
 
-All notable changes to this project will be documented in this file.
+This changelog contains the most recent changes of both the `@blox/material` package,
+and the demo site. Please go to [bundle/CHANGELOG](bundle/CHANGELOG.md) for changes
+only relating to the `@blox/material` npm package.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-      <a name="0.11.0"></a>
+<a name="0.11.0"></a>
 # [0.11.0](https://github.com/src-zone/material/compare/v0.10.0...v0.11.0) (2018-05-14)
 
 
@@ -15,16 +17,12 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-      <a name="0.10.0"></a>
+<a name="0.10.0"></a>
 # [0.10.0](https://github.com/src-zone/material/compare/v0.9.0...v0.10.0) (2018-05-14)
 
 
 *  feat: add compatibility with rxjs 6 and angular 6 (#611) ([03d71fd](https://github.com/src-zone/material/commit/03d71fd)), closes [#611](https://github.com/src-zone/material/issues/611)
 
-
-### Features
-
-* demo site upgrade to angular 6 ([9a49d0d](https://github.com/src-zone/material/commit/9a49d0d))
 
 
 ### BREAKING CHANGES
