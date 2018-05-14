@@ -45,8 +45,7 @@ jobs:
       - run: cd bundle && npm run test
       - store_artifacts:
           path: bundle/coverage
-      - post:
-        - bash <(curl -s https://codecov.io/bash)
+      - run: bash <(curl -s https://codecov.io/bash)
 
 workflows:
   version: 2
