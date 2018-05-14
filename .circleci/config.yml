@@ -11,7 +11,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-          - v1-bundle-dependencies-{{ checksum "package-lock.json" }}
+          - v1-bundle-dependencies-{{ checksum "bundle/package-lock.json" }}
           # fallback to using the latest cache if no exact match is found
           - v1-bundle-dependencies-
       - run: cd bundle && npm install
@@ -19,7 +19,7 @@ jobs:
       - save_cache:
           paths:
             - bundle/node_modules
-          key: v1-bundle-dependencies-{{ checksum "package-lock.json" }}
+          key: v1-bundle-dependencies-{{ checksum "bundle/package-lock.json" }}
       - persist_to_workspace: 
           root: .
           paths:
@@ -43,8 +43,17 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - restore_cache:
+          keys:
+          - v1-site-dependencies-{{ checksum "site/package-lock.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-site-dependencies-
       - run: cd site && npm install
       - run: cd site && npm run build
+      - save_cache:
+          paths:
+            - site/node_modules
+          key: v1-site-dependencies-{{ checksum "site/package-lock.json" }}
       - store_artifacts:
           path: site/dist
 workflows:
