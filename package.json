@@ -1,7 +1,9 @@
 {
     "scripts": {
-        "deploy": "lerna publish --conventional-commits",
-        "deploy-minor": "lerna publish --conventional-commits --cd-version minor",
+        "prepare-release": "lerna publish --skip-git --skip-npm --conventional-commits",
+        "prepare-minor-release": "lerna publish --skip-git --skip-npm --conventional-commits --cd-version minor",
+        "prepare-patch-release": "lerna publish --skip-git --skip-npm --conventional-commits --cd-version patch",
+        "commit-release": "node tools/commit-release.js",
         "commitmsg": "commitlint -e"
     },
     "devDependencies": {
