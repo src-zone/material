@@ -11,38 +11,121 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package-lock.json" }}
+          - v1-bundle-dependencies-{{ checksum "bundle/package-lock.json" }}
           # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+          - v1-bundle-dependencies-
       - run: cd bundle && npm install
       - run: cd bundle && npm run build
       - save_cache:
           paths:
             - bundle/node_modules
-          key: m-bundle-dependencies-{{ checksum "package-lock.json" }}
+          key: v1-bundle-dependencies-{{ checksum "bundle/package-lock.json" }}
       - persist_to_workspace: 
-          root: bundle
+          root: .
           paths:
-            - node_modules
-            - apidocs
-            - build
-            - dist
+            - bundle/node_modules
+            - bundle/apidocs
+            - bundle/build
+            - bundle/dist
   test-bundle:
     <<: *defaults
     steps:
       - checkout
       - attach_workspace:
-          at: bundle
-      - run: cd bundle && npm run test
+          at: .
+      - run:
+          name: Run Unit Tests
+          command: cd bundle && (npm run test || touch failure.marker)
+      - store_test_results:
+          path: bundle/coverage/junit
       - store_artifacts:
           path: bundle/coverage
-      - run: bash <(curl -s https://codecov.io/bash)
+      - run:
+          name: Upload Coverage Data to Codecov
+          command: bash <(curl -s https://codecov.io/bash) -F material,unittest
+      - run:
+          name: Check for Test Failures
+          command: if [ -f bundle/failure.marker ] ; then exit 127; else exit 0; fi
+  publish-bundle:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: Authenticate with NPM
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+      - run:
+          name: Publish Blox Material
+          command: npm publish
+  build-site:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          keys:
+          - v1-site-dependencies-{{ checksum "site/package-lock.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-site-dependencies-
+      - run: cd site && npm install
+      - run: cd site && npm run build-ci
+      - save_cache:
+          paths:
+            - site/node_modules
+          key: v1-site-dependencies-{{ checksum "site/package-lock.json" }}
+      - persist_to_workspace: 
+          root: .
+          paths:
+            - site/node_modules
+            - site/dist
+      - store_artifacts:
+          path: site/dist
+  deploy-site:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: Deploying blox.src.zone/material
+          command: echo "The deploy-site job is not implemented yet!"
 
 workflows:
   version: 2
   build-and-test:
     jobs:
-      - build-bundle
+      - build-bundle:
+          filters:
+            tags:
+              only: /.*/
       - test-bundle:
           requires:
             - build-bundle
+          filters:
+            tags:
+              only: /.*/
+      - publish-bundle:
+          requires:
+            - test-bundle
+          filters:
+            tags:
+              only: /^v[0-9]+(\.[0-9]+)*([-].*)?$/
+            branches:
+              ignore: /.*/
+      - build-site:
+          requires:
+            - build-bundle
+          filters:
+            tags:
+              only: /^v[0-9]+(\.[0-9]+)*([-].*)?$/
+      - deploy-site:
+          requires:
+            - test-bundle
+            - build-site
+          filters:
+            tags:
+              only: /^v[0-9]+(\.[0-9]+)*([-].*)?$/
+            branches:
+              only: master
