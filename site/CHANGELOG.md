@@ -7,9 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 # [0.10.0](https://github.com/src-zone/material/compare/v0.9.0...v0.12.0) (2018-05-14)
 
 
-* **Please note: version 0.10.0 and 0.11.0 should not be used!**
-
-
 ### Features
 
 * demo site upgrade to angular 6 ([9a49d0d](https://github.com/src-zone/material/commit/9a49d0d))

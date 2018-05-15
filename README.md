@@ -8,7 +8,7 @@ It integrates [Google's Material Components for the Web](https://github.com/mate
 * [Documention, Demo & Examples](https://blox.src.zone/material)
 * [Changelog](bundle/CHANGELOG.md)
 
-## Status 
+## Status
 
 Component                | Directives | Comments
 ------------------------ | --------- | --

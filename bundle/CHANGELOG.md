@@ -7,8 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 # [0.12.0](https://github.com/src-zone/material/compare/v0.9.0...v0.12.0) (2018-05-14)
 
 
-* **Please note: version 0.10.0 and 0.11.0 should not be used!**
-
 ### Features
 
 * set "sideEffects" false in package.json for more agressive tree shaking ([#612](https://github.com/src-zone/material/issues/612), [#609](https://github.com/src-zone/material/issues/609)) ([ef95953](https://github.com/src-zone/material/commit/ef95953))
@@ -23,6 +21,24 @@ more code from RXJS may end up in your bundles,
 leading to a larger bundle size. This DOES NOT
 affect Angular 6 and RXJS 6. We suggest to upgrade
 to Angular 6 when possible!
+
+
+
+
+<a name="0.11.0"></a>
+# 0.11.0 (2018-05-14)
+
+
+### This version was published from another tag - do not use
+
+
+
+
+<a name="0.10.0"></a>
+# 0.10.0 (2018-05-14)
+
+
+### This version was published from another tag - do not use
 
 
 
