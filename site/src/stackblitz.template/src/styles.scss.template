@@ -1,0 +1,16 @@
+/* Stackblitz currently doesn't support the way material-components scss
+   source files import each other. Therefore we just import the full css
+   for this demo: */
+@import "~material-components-web/dist/material-components-web.css";
+
+// Set some default font styles for text outside MCW components:
+@import "~@material/typography/mixins";
+
+body { @include mdc-typography-base; }
+h1 { @include mdc-typography(headline5); }
+h2 { @include mdc-typography(headline6); }
+h3 { @include mdc-typography(subtitle1); }
+h4 { @include mdc-typography(subtitle2); }
+p, blockquote {
+    @include mdc-typography(body2);
+}
