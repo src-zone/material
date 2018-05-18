@@ -1,5 +1,6 @@
+import { Component, OnInit } from '@angular/core';
 //snip:skip
-import { Component, forwardRef, OnInit } from '@angular/core';
+import { forwardRef } from '@angular/core';
 import { AbstractSnippetComponent } from '../abstract.snippet.component';
 //snip:endskip
 @Component({

@@ -1,6 +1,7 @@
-//snip:skip
-import { Component, forwardRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { MdcSnackbarService } from '@blox/material';
+//snip:skip
+import { forwardRef } from '@angular/core';
 import { AbstractSnippetComponent } from '../abstract.snippet.component';
 
 //snip:endskip
