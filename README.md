@@ -4,6 +4,8 @@ Blox Material makes it possible to create beautiful Angular apps with modular an
 designed according to the [Material Design Guidelines](https://material.io/guidelines).
 It integrates [Google's Material Components for the Web](https://github.com/material-components/material-components-web) with the Angular framework.
 
+[![Follow Blox Material](https://img.shields.io/twitter/url/https/twitter.com/TheSourceZone.svg?style=social&label=Follow\+Blox\+Material)](https://twitter.com/TheSourceZone)
+
 ## Quick Links
 * [Documention, Demo & Examples](https://blox.src.zone/material)
 * [Changelog](bundle/CHANGELOG.md)
