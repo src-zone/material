@@ -101,7 +101,7 @@ export class CodeSampleComponent implements AfterContentInit {
                     this.snippet.code['scss'].replace(/\@material/g, '~@material'),
                     assetLocations,
                     'scss',
-                    assets).replace(/.*stackblitz-skip-line.*/g, '');
+                    assets).replace(/(\s*)(.*)stackblitz-skip-line(\s*:\s*)?(.*)/g, '$1// skip on stackblitz $2 $4');
 
             this.openStackblitz = () => {
                 sdk.openProject({
@@ -123,7 +123,7 @@ export class CodeSampleComponent implements AfterContentInit {
                         ...mcwPackageJson['dependencies']
                     }
                 }, {
-                    //openFile: 
+                    openFile: files[templateSourceName] ? templateSourceName : mainSourceName,
                     newWindow: true,
                     hideDevTools: false
                 });
