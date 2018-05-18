@@ -1,7 +1,7 @@
 @import "@material/theme/mixins";
 @import "@material/typography/mixins";
 @import "@material/rtl/mixins";
-@import "@material/card/mixins";
+@import "@material/card/mixins"; // stackblitz-skip-line: Not supported on stackblitz due to https://github.com/stackblitz/core/issues/284
 
 .custom-card-container {
     display: flex;
@@ -74,10 +74,11 @@
     }
 
     &.custom-card-music {
-        @include mdc-card-corner-radius(24px 4px);
-        @include mdc-rtl {
-            @include mdc-card-corner-radius(4px 24px);
-        }
+        // stackblitz-skip-line: material/card/mixins not supported on stackblitz due to https://github.com/stackblitz/core/issues/284
+        @include mdc-card-corner-radius(24px 4px);      // stackblitz-skip-line
+        @include mdc-rtl {                              // stackblitz-skip-line
+            @include mdc-card-corner-radius(4px 24px);  // stackblitz-skip-line
+        }                                               // stackblitz-skip-line
 
         .custom-card-music-row {
             display: flex;

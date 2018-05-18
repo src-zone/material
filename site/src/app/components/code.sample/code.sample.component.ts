@@ -101,7 +101,7 @@ export class CodeSampleComponent implements AfterContentInit {
                     this.snippet.code['scss'].replace(/\@material/g, '~@material'),
                     assetLocations,
                     'scss',
-                    assets);
+                    assets).replace(/.*stackblitz-skip-line.*/g, '');
 
             this.openStackblitz = () => {
                 sdk.openProject({
