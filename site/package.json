@@ -36,6 +36,7 @@
     "@angular/platform-browser": "^6.0.1",
     "@angular/platform-browser-dynamic": "^6.0.1",
     "@angular/router": "^6.0.1",
+    "@stackblitz/sdk": "^1.2.0",
     "angular-highlight-js": "^2.0.1",
     "angulartics2": "^6.0.0",
     "bourbon": "^5.0.0",
@@ -46,6 +47,7 @@
     "rxjs": "^6.1.0",
     "source-map-loader": "^0.2.3",
     "to-string-loader": "^1.1.5",
+    "tslib": "^1.9.1",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

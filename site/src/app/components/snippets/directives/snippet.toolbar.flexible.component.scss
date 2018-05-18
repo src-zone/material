@@ -1,3 +1,10 @@
+.blox-snippet-page {
+    position: relative;
+    width: 100%;
+    height: 350px;
+    overflow-y: auto;
+}
+
 .mdc-toolbar__row:first-child::after {
     background-image: url(~assets/img/banners/purple-header-design.jpg);
     background-size: cover;

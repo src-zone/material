@@ -235,8 +235,9 @@ blox-code-sample {
         box-sizing: border-box;
         font-weight: 500;
       }
-      .blox-code-sample-toolbar-toggle {
+      .blox-code-sample-toolbar-actions {
         float: right;
+        display: flex;
       }
     }
   }

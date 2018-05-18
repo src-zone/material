@@ -1,7 +1,9 @@
+import { Component } from '@angular/core';
 //snip:skip
-import { Component, forwardRef } from '@angular/core';
+import { forwardRef } from '@angular/core';
 import { AbstractSnippetComponent } from '../abstract.snippet.component';
 //snip:endskip
+
 @Component({
   //snip:skip
   providers: [{provide: AbstractSnippetComponent, useExisting: forwardRef(() => SnippetButtonComponent)}],

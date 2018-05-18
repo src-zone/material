@@ -1,5 +1,6 @@
+import { Component } from '@angular/core';
 //snip:skip
-import { Component, forwardRef } from '@angular/core';
+import { forwardRef } from '@angular/core';
 import { AbstractSnippetComponent } from '../abstract.snippet.component';
 //snip:endskip
 @Component({
@@ -20,6 +21,9 @@ export class SnippetCardComponent/*snip:skip*/extends AbstractSnippetComponent/*
           'scss': require('!raw-loader!./snippet.card.component.scss'),
           'typescript': require('!raw-loader!./snippet.card.component.ts')
         });
+        // stackblitz doesn't support the scss import style (referencing @material/package) that's
+        // used inside some scss files from @material used in this demo:
+        this.disableStackblitz = true;
     }
     //snip:endskip
 
