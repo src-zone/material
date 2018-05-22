@@ -122,7 +122,7 @@ export class MdcToolbarMenuIcon {
 }
 
 /**
- * For <code>isFixed</code> toolbars, this directive should be put on the page's
+ * For <code>fixed</code> toolbars, this directive should be put on the page's
  * content wrapper element, and the exported directive should be assigned to the
  * <code>fixedAdjust</code> property of the <code>MdcToolbarDirective</code>.
  * This will make the toolbar aware of the content wrapper, so that the top marging
@@ -150,7 +150,7 @@ export class MdcToolbarDirective implements AfterViewInit, OnDestroy {
     @HostBinding('class.mdc-toolbar') _hostClass = true;
     /**
      * Assign a <code>MdcToolbarFixedAdjustDirective</code> put on the main
-     * content of the page. Required for <code>isFixed</code> toolbars,
+     * content of the page. Required for <code>fixed</code> toolbars,
      * to properly layout the toolbar and the content when users scroll.
      */
     @Input() fixedAdjust: MdcToolbarFixedAdjustDirective;
@@ -267,42 +267,42 @@ export class MdcToolbarDirective implements AfterViewInit, OnDestroy {
      * If set to a value other than false, the toolbar will be fixed to the top of the
      * screen (or viewport).
      */
-    @Input() @HostBinding('class.mdc-toolbar--fixed') get isFixed() {
+    @Input() @HostBinding('class.mdc-toolbar--fixed') get fixed() {
         return this._fixed;
     }
 
-    set isFixed(val: any) {
+    set fixed(val: any) {
         let newValue = asBoolean(val);
         if (this._initialized && this._fixed !== newValue)
-            throw new Error('isFixed directive should not be changed after the mdcToolbar is initialized');
+            throw new Error('fixed property should not be changed after the mdcToolbar is initialized');
         this._fixed = newValue;
     }
 
     /**
-     * If set to a value other than false, and used in combination with <code>isFixed</code>
+     * If set to a value other than false, and used in combination with <code>fixed</code>
      * the toolbar will become a waterfall toolbar.
      * A waterfall toolbar is initially static and has no elevation, but when content scrolls under it,
      * the toolbar becomes fixed and gains elevation.
      */
-    @Input() @HostBinding('class.mdc-toolbar--waterfall') get isWaterfall() {
+    @Input() @HostBinding('class.mdc-toolbar--waterfall') get waterfall() {
         return this._waterfall;
     }
 
-    set isWaterfall(val: any) {
+    set waterfall(val: any) {
         this._waterfall = asBoolean(val);
     }
 
     /**
      * If set to a value other than false, fixed toolbars will anchor only the last row to the top.
      */
-    @Input() @HostBinding('class.mdc-toolbar--fixed-lastrow-only') get isFixedLastrowOnly() {
+    @Input() @HostBinding('class.mdc-toolbar--fixed-lastrow-only') get fixedLastrowOnly() {
         return this._fixedLastRowOnly;
     }
 
-    set isFixedLastrowOnly(val: any) {
+    set fixedLastrowOnly(val: any) {
         let newValue = asBoolean(val);
         if (this._initialized && this._fixedLastRowOnly !== newValue)
-            throw new Error('isFixedLastrowOnly directive should not be changed after the mdcToolbar is initialized');
+            throw new Error('fixedLastrowOnly property should not be changed after the mdcToolbar is initialized');
         this._fixedLastRowOnly = newValue;
     }
 
@@ -318,14 +318,14 @@ export class MdcToolbarDirective implements AfterViewInit, OnDestroy {
      * <code>--mdc-toolbar-ratio-to-extend-flexible</code>.
      * </blockquote>
      */
-    @Input() @HostBinding('class.mdc-toolbar--flexible') get isFlexible() {
+    @Input() @HostBinding('class.mdc-toolbar--flexible') get flexible() {
         return this._flexible;
     }
 
-    set isFlexible(val: any) {
+    set flexible(val: any) {
         let newValue = asBoolean(val);
         if (this._initialized && this._flexible !== newValue)
-            throw new Error('isFlexible directive should not be changed after the mdcToolbar is initialized');
+            throw new Error('flexible property should not be changed after the mdcToolbar is initialized');
         this._flexible = newValue;
     }
 
@@ -336,14 +336,14 @@ export class MdcToolbarDirective implements AfterViewInit, OnDestroy {
      * Flexible Toolbar documention
      * </a>.
      */
-    @Input() @HostBinding('class.mdc-toolbar--flexible-default-behavior') get isFlexibleDefaultBehavior() {
+    @Input() @HostBinding('class.mdc-toolbar--flexible-default-behavior') get flexibleDefaultBehavior() {
         return this._flexibleDefaultBehavior;
     }
 
-    set isFlexibleDefaultBehavior(val: any) {
+    set flexibleDefaultBehavior(val: any) {
         let newValue = asBoolean(val);
         if (this._initialized && this._flexibleDefaultBehavior !== newValue)
-            throw new Error('isFlexibleDefaultBehavior directive should not be changed after the mdcToolbar is initialized');
+            throw new Error('flexibleDefaultBehavior property should not be changed after the mdcToolbar is initialized');
         this._flexibleDefaultBehavior = newValue;
     }
 
