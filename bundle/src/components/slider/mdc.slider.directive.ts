@@ -201,7 +201,7 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
 
     _onChanges(changes: SimpleChanges, callValueAccessorOnValueChange = true) {
         if (this._initialized) {
-            if (this.isChanged('isDiscrete', changes) || this.isChanged('hasMarkers', changes)) {
+            if (this.isChanged('discrete', changes) || this.isChanged('markers', changes)) {
                 for (let handlerInfo of this._interactionHandlers)
                     // workaround for uspstream bug: https://github.com/material-components/material-components-web/issues/1429
                     this._registry.unlisten(handlerInfo.type, handlerInfo.handler);
@@ -355,25 +355,25 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
      * "Discrete slider" is a UX treatment, while having a step value is behavioral.</blockquote>
      */
     @Input() @HostBinding('class.mdc-slider--discrete')
-    get isDiscrete() {
+    get discrete() {
         return this._discrete;
     }
     
-    set isDiscrete(value: any) {
+    set discrete(value: any) {
         this._discrete = asBoolean(value);
     }
 
     /**
      * Property to enable/disable the display of track markers. Display markers
      * are only supported for discrete sliders. Thus they are only shown when the values
-     * of both hasMarkers and isDiscrete equal true.
+     * of both markers and discrete equal true.
      */
     @Input() @HostBinding('class.mdc-slider--display-markers')
-    get hasMarkers() {
+    get markers() {
         return this._markers;
     }
 
-    set hasMarkers(value: any) {
+    set markers(value: any) {
         this._markers = asBoolean(value);
     }
 
