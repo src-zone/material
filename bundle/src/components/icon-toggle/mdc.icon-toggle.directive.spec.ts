@@ -15,7 +15,7 @@ describe('MdcIconToggleDirective standalone', () => {
                 iconOn="favorite"
                 iconOff="favorite_border"
                 [disabled]="disabled"
-                [(isOn)]="favorite"
+                [(on)]="favorite"
                 (click)="action()"></i>
         `
     })
@@ -73,7 +73,7 @@ describe('MdcIconToggleDirective standalone', () => {
         const iconToggle = fixture.debugElement.query(By.directive(MdcIconToggleDirective)).injector.get(MdcIconToggleDirective);
         const testComponent = fixture.debugElement.injector.get(TestComponent);
         
-        expect(iconToggle.isOn).toBe(false); // initial value from 'favorite' property
+        expect(iconToggle.on).toBe(false); // initial value from 'favorite' property
         expect(testComponent.favorite).toBeFalsy(); // not yet initialized, may be undefined or false
         expect(iconToggle._elm.nativeElement.textContent).toBe('favorite_border');
         expect(iconToggle._elm.nativeElement.getAttribute('aria-label')).toBe('Add to favorites');
@@ -81,7 +81,7 @@ describe('MdcIconToggleDirective standalone', () => {
         
         iconToggle._elm.nativeElement.click(); tick(); fixture.detectChanges();
         
-        expect(iconToggle.isOn).toBe(true);
+        expect(iconToggle.on).toBe(true);
         expect(testComponent.favorite).toBe(true);
         expect(iconToggle._elm.nativeElement.textContent).toBe('favorite');
         expect(iconToggle._elm.nativeElement.getAttribute('aria-label')).toBe('Remove from favorites');
@@ -89,7 +89,7 @@ describe('MdcIconToggleDirective standalone', () => {
         
         iconToggle._elm.nativeElement.click(); tick(); fixture.detectChanges();
 
-        expect(iconToggle.isOn).toBe(false);
+        expect(iconToggle.on).toBe(false);
         expect(testComponent.favorite).toBe(false);
         expect(iconToggle._elm.nativeElement.textContent).toBe('favorite_border');
         expect(iconToggle._elm.nativeElement.getAttribute('aria-label')).toBe('Add to favorites');
@@ -106,7 +106,7 @@ describe('MdcIconToggleDirective with MdcIconToggleIconDirective', () => {
                 iconOn="fa-heart"
                 iconOff="fa-heart-o"
                 [disabled]="disabled"
-                [(isOn)]="like">
+                [(on)]="like">
               <i mdcIconToggleIcon class="fa"></i>
             </span>
         `
