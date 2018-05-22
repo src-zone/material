@@ -50,6 +50,8 @@ export class MdcListItemDirective {
     @HostBinding('class.mdc-list-item') _cls = true;
     @HostBinding('attr.role') public _role = null;
     private _disabled = false;
+    private _selected = false;
+    private _activated = false;
     /**
      * When a list is used inside an <code>mdcMenu</code>, or <code>mdcSelect</code>,
      * this property can be used to assign a value to this choice/selection item.
@@ -71,6 +73,36 @@ export class MdcListItemDirective {
 
     set disabled(val: any) {
         this._disabled = asBoolean(val);
+    }
+
+    /**
+     * When this value is set to a value other than false, the list item will be
+     * styled in a selected state. Note: selection and activation are different things.
+     * Multiple items in a list can be selected, only one can be activated.
+     * Selection is likely to change soon, activation is more permanent than selection.
+     */
+    @Input() @HostBinding('class.mdc-list-item--selected')
+    get selected() {
+        return this._selected;
+    }
+
+    set selected(val: any) {
+        this._selected = asBoolean(val);
+    }
+
+    /**
+     * When this value is set to a value other than false, the list item will be
+     * styled in an activated state. Note: selection and activation are different things.
+     * Multiple items in a list can be selected, only one can be activated.
+     * Selection is likely to change soon, activation is more permanent than selection.
+     */
+    @Input() @HostBinding('class.mdc-list-item--activated')
+    get activated() {
+        return this._activated;
+    }
+
+    set activated(val: any) {
+        this._activated = asBoolean(val);
     }
 
     @HostBinding('attr.tabindex') get _tabIndex() {
