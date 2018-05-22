@@ -104,11 +104,11 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
      * that the exact progress on a measured task is not known.
      */
     @Input() @HostBinding('class.' + CLASS_INDETERMINATE)
-    get isIndeterminate() {
+    get indeterminate() {
         return this._indeterminate;
     }
     
-    set isIndeterminate(value: any) {
+    set indeterminate(value: any) {
         let newValue = asBoolean(value);
         if (newValue !== this._indeterminate) {
             this._indeterminate = newValue;
@@ -126,11 +126,11 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
      * Reverses the direction of the linear progress indicator.
      */
     @Input() @HostBinding('class.' + CLASS_REVERSED)
-    get isReversed() {
+    get reversed() {
         return this._reverse;
     }
 
-    set isReversed(value: any) {
+    set reversed(value: any) {
         this._reverse = asBoolean(value);
         if (this._initialized)        
             this.foundation.setReverse(this._reverse);
@@ -169,11 +169,11 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
      * when set to false this opens (animates into view) the progress bar.
      */
     @Input()
-    get isClosed() {
+    get closed() {
         return this._closed;
     }
 
-    set isClosed(value: any) {
+    set closed(value: any) {
         let newValue = asBoolean(value);
         if (newValue !== this._closed) {
             this._closed = newValue;
