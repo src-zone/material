@@ -377,14 +377,7 @@ module.exports = function makeWebpackConfig(env) {
       // Long term caching improvements: https://webpack.js.org/guides/caching/
       // Generate module identifiers based on module names, instead of an a counter,
       // so that the id's are stable, and caching is more effective:
-      new webpack.HashedModuleIdsPlugin(),
-      // Extract the manifest into the html template, to improve cacheability
-      // of chunks:
-// TODO: this plugin is not yet compatible with webpack-4. It also doesn't seem we need it.
-//      new InlineChunkManifestHtmlWebpackPlugin({
-//        filename: target + '-manifest.json',
-//        dropAsset: true
-//      })
+      new webpack.HashedModuleIdsPlugin()
     );
   }
 
