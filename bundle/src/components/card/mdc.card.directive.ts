@@ -6,8 +6,6 @@ import { MdcButtonDirective } from '../button/mdc.button.directive';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
-// TODO mdc-card__actions--full-bleed`
-
 /**
  * Directive for an area that displays a custom background-image. See the <code>size</code>
  * property for the sizing of the image.
@@ -100,7 +98,7 @@ export class MdcCardActionIconsDirective {
 export class MdcCardActionsDirective implements AfterContentInit {
     @HostBinding('class.mdc-card__actions') _cls = true;
     @ContentChildren(MdcButtonDirective, {descendants: true}) _buttons: QueryList<MdcButtonDirective>;
-    @ContentChildren(AbstractMdcIcon, {descendants: true}) _icons: QueryList<MdcButtonDirective>;
+    @ContentChildren(AbstractMdcIcon, {descendants: true}) _icons: QueryList<AbstractMdcIcon>;
     private _initialized = false;
     private _fullBleed = false;
 
