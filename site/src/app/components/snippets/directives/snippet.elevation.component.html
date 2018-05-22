@@ -2,7 +2,7 @@
 <div [mdcElevation]="elevation" [animateTransition]="animate" class="blox-elevation-surface">Elevated {{elevation}}dp</div>
 <section>
   <div mdcSlider aria-label="Change Elevation" mdcScrollbarResize
-    minValue="0" maxValue="24" stepValue="1" isDiscrete hasMarkers [(value)]="elevation"></div>
+    minValue="0" maxValue="24" stepValue="1" discrete markers [(value)]="elevation"></div>
   <div mdcFormField>
     <div mdcCheckbox>
       <input mdcCheckboxInput type="checkbox" [(ngModel)]="animate"/>
