@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MdcButtonDirective } from './components/button/mdc.button.directive';
+import { MdcButtonDirective, MdcButtonIconDirective } from './components/button/mdc.button.directive';
 import { MdcCardDirective,
     MdcCardMediaDirective,
     MdcCardMediaContentDirective,
@@ -72,7 +72,7 @@ import { MdcToolbarDirective,
 import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-resize.directive';
 import { MdcEventRegistry, MDC_EVENT_REGISTRY_PROVIDER } from './utils/mdc.event.registry';
 
-export { MdcButtonDirective } from './components/button/mdc.button.directive';
+export * from './components/button/mdc.button.directive';
 export { MdcCardDirective,
     MdcCardMediaDirective,
     MdcCardMediaContentDirective,
@@ -112,6 +112,7 @@ export { MdcListDividerDirective,
 export { MdcMenuAnchorDirective, MdcMenuDirective } from './components/menu/mdc.menu.directive';    
 export { MdcRadioDirective,
     MdcRadioInputDirective } from './components/radio/mdc.radio.directive';
+export * from './components/ripple/abstract.mdc.ripple';
 export { MdcRippleDirective } from './components/ripple/mdc.ripple.directive';
 export { MdcSelectDirective, MdcSelectControlDirective } from './components/select/mdc.select.directive';
 export { MdcSliderDirective,
@@ -154,7 +155,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MDC_SNACKBAR_PROVIDER
     ],
     declarations: [
-        MdcButtonDirective,
+        MdcButtonDirective, MdcButtonIconDirective,
         MdcCardDirective, MdcCardMediaDirective, MdcCardMediaContentDirective,
         MdcCardActionButtonsDirective, MdcCardActionIconsDirective, MdcCardActionsDirective, MdcCardPrimaryActionDirective,
         MdcCheckboxDirective, MdcCheckboxInputDirective,
@@ -183,7 +184,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcScrollbarResizeDirective
     ],
     exports: [
-        MdcButtonDirective,
+        MdcButtonDirective, MdcButtonIconDirective,
         MdcCardDirective, MdcCardMediaDirective, MdcCardMediaContentDirective,
         MdcCardActionButtonsDirective, MdcCardActionIconsDirective, MdcCardActionsDirective, MdcCardPrimaryActionDirective,
         MdcCheckboxDirective, MdcCheckboxInputDirective,

@@ -4,7 +4,18 @@ import { asBoolean } from '../../utils/value.utils';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
-// TODO: mdc-button__icon
+/**
+ * Use this directive for adding an icon to an <code>mdcButton</code>. This directive can be
+ * added to font-style icons (such as <a href="https://material.io/icons/">material icons</a>
+ * from Google fonts), or with <code>svg</code> elements for svg based icons.
+ */
+@Directive({
+    selector: 'mdcButtonIcon'
+})
+export class MdcButtonIconDirective {
+    @HostBinding('class.mdc-button__icon') _cls = true;
+    @HostBinding('attr.aria-hidden') _ariaHidden = true;
+}
 
 /**
  * Material design button. Anchors can also be styled as buttons with this directive.
