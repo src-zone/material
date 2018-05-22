@@ -54,10 +54,10 @@ jobs:
           at: .
       - run:
           name: Authenticate with NPM
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+          command: cd bundle && echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
       - run:
           name: Publish Blox Material
-          command: npm publish
+          command: cd bundle && npm publish
   build-site:
     <<: *defaults
     steps:
