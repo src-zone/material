@@ -31,11 +31,11 @@ export class MdcListDividerDirective {
      * an inset.
      */
     @Input() @HostBinding('class.mdc-list-divider--inset')
-    get hasInset() {
+    get inset() {
         return this._inset;
     }
 
-    set hasInset(val: any) {
+    set inset(val: any) {
         this._inset = asBoolean(val);
     }
 
