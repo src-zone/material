@@ -1,6 +1,6 @@
 {
     "default.title": "Blox Material",
-    "default.meta.description": "Blox Material, a leightweight Material Design Library for Angular. Open-source and based on Google's Material Components for the Web",
+    "default.meta.description": "Blox Material, a lightweight Material Design Library for Angular. Open-source and based on Google's Material Components for the Web",
 
     "components.button.title": "Button",
     "components.button.description": "Raised and flat buttons",
@@ -11,6 +11,9 @@
     "components.checkbox.title": "Checkbox",
     "components.checkbox.description": "Multi selection controls",
     "components.checkbox.meta.description": "Checkbox (mdcCheckbox) component of ${default.meta.description}",
+    "components.dialog.title": "Dialog",
+    "components.dialog.description": "Modal Dialogs",
+    "components.dialog.meta.description": "Dialog (mdcDialog) component of ${default.meta.description}",
     "components.drawer.title": "Drawers",
     "components.drawer.description": "Side navigation menus",
     "components.drawer.meta.description": "Drawer (mdcDrawer) components (side navigation) of ${default.meta.description}",
@@ -20,6 +23,9 @@
     "components.fab.title": "Floating Action Button",
     "components.fab.description": "Circular buttons for the primary action in an application",
     "components.fab.meta.description": "FAB / Floating Action Button (mdcFab) component of ${default.meta.description}",
+    "components.focus-trap.title": "Focus Trap",
+    "components.focus-trap.description": "Focus Trap behavior to constrain input focus on modal dialogs",
+    "components.focus-trap.meta.description": "Focus Trap behavior for ${default.meta.description}",
     "components.icon-toggle.title": "Icon Toggle",
     "components.icon-toggle.description": "Toggling icon states",
     "components.icon-toggle.meta.description": "Icon Toggle (mdcIconToggle) component of ${default.meta.description}",

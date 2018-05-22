@@ -1,9 +1,11 @@
 import { ButtonDirectivesComponent } from './button.directives.component';
 import { CardDirectivesComponent } from './card.directives.component';
 import { CheckboxDirectivesComponent } from './checkbox.directives.component';
+import { DialogDirectivesComponent } from './dialog.directives.component';
 import { DrawerDirectivesComponent } from './drawer.directives.component';
 import { ElevationDirectivesComponent } from './elevation.directives.component';
 import { FabDirectivesComponent } from './fab.directives.component';
+import { FocusTrapDirectivesComponent } from './focus-trap.directives.component';
 import { IconToggleDirectivesComponent } from './icon-toggle.directives.component';
 import { LinearProgressDirectivesComponent } from './linear-progress.directives.component';
 import { ListDirectivesComponent } from './list.directives.component';
@@ -22,9 +24,11 @@ import { UtilityDirectivesComponent } from './utility.directives.component';
 export * from './button.directives.component';
 export * from './card.directives.component';
 export * from './checkbox.directives.component';
+export * from './dialog.directives.component';
 export * from './drawer.directives.component';
 export * from './elevation.directives.component';
 export * from './fab.directives.component';
+export * from './focus-trap.directives.component';
 export * from './icon-toggle.directives.component';
 export * from './linear-progress.directives.component';
 export * from './list.directives.component';
@@ -44,9 +48,11 @@ export const MDC_DIRECTIVE_DOC_COMPONENTS = [
     ButtonDirectivesComponent,
     CardDirectivesComponent,
     CheckboxDirectivesComponent,
+    DialogDirectivesComponent,
     DrawerDirectivesComponent,
     ElevationDirectivesComponent,
     FabDirectivesComponent,
+    FocusTrapDirectivesComponent,
     IconToggleDirectivesComponent,
     LinearProgressDirectivesComponent,
     ListDirectivesComponent,

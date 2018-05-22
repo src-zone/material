@@ -1,0 +1,27 @@
+<fieldset class="blox-snippet snippet-skip-line">
+<div mdcCard mdcFocusTrap
+  class="blox-focus-trap" [class.blox-focus-trap-active]="focusTrap">
+  <p *ngIf="focusTrap">
+    Input Focus is currently <strong>trapped</strong> inside this card. Test it by trying to move focus
+    to elements outside the card. Remove the trap by pressing the <code>Esc</code> key.
+  </p>
+  <p *ngIf="!focusTrap">
+    Input Focus is currently <strong>not</strong> trapped. You can focus any element on the page.
+  </p>
+  <div mdcFormField>
+    <div mdcCheckbox>
+      <input mdcCheckboxInput type="checkbox" [(ngModel)]="focusTrap"/>
+    </div>
+    <label mdcFormFieldLabel>Trap Focus</label>
+  </div>
+  <div mdcTextField>
+    <input mdcTextFieldInput type="text"/>
+    <label mdcFloatingLabel>Text Input</label>
+  </div>
+  <section mdcCardActions>
+    <button mdcButton outlined>Button 1</button>
+    <button mdcButton outlined mdcFocusInitial>Button 2</button>    
+  </section>
+</div>
+<div class="blox-focus-trap-overlay" [class.blox-focus-trap-active]="focusTrap"></div>
+</fieldset><div class="snippet-skip-line"></div>

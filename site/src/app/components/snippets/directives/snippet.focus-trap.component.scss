@@ -1,0 +1,28 @@
+.blox-focus-trap {
+    margin: 32px;
+    padding: 32px;
+
+    &.blox-focus-trap-active {
+        position: fixed;
+        z-index: 7;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.blox-focus-trap-overlay {
+    display: none;
+
+    &.blox-focus-trap-active {
+        display: initial;
+        position: fixed;
+        z-index: 6;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: black;
+        opacity: 0.8;
+    }
+}

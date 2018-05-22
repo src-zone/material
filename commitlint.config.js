@@ -16,6 +16,7 @@ module.exports = {
             'drawer',
             'elevation',
             'fab',
+            'focus-trap',
             'form-field',
             'icon-toggle',
             'linear-progress',
