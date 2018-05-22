@@ -14,7 +14,11 @@ const CLASS_ALIGN_START = 'mdc-snackbar--align-start';
  * It can also be used to subscribe to action clicks.
  */
 export class MdcSnackbarRef {
-    constructor(private _action: Subject<void>) {}
+    constructor(
+        private _action: Subject<void>,
+        private _show: Subject<void>,
+        private _hide: Subject<void>
+    ) {}
 
     /**
      * Subscribe to this observable to be informed when a user clicks the action
@@ -23,6 +27,24 @@ export class MdcSnackbarRef {
      */
     action(): Observable<void> {
         return this._action.asObservable();
+    }
+
+    /**
+     * Subscribe to this observable to be informed when the message is displayed.
+     * Note that the observable will complete when the snackbar disappears from screen,
+     * so there is no need to unsubscribe.
+     */
+    afterShow(): Observable<void> {
+        return this._show.asObservable();
+    }
+
+    /**
+     * Subscribe to this observable to be informed when the message is displayed.
+     * Note that the observable will complete when the snackbar disappears from screen,
+     * so there is no need to unsubscribe.
+     */
+    afterHide(): Observable<void> {
+        return this._hide.asObservable();
     }
 }
 
@@ -38,6 +60,7 @@ export class MdcSnackbarService {
     private lastActivated = -1;
     private lastDismissed = -1;
     
+    private openMessage: Subject<number> = new Subject<number>();
     private closeMessage: Subject<number> = new Subject<number>();
 
     constructor() {
@@ -69,16 +92,8 @@ export class MdcSnackbarService {
         const textEl = root.querySelector('.mdc-snackbar__text');
         const buttonEl = <HTMLElement>root.querySelector('.mdc-snackbar__action-button');
         const adapter: MdcSnackbarAdapter = {
-            addClass: (className) => {
-                if (className === CLASS_ACTIVE)
-                    this.activateNext();                
-                root.classList.add(className);
-            },
-            removeClass: (className) => {
-                if (className === 'mdc-snackbar--active')
-                    this.deactivateLast();
-                root.classList.remove(className);
-            },
+            addClass: (className) => { root.classList.add(className); },
+            removeClass: (className) => { root.classList.remove(className); },
             setAriaHidden: () => root.setAttribute('aria-hidden', 'true'),
             unsetAriaHidden: () => root.removeAttribute('aria-hidden'),
             setActionAriaHidden: () => buttonEl.setAttribute('aria-hidden', 'true'),
@@ -96,7 +111,9 @@ export class MdcSnackbarService {
             registerActionClickHandler: (handler) => buttonEl.addEventListener('click', handler),
             deregisterActionClickHandler: (handler) => buttonEl.removeEventListener('click', handler),
             registerTransitionEndHandler: (handler) => root.addEventListener(getCorrectEventName(window, 'transitionend'), handler),
-            deregisterTransitionEndHandler: (handler) => root.removeEventListener(getCorrectEventName(window, 'transitionend'), handler)
+            deregisterTransitionEndHandler: (handler) => root.removeEventListener(getCorrectEventName(window, 'transitionend'), handler),
+            notifyShow: () => { this.activateNext(); },
+            notifyHide: () => { this.deactivateLast(); }
         }
         return new MDCSnackbarFoundation(adapter);
     }
@@ -105,7 +122,7 @@ export class MdcSnackbarService {
         while (this.lastDismissed < this.lastActivated)
             // since this activates a new message, all messages before will logically be closed:
             this.closeMessage.next(++this.lastDismissed);
-        ++this.lastActivated;
+        this.openMessage.next(++this.lastActivated);
         this.isActive = true;
     }
 
@@ -144,21 +161,33 @@ export class MdcSnackbarService {
 
         // provide a means to subscribe to an action click:
         let action = new Subject<void>();
+        let show = new Subject<void>();
+        let hide = new Subject<void>();
         if (message.actionText)
-            data.actionHandler = function() {action.next(); };
-        // make sure the action Subject will complete after the snackbar is removed from screen,
-        // so that callers never have to unsubscribe:
+            data.actionHandler = function() { action.next(); };
+
+        // manage the show subscription
+        this.openMessage.asObservable().pipe(
+            filter(nr => nr === messageNr),
+            take(1)
+        ).subscribe(nr => { show.next(); });
+        // manage the hide subscription, and close complete all observables when the
+        // message is removed:
         this.closeMessage.asObservable().pipe(
             filter(nr => nr === messageNr),
             take(1)
         ).subscribe(nr => {
+            hide.next();
+            show.complete();
+            hide.complete();
             action.complete();
         });
 
-        // show the actual snackbar:
-        this.snackbar.show(data);
+        // show the actual snackbar, using setTimeout to give callers
+        // a chance to subscribe to all events:
+        setTimeout(() => {this.snackbar.show(data); });
 
-        return new MdcSnackbarRef(action);
+        return new MdcSnackbarRef(action, show, hide);
     }
 
     /**

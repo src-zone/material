@@ -18,6 +18,7 @@ export class SnippetSnackbarComponent/*snip:skip*/extends AbstractSnippetCompone
     actionText = 'Action';
     multiline = false;
     actionOnBottom = false;
+    currentMessage = '<none>';
     lastAction = '<none>';
 
     constructor(private snackbar: MdcSnackbarService) {
@@ -43,6 +44,12 @@ export class SnippetSnackbarComponent/*snip:skip*/extends AbstractSnippetCompone
             actionText: this.actionText,
             multiline: this.multiline,
             actionOnBottom: this.multiline && this.actionOnBottom
+        });
+        snackbarRef.afterShow().subscribe(() => {
+            this.currentMessage = '\'' + message + '\'';
+        });
+        snackbarRef.afterHide().subscribe(() => {
+            this.currentMessage = '<none>';
         });
         snackbarRef.action().subscribe(() => {
             this.lastAction = '\'' + action + '\' clicked for snackbar \'' + message + '\'';
