@@ -3,6 +3,56 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.13.0"></a>
+# [0.13.0](https://github.com/src-zone/material/compare/v0.12.0...v0.13.0) (2018-05-22)
+
+
+### Features
+
+* **snackbar:** add afterShow/afterHide observables to MdcSnackbarRef ([87ab60e](https://github.com/src-zone/material/commit/87ab60e))
+* fix mdcIcon styling & button-like behavior ([bf40e2c](https://github.com/src-zone/material/commit/bf40e2c))
+* **select:** add box property to mdcSelect ([ab04988](https://github.com/src-zone/material/commit/ab04988))
+* upgrade to material-components-web 0.35.2 ([ac86710](https://github.com/src-zone/material/commit/ac86710))
+* **button:** add mdcButtonIcon ([ce47281](https://github.com/src-zone/material/commit/ce47281))
+* **button:** add unelevated property to mdcButton ([f1dcd8f](https://github.com/src-zone/material/commit/f1dcd8f))
+* **checkbox,icon-toggle,radio:** don't override default ripple size ([1e3657c](https://github.com/src-zone/material/commit/1e3657c))
+* **focus-trap,dialog:** implement focus-trap and dialog directives ([fdfa357](https://github.com/src-zone/material/commit/fdfa357))
+* **icon-toggle:** rename isOn/isOnChange to on/onChange ([51aef91](https://github.com/src-zone/material/commit/51aef91))
+* **linear-progress:** remove is* prefix from properties ([036c04f](https://github.com/src-zone/material/commit/036c04f))
+* **list:** add nonInteractive property to mdcList ([112d4d7](https://github.com/src-zone/material/commit/112d4d7))
+* **list:** add padded property to mdcListDivider ([4714dde](https://github.com/src-zone/material/commit/4714dde))
+* **list:** add selected & activated properties to mdcListItem ([98496a0](https://github.com/src-zone/material/commit/98496a0))
+* **list:** rename mdcListDivider property hasInset to inset ([cb11ce7](https://github.com/src-zone/material/commit/cb11ce7))
+* **menu:** rename isOpen/isOpenChange properties to open/openChange ([03ca89e](https://github.com/src-zone/material/commit/03ca89e))
+* **slider:** rename isDiscrete to discrete; hasMarkers to markers ([5c9fa82](https://github.com/src-zone/material/commit/5c9fa82))
+* **toolbar:** remove is* prefix from property names ([c27c269](https://github.com/src-zone/material/commit/c27c269))
+
+
+### Reverts
+
+* **dialog:** remove bogus workaround for non-existent upstream bug ([414f9ba](https://github.com/src-zone/material/commit/414f9ba))
+
+
+### BREAKING CHANGES
+
+* **toolbar:** rename mdcToolbar properties isFixed,
+isWaterfall, isFixedLastRowOnly, isFlexible, isFlexibleDefaultBehavior
+to respectively:  fixed, waterfall, fixedLastRowOnly, flexible,
+flexibleDefaultBehavior
+* **slider:** rename mdcSlider property isDiscrete to discrete,
+rename mdcSlider property hasMarkers to markers
+* **menu:** rename properties isOpen and isOpenChange
+of mdcMenu to open and openChange
+* **list:** rename mdcListDivider property hasInset to inset
+* **linear-progress:** rename mdcLinearProgress properties
+isIndeterminate, isReversed, isClosed to
+indeterminate, reversed, closed
+* **icon-toggle:** the isOn/isOnChange properties of mdcIconToggle are renamed
+to on/onChange
+
+
+
+
 <a name="0.12.0"></a>
 # [0.12.0](https://github.com/src-zone/material/compare/v0.9.0...v0.12.0) (2018-05-14)
 
