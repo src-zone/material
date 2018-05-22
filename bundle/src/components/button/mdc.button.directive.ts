@@ -31,6 +31,7 @@ export class MdcButtonDirective extends AbstractMdcRipple implements AfterConten
     @HostBinding('class.mdc-button') _cls = true;
     private _dense = false;
     private _raised = false;
+    private _unelevated = false;
     private _outlined = false;
 
     constructor(public _elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry) {
@@ -69,6 +70,19 @@ export class MdcButtonDirective extends AbstractMdcRipple implements AfterConten
 
     set outlined(val: any) {
         this._outlined = asBoolean(val);
+    }
+
+    /**
+     * Set this property to a non false value for a contained button
+     * flush with the surface.
+     */
+    @HostBinding('class.mdc-button--unelevated') @Input()
+    get unelevated() {
+        return this._unelevated;
+    }
+
+    set unelevated(val: any) {
+        this._unelevated = asBoolean(val);
     }
 
     /**

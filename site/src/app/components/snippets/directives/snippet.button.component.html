@@ -1,22 +1,37 @@
 <fieldset class="blox-snippet snippet-skip-line">
-<div>Buttons:
+<div>
   <div mdcFormField>
     <div mdcCheckbox>
       <input mdcCheckboxInput type="checkbox" [(ngModel)]="disabled"/>
     </div>
     <label mdcFormFieldLabel>Disable buttons</label>
   </div>
+  <div mdcFormField>
+    <div mdcCheckbox>
+      <input mdcCheckboxInput type="checkbox" [(ngModel)]="raised"/>
+    </div>
+    <label mdcFormFieldLabel>Raised</label>
+  </div>
+  <div mdcFormField>
+    <div mdcCheckbox>
+      <input mdcCheckboxInput type="checkbox" [(ngModel)]="unelevated"/>
+    </div>
+    <label mdcFormFieldLabel>Unelevated</label>
+  </div>
+  <div mdcFormField>
+    <div mdcCheckbox>
+      <input mdcCheckboxInput type="checkbox" [(ngModel)]="outlined"/>
+    </div>
+    <label mdcFormFieldLabel>Outlined</label>
+  </div>
 </div>
-<button mdcButton [disabled]="disabled">Default</button>
-<button mdcButton raised [disabled]="disabled">Raised</button>
-<button mdcButton dense [disabled]="disabled">Dense Default</button>
-<button mdcButton dense raised [disabled]="disabled">Dense Raised</button>
-<button mdcButton outlined [disabled]="disabled">Outlined</button>
+<p>Buttons:</p>
+<button mdcButton [raised]="raised" [unelevated]="unelevated" [outlined]="outlined" [disabled]="disabled">Default</button>
+<button mdcButton dense [raised]="raised" [unelevated]="unelevated" [outlined]="outlined" [disabled]="disabled">Dense</button>
+<button mdcButton [raised]="raised" [unelevated]="unelevated" [outlined]="outlined" [disabled]="disabled"><i mdcButtonIcon class="material-icons">favorite</i>&nbsp;Icon</button>
 
-<div>Anchors:</div>
-<a href="javascript:void(0)" mdcButton>Anchor</a>
-<a href="javascript:void(0)" mdcButton raised>Raised</a>
-<a href="javascript:void(0)" mdcButton dense>Dense Default</a>
-<a href="javascript:void(0)" mdcButton dense raised>Dense Raised</a>
-<a href="javascript:void(0)" mdcButton outlined>Outlined</a>
+<p>Anchors:</p>
+<a href="javascript:void(0)" mdcButton [raised]="raised" [unelevated]="unelevated" [outlined]="outlined">Default</a>
+<a href="javascript:void(0)" mdcButton dense [raised]="raised" [unelevated]="unelevated" [outlined]="outlined">Dense</a>
+<a href="javascript:void(0)" mdcButton [raised]="raised" [unelevated]="unelevated" [outlined]="outlined"><i mdcButtonIcon class="material-icons">favorite</i>&nbsp;Icon</a>
 </fieldset><div class="snippet-skip-line"></div>

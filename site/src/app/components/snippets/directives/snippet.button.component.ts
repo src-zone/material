@@ -14,6 +14,10 @@ import { AbstractSnippetComponent } from '../abstract.snippet.component';
 })
 export class SnippetButtonComponent/*snip:skip*/extends AbstractSnippetComponent/*snip:endskip*/ {
     disabled = false;
+    raised = false;
+    unelevated = false;
+    outlined = false;
+    
     //snip:skip
     constructor() {
         super({
