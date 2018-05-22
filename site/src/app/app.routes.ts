@@ -10,8 +10,11 @@ import {
     ButtonDirectivesComponent,
     CardDirectivesComponent,
     CheckboxDirectivesComponent,
+    DialogDirectivesComponent,
+    DrawerDirectivesComponent,
     ElevationDirectivesComponent,
     FabDirectivesComponent,
+    FocusTrapDirectivesComponent,
     IconToggleDirectivesComponent,
     LinearProgressDirectivesComponent,
     ListDirectivesComponent,
@@ -25,8 +28,7 @@ import {
     TabDirectivesComponent,
     TextFieldDirectivesComponent,
     ToolbarDirectivesComponent,
-    UtilityDirectivesComponent, 
-    DrawerDirectivesComponent} from './components';
+    UtilityDirectivesComponent } from './components';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'guides', pathMatch: 'full'},
@@ -40,9 +42,11 @@ export const routes: Routes = [
         {path: ButtonDirectivesComponent.DOC_HREF, component: ButtonDirectivesComponent},
         {path: CardDirectivesComponent.DOC_HREF, component: CardDirectivesComponent},
         {path: CheckboxDirectivesComponent.DOC_HREF, component: CheckboxDirectivesComponent},
+        {path: DialogDirectivesComponent.DOC_HREF, component: DialogDirectivesComponent},
         {path: DrawerDirectivesComponent.DOC_HREF, component: DrawerDirectivesComponent},
         {path: ElevationDirectivesComponent.DOC_HREF, component: ElevationDirectivesComponent},
         {path: FabDirectivesComponent.DOC_HREF, component: FabDirectivesComponent},
+        {path: FocusTrapDirectivesComponent.DOC_HREF, component: FocusTrapDirectivesComponent},
         {path: IconToggleDirectivesComponent.DOC_HREF, component: IconToggleDirectivesComponent},
         {path: LinearProgressDirectivesComponent.DOC_HREF, component: LinearProgressDirectivesComponent},
         {path: ListDirectivesComponent.DOC_HREF, component: ListDirectivesComponent},

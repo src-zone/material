@@ -29,6 +29,7 @@
     "test:watch": "karma start karma.conf.ts --single-run false"
   },
   "dependencies": {
+    "focus-trap": "^2.4.5",
     "karma-junit-reporter": "^1.2.0",
     "material-components-web": "^0.35.1"
   },

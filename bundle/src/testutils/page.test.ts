@@ -38,3 +38,20 @@ export function hasRipple(el: HTMLElement) {
         tick(20); // wait 16ms needed for requestAnimationFrame of ripple
     return el.classList.contains('mdc-ripple-upgraded');
 }
+
+export function cancelledClick(el: HTMLElement) {
+    el.dispatchEvent(new MouseEvent('mousedown'));
+    event = new MouseEvent('click', {
+        view: window,
+        bubbles: true,
+        cancelable: true
+    });
+    return !el.dispatchEvent(event);
+}
+
+export function simulateEscape() {
+    event = new KeyboardEvent('keydown', {
+        key: 'Escape'
+    });
+    document.dispatchEvent(event);
+}

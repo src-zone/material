@@ -10,6 +10,7 @@ import { MdcCardDirective,
     MdcCardPrimaryActionDirective } from './components/card/mdc.card.directive';
 import { MdcCheckboxDirective,
     MdcCheckboxInputDirective } from './components/checkbox/mdc.checkbox.directive';
+import { DIALOG_DIRECTIVES } from './components/dialog/mdc.dialog.directive';
 import { MdcDrawerDirective,
     MdcDrawerContainerDirective,
     MdcDrawerToolbarSpacerDirective,
@@ -20,6 +21,7 @@ import { MdcElevationDirective } from './components/elevation/mdc.elevation.dire
 import { MdcFabDirective,
     MdcFabIconDirective } from './components/fab/mdc.fab.directive';
 import { MdcFloatingLabelDirective } from './components/floating-label/mdc.floating-label.directive';
+import { FOCUS_TRAP_DIRECTIVES } from './components/focus-trap/mdc.focus-trap.directive';
 import { MdcFormFieldDirective,
     MdcFormFieldInputDirective,
     MdcFormFieldLabelDirective } from './components/form-field/mdc.form-field.directive';
@@ -82,6 +84,7 @@ export { MdcCardDirective,
     MdcCardPrimaryActionDirective } from './components/card/mdc.card.directive';
 export { MdcCheckboxDirective,
     MdcCheckboxInputDirective } from './components/checkbox/mdc.checkbox.directive';
+export * from './components/dialog/mdc.dialog.directive';
 export { MdcDrawerDirective,
     MdcDrawerContainerDirective,
     MdcDrawerToolbarSpacerDirective,
@@ -92,6 +95,8 @@ export { MdcElevationDirective } from './components/elevation/mdc.elevation.dire
 export { MdcFabDirective,
     MdcFabIconDirective } from './components/fab/mdc.fab.directive';
 export { MdcFloatingLabelDirective } from './components/floating-label/mdc.floating-label.directive';
+export * from './components/focus-trap/abstract.mdc.focus-trap';
+export * from './components/focus-trap/mdc.focus-trap.directive';
 export { MdcFormFieldDirective,
     MdcFormFieldInputDirective,
     MdcFormFieldLabelDirective } from './components/form-field/mdc.form-field.directive';
@@ -159,10 +164,12 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcCardDirective, MdcCardMediaDirective, MdcCardMediaContentDirective,
         MdcCardActionButtonsDirective, MdcCardActionIconsDirective, MdcCardActionsDirective, MdcCardPrimaryActionDirective,
         MdcCheckboxDirective, MdcCheckboxInputDirective,
+        ...DIALOG_DIRECTIVES,
         MdcDrawerDirective, MdcDrawerContainerDirective, MdcDrawerToolbarSpacerDirective, MdcDrawerHeaderDirective, MdcDrawerHeaderContentDirective, MdcDrawerContentDirective,
         MdcElevationDirective,
         MdcFabDirective, MdcFabIconDirective,
         MdcFloatingLabelDirective,
+        ...FOCUS_TRAP_DIRECTIVES,
         MdcFormFieldDirective, MdcFormFieldInputDirective, MdcFormFieldLabelDirective,
         MdcIconDirective,
         MdcIconToggleDirective, MdcIconToggleIconDirective, MdcFormsIconToggleDirective,
@@ -188,10 +195,12 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcCardDirective, MdcCardMediaDirective, MdcCardMediaContentDirective,
         MdcCardActionButtonsDirective, MdcCardActionIconsDirective, MdcCardActionsDirective, MdcCardPrimaryActionDirective,
         MdcCheckboxDirective, MdcCheckboxInputDirective,
+        ...DIALOG_DIRECTIVES,
         MdcDrawerDirective, MdcDrawerContainerDirective, MdcDrawerToolbarSpacerDirective, MdcDrawerHeaderDirective, MdcDrawerHeaderContentDirective, MdcDrawerContentDirective,
         MdcElevationDirective,
         MdcFabDirective, MdcFabIconDirective,
         MdcFloatingLabelDirective,
+        ...FOCUS_TRAP_DIRECTIVES,
         MdcFormFieldDirective, MdcFormFieldInputDirective, MdcFormFieldLabelDirective,
         MdcIconDirective,
         MdcIconToggleDirective, MdcIconToggleIconDirective, MdcFormsIconToggleDirective,

@@ -9,6 +9,7 @@ const globals = {
   '@angular/router': 'ng.router',
   '@material/animation': 'mdc.animation',
   '@material/checkbox': 'mdc.checkbox',
+  '@material/dialog': 'mdc.dialog',
   '@material/drawer': 'mdc.drawer',
   '@material/drawer/slidable': 'mdc.drawer',
   '@material/floating-label': 'mdc.floatingLabel',
@@ -29,6 +30,7 @@ const globals = {
   '@material/textfield/icon': 'mdc.textfield',
   '@material/toolbar': 'mdc.toolbar',
   '@material/tabs': 'mdc.tabs',
+  'focus-trap': 'focusTrap',
   'rxjs': 'rxjs', 
   'rxjs/operators': 'rxjs.operators',
   'tslib': 'tslib'
