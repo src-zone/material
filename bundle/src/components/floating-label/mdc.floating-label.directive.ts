@@ -14,8 +14,8 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
  * For an <code>mdcTextField</code> the label must be added just after the
  * <code>mdcTextFieldInput</code> as a direct child of an
  * <code>mdcTextField</code>. There is no need to assign the <code>for</code>
- * attribute, the label will automatically get its for attribute assigned to the
- * id of the parent <code>mdcInput</code>.
+ * attribute, as the label will automatically get its <code>for</code> attribute assigned
+ * to the id of the parent <code>mdcInput</code>.
  */
 @Directive({
     selector: 'label[mdcFloatingLabel]',
