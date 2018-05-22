@@ -203,20 +203,6 @@ export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterCont
         return this.foundation.isKeyboardActivated();
     }
 
-    /** @docs-private */
-    protected computeRippleBoundingRect() {
-        const dim = 48;
-        const {left, top} = this._elm.nativeElement.getBoundingClientRect();
-        return {
-            left,
-            top,
-            width: dim,
-            height: dim,
-            right: left + dim,
-            bottom: left + dim,
-        };
-    }
-
     /**
      * The current state of the icon (true for on/pressed, false for off/unpressed).
      */
