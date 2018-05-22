@@ -10,7 +10,7 @@ It integrates [Google's Material Components for the Web](https://github.com/mate
 <a href="https://circleci.com/gh/src-zone/material/tree/master"><img align="right" src="https://buildstats.info/circleci/chart/src-zone/material?branch=master&showStats=false" width="231" height="71"/></a>
 
 [![npm](https://img.shields.io/npm/v/@blox/material.svg)](https://www.npmjs.com/package/@blox/material)
-[![License](https://img.shields.io/npm/l/@blox/material.svg)](LICENSE.txt)
+[![License](https://img.shields.io/github/license/src-zone/material.svg)](LICENSE.txt)
 [![CircleCI](https://img.shields.io/circleci/project/github/src-zone/material.svg)](https://circleci.com/gh/src-zone/material/tree/master)
 [![Documentation](https://img.shields.io/badge/demo-website-lightgrey.svg)](https://blox.src.zone/material)
 * [Documention, Demo & Examples](https://blox.src.zone/material)
