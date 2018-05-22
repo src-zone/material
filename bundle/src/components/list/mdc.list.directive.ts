@@ -209,6 +209,7 @@ export class MdcListDirective implements AfterContentInit {
     _hidden = false;
     private _dense = false;
     private _avatar = false;
+    private _nonInteractive = false;
     
     constructor(public _elm: ElementRef) {}
 
@@ -261,6 +262,19 @@ export class MdcListDirective implements AfterContentInit {
     }
 
     /**
+     * When this input is defined and does not have value false, interactivity affordances for
+     * the list will be disabled.
+     */
+    @Input() @HostBinding('class.mdc-list--non-interactive')
+    get nonInteractive() {
+        return this._nonInteractive;
+    }
+    
+    set nonInteractive(val: any) {
+        this._nonInteractive = asBoolean(val);
+    }
+
+    /**
      * When this input is defined and does not have value false, elements with directive <code>mdcListItemGraphic</code>
      * will be styled for avatars: large, circular elements that lend themselves well to contact images, profile pictures, etc. 
      */
@@ -275,7 +289,7 @@ export class MdcListDirective implements AfterContentInit {
 }
 
 /**
- * Directive for a header inside a list group (<code>MdcListGroupDirective</code>) directive.
+ * Directive for a header inside a list group (<code>mdcListGroup</code>) directive.
  */
 @Directive({
     selector: '[mdcListGroupSubHeader]'
@@ -289,7 +303,7 @@ export class MdcListGroupSubHeaderDirective {
 
 /**
  * Directive for a material designed list group, grouping several
- * <code>MdcListDirective</code> lists.
+ * <code>mdcList</code> lists.
  * List groups should contain elements with <code>mdcListGroupSubHeader</code>,
  * and <code>mdcList</code> directives.
  */
