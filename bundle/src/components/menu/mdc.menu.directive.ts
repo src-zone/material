@@ -79,7 +79,7 @@ export class MdcMenuDirective implements AfterContentInit, OnDestroy {
     /**
      * Event emitted when the menu is opened or closed.
      */
-    @Output() isOpenChange: EventEmitter<boolean> = new EventEmitter();
+    @Output() openChange: EventEmitter<boolean> = new EventEmitter();
     private _lastList: MdcListDirective;
     @ContentChildren(MdcListDirective) _listQuery: QueryList<MdcListDirective>;
     private _prevFocus: Element;
@@ -94,7 +94,7 @@ export class MdcMenuDirective implements AfterContentInit, OnDestroy {
             if (CLASS_MENU === className)
                 return true;
             if (CLASS_MENU_OPEN === className)
-                return this.isOpen;
+                return this.open;
             if (CLASS_TOP_LEFT === className)
                 return this._openFrom === 'tl';
             if (CLASS_TOP_RIGHT === className)
@@ -232,9 +232,9 @@ export class MdcMenuDirective implements AfterContentInit, OnDestroy {
 
     private _onOpenClose(emit = true) {
         if (this._list)
-            this._list._hidden = !this.isOpen;
+            this._list._hidden = !this.open;
         if (emit)
-            this.isOpenChange.emit(this.isOpen);
+            this.openChange.emit(this.open);
     }
 
     set _listFunction(val: MdcListFunction) {
@@ -252,13 +252,13 @@ export class MdcMenuDirective implements AfterContentInit, OnDestroy {
      * otherwise the menu will be closed.
      */
     @Input() @HostBinding('class.mdc-menu--open')
-    get isOpen() {
+    get open() {
         return this._component ? this.foundation.isOpen() : this._openMemory;
     }
     
-    set isOpen(val: any) {
+    set open(val: any) {
         let newValue = asBoolean(val);
-        if (newValue !== this.isOpen) {
+        if (newValue !== this.open) {
             this._openMemory = newValue;
             if (this._component != null) {
                 if (newValue)
