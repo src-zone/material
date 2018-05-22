@@ -7,7 +7,7 @@
     iconOn="favorite"
     iconOff="favorite_border"
     [disabled]="disabled"
-    [(isOn)]="favorite"></i>
+    [(on)]="favorite"></i>
   <span>(Value: {{favorite}}. Uses an icon from Material Icons.)</span>
 </div>
 <div>
@@ -17,7 +17,7 @@
     iconOn="fa-thumbs-up"
     iconOff="fa-thumbs-o-up"
     [disabled]="disabled"
-    [(isOn)]="like">
+    [(on)]="like">
     <i mdcIconToggleIcon class="fa"></i>
   </span>
   <span>(Value: {{like}}. Uses an icon from Font Awesome.)</span>

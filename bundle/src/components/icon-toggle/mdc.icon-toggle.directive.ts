@@ -10,10 +10,6 @@ import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 import { AbstractMdcIcon } from '../icon/abstract.mdc.icon';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
-interface MdcIconToggleChangeEvent {
-    isOn: boolean
-}
-
 /**
  * Directive for an icon nested inside a <code>MdcIconToggleDirective</code>.
  * This directive is only needed when the icon font uses CSS pseudo-elements in order
@@ -49,7 +45,7 @@ export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterCont
      * Event emitted when the state of the icon changes (for example when a user clicks
      * the icon).
      */
-    @Output() isOnChange: EventEmitter<boolean> = new EventEmitter();
+    @Output() onChange: EventEmitter<boolean> = new EventEmitter();
     private _onChange: (value: any) => void = (value) => {};
     private _onTouched: () => any = () => {};
     private _beforeInitQueu: Array<() => any> = [];
@@ -85,9 +81,9 @@ export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterCont
         getAttr: (name: string) => this._elm.nativeElement.getAttribute(name),
         setAttr: (name: string, value: string) => { this.renderer.setAttribute(this._elm.nativeElement, name, value); },
         rmAttr: (name: string) => { this.renderer.removeAttribute(this._elm.nativeElement, name); },
-        notifyChange: (evtData: MdcIconToggleChangeEvent) => {
+        notifyChange: (evtData: {isOn: boolean}) => {
             this._onChange(evtData.isOn);
-            this.isOnChange.emit(evtData.isOn);
+            this.onChange.emit(evtData.isOn);
         }
     };
     private foundation: {
@@ -206,11 +202,11 @@ export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterCont
     /**
      * The current state of the icon (true for on/pressed, false for off/unpressed).
      */
-    @Input() get isOn() {
+    @Input() get on() {
         return this.foundation.isOn();
     }
 
-    set isOn(value: any) {
+    set on(value: any) {
         this.execAfterInit(() => this.foundation.toggle(asBoolean(value)));
     }
 
