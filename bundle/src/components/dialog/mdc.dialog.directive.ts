@@ -249,9 +249,6 @@ export class MdcDialogDirective implements AfterContentInit, OnDestroy {
     ngOnDestroy() {
         this._initialized = false;
         this.foundation.destroy();
-
-        // TODO: make bug on material-components-web
-        this.mdcAdapter.deregisterTransitionEndHandler((<any>this.foundation).transitionEndHandler_);
     }
 
     /**
