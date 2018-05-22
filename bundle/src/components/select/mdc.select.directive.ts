@@ -97,6 +97,7 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
     @ContentChild(MdcSelectControlDirective) _control: MdcSelectControlDirective;
     @ContentChild(MdcFloatingLabelDirective) _label: MdcFloatingLabelDirective;
     private _initialized = false;
+    private _box = false;
     private _bottomLineElm: HTMLElement = null;
     private _lineRippleAdapter: MdcLineRippleAdapter = {
         addClass: (className: string) => this._rndr.addClass(this._bottomLineElm, className),
@@ -161,6 +162,19 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
         this._lineRippleFoundation.destroy();
         this.foundation.destroy();
         this._control._onChange = (value) => {};
+    }
+
+    /**
+     * When this input is defined and does not have value false, the select will be styled as a
+     * box select.
+     */
+    @Input() @HostBinding('class.mdc-select--box')
+    get box() {
+        return this._box;
+    }
+
+    set box(val: any) {
+        this._box = asBoolean(val);
     }
 
     @HostBinding('class.mdc-select--disabled') get _disabled() {

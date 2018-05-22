@@ -14,6 +14,7 @@ import { AbstractSnippetComponent } from '../abstract.snippet.component';
 export class SnippetSelectComponent/*snip:skip*/extends AbstractSnippetComponent/*snip:endskip*/ {
     value: string;
     disabled = false;
+    box = false;
 
     //snip:skip
     constructor() {
