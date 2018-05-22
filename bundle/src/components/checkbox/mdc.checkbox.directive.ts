@@ -137,20 +137,6 @@ export class MdcCheckboxDirective extends AbstractMdcRipple implements AfterCont
         return true;
     }
 
-    /** @docs-private */
-    protected computeRippleBoundingRect() {
-        const dim = 40;
-        const {left, top} = this.root.nativeElement.getBoundingClientRect();
-        return {
-            top,
-            left,
-            right: left + dim,
-            bottom: top + dim,
-            width: dim,
-            height: dim
-        };
-    }
-
     @HostBinding('class.mdc-checkbox--disabled') get _disabled() {
         return this._input == null || this._input.disabled;
     }

@@ -120,20 +120,6 @@ export class MdcRadioDirective extends AbstractMdcRipple implements AfterContent
         return false;
     }
 
-    /** @docs-private */
-    protected computeRippleBoundingRect() {
-        const dim = 40;
-        const {left, top} = this.root.nativeElement.getBoundingClientRect();
-        return {
-            top,
-            left,
-            right: left + dim,
-            bottom: top + dim,
-            width: dim,
-            height: dim
-        };
-    }
-
     @HostBinding('class.mdc-radio--disabled') get _disabled() {
         return this._input == null || this._input.disabled;
     }
