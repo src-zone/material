@@ -4,10 +4,9 @@ import { asBoolean } from '../../utils/value.utils';
 import { MdcButtonDirective } from '../button/mdc.button.directive';
 
 /**
- * Directive for a separator in a list.
- * This directive, if used, should be the child of an <code>MdcListDirective</code>, or
- * an <code>MdcSelectMultipleNativeDirective</code>.
- * This directive also adds the "role" attribute to its element.
+ * Directive for a separator in a list (between list items), or as a separator between lists.
+ * This directive also adds a "role" attribute to its element (depending on the context
+ * where the divider is used).
  */
 @Directive({
     selector: '[mdcListDivider]',
@@ -17,12 +16,14 @@ export class MdcListDividerDirective {
     @HostBinding('attr.role') _role = 'separator';
     @HostBinding('attr.disabled') _disabled = false;
     private _inset = false;
+    private _padded = false;
     
     constructor(private _elm: ElementRef) {
         if (_elm.nativeElement.nodeName === 'OPTION') {
             this._role = 'presentation';
             this._disabled = true;
-        }
+        } else if (_elm.nativeElement.nodeName === 'HR')
+            this._role = null;
     }
 
     /**
@@ -36,6 +37,19 @@ export class MdcListDividerDirective {
 
     set hasInset(val: any) {
         this._inset = asBoolean(val);
+    }
+
+    /**
+     * When this input is defined and does not have value false, the divider leaves
+     * gaps on each site to match the padding of <code>mdcListItemMeta</code>.
+     */
+    @Input() @HostBinding('class.mdc-list-divider--padded')
+    get padded() {
+        return this._padded;
+    }
+
+    set padded(val: any) {
+        this._padded = asBoolean(val);
     }
 }
 
