@@ -10,7 +10,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Features
 
 * **snackbar:** add afterShow/afterHide observables to MdcSnackbarRef ([87ab60e](https://github.com/src-zone/material/commit/87ab60e))
-* fix mdcIcon styling & button-like behavior ([bf40e2c](https://github.com/src-zone/material/commit/bf40e2c))
+* **icon:** fix mdcIcon styling & button-like behavior ([bf40e2c](https://github.com/src-zone/material/commit/bf40e2c))
 * **select:** add box property to mdcSelect ([ab04988](https://github.com/src-zone/material/commit/ab04988))
 * upgrade to material-components-web 0.35.2 ([ac86710](https://github.com/src-zone/material/commit/ac86710))
 * **button:** add mdcButtonIcon ([ce47281](https://github.com/src-zone/material/commit/ce47281))
@@ -26,11 +26,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **menu:** rename isOpen/isOpenChange properties to open/openChange ([03ca89e](https://github.com/src-zone/material/commit/03ca89e))
 * **slider:** rename isDiscrete to discrete; hasMarkers to markers ([5c9fa82](https://github.com/src-zone/material/commit/5c9fa82))
 * **toolbar:** remove is* prefix from property names ([c27c269](https://github.com/src-zone/material/commit/c27c269))
-
-
-### Reverts
-
-* **dialog:** remove bogus workaround for non-existent upstream bug ([414f9ba](https://github.com/src-zone/material/commit/414f9ba))
 
 
 ### BREAKING CHANGES
