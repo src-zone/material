@@ -1,9 +1,11 @@
 import { Routes, RouterModule } from '@angular/router';
 import { OverviewComponent } from './overview.component';
 import {
+    IndexComponent,
     DocsComponent,
     GuidesComponent,
     GettingstartedComponent,
+    IE11Component,
 
     NotFoundComponent,
 
@@ -28,13 +30,14 @@ import {
     TabDirectivesComponent,
     TextFieldDirectivesComponent,
     ToolbarDirectivesComponent,
-    UtilityDirectivesComponent } from './components';
+    UtilityDirectivesComponent} from './components';
 
 export const routes: Routes = [
-    {path: '', redirectTo: 'guides', pathMatch: 'full'},
+    {path: '', component: IndexComponent},
     {path: 'guides', component: DocsComponent, children: [
         {path: '', pathMatch: 'full', component: GuidesComponent},
-        {path: 'gettingstarted', component: GettingstartedComponent}
+        {path: 'gettingstarted', component: GettingstartedComponent},
+        {path: 'ie11', component: IE11Component}
     ]},
     {path: 'directives', redirectTo: 'components'},
     {path: 'components', children: [
