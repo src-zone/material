@@ -1,0 +1,64 @@
+<h1>Building for IE11</h1>
+<p>When targeting Internet Explorer 11 in a Blox Material application
+  built with Angular CLI there are two issues:
+</p>
+<ol>
+  <li>Angular CLI by default targets modern evergreen browsers. IE11 is not that modern anymore.</li>
+  <li>Material Web Components are distributed as ES6 javascript. IE11 only supports ES5 javascript.</li>
+</ol>
+<p>
+  Luckily both issues can be solved relatively easy.
+</p>
+
+<h2>Step 1: Adding polyfills for IE11</h2>
+<p>
+  The Angular CLI has created a file <code>polyfills.ts</code> in the <code>src</code> directory of your project.
+  That file contains all the code required to help IE11 with executing some javascript functions that it does
+  not support natively.
+  These lines are just commented out.
+  So to support Internet Explorer, remove the comments from the lines that are indicated as required for IE11.
+  The result will look like:
+</p>
+<div class="blox-code-sample">
+  <pre><code mwlHighlightJs [source]="tsPolyfills" [language]="'typescript'"></code></pre>
+</div>
+<p>
+  Also, as instructed for the <code>classlist.js</code> polyfill, run:
+</p>
+<div class="blox-code-sample">
+  <pre><code mwlHighlightJs [source]="'npm install --save classlist.js'" [language]="'bash'"></code></pre>
+</div>
+
+<h2>Step 2: Transpiling generated Javascript bundles</h2>
+<blockquote>
+  This step is only for Angular CLI projects. If you build your Angular app with Webpack or
+  Rollup a better approach is to configure the build to only transpile the <code>@material/*</code>
+  packages. Have a look at the
+  <a href="https://github.com/src-zone/material/blob/master/site/webpack.config.js">webpack.config.js</a>
+  file of this demo website for inspiration (search for babelLoader in the file).
+</blockquote>
+<p>
+  Add the <code>ng-utils</code> package as developer dependency to your project:
+</p>
+<div class="blox-code-sample">
+  <pre><code mwlHighlightJs [source]="'npm install --save-dev @blox/ng-utils'" [language]="'bash'"></code></pre>
+</div>
+<p>
+  Now open your <code>package.json</code> and edit the scripts section to customize the <code>start</code>
+  and <code>build</code> scripts, and add a <code>transpile</code> script:
+</p>
+<div class="blox-code-sample">
+  <pre><code mwlHighlightJs [source]="pkgTasks" [language]="'json'"></code></pre>
+</div>
+
+<p>From now on make sure to always use the following command to create a production distribution of your
+  application (instead of <code>ng build --prod</code>):</p>
+<div class="blox-code-sample">
+  <pre><code mwlHighlightJs [source]="'npm run build'" [language]="'bash'"></code></pre>
+</div>
+<p>
+  Congratulations! You now have your Angular application fully integrated with Blox Material, optimized and working for
+  any browser supported by Angular.
+  Now head to the <a [routerLink]="['/components']">components documentation</a> for code samples and instructions on
+  how to use all Material components in your app!
+</p>

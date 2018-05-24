@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { AfterContentInit, Component, ContentChildren, ElementRef, OnDestroy, Renderer2, QueryList } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Angulartics2 } from 'angulartics2';
 import { Angulartics2GoogleTagManager } from 'angulartics2/gtm';
 import { filter, map } from 'rxjs/operators';
+import { ThemeService } from './services';
 
 const messages = require('./messages.json');
 const defaultTitle = messages['default.title'];
@@ -13,14 +16,19 @@ const defaultMetaDescription = messages['default.meta.description'];
     selector: 'blox-app',
     templateUrl: './app.component.html'
 })
-export class AppComponent {
+export class AppComponent implements AfterContentInit, OnDestroy {
+    private onDestroy$: Subject<any> = new Subject();
     year = new Date().getFullYear();
+    appliedTheme: string;
 
     constructor(
         private titleService: Title,
         private metaService: Meta,
         private router: Router,
         private activatedRoute: ActivatedRoute,
+        private elm: ElementRef,
+        private renderer: Renderer2,
+        private theme: ThemeService,
         angulartics2GoogleTagManager: Angulartics2GoogleTagManager,
         angulartics2: Angulartics2)
     {
@@ -38,6 +46,23 @@ export class AppComponent {
         ).subscribe((meta) => {
             this.setMeta(meta);
         });
+    }
+
+    ngAfterContentInit() {
+        this.theme.theme$.pipe(takeUntil(this.onDestroy$)).subscribe((theme) => {
+            if (this.appliedTheme !== theme) {
+                if (theme)
+                    this.renderer.addClass(this.elm.nativeElement, theme);
+                if (this.appliedTheme)
+                    this.renderer.removeClass(this.elm.nativeElement, this.appliedTheme);
+                this.appliedTheme = theme;
+            }
+        });
+    }
+
+    ngOnDestroy() {
+        this.onDestroy$.next();
+        this.onDestroy$.complete();
     }
 
     setMeta(meta: {type?: string, href?: string}) {

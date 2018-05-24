@@ -1,24 +1,29 @@
 <h1>Getting Started</h1>
-<p>This guide walks you through adding Blox Material to
-  new or existing Angular projects. It assumes the use of
-  <a href="https://cli.angular.io/">Angular CLI</a> for creating and maintaining your
-  project. The guide also assumes that you are running at least node 6.9.x and
-  npm 3.x.x, which you can verify by running <code>node -v</code> and <code>npm -v</code>.
-  Please refer to <a href="https://nodejs.org/en/download/">Node Downloads</a>
-  for instructions to install node and npm on your computer. To install Angular CLI, run:</p>
+
+<p>This guide gets you started with Blox Material in new or existing projects
+  created with the <a href="https://cli.angular.io/">Angular CLI</a>.
+  The Angular CLI only works with Node installed. So if you don't already
+  have a recent Node version running, please refer to
+  <a href="https://nodejs.org/en/download/">Node Downloads</a>
+  for instructions to install Node and Npm on your computer.
+  To install (or upgrade to) the latest Angular CLI, run:
+</p>
 <div class="blox-code-sample">
   <pre><code mwlHighlightJs [source]="'npm install -g @angular/cli'" [language]="'bash'"></code></pre>
 </div>
-<p>This will install the <code>ng</code> command globally on your system.
-If Angular CLI is already installed on your system, make sure you have at least
-version 1.5.2 installed, by running <code>ng -v</code>.
-To upgrade to the latest version just run the install command shown above again.
-</p>
+<p></p>
+<blockquote>
+  Check that you are using recent versions of Angular CLI, Node, and Npm:
+  run <code>ng -v &amp;&amp; npm -v &amp;&amp; node -v</code> to
+  check your versions.
+  This guide was written using Angular CLI 6.0.3, Npm 6.0.0, and Node 8.11.1.
+</blockquote>
 
 <h2>Step 1: Prepare your Angular Project</h2>
 <p>Although not required, using <a href="http://sass-lang.com/">Sass</a> is highly recommended with
-  Blox Material projects. The Material styling/themes are much easier to customize with Sass. For new
-  projects, use Angular CLI to bootstrap the project, and make scss (Sass) the default stylesheet
+  Blox Material projects.
+  The Material styling/themes are much easier to customize with Sass.
+  For new projects, use Angular CLI to bootstrap the project, and make scss (Sass) the default stylesheet
   preprocessor:</p>
 <div class="blox-code-sample">
   <pre><code mwlHighlightJs [source]="'ng new NAME-OF-PROJECT --style=scss\ncd NAME-OF-PROJECT'" [language]="'bash'"></code></pre>
@@ -28,15 +33,19 @@ To upgrade to the latest version just run the install command shown above again.
 <div class="blox-code-sample">
   <pre><code mwlHighlightJs [source]="'ng set defaults.styleExt scss'" [language]="'bash'"></code></pre>
 </div>
-<p>Then simply rename <code>src/styles.css</code> to <code>src/styles.scss</code>, and in the configuration file
-<code>.angular-cli.json</code> also change the reference to <code>styles.css</code> to refer to
-<code>styles.scss</code> instead. (You can find that under apps/styles in the file).
-Since scss is an extension of css, this will not affect your existing styles.</p>
-<p>For existing projects, also make sure that you are using at least Angular CLI 1.5.2
-(Angular CLI uses the version installed for your project, not the globally installed
-version). This can be checked by running <code>ng -v</code> in the project directory.
-If the project uses an older Angular CLI version, upgrade it by running
-<code>npm install --save-dev @angular/cli</code> in your project directory.</p>
+<p>Then simply rename <code>src/styles.css</code> to <code>src/styles.scss</code>,
+  and in the configuration file <code>angular.json</code> also change the reference
+  to <code>styles.css</code> to refer to <code>styles.scss</code> instead.
+  (You can find that under projects/<wbr>NAME-OF-PROJECT/<wbr>architect/<wbr>build/<wbr>options/<wbr>styles
+  in the file).
+  Since scss is an extension of css, this will not affect your existing styles.
+</p>
+<p>For existing projects, also make sure that you are using at least Angular CLI 6.0.0
+  (Angular CLI uses the version installed for your project, not the globally installed
+  version). This can be checked by running <code>ng -v</code> in the project directory.
+  If the project uses an older Angular CLI version, upgrade it by running
+  <code>npm install --save-dev @angular/cli</code> in your project directory.
+</p>
 
 <h2>Step 2: Install Blox Material</h2>
 <p>Now add the Blox Material library to your project:</p>
@@ -51,10 +60,21 @@ If the project uses an older Angular CLI version, upgrade it by running
 <div class="blox-code-sample">
   <pre><code mwlHighlightJs [source]="codeModule" [language]="'typescript'"></code></pre>
 </div>
+<p></p>
+<blockquote>
+  Blox Material is designed in such a way that only components, directives, and services that
+  are used in your application end up in the final production build.
+  (The code is effectively <em>tree-shakeable</em> by the Angular CLI, and other build tools like Webpack and
+  Rollup).
+  Thus there is no need for smaller partial modules for separate components, like other Angular frameworks
+  typically offer.
+  Just import the complete <code>MaterialModule</code>, only functionality that is actually used
+  is going to your customers!
+</blockquote>
 <p>
   The example also includes the <code>@angular/forms FormsModule</code>. Using the FormsModule
   is <strong>not</strong> a requirement of Blox Material. All Blox Material components can also be used
-  without the FormsModule. However, the FormsModule makes building forms much easier, with easy
+  without the FormsModule. However, the FormsModule makes building forms a brease, with easy
   binding of controls to data, addition of validation rules, display of errors, and much more.
   Please refer to <a href="https://angular.io/guide/forms">Angular Forms Guide</a> for more in
   depth information.</p>
@@ -68,8 +88,9 @@ If the project uses an older Angular CLI version, upgrade it by running
 
 <h2>Step 3: Import and Customize a Theme</h2>
 <p>To tell the Sass preprocessor how to find all Material Components theme files,
-  add the following configuration to the <code>apps</code> section of the
-  <code>.angular.cli.json</code> file:</p>
+  add the following configuration to the build <code>options</code> section of your
+  project in the <code>angular.json</code> file (under
+  projects/<wbr>NAME-OF-PROJECT/<wbr>architect/<wbr>build/<wbr>options:</p>
 <div class="blox-code-sample">
   <pre><code mwlHighlightJs [source]="cliIncludeThemes" [language]="'json'"></code></pre>
 </div>
@@ -79,13 +100,13 @@ If the project uses an older Angular CLI version, upgrade it by running
 </div>
 <p>
   This will add theme styles for all available Material components. If you only use
-  a couple of components, you can save space by only including the theme files
+  a couple of components, you can save memory by only including the theme files
   for the components you actually use. For example:</p>
 <div class="blox-code-sample">
   <pre><code mwlHighlightJs [language]="'scss'"
     [source]="'@import &quot;@material/button/mdc-button&quot;;\n@import &quot;@material/card/mdc-fab&quot;;'"></code></pre>
 </div>
-<p>To use Google's Material Icons, and the Roboto font (default font for the Material components),
+<p>To use Google's Material Icons, and the Roboto font (default font for the Material Components),
   you may also want to add the following stylesheets to the head section of the <code>src/index.html</code>
   file (both are optional):
 </p>
@@ -94,64 +115,27 @@ If the project uses an older Angular CLI version, upgrade it by running
 </div>  
 <p>
   For more information about customizing and extending the theme, see
-  <a href="https://github.com/material-components/material-components-web/tree/master/packages/mdc-theme">Material
+  <a href="https://github.com/material-components/material-components-web/blob/master/packages/mdc-theme/README.md">Material
     Components Web Theme Documentation</a>.
+  Most components also define Sass variables and/or mixins to further customize their appearance.
+  Links to the documentation for these Sass rules can be found on the component's documentation page.
 </p>
 
-<h2>Step 4: Add Material Components</h2>
+<h2>Step 4: Use Material Components!</h2>
 <p>Open <code>src/app/app.component.html</code> and add some markup, for example:</p>
 <div class="blox-code-sample">
   <pre><code mwlHighlightJs [language]="'html'"
     [source]="'&lt;button mdcButton raised&gt;My First Material Button&lt;/button&gt;'"></code></pre>
 </div>
-<p>Next, run <code>npm run start</code> to run your application, navigate to <code>http://localhost:4200</code>,
-  and validate you get a nice button styled according to the Material Guidelines. Congratulations,
-  you have made your first Angular App with Blox Material! The <a [routerLink]="['/components']">Components</a>
-  section of this website contains documentation and code samples for all supported Material components.</p>
-
-<h2>Step 5: Compatibility with older browsers</h2>
-<p>The web app you just created will not work with older browsers, such as IE11.
-  Blox Material depends on Google's Material Components for the Web, which is
-  distributed in different <code>@material/*</code> npm packages.
-  These packages all use es2015 (also called es6, or ecmascript 2015) features that
-  not all browsers support. Here we show one way to solve this issue, while
-  still being able to use Angular CLI to manage your project.
-  First you need to install a utility to postprocess the javascript and html
-  generated by the build, and transpile the javascript to es5 code:
+<p>Next, run <code>npm run start</code> and when the application starts, navigate to <code>http://localhost:4200</code>.
+  Validate you see the added button, and that it is correctly styled.
+  Congratulations! You have made your first Angular App with Blox Material!
+  The <a [routerLink]="['/components']">Components</a> section of this website contains documentation and
+  code samples for all supported Material components.
+  You can even experiment with the demos by editing the source code without leaving your browser!
 </p>
-<div class="blox-code-sample">
-  <pre><code mwlHighlightJs [source]="'npm install --save-dev @blox/ng-utils'" [language]="'bash'"></code></pre>
-</div>
-<p>
-  Now open your <code>package.json</code> and edit your scripts section to customize the <code>start</code>
-  and <code>build</code> scripts, and add a <code>transpile</code> script:
-</p>
-<div class="blox-code-sample">
-  <pre><code mwlHighlightJs [source]="pkgTasks" [language]="'json'"></code></pre>
-</div>
-<p>
-  Next add polyfills for features that some browsers not yet support natively: Angular CLI has created a
-  <code>src/polyfills.ts</code> file for supporting older browsers, but by default it
-  has commented out all polyfills required for Internet Explorer. So to support Internet Explorer,
-  remove the comments at the start of the file. This will make it look like:
-</p>
-<div class="blox-code-sample">
-  <pre><code mwlHighlightJs [source]="tsPolyfills" [language]="'typescript'"></code></pre>
-</div>
-<p>
-  Also, as instructed for the <code>classlist.js</code> polyfill, run:
-</p>
-<div class="blox-code-sample">
-  <pre><code mwlHighlightJs [source]="'npm install --save classlist.js'" [language]="'bash'"></code></pre>
-</div>
-<p>From now on make sure to always use the following command to create a production distribution of your
-  application (instead of <code>ng build --prod</code>):</p>
-<div class="blox-code-sample">
-  <pre><code mwlHighlightJs [source]="'npm run build'" [language]="'bash'"></code></pre>
-</div>
-<p>
-  Congratulations! You now have your Angular application fully integrated with Blox Material, optimized and working for
-  any browser supported by Angular.
-  Now head to the <a [routerLink]="['/components']">components documentation</a> for code samples and instructions on
-  how to use all Material components in your app!
-</p>
+<blockquote>
+  If you have to support Internet Explorer, a few extra steps are required.
+  Luckily we wrote a guide to help you with that as well:
+  <a routerLink="../ie11">Building for Internet Explorer 11</a>.
+</blockquote>

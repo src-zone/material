@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { OverviewComponent } from './overview.component';
 import { routing, appRoutingProviders } from './app.routes';
 import {
+  IndexComponent,
   DocsComponent,
   GuidesComponent,
   GettingstartedComponent,
@@ -42,7 +43,8 @@ import {
   SnippetTabSimpleComponent,
   SnippetTabScrollerComponent,
   SnippetTextFieldComponent, SnippetTextFieldIconComponent, SnippetTextFieldTextareaComponent,
-  SnippetToolbarComponent, SnippetToolbarFlexibleComponent } from './components';
+  SnippetToolbarComponent, SnippetToolbarFlexibleComponent, IE11Component } from './components';
+import { ThemeService } from './services';
 
 const hljs: any = require('highlight.js/lib/highlight');
 hljs.registerLanguage('typescript', require('highlight.js/lib/languages/typescript'));
@@ -69,9 +71,11 @@ export function highlightJsFactory() {
   declarations: [
     AppComponent,
 
+    IndexComponent,
     DocsComponent,
     GuidesComponent,
     GettingstartedComponent,
+    IE11Component,
 
     OverviewComponent,
 
@@ -108,7 +112,8 @@ export function highlightJsFactory() {
   ],
   providers: [
     appRoutingProviders,
-    {provide: LocationStrategy, useClass: PathLocationStrategy}
+    {provide: LocationStrategy, useClass: PathLocationStrategy},
+    ThemeService
   ],
   bootstrap: [ AppComponent ]
 })
