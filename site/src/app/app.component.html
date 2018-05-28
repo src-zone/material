@@ -1,24 +1,18 @@
-<header mdcToolbar class="blox-header" fixed [fixedAdjust]="main" flexible flexibleDefaultBehavior fixedLastrowOnly waterfall>
+<header mdcToolbar class="blox-header" fixed [fixedAdjust]="main" flexible flexibleDefaultBehavior fixedLastrowOnly>
   <div class="blox-container blox-material-header-logo">
   </div>
   <div mdcToolbarRow class="blox-container">
     <div mdcToolbarSection alignStart>
-      <span mdcToolbarTitle class="blox-title-l">blox material:</span>
-      <span mdcToolbarTitle class="blox-title-m">blox material:</span>      
-      <span mdcToolbarTitle class="blox-title-s">material</span>
+      <a mdcToolbarTitle routerLink="/" class="blox-title-l blox-drop-ua" tabindex="-1">blox material: components for angular</a>
+      <a mdcToolbarTitle routerLink="/" class="blox-title-m blox-drop-ua" tabindex="-1">blox material: angular components</a>      
+      <a mdcToolbarTitle routerLink="/" class="blox-title-s blox-drop-ua" tabindex="-1">material components</a>
     </div>
-    <div mdcToolbarSection alignEnd></div>
   </div>
   <div mdcToolbarRow class="blox-container">
-    <a mdcToolbarSection alignStart routerLink="/" class="blox-home-link"></a>
-    <div mdcToolbarSection alignEnd>
-      <span mdcToolbarTitle class="blox-title-l">material components for angular</span>
-      <span mdcToolbarTitle class="blox-title-m">components for angular</span>      
-      <span mdcToolbarTitle class="blox-title-s">components</span>
-    </div>
+    <a mdcToolbarSection alignStart routerLink="/" class="blox-home-link blox-drop-ua" tabindex="-1"></a>
   </div>  
   <div mdcToolbarRow class="blox-container">
-    <a mdcToolbarSection alignStart routerLink="/" class="blox-home-link"></a>
+    <a mdcToolbarSection alignStart routerLink="/" class="blox-home-link blox-drop-ua" tabindex="-1"></a>
     <div mdcToolbarSection alignEnd>
       <nav mdcTabBar>
         <a mdcTabRouter [routerLink]="['guides']">Guides</a>
@@ -33,9 +27,17 @@
   </div>
 </main>
 <footer class="blox-footer">
-  <div class="blox-container">Powered by The Source Zone &copy; 2017 - {{year}}, Amsterdam.
-    Sourcecode on <a href="https://github.com/src-zone/material">github.com/src-zone/material</a>.
-    Code licensed under Apache License v2.0.
-    Documentation licensed under CC BY 4.0.
+  <div class="blox-container">
+    <section>
+      <a mdcButton href="https://twitter.com/intent/follow?screen_name=TheSourceZone" class="blox-nobreak blox-social" rel="nofollow">
+        ${require('!inline!svg!assets/img/logos/twitter.svg')}&nbsp;Follow Blox Material
+      </a>
+      <a mdcButton href="https://github.com/src-zone/material" class="blox-nobreak blox-social" rel="nofollow">
+        ${require('!inline!svg!assets/img/logos/github.svg')}&nbsp;<span class="weak">github.com/</span>src&#8209;zone/material
+      </a>
+    </section>
+    Powered by The Source Zone &copy; 2017 - {{year}}, Amsterdam<br/>
+    Code licensed under Apache License v2.0<br/>
+    Documentation licensed under CC BY 4.0
   </div>
 </footer>

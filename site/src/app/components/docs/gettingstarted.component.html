@@ -9,7 +9,7 @@
   To install (or upgrade to) the latest Angular CLI, run:
 </p>
 <div class="blox-code-sample">
-  <pre><code mwlHighlightJs [source]="'npm install -g @angular/cli'" [language]="'bash'"></code></pre>
+  <pre><code highlightJs lang="bash">npm install -g @angular/cli</code></pre>
 </div>
 <p></p>
 <blockquote>
@@ -26,12 +26,12 @@
   For new projects, use Angular CLI to bootstrap the project, and make scss (Sass) the default stylesheet
   preprocessor:</p>
 <div class="blox-code-sample">
-  <pre><code mwlHighlightJs [source]="'ng new NAME-OF-PROJECT --style=scss\ncd NAME-OF-PROJECT'" [language]="'bash'"></code></pre>
+  <pre><code highlightJs lang="bash">ng new NAME-OF-PROJECT --style=scss\ncd NAME-OF-PROJECT</code></pre>
 </div>
 <p>For existing projects that do not use Sass yet, you can switch to Sass as default stylesheet preprocessor
   with the following command (run inside the root directory of your project):</p>
 <div class="blox-code-sample">
-  <pre><code mwlHighlightJs [source]="'ng set defaults.styleExt scss'" [language]="'bash'"></code></pre>
+  <pre><code highlightJs lang="bash">ng set defaults.styleExt scss</code></pre>
 </div>
 <p>Then simply rename <code>src/styles.css</code> to <code>src/styles.scss</code>,
   and in the configuration file <code>angular.json</code> also change the reference
@@ -50,15 +50,28 @@
 <h2>Step 2: Install Blox Material</h2>
 <p>Now add the Blox Material library to your project:</p>
 <div class="blox-code-sample">
-  <pre><code mwlHighlightJs [source]="'npm install --save @blox/material'" [language]="'bash'"></code></pre>
+  <pre><code highlightJs lang="bash">npm install --save @blox/material</code></pre>
 </div>
 <p>Next install <code>@angular/forms</code> (optional):</p>
 <div class="blox-code-sample">
-  <pre><code mwlHighlightJs [source]="'npm install --save @angular/forms'" [language]="'bash'"></code></pre>
+  <pre><code highlightJs lang="bash">npm install --save @angular/forms</code></pre>
 </div>
 <p>And add the Material module to your application (in <code>src/app/app.module.ts</code>):</p>
 <div class="blox-code-sample">
-  <pre><code mwlHighlightJs [source]="codeModule" [language]="'typescript'"></code></pre>
+  <pre><code highlightJs lang="typescript">import {{'{ FormsModule }'}} from '@angular/forms'; // (optional)
+import {{'{ MaterialModule }'}} from '@blox/material';
+
+@NgModule({{'{'}}
+    ...
+    imports: [
+        BrowserModule,
+        FormsModule,      // using FormsModule is optional
+        MaterialModule,
+        ...
+    ],
+    ...
+{{'}'}})
+export class MyAppModule {{'{ }'}}</code></pre>
 </div>
 <p></p>
 <blockquote>
@@ -92,27 +105,50 @@
   project in the <code>angular.json</code> file (under
   projects/<wbr>NAME-OF-PROJECT/<wbr>architect/<wbr>build/<wbr>options:</p>
 <div class="blox-code-sample">
-  <pre><code mwlHighlightJs [source]="cliIncludeThemes" [language]="'json'"></code></pre>
+  <pre><code highlightJs lang="json">{{'{'}}
+    "projects": {{'{ "NAME-OF-PROJECT": { "architect": { "build": {'}}
+        ...
+        "options": {{'{'}}
+            ...
+            "styles": ...
+            ...
+            "stylePreprocessorOptions": {{'{'}}
+                "includePaths": [
+                    "node_modules"
+                ]
+            {{'}'}},
+            ...
+        {{'}'}}
+    {{'\}\}\}\}'}}
+    ...
+{{'}'}}</code></pre>
 </div>
 <p>Next, add the following code to your <code>src/styles.scss</code> file:</p>
 <div class="blox-code-sample">
-  <pre><code mwlHighlightJs [source]="codeScss" [language]="'scss'"></code></pre>
+  <pre><code highlightJs lang="scss">// customize some theme variables, e.g.:
+$mdc-theme-primary: #6200ee;
+$mdc-theme-secondary: #018786;
+$mdc-theme-background: #fff;
+
+// import theming for all mdc components:
+@import "material-components-web/material-components-web";</code></pre>
 </div>
 <p>
   This will add theme styles for all available Material components. If you only use
   a couple of components, you can save memory by only including the theme files
   for the components you actually use. For example:</p>
 <div class="blox-code-sample">
-  <pre><code mwlHighlightJs [language]="'scss'"
-    [source]="'@import &quot;@material/button/mdc-button&quot;;\n@import &quot;@material/card/mdc-fab&quot;;'"></code></pre>
+  <pre><code highlightJs lang="scss">@import &quot;@material/button/mdc-button&quot;;
+@import &quot;@material/card/mdc-fab&quot;;</code></pre>
 </div>
 <p>To use Google's Material Icons, and the Roboto font (default font for the Material Components),
   you may also want to add the following stylesheets to the head section of the <code>src/index.html</code>
   file (both are optional):
 </p>
 <div class="blox-code-sample">
-  <pre><code mwlHighlightJs [language]="'html'" [source]="indexStylesheets"></code></pre>
-</div>  
+  <pre><code highlightJs lang="html">&lt;link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto"&gt;
+&lt;link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"&gt;</code></pre>
+</div>
 <p>
   For more information about customizing and extending the theme, see
   <a href="https://github.com/material-components/material-components-web/blob/master/packages/mdc-theme/README.md">Material
@@ -124,8 +160,7 @@
 <h2>Step 4: Use Material Components!</h2>
 <p>Open <code>src/app/app.component.html</code> and add some markup, for example:</p>
 <div class="blox-code-sample">
-  <pre><code mwlHighlightJs [language]="'html'"
-    [source]="'&lt;button mdcButton raised&gt;My First Material Button&lt;/button&gt;'"></code></pre>
+  <pre><code highlightJs lang="html">&lt;button mdcButton raised&gt;My First Material Button&lt;/button&gt;</code></pre>
 </div>
 <p>Next, run <code>npm run start</code> and when the application starts, navigate to <code>http://localhost:4200</code>.
   Validate you see the added button, and that it is correctly styled.
@@ -134,7 +169,7 @@
   code samples for all supported Material components.
   You can even experiment with the demos by editing the source code without leaving your browser!
 </p>
-<blockquote>
+<blockquote class="blox-content-last">
   If you have to support Internet Explorer, a few extra steps are required.
   Luckily we wrote a guide to help you with that as well:
   <a routerLink="../ie11">Building for Internet Explorer 11</a>.

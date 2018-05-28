@@ -20,13 +20,40 @@
   The result will look like:
 </p>
 <div class="blox-code-sample">
-  <pre><code mwlHighlightJs [source]="tsPolyfills" [language]="'typescript'"></code></pre>
+  <pre><code highlightJs lang="typescript">...
+/** IE9, IE10 and IE11 requires all of the following polyfills. **/
+import 'core-js/es6/symbol';
+import 'core-js/es6/object';
+import 'core-js/es6/function';
+import 'core-js/es6/parse-int';
+import 'core-js/es6/parse-float';
+import 'core-js/es6/number';
+import 'core-js/es6/math';
+import 'core-js/es6/string';
+import 'core-js/es6/date';
+import 'core-js/es6/array';
+import 'core-js/es6/regexp';
+import 'core-js/es6/map';
+import 'core-js/es6/weak-map';
+import 'core-js/es6/set';
+        
+/** IE10 and IE11 requires the following for NgClass support on SVG elements */
+import 'classlist.js';  // Run 'npm install --save classlist.js'.
+        
+/** IE10 and IE11 requires the following for the Reflect API. */
+import 'core-js/es6/reflect';
+              
+/** Evergreen browsers require these. **/
+// Used for reflect-metadata in JIT. If you use AOT (and only Angular decorators), you can remove.
+import 'core-js/es7/reflect';
+
+...</code></pre>
 </div>
 <p>
   Also, as instructed for the <code>classlist.js</code> polyfill, run:
 </p>
 <div class="blox-code-sample">
-  <pre><code mwlHighlightJs [source]="'npm install --save classlist.js'" [language]="'bash'"></code></pre>
+  <pre><code highlightJs lang="bash">npm install --save classlist.js</code></pre>
 </div>
 
 <h2>Step 2: Transpiling generated Javascript bundles</h2>
@@ -41,22 +68,31 @@
   Add the <code>ng-utils</code> package as developer dependency to your project:
 </p>
 <div class="blox-code-sample">
-  <pre><code mwlHighlightJs [source]="'npm install --save-dev @blox/ng-utils'" [language]="'bash'"></code></pre>
+  <pre><code highlightJs lang="bash">npm install --save-dev @blox/ng-utils</code></pre>
 </div>
 <p>
   Now open your <code>package.json</code> and edit the scripts section to customize the <code>start</code>
   and <code>build</code> scripts, and add a <code>transpile</code> script:
 </p>
 <div class="blox-code-sample">
-  <pre><code mwlHighlightJs [source]="pkgTasks" [language]="'json'"></code></pre>
+  <pre><code highlightJs lang="json">{{'{'}}
+    ...
+    "scripts": [
+        ...
+        "transpile": "ng-transpile --dir dist/NAME-OF-PROJECT --verbose --browsers ignore",
+        "build": "ng build --prod && npm run transpile",
+        ...
+    ],
+    ...
+{{'}'}}</code></pre>
 </div>
 
 <p>From now on make sure to always use the following command to create a production distribution of your
   application (instead of <code>ng build --prod</code>):</p>
 <div class="blox-code-sample">
-  <pre><code mwlHighlightJs [source]="'npm run build'" [language]="'bash'"></code></pre>
+  <pre><code highlightJs lang="bash">npm run build</code></pre>
 </div>
-<p>
+<p class="blox-content-last">
   Congratulations! You now have your Angular application fully integrated with Blox Material, optimized and working for
   any browser supported by Angular.
   Now head to the <a [routerLink]="['/components']">components documentation</a> for code samples and instructions on

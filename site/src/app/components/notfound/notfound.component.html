@@ -1,7 +1,18 @@
-<h1>404 - Page Not Found</h1>
-<div class="blox-jumbo">
-  <p>The page you are looking for can't be found.
-    Return to the <a href="javascript:window.history.back()">previous page</a> or
-    go back to the <a [routerLink]="['/guides']">home page</a>.
-  </p>
+<div class="blox-img-list">
+  <div class="blox-img-list-row"></div>
+  <div class="blox-img-list-row">
+    <div class="blox-img-list-img blox-bg-404"></div>
+    <div class="blox-img-list-cap">
+      <h1>Page Not Found</h1>
+      <p>The requested page <code>{{pageUrl}}</code> does not exist.
+        Maybe the sharks ate it?</p>
+      <p>
+        Return to the <a href="javascript:window.history.back()">previous page</a> or
+        go back to the <a routerLink="/">home page</a>.
+      </p>
+      <section>
+        <a mdcButton routerLink="/" class="blox-button-attract">Take Me Home</a>
+      </section>
+    </div>
+  </div>
 </div>
