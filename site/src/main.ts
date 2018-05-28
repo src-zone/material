@@ -4,8 +4,10 @@ import { AppModule } from './app/app.module';
 
 require('./style/app.scss');
 
-// depending on the env mode, enable prod mode or add debugging modules
-if (process.env.ENV === 'build') {
+declare const PRODUCTION: any;
+
+// PRODUCTION is injected by webpack depending on the build/run:
+if (PRODUCTION) {
   enableProdMode();
 } else {
   console.log('development mode');

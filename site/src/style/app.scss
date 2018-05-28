@@ -5,7 +5,7 @@
 @import "neat";
 @import "mdc";
 @import "mixins";
-@import "~highlight.js/styles/default.css";
+@import "highlight/light";
 @import "typography";
 
 body, html {
@@ -27,10 +27,6 @@ main {
   flex: 1 1 auto;
 }
 
-.blox-theme-dark {
-  background-color: $mdc-theme-primary;
-}
-
 .blox-container {
   @include blox-container;
 }
@@ -38,6 +34,10 @@ main {
 .blox-nobreak {
   word-wrap: none;
   white-space: nowrap;
+}
+
+.blox-content-last {
+  margin-bottom: 16px;
 }
 
 .blox-material-header-logo {
@@ -50,7 +50,15 @@ main {
   background-size: contain;
   transition: mdc-animation-exit-temporary(top, 175ms);
 }
-a.blox-home-link { height: $mdc-toolbar-row-height; max-width: 2 * $mdc-toolbar-row-height; }
+a.blox-drop-ua {
+  @include mdc-theme-prop(color, text-secondary-on-dark);
+  &:focus {
+    outline: none;
+  }
+}
+a.blox-home-link {
+  height: $mdc-toolbar-row-height; max-width: 2 * $mdc-toolbar-row-height;
+}
 .mdc-toolbar--fixed-at-last-row .blox-material-header-logo {
   top: 2 * $mdc-toolbar-row-height;
 }
@@ -133,11 +141,23 @@ header {
   }
 }
 
-footer {
+footer.blox-footer {
+  $footer-bg-color: mdc-theme-ink-color-for-fill_(secondary, $mdc-theme-background);
   @include mdc-typography(caption);
   text-align: center;
   background: #fafafa;
   padding-top: 12px;
+
+  .mdc-button {
+    margin: 8px 16px;
+    font-weight: 400;
+  }
+  .blox-theme-dark & {
+    background: $footer-bg-color;
+    .mdc-button {
+      @include mdc-button-filled-accessible($footer-bg-color);
+    }
+  }
 }
 
 blockquote {
@@ -145,6 +165,10 @@ blockquote {
   border-left: 8px solid $mdc-theme-secondary;
   padding: 16px;
   margin: 0;
+
+  .blox-theme-dark & {
+    background-color: mdc-theme-ink-color-for-fill_(secondary, $mdc-theme-background);
+  }
 }
 
 .blox-component-list {
@@ -154,49 +178,37 @@ blockquote {
   }
 }
 
-$blox-index-list-grid: (
+.mdc-button.blox-button-attract {
+  @include mdc-button-filled-accessible($mdc-theme-secondary);
+  .blox-theme-dark & {
+    @include mdc-button-filled-accessible($mdc-theme-secondary);
+  }
+}
+
+.blox-index-intro, .blox-index-foot {
+  text-align: center;
+  .mdc-button {
+    margin: 8px 16px;
+  }
+}
+
+$blox-img-list-grid: (
   columns: 1,
   gutter: 16px
 );
-$blox-index-list-grid-m: (
+$blox-img-list-grid-m: (
   columns: 3,
   gutter: 16px,
   media: $media-m-min-width
 );
-.blox-index {
+.blox-img-list {
   margin: 16px auto 0 auto;
-  @include mdc-theme-prop(color, text-primary-on-dark);
-
-  // add extra margins depending on screen size:
-  width: $container-s-width;
-  @media only screen and (min-width: $media-m-min-width) {
-    width: $container-m-width;
-  }
+  max-width: $container-smaller-max-width;
 }
-.blox-index-intro, .blox-index-foot {
-  text-align: center;
-  .mdc-button {
-    @include mdc-button-filled-accessible($mdc-theme-secondary);
-    &.blox-social {
-      @include mdc-button-filled-accessible($mdc-theme-primary);
-      font-weight: 400;
-      .weak {
-        @include mdc-theme-prop(color, text-secondary-on-dark);
-      }
-    }
-    margin: 8px 16px;
-    img {
-      height: 18px;
-      width: 18px;
-      top: -2px;
-      position: relative;
-    }
-  }
-}
-.blox-index-row {
-  @include grid-container($blox-index-list-grid);
-  @include grid-media($blox-index-list-grid-m) {
-    @include grid-container($blox-index-list-grid-m);
+.blox-img-list-row {
+  @include grid-container($blox-img-list-grid);
+  @include grid-media($blox-img-list-grid-m) {
+    @include grid-container($blox-img-list-grid-m);
   }
   display: flex;
   flex-flow: row wrap;
@@ -206,24 +218,38 @@ $blox-index-list-grid-m: (
     @media only screen and (min-width: $media-m-min-width) {
       flex-flow: row-reverse;
     }
+    .blox-img-list-img {
+      background-position-x: left;
+    }
+  }
+  .blox-img-list-img {
+    background-position-x: right;
+    background-position-y: center;
+    min-height: 100px;
   }
 }
-.blox-index-img {
-  @include grid-column(1, $blox-index-list-grid);
-  max-width: 300px;
-  @include grid-media($blox-index-list-grid-m) {
+.blox-img-list-img {
+  display: block;
+  @include grid-column(1, $blox-img-list-grid);
+  @include grid-media($blox-img-list-grid-m) {
     @include grid-column(1);
     max-width: initial;
   }
+  align-self: stretch;
+  background-size: contain;
+  background-repeat: no-repeat;
+  &.blox-bg-fast { background-image: url(~assets/img/photos/speed.jpg); }
+  &.blox-bg-themeable { background-image: url(~assets/img/photos/crayons.jpg); }
+  &.blox-bg-accessible { background-image: url(~assets/img/photos/mobile.jpg); }
+  &.blox-bg-404 { background-image: url(~assets/img/photos/shark.jpg); }
 }
-.blox-index-cap {
-  @include grid-column(1, $blox-index-list-grid);
-  @include grid-media($blox-index-list-grid-m) {
+.blox-img-list-cap {
+  @include grid-column(1, $blox-img-list-grid);
+  margin-top: -58px; // moves the caption into the image above it
+  @include grid-media($blox-img-list-grid-m) {
     @include grid-column(2);
+    margin-top: 16px;  // makes blox-img-list-img a little bit taller
   }
-}
-.blox-index-img {
-  display: block;
 }
 
 $blox-component-list-grid: (
@@ -257,6 +283,9 @@ nav.blox-component-list {
         margin-top: 0;
         margin-bottom: 0;
       }
+      .blox-theme-dark & {
+        @include mdc-theme-prop(color, text-primary-on-dark);      
+      }
     }
   }
 }
@@ -276,6 +305,9 @@ nav.blox-component-list {
 
 code {
   background: #f5f5f5;
+  .blox-theme-dark & {
+    background: mdc-theme-ink-color-for-fill_(secondary, $mdc-theme-background);
+  }
 }
 
 .blox-code-sample {
@@ -287,6 +319,9 @@ code {
     overflow-x: auto;
     padding: 16px;
     margin: 0;
+    .blox-theme-dark & {
+      background: mdc-theme-ink-color-for-fill_(secondary, $mdc-theme-background);
+    }  
   }
   code {
     background: transparent;
@@ -429,23 +464,45 @@ p.blox-demo-paragraph {
   }
 }
 
-.blox-jumbo {
-  font-size: 24px;
-  @media only screen and (max-width: $media-m-min-width - 1px) {
-    font-size: 16px;
+svg.blox-inline-svg {
+  position: relative;
+  top: -0.14em;
+  height: 1.3em;
+  fill: #000;
+  stroke: #000;
+  .blox-theme-dark & {
+    fill: #fff;
+    stroke: #fff;
   }
-  .blox-inline-svg {
-    height: 28px;
-    width: 28px;
-    top: 6px;
-    position: relative;
-    @media only screen and (max-width: $media-m-min-width - 1px) {
-      height: 16px;
-      width: 16px;
-      top: 3px;
-    }
+}
+
+.weak {
+  @include mdc-theme-prop(color, text-secondary-on-background);
+  .blox-theme-dark & {
+    @include mdc-theme-prop(color, text-secondary-on-dark);
   }
+}
+
+.blox-theme-dark {
+  background-color: $mdc-theme-primary;
+  @include mdc-theme-prop(color, text-primary-on-dark);
+  .mdc-button {
+    @include mdc-button-filled-accessible($mdc-theme-primary);
+  }
+  .mdc-list {
+    @include mdc-list-item-primary-text-ink-color(text-primary-on-dark);
+  }
+  .mdc-list-item--selected, .mdc-list-item--activated {
+    @include mdc-list-item-primary-text-ink-color(text-primary-on-dark);
+    @include mdc-list-item-graphic-ink-color(text-primary-on-dark);
+  }
+  :not(.mdc-list--non-interactive) > .mdc-list-item {
+    @include mdc-states-base-color(white);
+  }
+
   a {
-    text-decoration: none;
+    @include mdc-theme-prop(color, text-secondary-on-dark);
   }
+
+  @import "highlight/dark";
 }

@@ -21,5 +21,5 @@
     <a *ngFor="let name of snippetNames" mdcTab (activate)="activate(name)" tabindex="0" role="link">{{name}}</a>
   </nav>
 </div>
-<pre *ngIf="showCode && active"><code mwlHighlightJs [source]="snippet.code[active]" [language]="active"></code></pre>
+<pre *ngIf="showCode && active"><code highlightJs [source]="snippet.code[active]" [lang]="active"></code></pre>
 <ng-content select="[bloxSample]"></ng-content>

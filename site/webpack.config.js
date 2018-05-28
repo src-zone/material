@@ -10,7 +10,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const PurifyPlugin = require('@angular-devkit/build-optimizer').PurifyPlugin;
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const AngularCompilerPlugin = require('@ngtools/webpack').AngularCompilerPlugin;
-const InlineChunkManifestHtmlWebpackPlugin = require('inline-chunk-manifest-html-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 /**
@@ -147,6 +146,19 @@ module.exports = function makeWebpackConfig(env) {
     ]
   };
 
+  config.resolveLoader = {
+    alias: {
+      'inline': 'raw-loader',
+      'svg': 'svgo-loader?' + JSON.stringify({
+        plugins: [
+          {removeViewBox: false},
+          {removeDimensions: true},
+          {addClassesToSVGElement: {classNames: ['blox-inline-svg']}}
+        ]
+      })
+    }
+  };
+
   config.performance = {
     hints: isProd ? "warning" : false
   };
@@ -270,7 +282,8 @@ module.exports = function makeWebpackConfig(env) {
       'process.env': {
         ENV: JSON.stringify(ENV),
         target: JSON.stringify(target)
-      }
+      },
+      PRODUCTION: JSON.stringify(isProd)
     }),
 
     new webpack.LoaderOptionsPlugin({

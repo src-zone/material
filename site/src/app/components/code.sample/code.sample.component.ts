@@ -128,7 +128,7 @@ export class CodeSampleComponent implements AfterContentInit {
                     hideDevTools: false
                 });
             };
-        }, 'stackblitz');
+        }, 'ide');
     }
 
     addAssets(code: string, matcher: RegExp, assets: string[]) {

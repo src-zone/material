@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2GoogleTagManager } from 'angulartics2/gtm';
 import { MaterialModule } from '@blox/material';
-import { HighlightJsModule, HIGHLIGHT_JS } from 'angular-highlight-js';
 import { AppComponent } from './app.component';
 import { OverviewComponent } from './overview.component';
 import { routing, appRoutingProviders } from './app.routes';
@@ -19,6 +18,8 @@ import {
 
   CodeSampleComponent,
   MDC_DIRECTIVE_DOC_COMPONENTS,
+
+  HighlightjsDirective, HighlightjsService,
 
   SnippetButtonComponent,
   SnippetCardComponent,
@@ -46,25 +47,11 @@ import {
   SnippetToolbarComponent, SnippetToolbarFlexibleComponent, IE11Component } from './components';
 import { ThemeService } from './services';
 
-const hljs: any = require('highlight.js/lib/highlight');
-hljs.registerLanguage('typescript', require('highlight.js/lib/languages/typescript'));
-hljs.registerLanguage('html', require('highlight.js/lib/languages/xml'));
-hljs.registerLanguage('scss', require('highlight.js/lib/languages/scss'));
-hljs.registerLanguage('bash', require('highlight.js/lib/languages/bash'));
-hljs.registerLanguage('json', require('highlight.js/lib/languages/json'));
-export function highlightJsFactory() {
-  return hljs;
-}
-
 @NgModule({
   imports: [
     BrowserModule,
     FormsModule,
     MaterialModule,
-    HighlightJsModule.forRoot({
-      provide: HIGHLIGHT_JS,
-      useFactory: highlightJsFactory
-    }),
     routing,
     Angulartics2Module.forRoot([Angulartics2GoogleTagManager])
   ],
@@ -82,6 +69,8 @@ export function highlightJsFactory() {
     NotFoundComponent,
 
     CodeSampleComponent,
+
+    HighlightjsDirective,
     
     ...MDC_DIRECTIVE_DOC_COMPONENTS,
 
@@ -113,7 +102,8 @@ export function highlightJsFactory() {
   providers: [
     appRoutingProviders,
     {provide: LocationStrategy, useClass: PathLocationStrategy},
-    ThemeService
+    ThemeService,
+    HighlightjsService
   ],
   bootstrap: [ AppComponent ]
 })
