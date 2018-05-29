@@ -2,7 +2,6 @@ import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testin
 import { By } from '@angular/platform-browser';
 import { Component } from '@angular/core';
 import { FOCUS_TRAP_DIRECTIVES } from '../focus-trap/mdc.focus-trap.directive';
-import { MDC_EVENT_REGISTRY_PROVIDER } from '../../utils/mdc.event.registry';
 import { DIALOG_DIRECTIVES, MdcDialogDirective, MdcDialogBodyDirective } from './mdc.dialog.directive';
 import { MdcButtonDirective } from '../button/mdc.button.directive';
 import { cancelledClick, booleanAttributeStyleTest } from '../../testutils/page.test';
@@ -38,7 +37,6 @@ describe('MdcDialogDirective', () => {
 
     function setup() {
         const fixture = TestBed.configureTestingModule({
-            providers: [MDC_EVENT_REGISTRY_PROVIDER],
             declarations: [...DIALOG_DIRECTIVES, ...FOCUS_TRAP_DIRECTIVES, MdcButtonDirective, TestComponent]
         }).createComponent(TestComponent);
         fixture.detectChanges();

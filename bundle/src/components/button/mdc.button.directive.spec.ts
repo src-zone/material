@@ -1,7 +1,6 @@
 import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Component } from '@angular/core';
-import { MDC_EVENT_REGISTRY_PROVIDER } from '../../utils/mdc.event.registry';
 import { MdcButtonDirective } from './mdc.button.directive';
 import { booleanAttributeStyleTest, hasRipple } from '../../testutils/page.test';
 
@@ -19,7 +18,6 @@ describe('MdcButtonDirective', () => {
 
     function setup() {
         const fixture = TestBed.configureTestingModule({
-            providers: [ MDC_EVENT_REGISTRY_PROVIDER ],
             declarations: [MdcButtonDirective, TestComponent]
         }).createComponent(TestComponent);
         fixture.detectChanges();

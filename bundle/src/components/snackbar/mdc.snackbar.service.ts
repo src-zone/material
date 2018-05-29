@@ -51,7 +51,9 @@ export class MdcSnackbarRef {
 /**
  * A service for showing spec-aligned material design snackbar/toast messages.
  */
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class MdcSnackbarService {
     private snackbar: MDCSnackbar = null;
     private root: HTMLElement = null;
@@ -220,15 +222,3 @@ export class MdcSnackbarService {
         this.snackbar.dismissesOnAction = value;
     }
 }
-
-/** @docs-private */
-export function MDC_SNACKBAR_PROVIDER_FACTORY(parent: MdcSnackbarService) {
-    return parent || new MdcSnackbarService();
-}
-
-/** @docs-private */
-export const MDC_SNACKBAR_PROVIDER = {
-    provide: MdcSnackbarService,
-    deps: [[new Optional(), new SkipSelf(), MdcSnackbarService]],
-    useFactory: MDC_SNACKBAR_PROVIDER_FACTORY
-};
