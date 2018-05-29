@@ -3,7 +3,9 @@ import { ElementRef, Injectable, Optional, Renderer2, SkipSelf } from '@angular/
 type UnlistenerMap = WeakMap<EventListener, Function>;
 const unlisteners: Map<string, UnlistenerMap> = new Map<string, UnlistenerMap>();
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class MdcEventRegistry {
     constructor() {}
 
@@ -35,15 +37,3 @@ export class MdcEventRegistry {
         unlistenerMap.delete(listener);
     }
 }
-
-/** @docs-private */
-export function MDC_EVENT_REGISTRY_PROVIDER_FACTORY(parent: MdcEventRegistry) {
-    return parent || new MdcEventRegistry();
-}
-
-/** @docs-private */
-export const MDC_EVENT_REGISTRY_PROVIDER = {
-    provide: MdcEventRegistry,
-    deps: [[new Optional(), new SkipSelf(), MdcEventRegistry]],
-    useFactory: MDC_EVENT_REGISTRY_PROVIDER_FACTORY
-};

@@ -46,7 +46,7 @@ import { MdcRippleDirective } from './components/ripple/mdc.ripple.directive';
 import { MdcSelectDirective, MdcSelectControlDirective } from './components/select/mdc.select.directive';
 import { MdcSliderDirective,
     MdcFormsSliderDirective } from './components/slider/mdc.slider.directive';
-import { MdcSnackbarService, MDC_SNACKBAR_PROVIDER } from './components/snackbar/mdc.snackbar.service';
+import { MdcSnackbarService } from './components/snackbar/mdc.snackbar.service';
 import { MdcSwitchInputDirective,
     MdcSwitchDirective } from './components/switch/mdc.switch.directive';    
 import { AbstractMdcTabDirective, MdcTabDirective,
@@ -72,7 +72,7 @@ import { MdcToolbarDirective,
     MdcToolbarMenuIcon,
     MdcToolbarFixedAdjustDirective } from './components/toolbar/mdc.toolbar.directive';
 import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-resize.directive';
-import { MdcEventRegistry, MDC_EVENT_REGISTRY_PROVIDER } from './utils/mdc.event.registry';
+import { MdcEventRegistry } from './utils/mdc.event.registry';
 
 export * from './components/button/mdc.button.directive';
 export { MdcCardDirective,
@@ -154,10 +154,6 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
 @NgModule({
     imports: [
         CommonModule
-    ],
-    providers: [
-        MDC_EVENT_REGISTRY_PROVIDER,
-        MDC_SNACKBAR_PROVIDER
     ],
     declarations: [
         MdcButtonDirective, MdcButtonIconDirective,
