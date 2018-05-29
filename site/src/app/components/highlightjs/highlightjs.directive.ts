@@ -48,7 +48,7 @@ export class HighlightjsService {
     highlight() {
         let code: string = this.source;
         if (!code && !this.initialized) // first initialize may use the innerHtml
-            code = this.el.nativeElement.innerHTML;
+            code = this.el.nativeElement.textContent;
         if (code && this.lang && code.length > 0 && code.trim().length > 0)
             this.highlightjs.highlight(code, this.lang).subscribe(pretty => {
                 this.el.nativeElement.innerHTML = pretty;
