@@ -12,8 +12,10 @@ export interface MdcTextFieldHelperTextAdapter {
 
 /** @docs-private */
 export interface MdcTextFieldIconAdapter {
+    getAttr: (attr: string) => string,
     setAttr: (name: string, value: string) => void,
     removeAttr: (name: string) => void,
+    setContent: (content: string) => void,
     registerInteractionHandler: (evtType: string, handler: EventListener) => void,
     deregisterInteractionHandler: (evtType: string, handler: EventListener) => void,
     notifyIconAction: () => void
@@ -28,7 +30,7 @@ export interface MdcTextFieldAdapter {
     deregisterTextFieldInteractionHandler: (evtType: string, handler: EventListener) => void,
     registerInputInteractionHandler: (evtType: string, handler: EventListener) => void,
     deregisterInputInteractionHandler: (evtType: string, handler: EventListener) => void,
-    registerValidationAttributeChangeHandler: (handler: (arg: Array<any>) => void) => MutationObserver,
+    registerValidationAttributeChangeHandler: (handler: (arg: Array<string>) => void) => MutationObserver,
     deregisterValidationAttributeChangeHandler: (observer: MutationObserver) => void,
     getNativeInput: () => {value: string, disabled: boolean, validity: {badInput: boolean, valid: boolean}},
     isFocused: () => boolean,

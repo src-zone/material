@@ -159,8 +159,10 @@ export class MdcTextFieldInputDirective extends AbstractMdcInput implements OnIn
 export class MdcTextFieldIconDirective {
     @HostBinding('class.mdc-text-field__icon') _cls = true;
     _mdcAdapter: MdcTextFieldIconAdapter = {
+        getAttr: (name: string) => this._el.nativeElement.getAttribute(name),
         setAttr: (name: string, value: string) => this._rndr.setAttribute(this._el.nativeElement, name, value),
         removeAttr: (name: string) => this._rndr.removeAttribute(this._el.nativeElement, name),
+        setContent: (content: string) => this._el.nativeElement.textContent = content,
         registerInteractionHandler: (evtType: string, handler: EventListener) => {
             this._reg.listen(this._rndr, evtType, handler, this._el);
         },
@@ -292,7 +294,8 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
             this.registry.unlisten(evtType, handler);
         },
         registerValidationAttributeChangeHandler: (handler: (arg: Array<any>) => void) => {
-            const observer = new MutationObserver(handler);
+            const getAttributesList = (mutationsList) => mutationsList.map((mutation) => mutation.attributeName);
+            const observer = new MutationObserver((mutationsList) => handler(getAttributesList(mutationsList)));
             observer.observe(this._input._elm.nativeElement, {attributes: true});
             return observer;
         },
