@@ -41,6 +41,7 @@
     "bourbon": "^5.0.0",
     "bourbon-neat": "2.0.0",
     "classlist.js": "^1.1.20150312",
+    "focus-trap": "^2.4.5",
     "material-components-web": "^0.36.0-0",
     "normalize.css": "^8.0.0",
     "rxjs": "^6.1.0",

@@ -61,6 +61,7 @@ export class CodeSampleComponent implements AfterContentInit {
             const angularVersion = packageJson['dependencies']['@angular/core'];
             const materialComponentsVersion = packageJson['dependencies']['material-components-web'];
             const bloxMaterialVersion = bundlePackageJson['version'];
+            const focusTrapVersion = packageJson['dependencies']['focus-trap'];
             const files = {
                 'angular.json': require('raw-loader!../../../stackblitz.template/angular.json.template'),
                 'src/polyfills.ts': require('raw-loader!../../../stackblitz.template/src/polyfills.ts.template'),
@@ -120,7 +121,8 @@ export class CodeSampleComponent implements AfterContentInit {
                         "tslib": packageJson['dependencies']['tslib'],
                         "material-components-web": materialComponentsVersion,
                         "@blox/material": bloxMaterialVersion,
-                        ...mcwPackageJson['dependencies']
+                        ...mcwPackageJson['dependencies'],
+                        "focus-trap": focusTrapVersion
                     }
                 }, {
                     openFile: files[templateSourceName] ? templateSourceName : mainSourceName,
