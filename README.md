@@ -24,7 +24,7 @@ Component            | Documentation |
 button               | [button docs &amp; demo](https://blox.src.zone/material/directives/button) |
 card                 | [card docs &amp; demo](https://blox.src.zone/material/directives/card) |
 checkbox             | [checkbox docs &amp; demo](https://blox.src.zone/material/directives/checkbox) |
-chips                | in tracker |
+chips                | [chips docs &amp; demo](https://blox.src.zone/material/directives/chips) |
 dialog               | [dialog docs &amp; demo](https://blox.src.zone/material/directives/drawer) |
 drawer               | [drawer docs &amp; demo](https://blox.src.zone/material/directives/drawer) |
 elevation            | [elevation docs &amp; demo](https://blox.src.zone/material/directives/elevation) |

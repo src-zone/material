@@ -1,0 +1,16 @@
+<fieldset class="blox-snippet snippet-skip-line">
+<div mdcChipSet="input">
+  <div *ngFor="let chip of chips; let i = index" mdcChip (remove)="removeChip(i)">
+    <i mdcChipIcon class="material-icons">face</i>
+    <div mdcChipText>{{chip}}</div>
+    <i class="material-icons" mdcChipIcon>cancel</i>
+  </div>
+</div>
+<form (submit)="addChip()">
+  <div mdcTextField>
+    <input mdcTextFieldInput type="text" name="chipInput" [(ngModel)]="newChip" autocomplete="off"/>
+    <label mdcFloatingLabel>Add Chip</label>
+  </div>
+  <button type="submit" mdcButton [disabled]="!newChip">Add Chip</button>
+</form>
+</fieldset><div class="snippet-skip-line"></div>
