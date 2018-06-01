@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.14.0"></a>
+# [0.14.0](https://github.com/src-zone/material/compare/v0.13.0...v0.14.0) (2018-06-01)
+
+
+### Bug Fixes
+
+* correctly pretty print html entities in highlighted code ([c04c237](https://github.com/src-zone/material/commit/c04c237))
+
+
+### Features
+
+* **chips:** implement chips and chip-sets ([#640](https://github.com/src-zone/material/issues/640), [#632](https://github.com/src-zone/material/issues/632)) ([449ec52](https://github.com/src-zone/material/commit/449ec52))
+* upgrade to material-components-web 0.36.0-0 ([4240ca1](https://github.com/src-zone/material/commit/4240ca1))
+
+
+### BREAKING CHANGES
+
+* upgrade to material-components-web 0.36.0-0
+
+
+
+
 <a name="0.13.0"></a>
 # [0.13.0](https://github.com/src-zone/material/compare/v0.12.0...v0.13.0) (2018-05-22)
 
