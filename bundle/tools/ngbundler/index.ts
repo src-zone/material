@@ -9,6 +9,7 @@ const globals = {
   '@angular/router': 'ng.router',
   '@material/animation': 'mdc.animation',
   '@material/checkbox': 'mdc.checkbox',
+  '@material/chips': 'mdc.chips',
   '@material/dialog': 'mdc.dialog',
   '@material/drawer': 'mdc.drawer',
   '@material/drawer/slidable': 'mdc.drawer',

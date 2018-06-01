@@ -10,6 +10,7 @@ import { MdcCardDirective,
     MdcCardPrimaryActionDirective } from './components/card/mdc.card.directive';
 import { MdcCheckboxDirective,
     MdcCheckboxInputDirective } from './components/checkbox/mdc.checkbox.directive';
+import { CHIP_DIRECTIVES } from './components/chips/mdc.chip.directive';
 import { DIALOG_DIRECTIVES } from './components/dialog/mdc.dialog.directive';
 import { MdcDrawerDirective,
     MdcDrawerContainerDirective,
@@ -84,6 +85,7 @@ export { MdcCardDirective,
     MdcCardPrimaryActionDirective } from './components/card/mdc.card.directive';
 export { MdcCheckboxDirective,
     MdcCheckboxInputDirective } from './components/checkbox/mdc.checkbox.directive';
+export * from './components/chips/mdc.chip.directive';
 export * from './components/dialog/mdc.dialog.directive';
 export { MdcDrawerDirective,
     MdcDrawerContainerDirective,
@@ -160,6 +162,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcCardDirective, MdcCardMediaDirective, MdcCardMediaContentDirective,
         MdcCardActionButtonsDirective, MdcCardActionIconsDirective, MdcCardActionsDirective, MdcCardPrimaryActionDirective,
         MdcCheckboxDirective, MdcCheckboxInputDirective,
+        ...CHIP_DIRECTIVES,
         ...DIALOG_DIRECTIVES,
         MdcDrawerDirective, MdcDrawerContainerDirective, MdcDrawerToolbarSpacerDirective, MdcDrawerHeaderDirective, MdcDrawerHeaderContentDirective, MdcDrawerContentDirective,
         MdcElevationDirective,
@@ -191,6 +194,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcCardDirective, MdcCardMediaDirective, MdcCardMediaContentDirective,
         MdcCardActionButtonsDirective, MdcCardActionIconsDirective, MdcCardActionsDirective, MdcCardPrimaryActionDirective,
         MdcCheckboxDirective, MdcCheckboxInputDirective,
+        ...CHIP_DIRECTIVES,
         ...DIALOG_DIRECTIVES,
         MdcDrawerDirective, MdcDrawerContainerDirective, MdcDrawerToolbarSpacerDirective, MdcDrawerHeaderDirective, MdcDrawerHeaderContentDirective, MdcDrawerContentDirective,
         MdcElevationDirective,
