@@ -161,14 +161,9 @@ footer.blox-footer {
 }
 
 blockquote {
-  background-color: #f5f5f5;
-  border-left: 8px solid $mdc-theme-secondary;
+  border-left: 4px solid $mdc-theme-secondary;
   padding: 16px;
-  margin: 0;
-
-  .blox-theme-dark & {
-    background-color: mdc-theme-ink-color-for-fill_(secondary, $mdc-theme-background);
-  }
+  margin: 0 0 0 8px;
 }
 
 .blox-component-list {
