@@ -21,29 +21,29 @@ It integrates [Google's Material Components for the Web](https://github.com/mate
 
 Component            | Documentation |
 -------------------- | --------- |
-button               | [button docs &amp; demo](https://blox.src.zone/material/directives/button) |
-card                 | [card docs &amp; demo](https://blox.src.zone/material/directives/card) |
-checkbox             | [checkbox docs &amp; demo](https://blox.src.zone/material/directives/checkbox) |
-chips                | [chips docs &amp; demo](https://blox.src.zone/material/directives/chips) |
-dialog               | [dialog docs &amp; demo](https://blox.src.zone/material/directives/drawer) |
-drawer               | [drawer docs &amp; demo](https://blox.src.zone/material/directives/drawer) |
-elevation            | [elevation docs &amp; demo](https://blox.src.zone/material/directives/elevation) |
-fab                  | [fab docs &amp; demo](https://blox.src.zone/material/directives/fab) |
-form-field           | see e.g. [radio docs &amp; demo](https://blox.src.zone/material/directives/radio), and [checkbox docs &amp; demo](https://blox.src.zone/material/directives/checkbox) |
+button               | [button docs &amp; demo](https://blox.src.zone/material/components/button) |
+card                 | [card docs &amp; demo](https://blox.src.zone/material/components/card) |
+checkbox             | [checkbox docs &amp; demo](https://blox.src.zone/material/components/checkbox) |
+chips                | [chips docs &amp; demo](https://blox.src.zone/material/components/chips) |
+dialog               | [dialog docs &amp; demo](https://blox.src.zone/material/components/drawer) |
+drawer               | [drawer docs &amp; demo](https://blox.src.zone/material/components/drawer) |
+elevation            | [elevation docs &amp; demo](https://blox.src.zone/material/components/elevation) |
+fab                  | [fab docs &amp; demo](https://blox.src.zone/material/components/fab) |
+form-field           | see e.g. [radio docs &amp; demo](https://blox.src.zone/material/components/radio), and [checkbox docs &amp; demo](https://blox.src.zone/material/components/checkbox) |
 ~~grid-list~~        | deprecated by the Material Components Web team |
-icon-toggle          | [icon-toggle docs &amp; demo](https://blox.src.zone/material/directives/icon-toggle) |
-linear-progress      | [linear-progress docs &amp; demo](https://blox.src.zone/material/directives/linear-progress) |
-list                 | [list docs &amp; demo](https://blox.src.zone/material/directives/list) |
-menu                 | [menu docs &amp; demo](https://blox.src.zone/material/directives/menu) |
-radio                | [radio docs &amp; demo](https://blox.src.zone/material/directives/radio) |
-ripple               | [ripple docs &amp; demo](https://blox.src.zone/material/directives/ripple) |
-select               | [select docs &amp; demo](https://blox.src.zone/material/directives/select) |
-slider               | [slider docs &amp; demo](https://blox.src.zone/material/directives/slider) |
-snackbar             | [snackbar docs &amp; demo](https://blox.src.zone/material/directives/snackbar) |
-switch               | [switch docs &amp; demo](https://blox.src.zone/material/directives/switch) |
-tabs                 | [tabs docs &amp; demo](https://blox.src.zone/material/directives/tab) |
-text-field           | [text-field docs &amp; demo](https://blox.src.zone/material/directives/text-field) |
-toolbar              | [toolbar docs &amp; demo](https://blox.src.zone/material/directives/toolbar) |
+icon-toggle          | [icon-toggle docs &amp; demo](https://blox.src.zone/material/components/icon-toggle) |
+linear-progress      | [linear-progress docs &amp; demo](https://blox.src.zone/material/components/linear-progress) |
+list                 | [list docs &amp; demo](https://blox.src.zone/material/components/list) |
+menu                 | [menu docs &amp; demo](https://blox.src.zone/material/components/menu) |
+radio                | [radio docs &amp; demo](https://blox.src.zone/material/components/radio) |
+ripple               | [ripple docs &amp; demo](https://blox.src.zone/material/components/ripple) |
+select               | [select docs &amp; demo](https://blox.src.zone/material/components/select) |
+slider               | [slider docs &amp; demo](https://blox.src.zone/material/components/slider) |
+snackbar             | [snackbar docs &amp; demo](https://blox.src.zone/material/components/snackbar) |
+switch               | [switch docs &amp; demo](https://blox.src.zone/material/components/switch) |
+tabs                 | [tabs docs &amp; demo](https://blox.src.zone/material/components/tab) |
+text-field           | [text-field docs &amp; demo](https://blox.src.zone/material/components/text-field) |
+toolbar              | [toolbar docs &amp; demo](https://blox.src.zone/material/components/toolbar) |
 top-app-bar          | in tracker |
 
 The following material-components-web packages provide styling (scss, css) only. As such they
