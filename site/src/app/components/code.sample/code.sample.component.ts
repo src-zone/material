@@ -1,4 +1,5 @@
 import { AfterContentInit, Component, ContentChild, ElementRef, Input } from '@angular/core';
+import { Angulartics2 } from 'angulartics2';
 import { AbstractSnippetComponent } from '../snippets/abstract.snippet.component';
 
 @Component({
@@ -9,10 +10,10 @@ export class CodeSampleComponent implements AfterContentInit {
     @ContentChild(AbstractSnippetComponent) snippet;
     snippetNames: string[] = [];
     active: string;
-    showCode = false;
+    private _showCode = false;
     openStackblitz: Function = null;
 
-    constructor(private elm: ElementRef) {
+    constructor(private elm: ElementRef, private angulartics2: Angulartics2) {
     }
 
     ngAfterContentInit() {
@@ -34,6 +35,16 @@ export class CodeSampleComponent implements AfterContentInit {
 
     activate(name) {
         this.active = name;
+    }
+
+    get showCode() {
+        return this._showCode;
+    }
+
+    set showCode(value: boolean) {
+        this._showCode = value;
+        if (this._showCode)
+            this.trackViewCode('view', this.snippet.mainElement);
     }
 
     get stackblitzIcon() {
@@ -105,6 +116,7 @@ export class CodeSampleComponent implements AfterContentInit {
                     assets).replace(/(\s*)(.*)stackblitz-skip-line(\s*:\s*)?(.*)/g, '$1// skip on stackblitz $2 $4');
 
             this.openStackblitz = () => {
+                this.trackViewCode('stackblitz', this.snippet.mainElement);
                 sdk.openProject({
                     files: files,
                     title: appTitle,
@@ -153,5 +165,15 @@ export class CodeSampleComponent implements AfterContentInit {
             code = code.split(origin).join(location);
         }
         return code;
+    }
+
+    trackViewCode(action: string, label: string) {
+        this.angulartics2.eventTrack.next({
+            action: action,
+            properties: {
+                category: 'sourcecode',
+                label: label
+            }
+        });
     }
 }
