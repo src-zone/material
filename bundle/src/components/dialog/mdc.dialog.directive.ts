@@ -115,7 +115,7 @@ export class MdcDialogFooterDirective implements AfterContentInit {
     providers: [{provide: AbstractMdcFocusInitial, useExisting: forwardRef(() => MdcDialogAcceptDirective) }]
 })
 export class MdcDialogAcceptDirective extends AbstractMdcFocusInitial {
-    readonly priority = 1;
+    /** @docs-private */ readonly priority = 1;
     @HostBinding('class.mdc-dialog__footer__button--accept') _cls = true;
 
     constructor(public _elm: ElementRef) {

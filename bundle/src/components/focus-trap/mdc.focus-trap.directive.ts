@@ -15,7 +15,7 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
     providers: [{provide: AbstractMdcFocusInitial, useExisting: forwardRef(() => MdcFocusInitialDirective) }]
 })
 export class MdcFocusInitialDirective extends AbstractMdcFocusInitial {
-    readonly priority = 100;
+    /** @docs-private */ readonly priority = 100;
 
     constructor(public _elm: ElementRef) {
         super();
