@@ -184,7 +184,7 @@ module.exports = function makeWebpackConfig(env) {
         test: /(?:\.ngfactory\.js|\.ngstyle\.js|\.ts)$/,
         loaders: isProd ?
           [ buildOptimizerLoader, '@ngtools/webpack'] :
-          ['ts-loader', 'angular2-template-loader'],
+          ['ts-loader', 'angular-router-loader', 'angular2-template-loader'],
         exclude: [isTest ? /\.(e2e)\.ts$/ : /\.(spec|e2e)\.ts$/, /node_modules\/(?!(ng2-.+))/]
       },
 

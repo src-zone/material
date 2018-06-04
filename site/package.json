@@ -58,6 +58,7 @@
     "@types/jasmine": "^2.8.7",
     "@types/node": "^10.0.8",
     "@types/selenium-webdriver": "^3.0.8",
+    "angular-router-loader": "^0.8.5",
     "angular2-template-loader": "^0.6.2",
     "autoprefixer": "^8.4.1",
     "babel-core": "^6.26.3",

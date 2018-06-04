@@ -1,7 +1,9 @@
 import { AfterViewInit, Directive, ElementRef, HostBinding, Injectable, Input, SimpleChanges } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class HighlightjsService {
     highlight(code: string, lang: string): Observable<string> {
         let result = new ReplaySubject<string>(1);
