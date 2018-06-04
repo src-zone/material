@@ -3,7 +3,7 @@ import { AfterContentInit, ChangeDetectorRef, ContentChild, ContentChildren, Eve
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { NgControl } from '@angular/forms';
-import { NavigationEnd, Router, RouterLink, RouterLinkWithHref } from '@angular/router';
+import { Router, RouterLink, RouterLinkWithHref } from '@angular/router';
 import { MDCTabFoundation } from '@material/tabs';
 import { MdcTabAdapter } from './mdc.tab.adapter';
 import { AbstractMdcTabDirective } from './mdc.tab.directive';

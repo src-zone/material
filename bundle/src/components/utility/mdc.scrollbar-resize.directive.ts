@@ -47,7 +47,7 @@ function destroyScrollbarResizeListener() {
  * directive is active on the page, 'resize' events will also be fired when the body width changes
  * as a consequence of the addition or removal of a vertical toolbar.
  * The directive adds a hidden iframe to the page, that contains the trickery to make this happen.
- * See this <a href="https://gist.github.com/OrganicPanda/8222636">hacky-scrollbar-resize-listener.js
+ * See this <a href="https://gist.github.com/OrganicPanda/8222636" target="_blank">hacky-scrollbar-resize-listener.js
  * github gist</a> for the original idea.
  */
 @Directive({

@@ -332,7 +332,7 @@ export class MdcToolbarDirective implements AfterViewInit, OnDestroy {
     /**
      * A default behavior for flexible toolbars.
      * For more information see:
-     * <a href="https://github.com/material-components/material-components-web/tree/v0.23.0/packages/mdc-toolbar#flexible-toolbar-requires-javascript">
+     * <a href="https://github.com/material-components/material-components-web/tree/v0.23.0/packages/mdc-toolbar#flexible-toolbar-requires-javascript" target="_blank">
      * Flexible Toolbar documention
      * </a>.
      */

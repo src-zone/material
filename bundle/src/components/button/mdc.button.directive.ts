@@ -6,7 +6,7 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
 /**
  * Use this directive for adding an icon to an <code>mdcButton</code>. This directive can be
- * added to font-style icons (such as <a href="https://material.io/icons/">material icons</a>
+ * added to font-style icons (such as <a href="https://material.io/icons/" target="_blank">material icons</a>
  * from Google fonts), or with <code>svg</code> elements for svg based icons.
  */
 @Directive({

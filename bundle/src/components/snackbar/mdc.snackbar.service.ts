@@ -39,9 +39,9 @@ export class MdcSnackbarRef {
     }
 
     /**
-     * Subscribe to this observable to be informed when the message is displayed.
-     * Note that the observable will complete when the snackbar disappears from screen,
-     * so there is no need to unsubscribe.
+     * Subscribe to this observable to be informed when the message disappears.
+     * Note that the observable will complete immediately afterwards, so there is
+     * no need to unsubscribe.
      */
     afterHide(): Observable<void> {
         return this._hide.asObservable();
