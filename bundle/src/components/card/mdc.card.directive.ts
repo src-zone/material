@@ -18,7 +18,7 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 })
 export class MdcCardMediaDirective {
     @HostBinding('class.mdc-card__media') _cls = true;
-    private _size: 'cover' | '16-9' | 'square' = 'cover';
+    private _size: 'cover' | '16:9' | 'square' = 'cover';
         
     constructor() {}
 
@@ -27,19 +27,19 @@ export class MdcCardMediaDirective {
     }
 
     @HostBinding('class.mdc-card__media--16-9') get _size2() {
-        return this._size === '16-9';
+        return this._size === '16:9';
     }
 
     /**
      * Directive to select size to which this element's background-image should
-     * be scaled. Can be one of 'cover', '16-9', or 'square'. The default value
+     * be scaled. Can be one of 'cover', '16:9', or 'square'. The default value
      * is 'cover'.
      */
-    @Input() get size(): 'cover' | '16-9' | 'square' {
+    @Input() get size(): 'cover' | '16:9' | 'square' {
         return this._size;
     }
     
-    set size(val: 'cover' | '16-9' | 'square') {
+    set size(val: 'cover' | '16:9' | 'square') {
         this._size = val;
     }
 }
