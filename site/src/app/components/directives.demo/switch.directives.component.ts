@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './switch.directives.component.html'
 })
 export class SwitchDirectivesComponent {
-    static DOC_SVG = require('assets/img/mdc-icons/switch.svg');
+    static DOC_SVG = require('!inline!svg!assets/img/mdc-icons/switch.svg');
     static DOC_TYPE = 'components';
     static DOC_HREF = 'switch';
 

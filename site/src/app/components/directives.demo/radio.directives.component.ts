@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './radio.directives.component.html'
 })
 export class RadioDirectivesComponent {
-    static DOC_SVG = require('assets/img/mdc-icons/radio.svg');
+    static DOC_SVG = require('!inline!svg!assets/img/mdc-icons/radio.svg');
     static DOC_TYPE = 'components';
     static DOC_HREF = 'radio';
 

@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './dialog.directives.component.html'
 })
 export class DialogDirectivesComponent {
-    static DOC_SVG = require('assets/img/mdc-icons/dialog.svg');
+    static DOC_SVG = require('!inline!svg!assets/img/mdc-icons/dialog.svg');
     static DOC_TYPE = 'components';
     static DOC_HREF = 'dialog';
 

@@ -2,7 +2,7 @@
 <nav class="blox-component-list">
   <section *ngFor="let component of components">
     <a mdcRipple [routerLink]="component.href">
-      <div class="blox-component-list-item-img"><img [src]="component.img"></div>
+      <div class="blox-component-list-item-img" [innerHTML]="component.img"></div>
       <div class="blox-component-list-item-text">
         <h2>{{component.title}}</h2>
         <h3>{{component.description}}</h3>

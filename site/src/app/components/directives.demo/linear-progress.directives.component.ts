@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './linear-progress.directives.component.html'
 })
 export class LinearProgressDirectivesComponent {
-    static DOC_SVG = require('assets/img/mdc-icons/progress_linear.svg');
+    static DOC_SVG = require('!inline!svg!assets/img/mdc-icons/progress_linear.svg');
     static DOC_TYPE = 'components';
     static DOC_HREF = 'linear-progress';
 

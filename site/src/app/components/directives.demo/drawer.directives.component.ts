@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './drawer.directives.component.html'
 })
 export class DrawerDirectivesComponent {
-    static DOC_SVG = require('assets/img/mdc-icons/side_navigation.svg');
+    static DOC_SVG = require('!inline!svg!assets/img/mdc-icons/side_navigation.svg');
     static DOC_TYPE = 'components';
     static DOC_HREF = 'drawer';
 

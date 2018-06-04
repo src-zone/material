@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './menu.directives.component.html'
 })
 export class MenuDirectivesComponent {
-    static DOC_SVG = require('assets/img/mdc-icons/menu.svg');
+    static DOC_SVG = require('!inline!svg!assets/img/mdc-icons/menu.svg');
     static DOC_TYPE = 'components';
     static DOC_HREF = 'menu';
 

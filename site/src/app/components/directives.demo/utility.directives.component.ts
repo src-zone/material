@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './utility.directives.component.html'
 })
 export class UtilityDirectivesComponent {
-    static DOC_SVG = require('assets/img/mdc-icons/feature_highlight.svg');
+    static DOC_SVG = require('!inline!svg!assets/img/mdc-icons/feature_highlight.svg');
     static DOC_TYPE = 'components';
     static DOC_HREF = 'utility';
 
