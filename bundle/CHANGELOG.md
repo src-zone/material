@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.15.0"></a>
+# [0.15.0](https://github.com/src-zone/material/compare/v0.14.0...v0.15.0) (2018-06-05)
+
+
+### feature
+
+* **card:** mdcCardMedia size property value '16-9' renamed to '16:9' ([edc4be3](https://github.com/src-zone/material/commit/edc4be3))
+
+
+### Features
+
+* upgrade to material-components-web 0.36.0 ([22f0981](https://github.com/src-zone/material/commit/22f0981))
+
+
+### BREAKING CHANGES
+
+* upgrade to material-components-web 0.36.0
+* **card:** replace '16-9' by '16:9' for the size property
+of mdcCardMedia
+
+
+
+
 <a name="0.14.0"></a>
 # [0.14.0](https://github.com/src-zone/material/compare/v0.13.0...v0.14.0) (2018-06-01)
 
