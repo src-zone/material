@@ -135,7 +135,6 @@ describe('MdcChipDirective', () => {
         testComponent.chips = ['chip'];
         fixture.detectChanges();
         const chipSetComponent = fixture.debugElement.query(By.directive(MdcChipSetDirective)).injector.get(MdcChipSetDirective);
-        expect(() => {chipSetComponent._adapter.appendChip(null, null, null); }).toThrowError();
         expect(() => {chipSetComponent._adapter.removeChip(null); }).toThrowError();
     }));
 
