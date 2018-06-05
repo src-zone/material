@@ -53,6 +53,9 @@ jobs:
       - attach_workspace:
           at: .
       - run:
+          name: Add README to bundle
+          command: cp README.md bundle/README.md
+      - run:
           name: Authenticate with NPM
           command: cd bundle && echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
       - run:

@@ -356,9 +356,6 @@ export class MdcChipSetDirective implements AfterContentInit, OnDestroy {
             else
                 this._registry.unlisten(evt, handler);
         },
-        appendChip: (text: string, leadingIcon: Element, trailingIcon: Element) => {
-            throw new Error('this adapter method should be unreachable in the MdcChipSetDirective implementation');
-        },
         removeChip: (chip: any) => {
             throw new Error('this adapter method should be unreachable in the MdcChipSetDirective implementation');
         }
