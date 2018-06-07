@@ -1,6 +1,7 @@
 const {readFileSync} = require('fs');
 const git = require('simple-git/promise')();
-const version = JSON.parse(readFileSync('lerna.json', 'utf8'))['version'];
+const versionFile = 'lerna.json';
+const version = JSON.parse(readFileSync(versionFile, 'utf8'))['version'];
 
 function checkModified(modifications, file) {
     if (modifications.indexOf(file) === -1)
@@ -45,18 +46,19 @@ async function tagRelease () {
     checkNotAllowedModifications(status.modified);
     const tags = await git.tags();
     if (tags.all.indexOf(version) !== -1)
-        throw new Error('the version (read from lerna.json) to tag already exists on the git repo: ' + version);
+        throw new Error(`the version (read from ${versionFile}) to tag already exists on the git repo: ${version}`);
     console.log('commiting release changes for v' + version);
     await git.commit('v' + version, status.modified);
     console.log('tagging version v' + version);
     await git.tag(['-a', 'v' + version, '-m', 'v' + version]);
     await git.push();
+    await git.push(undefined, 'v' + version);
 }
 
 tagRelease().then(
     () => {
         console.log('tagged version v' + version);
-        console.log('please \'git push\' so that CI will build, test, and publish the release to NPM');
+        console.log(`pushed changes: 'git push origin master v${version}'; your ci should take it from here`);
     },
     (err) => console.error(err)
 );

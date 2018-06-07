@@ -66,10 +66,10 @@ import 'core-js/es7/reflect';
   file of this demo website for inspiration (search for babelLoader in the file).
 </blockquote>
 <p>
-  Add the <code>ng-utils</code> package as developer dependency to your project:
+  Add the <code>@blox/utils</code> package as developer dependency to your project:
 </p>
 <div class="blox-code-sample">
-  <pre><code highlightJs lang="bash">npm install --save-dev @blox/ng-utils</code></pre>
+  <pre><code highlightJs lang="bash">npm install --save-dev @blox/utils</code></pre>
 </div>
 <p>
   Now open your <code>package.json</code> and edit the scripts section to customize the <code>start</code>
@@ -80,7 +80,7 @@ import 'core-js/es7/reflect';
     ...
     "scripts": [
         ...
-        "transpile": "ng-transpile --dir dist/NAME-OF-PROJECT --verbose --browsers ignore",
+        "transpile": "transpile --dir dist/NAME-OF-PROJECT --verbose --browsers ignore",
         "build": "ng build --prod && npm run transpile",
         ...
     ],
