@@ -1,0 +1,9 @@
+{
+    "root": "dist",
+    "template": "material.html",
+    "seed": "material",
+    "bootstrap": "blox-app",
+    "transition": "ng-transition=blox-app",
+    "port": 4000,
+    "htmlSuffix": ".html"
+}

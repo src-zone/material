@@ -21,7 +21,7 @@ import { SharedModule } from './shared.module';
 
 @NgModule({
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({appId: 'blox-app'}),
     routing,
     Angulartics2Module.forRoot([Angulartics2GoogleTagManager]),
     SharedModule
