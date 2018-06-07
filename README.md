@@ -1,4 +1,4 @@
-<img align="right" src="https://blox.src.zone/assets/bloxmaterial.d95f426a452154ce56660b82d7d56e63.svg" width="100" height="100"/>
+<img align="right" src="https://blox.src.zone/assets/bloxmaterial.03ecfe4fa0147a781487749dc1cc4580.svg" width="100" height="100"/>
 
 Blox Material makes it possible to create beautiful Angular apps with modular and customizable UI components,
 designed according to the [Material Design Guidelines](https://material.io/design/guidelines-overview/).
