@@ -1,0 +1,48 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "program": "${file}",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Bundler",
+            "runtimeArgs": [
+                "-r",
+                "${workspaceFolder}/bundle/node_modules/ts-node/register"
+            ],
+            "args": [
+                "${workspaceFolder}/bundle/tools/ngbundler/index.ts"
+            ],
+            "cwd": "${workspaceFolder}/bundle",
+            "env": {
+                "TS_NODE_PROJECT": "${workspaceFolder}/bundle/tools/ngbundler/tsconfig.json"
+            }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Dgeni",
+            "runtimeArgs": [
+                "-r",
+                "${workspaceFolder}/bundle/node_modules/ts-node/register"
+            ],
+            "args": [
+                "${workspaceFolder}/bundle/tools/dgeni/index.ts"
+            ],
+            "cwd": "${workspaceFolder}/bundle",
+            "env": {
+                "TS_NODE_PROJECT": "${workspaceFolder}/bundle/tools/dgeni/tsconfig.json"
+            }
+        }
+
+    ]
+}

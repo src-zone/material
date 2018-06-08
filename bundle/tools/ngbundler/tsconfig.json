@@ -12,7 +12,8 @@
     "target": "es5",
     "types": [
       "node"
-    ]
+    ],
+    "sourceMap": true
   },
   "files": [
     "index.ts"
