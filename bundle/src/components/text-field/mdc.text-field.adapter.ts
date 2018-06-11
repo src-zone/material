@@ -41,5 +41,8 @@ export interface MdcTextFieldAdapter {
     shakeLabel: (shouldShake: boolean) => void,
     floatLabel: (shouldFloat: boolean) => void,
     hasLabel: () => boolean,
-    getLabelWidth: () => number
+    getLabelWidth: () => number,
+    hasOutline: () => boolean,
+    notchOutline: (labelWidth: number, isRtl: boolean) => void,
+    closeOutline: () => void
 }

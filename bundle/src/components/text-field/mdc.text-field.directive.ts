@@ -16,6 +16,7 @@ import { AbstractMdcInput } from '../abstract/abstract.mdc.input';
 import { AbstractMdcLabel } from '../abstract/abstract.mdc.label';
 import { asBoolean } from '../../utils/value.utils';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
+import { NotchedOutlineSupport } from '../notched-outline/notched-outline.support';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
 const CLASS_LINE_RIPPLE = 'mdc-line-ripple';
@@ -254,9 +255,11 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
     @ContentChild(MdcTextFieldInputDirective) _input: MdcTextFieldInputDirective;
     @ContentChild(MdcFloatingLabelDirective) _label: MdcFloatingLabelDirective;
     @ContentChildren('label', {descendants: true, read: ElementRef}) _labels: QueryList<ElementRef>;
+    private _outlineSupport: NotchedOutlineSupport;
     private _helperText: MdcTextFieldHelperTextDirective;
     private _initialized = false;
     private _box = false;
+    private _outlined = false;
     private _dense = false;
     private _bottomLineElm: HTMLElement = null;
     private _valid: boolean = null;
@@ -312,13 +315,29 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
         },
         isFocused: () => this._input && this._input._focused,
         isRtl: () => getComputedStyle(this.root.nativeElement).getPropertyValue('direction') === 'rtl',
-        activateLineRipple: () => this.bottomLineFoundation.activate(),
-        deactivateLineRipple: () => this.bottomLineFoundation.deactivate(),
-        setLineRippleTransformOrigin: (normalizedX: number) => this.bottomLineFoundation.setRippleCenter(normalizedX),
+        activateLineRipple: () => {
+            if (this._bottomLineElm)
+                this.bottomLineFoundation.activate();
+        },
+        deactivateLineRipple: () => {
+            if (this._bottomLineElm)
+                this.bottomLineFoundation.deactivate();
+        },
+        setLineRippleTransformOrigin: (normalizedX: number) => {
+            if (this._bottomLineElm)
+                this.bottomLineFoundation.setRippleCenter(normalizedX);
+        },
         shakeLabel: (shouldShake: boolean) => this._label._foundation.shake(shouldShake),
         floatLabel: (shouldFloat: boolean) => this._label._foundation.float(shouldFloat),
         hasLabel: () => !!this._label,
-        getLabelWidth: () => this._label._foundation.getWidth()
+        getLabelWidth: () => this._label._foundation.getWidth(),
+        hasOutline: () => this._outlined,
+        notchOutline: (labelWidth: number, isRtl: boolean) => {
+            this._outlineSupport.foundation.notch(labelWidth, isRtl);
+        },
+        closeOutline: () => {
+            this._outlineSupport.foundation.closeNotch();
+        }
     };
     private bottomLineFoundation: {
         init: Function,
@@ -330,6 +349,8 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
     private foundation: {
         init: Function,
         destroy: Function,
+        readonly shouldFloat: boolean,
+        notchOutline(openNotch: boolean),
         useCustomValidityChecking_: boolean,
         setValid(isValid: boolean),
         changeValidity_(isValid: boolean)
@@ -337,60 +358,116 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
 
     constructor(private renderer: Renderer2, private root: ElementRef, private registry: MdcEventRegistry) {
         super(root, renderer, registry);
+        this._outlineSupport = new NotchedOutlineSupport(root, renderer);
     }
 
     ngAfterContentInit() {
         if (this._label && this._input && !this._label.for)
             this._label.for = this._input.id;
-        this._initialized = true;
-        this._bottomLineElm = this.renderer.createElement('div');
-        this.renderer.addClass(this._bottomLineElm, CLASS_LINE_RIPPLE);
-        this.renderer.appendChild(this.root.nativeElement, this._bottomLineElm);
-        this.initBox();
-        this.foundation = new MDCTextFieldFoundation(this.mdcAdapter, {
-            lineRipple: this.bottomLineFoundation,
-            helperText: this.helperText ? this.helperText._foundation : undefined,
-            icon: this._icon ? this._icon._foundation : undefined,
-            label: this._label ? this._label._foundation : undefined
-        });
-        if (this._helperText)
-            this._helperText._foundation.init();
-        if (this._icon)
-            this._icon._foundation.init();
         if (this._label && !this._label._initialized)
             throw new Error('mdcFloatingLabel initialized after parent mdcTextField')
-        this.bottomLineFoundation.init();
-        this.foundation.init();
-        // TODO: we should actually reassign this if mdcInput changes, eg via ngContentChanges hook
+
+        this._initialized = true;
+        this.initComponent();
+
+        // TODO: we should actually reassign this if mdcInput changes (@ContentChildren instead of @ContentChild)
         if (this._input)
             this._input._onChange = (value) => {
                 if (this._input && this._label && !this._input._focused) {
                     // programmatic changes to the input value are not seen by the foundation,
                     // but some states should be updated with the new value:
-                    this._label._foundation.float(value != null && value.toString().length !== 0);
+                    let shouldFloat = value != null && value.toString().length !== 0;
+                    this._label._foundation.float(shouldFloat);
+                    this.foundation.notchOutline(shouldFloat);
                 }
             }
     }
 
     ngOnDestroy() {
-        this.destroyRipple();
+        this.destroyComponent();
+        this._input._onChange = (value) => {};
+    }
+
+    private initComponent() {
+        this.initLineRipple();
+        this.initBox();
+        this.initOutline();
+        this.foundation = new MDCTextFieldFoundation(this.mdcAdapter, {
+            lineRipple: this._outlined ? null : this.bottomLineFoundation,
+            helperText: this.helperText ? this.helperText._foundation : undefined,
+            icon: this._icon ? this._icon._foundation : undefined,
+            label: this._label ? this._label._foundation : undefined,
+
+        });
+        if (this._helperText)
+            this._helperText._foundation.init();
+        if (this._icon)
+            this._icon._foundation.init();
+        this.foundation.init();
+    }
+
+    private destroyComponent() {
+        this.destroyLineRipple();
+        this.destroyBox();
+        this.destroyOutline();
         if (this._helperText)
             this._helperText._foundation.destroy();
         if (this._helperText)
             this._helperText._foundation.destroy();
         if (this._icon)
             this._icon._foundation.destroy();
-        this.bottomLineFoundation.destroy();
         this.foundation.destroy();
-        this._input._onChange = (value) => {};
+    }
+
+    private reconstructComponent() {
+        if (this._initialized) {
+            this.destroyComponent();
+            this.initComponent();
+            this.recomputeOutline();
+        }
+    }
+
+    private initLineRipple() {
+        if (!this._outlined) {
+            this._bottomLineElm = this.renderer.createElement('div');
+            this.renderer.addClass(this._bottomLineElm, CLASS_LINE_RIPPLE);
+            this.renderer.appendChild(this.root.nativeElement, this._bottomLineElm);
+            this.bottomLineFoundation.init();
+        }
+    }
+
+    private destroyLineRipple() {
+        if (this._bottomLineElm) {
+            this.bottomLineFoundation.destroy();
+            this.renderer.removeChild(this.root.nativeElement, this._bottomLineElm);
+            this._bottomLineElm = null;
+        }
     }
 
     private initBox() {
-        if (this._box != !!this.isRippleInitialized()) {
-            if (this._box)
-                this.initRipple();
-            else
-                this.destroyRipple();
+        if (this._box)
+            this.initRipple();
+    }
+
+    private destroyBox() {
+        this.destroyRipple();
+    }
+
+
+    private initOutline() {
+        if (this._outlined)
+            this._outlineSupport.init();
+    }
+
+    private destroyOutline() {
+        this._outlineSupport.destroy();
+    }
+
+    private recomputeOutline() {
+        if (this._outlined) {
+            // the outline may not be valid after re-initialisation, recompute outline when all
+            // style/structural changes have been employed:
+            setTimeout(() => {this.foundation.notchOutline(this.foundation.shouldFloat); }, 0);
         }
     }
 
@@ -434,8 +511,28 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
     }
 
     set box(val: any) {
-        this._box = asBoolean(val);
-        this.initBox();
+        let newVal = asBoolean(val);
+        if (newVal !== this._box) {
+            this._box = asBoolean(val);
+            this.reconstructComponent();
+        }
+    }
+
+    /**
+     * When this input is set to a value other than false, the text-field will be styled
+     * with a notched outline.
+     */
+    @HostBinding('class.mdc-text-field--outlined') @Input()
+    get outlined() {
+        return this._outlined;
+    }
+
+    set outlined(val: any) {
+        let newVal = asBoolean(val);
+        if (newVal !== this._outlined) {
+            this._outlined = asBoolean(val);
+            this.reconstructComponent();
+        }
     }
 
     @HostBinding('class.mdc-text-field--with-leading-icon') get _leadingIcon(): boolean {
@@ -456,7 +553,11 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
     }
 
     set dense(val: any) {
-        this._dense = asBoolean(val);
+        let newVal = asBoolean(val);
+        if (newVal !== this._dense) {
+            this._dense = asBoolean(val);
+            this.recomputeOutline();
+        }
     }
 
     /**
