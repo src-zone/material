@@ -1,8 +1,9 @@
 import { AfterContentInit, AfterViewInit, Component, ContentChild, ContentChildren, Directive, ElementRef, EventEmitter, forwardRef,
-  HostBinding, HostListener, Input, OnDestroy, Optional, Output, Provider, Renderer2, Self, ViewChild,
+  HostBinding, HostListener, Input, NgZone, OnDestroy, Optional, Output, Provider, Renderer2, Self, ViewChild,
   ViewEncapsulation } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { MDCToolbar, MDCToolbarFoundation } from '@material/toolbar';
+import { util } from '@material/ripple';
 import { MdcToolbarAdapter } from './mdc.toolbar.adapter';
 import { asBoolean } from '../../utils/value.utils';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
@@ -163,7 +164,6 @@ export class MdcToolbarDirective implements AfterViewInit, OnDestroy {
     @ContentChild(MdcToolbarTitleDirective) _title;
     @ContentChild(MdcToolbarRowDirective) _firstRow;
     private _viewport: HTMLElement;
-    private _mdcViewPortScrollListener;
     private _initialized = false;
     private _fixed = false;
     private _waterfall = false;
@@ -223,7 +223,8 @@ export class MdcToolbarDirective implements AfterViewInit, OnDestroy {
     };
     private foundation: { init: Function, destroy: Function } = new MDCToolbarFoundation(this.mdcAdapter);
 
-    constructor(private renderer: Renderer2, private root: ElementRef, private registry: MdcEventRegistry) {
+    constructor(private renderer: Renderer2, private root: ElementRef, private registry: MdcEventRegistry,
+        private zone: NgZone) {
     }
 
     ngAfterViewInit() {
@@ -234,33 +235,40 @@ export class MdcToolbarDirective implements AfterViewInit, OnDestroy {
         //   the classname given to the adapter), so that ngAfterContentInit can be used after all. That
         //   seems a nicer strategy.
         this._initialized = true;
-        if (this._viewport) {
-            this._mdcViewPortScrollListener = () => {this._updateViewPort();}
-            this._viewport.addEventListener('scroll', this._mdcViewPortScrollListener);
-        }
-        this._updateViewPort();
+        this.initFixedScroll();
         this.foundation.init();
     }
 
     ngOnDestroy() {
-        if (this._mdcViewPortScrollListener)
-            this._viewport.removeEventListener('scroll', this._mdcViewPortScrollListener);
+        this.destroyFixedScroll();
         this.foundation.destroy();
     }
 
-    @HostListener('window:resize', ['$event'])
-    _updateViewPort() {
-        if (this._initialized && this._viewport) {
-            if (this._fixed) {
-                // simulate 'fixed' relative to view position of parent:
+    initFixedScroll() {
+        if (this._viewport && this._fixed) {
+            this.zone.runOutsideAngular(() => {
+                // simulate 'fixed' relative to view position of parent by setting position to
+                // absolute (MDC sets it to fixed), and updating the vertical position on scroll:
                 this.root.nativeElement.style.position = 'absolute';
-                this.root.nativeElement.style.top = this._viewport.scrollTop + 'px';
-            } else {
-                // reset to position from mdc stylesheets:
-                this.root.nativeElement.style.position = null;
-                this.root.nativeElement.style.top = null;
-            }
+                this._viewport.addEventListener('scroll', this._updateViewPort, util.applyPassive());
+                this._viewport.addEventListener('touchmove', this._updateViewPort, util.applyPassive());
+                window.addEventListener('resize', this._updateViewPort, util.applyPassive());
+            });
+            this._updateViewPort();
         }
+    }
+
+    destroyFixedScroll() {
+        if (this._viewport && this._fixed) {
+            this._viewport.removeEventListener('scroll', this._updateViewPort);
+            this._viewport.removeEventListener('touchmove', this._updateViewPort);
+            window.removeEventListener('resize', this._updateViewPort);
+        }
+    }
+
+    _updateViewPort = () => {
+        // simulate 'fixed' relative to view position of parent:
+        this.root.nativeElement.style.top = this._viewport.scrollTop + 'px';
     }
 
     /**
@@ -350,11 +358,11 @@ export class MdcToolbarDirective implements AfterViewInit, OnDestroy {
     /**
      * Assign any <code>HTMLElement</code> to this property to place a flexible toolbar fixed to that element
      * (usually the parent container), instead of to the browser window. This property is mainly added for creating nice
-     * demos of toolbars embedded inside oher pages (such as on this documentation page). It is not recommended to use
+     * demos of toolbars embedded inside other pages (such as on this documentation page). It is not recommended to use
      * this for a real application toolbar. The position is kept fixed to the container element by listening
      * for scroll/resize events, and using javascript to recompute the position. This may influence the smoothness
      * of the scrolling experience, especially on mobile devices.
-     * The viewport element should have css styling: <code>position: relative</code>, and should have a fixed
+     * The viewport element must have css styling: <code>position: relative</code>, and should have a fixed
      * height.
      */
     @Input() get viewport() {
