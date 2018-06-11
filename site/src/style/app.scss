@@ -334,11 +334,13 @@ blox-code-sample {
     background: #f5f5f5;
     box-sizing: border-box;
     .blox-code-sample-toolbar-firstrow {
+      position: relative;
       max-height: 48px;
       white-space:nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       h3 {
+        position: absolute;
         display: inline-block;
         height: 48px;
         margin: 0;
