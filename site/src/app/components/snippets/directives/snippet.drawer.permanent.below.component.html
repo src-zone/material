@@ -1,22 +1,20 @@
 <fieldset class="blox-snippet snippet-skip-line">
-<div class="blox-snippet-page">
-  <header mdcToolbar>
-    <div mdcToolbarRow>
-      <section mdcToolbarSection alignStart>
-        <span>
-          <a href="javascript:void(0)" mdcToolbarMenuIcon><i class="material-icons">&#xE5C4;</i></a>
-        </span>
-        <span mdcToolbarTitle>Toolbar</span>
+<div #viewport class="blox-snippet-page">
+  <header mdcTopAppBar [viewport]="viewport" [fixedAdjust]="content">
+    <div mdcTopAppBarRow>
+      <section mdcTopAppBarSection alignStart>
+        <a href="javascript:void(0)" mdcTopAppBarNavIcon class="material-icons">menu</a>
+        <span mdcTopAppBarTitle>Toolbar</span>
       </section>
-      <section mdcToolbarSection alignEnd>
-        <a href="javascript:void(0)" mdcToolbarIcon class="material-icons" aria-label="Download" alt="Download">file_download</a>
-        <a href="javascript:void(0)" mdcToolbarIcon class="material-icons" aria-label="Print this page" alt="Print this page">print</a>
-        <a href="javascript:void(0)" mdcToolbarIcon class="material-icons" aria-label="Bookmark this page" alt="Bookmark this page">more_vert</a>
+      <section mdcTopAppBarSection alignEnd>
+        <a href="javascript:void(0)" mdcTopAppBarAction class="material-icons" label="Download">file_download</a>
+        <a href="javascript:void(0)" mdcTopAppBarAction class="material-icons" label="Print this page">print</a>
+        <a href="javascript:void(0)" mdcTopAppBarAction class="material-icons" label="Bookmark this page">more_vert</a>
       </section>
     </div>
   </header>
 
-  <div class="blox-demo-content">
+  <div #content class="blox-demo-content">
     <nav mdcDrawer>
       <div mdcDrawerContent mdcList>
         <a mdcListItem href="javascript:void(0)">

@@ -1,5 +1,5 @@
 <fieldset class="blox-snippet snippet-skip-line">
-<div class="blox-snippet-page">
+<div #viewport class="blox-snippet-page">
   <aside [mdcDrawerContainer]="drawerType" [(open)]="open">
     <nav mdcDrawer>
       <div mdcDrawerToolbarSpacer *ngIf="toolbarSpacer"></div>
@@ -31,16 +31,16 @@
     </nav>
   </aside>
   <div class="blox-demo-content">
-    <header mdcToolbar>
-      <div mdcToolbarRow>
-        <section mdcToolbarSection alignStart>
-          <button mdcToolbarMenuIcon class="material-icons" (click)="toggleDrawer()">menu</button>
-          <span mdcToolbarTitle>{{drawerType | titlecase}} Drawer</span>
+    <header mdcTopAppBar [viewport]="viewport" [fixedAdjust]="content">
+      <div mdcTopAppBarRow>
+        <section mdcTopAppBarSection alignStart>
+          <button mdcTopAppBarNavIcon class="material-icons" (click)="toggleDrawer()">menu</button>
+          <span mdcTopAppBarTitle>{{drawerType | titlecase}} Drawer</span>
         </section>
       </div>
     </header>
 
-    <main class="blox-demo-main">
+    <main #content class="blox-demo-main">
       <h1>{{drawerType | titlecase}} Drawer</h1>
       <p>Click the menu icon above to {{open ? 'close' : 'open'}} the drawer, or use the controls below:</p>
       <div mdcFormField>

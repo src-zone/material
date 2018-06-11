@@ -30,6 +30,7 @@ const globals = {
   '@material/textfield/helper-text': 'mdc.textfield',
   '@material/textfield/icon': 'mdc.textfield',
   '@material/toolbar': 'mdc.toolbar',
+  '@material/top-app-bar': 'mdc.topAppBar',
   '@material/tabs': 'mdc.tabs',
   'focus-trap': 'focusTrap',
   'rxjs': 'rxjs', 
