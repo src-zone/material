@@ -3,8 +3,8 @@ import { MdcSnackbarService } from '@blox/material';
 //snip:skip
 import { forwardRef } from '@angular/core';
 import { AbstractSnippetComponent } from '../abstract.snippet.component';
-
 //snip:endskip
+
 @Component({
     //snip:skip
     providers: [{provide: AbstractSnippetComponent, useExisting: forwardRef(() => SnippetSnackbarComponent)}],
