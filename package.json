@@ -11,6 +11,6 @@
         "@commitlint/config-lerna-scopes": "^7.0.0",
         "husky": "^0.14.3",
         "lerna": "^2.11.0",
-        "simple-git": "^1.95.1"
+        "simple-git": "^1.96.0"
     }
 }

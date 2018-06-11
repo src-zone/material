@@ -50,7 +50,7 @@
     "@angular/router": "^6.0.4",
     "@types/glob": "^5.0.35",
     "@types/jasmine": "^2.8.8",
-    "@types/node": "^10.3.1",
+    "@types/node": "^10.3.2",
     "@types/rollup": "^0.54.0",
     "@types/selenium-webdriver": "^3.0.9",
     "angular2-template-loader": "^0.6.2",
@@ -74,7 +74,7 @@
     "karma-webpack": "^4.0.0-beta.0",
     "raw-loader": "^0.5.1",
     "rimraf": "^2.6.2",
-    "rollup": "^0.60.1",
+    "rollup": "^0.60.2",
     "rollup-plugin-node-resolve": "^3.3.0",
     "rollup-plugin-sourcemaps": "0.4.2",
     "rxjs": "^6.2.0",
@@ -83,12 +83,12 @@
     "source-map-loader": "^0.2.3",
     "to-string-loader": "^1.1.5",
     "ts-helpers": "^1.1.2",
-    "ts-loader": "^4.3.1",
+    "ts-loader": "^4.4.1",
     "ts-node": "^6.1.0",
     "tslint": "^5.10.0",
     "typedoc": "^0.11.1",
     "typescript": "^2.7.2",
-    "webpack": "^4.11.1",
+    "webpack": "^4.12.0",
     "zone.js": "^0.8.26"
   }
 }
