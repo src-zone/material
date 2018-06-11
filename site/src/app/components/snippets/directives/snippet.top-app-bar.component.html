@@ -1,0 +1,60 @@
+<div class="blox-snippet snippet-skip-line">
+<div mdcFormField>
+  <div mdcRadio>
+    <input mdcRadioInput type="radio" name="type" value="default" [(ngModel)]="type" />
+  </div>
+  <label mdcFormFieldLabel>Default</label>
+</div>
+<div mdcFormField>
+  <div mdcRadio>
+    <input mdcRadioInput type="radio" name="type" value="fixed" [(ngModel)]="type" />
+  </div>
+  <label mdcFormFieldLabel>Fixed</label>
+</div>
+<div mdcFormField>
+  <div mdcRadio>
+    <input mdcRadioInput type="radio" name="type" value="short" [(ngModel)]="type" />
+  </div>
+  <label mdcFormFieldLabel>Short</label>
+</div>
+
+<div mdcFormField>
+  <div mdcCheckbox>
+    <input mdcCheckboxInput type="checkbox" [(ngModel)]="prominent"/>
+  </div>
+  <label mdcFormFieldLabel>Prominent</label>
+</div>
+<div mdcFormField>
+  <div mdcCheckbox>
+    <input mdcCheckboxInput type="checkbox" [(ngModel)]="dense"/>
+  </div>
+  <label mdcFormFieldLabel>Dense</label>
+</div>
+
+<div #viewport class="blox-snippet-page">
+  <header [mdcTopAppBar]="type" [viewport]="viewport" [fixedAdjust]="fixedAdjust"
+      [prominent]="prominent" [dense]="dense">
+    <div mdcTopAppBarRow>
+      <section mdcTopAppBarSection alignStart>
+        <a href="javascript:void(0)" mdcTopAppBarNavIcon class="material-icons">menu</a>
+        <span mdcTopAppBarTitle>Toolbar</span>
+      </section>
+      <section mdcTopAppBarSection alignEnd>
+        <a href="javascript:void(0)" mdcTopAppBarAction class="material-icons" label="Download">file_download</a>
+        <a *ngIf="type !== 'short'" href="javascript:void(0)" mdcTopAppBarAction class="material-icons" label="Print this page">print</a>
+        <a *ngIf="type !== 'short'" href="javascript:void(0)" mdcTopAppBarAction class="material-icons" label="Bookmark this page">more_vert</a>
+      </section>
+    </div>
+  </header>
+  <main #fixedAdjust>
+    <p *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]" class="blox-demo-paragraph">
+      Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+      Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.
+      Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est.
+      Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+      Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.
+      Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est.
+    </p>
+  </main>
+</div>
+</div><div class="snippet-skip-line"></div>

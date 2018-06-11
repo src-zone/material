@@ -30,3 +30,4 @@ export * from './snippet.text-field.icon.component';
 export * from './snippet.text-field.textarea.component';
 export * from './snippet.toolbar.component';
 export * from './snippet.toolbar.flexible.component';
+export * from './snippet.top-app-bar.component';

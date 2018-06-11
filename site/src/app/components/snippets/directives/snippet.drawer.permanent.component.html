@@ -17,16 +17,16 @@
       </a>
     </div>
   </nav>
-  <div class="blox-demo-content">
-    <header mdcToolbar>
-      <div mdcToolbarRow>
-        <section mdcToolbarSection alignStart>
-          <span mdcToolbarTitle>Permanent Drawer</span>
+  <div #viewport class="blox-demo-content">
+    <header mdcTopAppBar [viewport]="viewport" [fixedAdjust]="content">
+      <div mdcTopAppBarRow>
+        <section mdcTopAppBarSection alignStart>
+          <span mdcTopAppBarTitle>Permanent Drawer</span>
         </section>
       </div>
     </header>
 
-    <main class="blox-demo-main">
+    <main #content class="blox-demo-main">
       <h1>Permanent Drawer</h1>
       <p>Customize the drawer:</p>
       <div mdcFormField>

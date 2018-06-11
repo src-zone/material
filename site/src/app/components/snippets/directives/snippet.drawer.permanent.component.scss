@@ -15,6 +15,7 @@
 
 // Stack toolbar and main on top of each other:
 .blox-demo-content {
+    position: relative;
     display: inline-flex;
     flex-direction: column;
     flex-grow: 1;

@@ -72,6 +72,7 @@ import { MdcToolbarDirective,
     MdcToolbarIcon,
     MdcToolbarMenuIcon,
     MdcToolbarFixedAdjustDirective } from './components/toolbar/mdc.toolbar.directive';
+import { TOP_APP_BAR_DIRECTIVES } from './components/top-app-bar/mdc.top-app-bar.directive';
 import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-resize.directive';
 import { MdcEventRegistry } from './utils/mdc.event.registry';
 
@@ -150,6 +151,7 @@ export { MdcToolbarDirective,
     MdcToolbarIcon,
     MdcToolbarMenuIcon,
     MdcToolbarFixedAdjustDirective } from './components/toolbar/mdc.toolbar.directive';
+export * from './components/top-app-bar/mdc.top-app-bar.directive';
 export { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-resize.directive';
 export { MdcEventRegistry } from './utils/mdc.event.registry';
 
@@ -187,6 +189,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcTabBarScrollerDirective, MdcTabBarScrollerInnerDirective, MdcTabBarScrollerBackDirective, MdcTabBarScrollerForwardDirective, MdcTabBarScrollerFrameDirective,
         MdcTextFieldDirective, MdcTextFieldInputDirective, MdcTextFieldIconDirective, MdcTextFieldHelperTextDirective,
         MdcToolbarDirective, MdcToolbarRowDirective, MdcToolbarSectionDirective, MdcToolbarTitleDirective, MdcToolbarIcon, MdcToolbarMenuIcon, MdcToolbarFixedAdjustDirective,
+        TOP_APP_BAR_DIRECTIVES,
         MdcScrollbarResizeDirective
     ],
     exports: [
@@ -219,6 +222,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcTabBarScrollerDirective, MdcTabBarScrollerInnerDirective, MdcTabBarScrollerBackDirective, MdcTabBarScrollerForwardDirective, MdcTabBarScrollerFrameDirective,
         MdcTextFieldDirective, MdcTextFieldInputDirective, MdcTextFieldIconDirective, MdcTextFieldHelperTextDirective,
         MdcToolbarDirective, MdcToolbarRowDirective, MdcToolbarSectionDirective, MdcToolbarTitleDirective, MdcToolbarIcon, MdcToolbarMenuIcon, MdcToolbarFixedAdjustDirective,
+        TOP_APP_BAR_DIRECTIVES,
         MdcScrollbarResizeDirective
     ]
 })

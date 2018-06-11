@@ -24,7 +24,8 @@ import {
     TabDirectivesComponent,
     TextFieldDirectivesComponent,
     ToolbarDirectivesComponent,
-    UtilityDirectivesComponent} from './components';
+    TopAppBarDirectivesComponent,
+    UtilityDirectivesComponent } from './components';
 
 const routes: Routes = [
     {path: '', pathMatch: 'full', component: OverviewComponent},
@@ -50,6 +51,7 @@ const routes: Routes = [
     {path: TabDirectivesComponent.DOC_HREF, component: TabDirectivesComponent},
     {path: TextFieldDirectivesComponent.DOC_HREF, component: TextFieldDirectivesComponent},
     {path: ToolbarDirectivesComponent.DOC_HREF, component: ToolbarDirectivesComponent},
+    {path: TopAppBarDirectivesComponent.DOC_HREF, component: TopAppBarDirectivesComponent},
     {path: UtilityDirectivesComponent.DOC_HREF, component: UtilityDirectivesComponent}
 ];
 
