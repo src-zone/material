@@ -20,6 +20,7 @@ const globals = {
   '@material/line-ripple': 'mdc.lineRipple',
   '@material/menu': 'mdc.menu',
   '@material/menu/util': 'mdc.menu',
+  '@material/material': 'mdc.notchedOutline',
   '@material/radio': 'mdc.radio',
   '@material/ripple': 'mdc.ripple',
   '@material/select': 'mdc.select',
