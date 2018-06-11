@@ -46,7 +46,7 @@ switch               | [docs &amp; demo](https://blox.src.zone/material/componen
 tabs                 | [docs &amp; demo](https://blox.src.zone/material/components/tab) |
 text-field           | [docs &amp; demo](https://blox.src.zone/material/components/text-field) |
 toolbar              | [docs &amp; demo](https://blox.src.zone/material/components/toolbar) |
-top-app-bar          | in tracker |
+top-app-bar          | [docs &amp; demo](https://blox.src.zone/material/components/top-app-bar) |
 
 The following material-components-web packages provide styling (scss, css) only. As such they
 can be consumed directly from your Angular app, and we see no reason to wrap their functionality
