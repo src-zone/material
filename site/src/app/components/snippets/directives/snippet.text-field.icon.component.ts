@@ -11,7 +11,8 @@ import { AbstractSnippetComponent } from '../abstract.snippet.component';
   templateUrl: './snippet.text-field.icon.component.html'
 })
 export class SnippetTextFieldIconComponent/*snip:skip*/extends AbstractSnippetComponent/*snip:endskip*/ {
-    box = true;
+    private _box = true;
+    private _outlined = false;
     disabled = false;
     required = false;
     persistent = false;
@@ -30,5 +31,25 @@ export class SnippetTextFieldIconComponent/*snip:skip*/extends AbstractSnippetCo
 
     clearField2() {
         this.field2 = null;
+    }
+
+    get box() {
+        return this._box;
+    }
+
+    set box(value: boolean) {
+        this._box = value;
+        if (value)
+            this._outlined = false;
+    }
+
+    get outlined() {
+        return this._outlined;
+    }
+
+    set outlined(value: boolean) {
+        this._outlined = value;
+        if (value)
+            this._box = false;
     }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, SimpleChanges } from '@angular/core';
 //snip:skip
 import { forwardRef } from '@angular/core';
 import { AbstractSnippetComponent } from '../abstract.snippet.component';
@@ -11,7 +11,8 @@ import { AbstractSnippetComponent } from '../abstract.snippet.component';
   templateUrl: './snippet.text-field.component.html'
 })
 export class SnippetTextFieldComponent/*snip:skip*/extends AbstractSnippetComponent/*snip:endskip*/ {
-    box = false;
+    private _box = true;
+    private _outlined = false;
     rtl = false;
     disabled = false;
     required = false;
@@ -31,5 +32,25 @@ export class SnippetTextFieldComponent/*snip:skip*/extends AbstractSnippetCompon
 
     get dir() {
         return this.rtl ? "rtl" : null;
+    }
+
+    get box() {
+        return this._box;
+    }
+
+    set box(value: boolean) {
+        this._box = value;
+        if (value)
+            this._outlined = false;
+    }
+
+    get outlined() {
+        return this._outlined;
+    }
+
+    set outlined(value: boolean) {
+        this._outlined = value;
+        if (value)
+            this._box = false;
     }
 }

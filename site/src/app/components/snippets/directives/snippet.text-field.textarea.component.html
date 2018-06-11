@@ -6,7 +6,7 @@
       minlength="8" [required]="required" rows="8" cols="40"></textarea>
     <label mdcFloatingLabel>Multiline Input</label>
   </div>
-  <p mdcTextFieldHelperText #input1Help="mdcHelperText" validation [persistent]="persistent">
+  <p mdcTextFieldHelperText #input1Help="mdcHelperText" validation>
     <span *ngIf="input1.errors?.required">Input is required</span>
     <span *ngIf="input1.errors?.minlength">Input requires at least 8 characters</span>
   </p>
@@ -29,12 +29,6 @@
       <input mdcCheckboxInput type="checkbox" [(ngModel)]="required"/>
     </div>
     <label mdcFormFieldLabel>Required</label>
-  </div>
-  <div mdcFormField>
-    <div mdcCheckbox>
-      <input mdcCheckboxInput type="checkbox" [(ngModel)]="persistent"/>
-    </div>
-    <label mdcFormFieldLabel>Make helper text persistent</label>
   </div>
   <div mdcFormField>
     <div mdcCheckbox>

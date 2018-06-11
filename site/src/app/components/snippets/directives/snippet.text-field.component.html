@@ -1,6 +1,6 @@
 <fieldset class="blox-snippet snippet-skip-line">
 <div [dir]="dir">
-  <div mdcTextField [helperText]="input1Help" [box]="box" [dense]="dense">
+  <div mdcTextField [helperText]="input1Help" [box]="box" [outlined]="outlined" [dense]="dense">
     <input mdcTextFieldInput type="text" #input1="ngModel" [(ngModel)]="field1" [disabled]="disabled"
       [required]="required"/>
     <label mdcFloatingLabel>Input with Helper Text</label>
@@ -9,7 +9,7 @@
     Help text
   </p>
 
-  <div mdcTextField [helperText]="input2Help" [box]="box" [dense]="dense">
+  <div mdcTextField [helperText]="input2Help" [box]="box" [outlined]="outlined" [dense]="dense">
     <input mdcTextFieldInput type="text" #input2="ngModel" [(ngModel)]="field2" [disabled]="disabled"
       minlength="8" [required]="required"/>
     <label mdcFloatingLabel>Input with Validation</label>
@@ -25,6 +25,12 @@
       <input mdcCheckboxInput type="checkbox" [(ngModel)]="box"/>
     </div>
     <label mdcFormFieldLabel>Box</label>
+  </div>
+  <div mdcFormField>
+    <div mdcCheckbox>
+      <input mdcCheckboxInput type="checkbox" [(ngModel)]="outlined"/>
+    </div>
+    <label mdcFormFieldLabel>Outlined</label>
   </div>
   <div mdcFormField>
     <div mdcCheckbox>
