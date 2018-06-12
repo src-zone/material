@@ -1,4 +1,5 @@
-[mdcRipple] {
+.mdc-ripple-surface {
+    float: left;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -6,9 +7,5 @@
     width: 200px;
     height: 100px;
     padding: 1rem;
-    overflow: hidden;
     cursor: pointer;
-    &.mdc-ripple-upgraded--unbounded {
-        overflow: visible;
-    }
 }

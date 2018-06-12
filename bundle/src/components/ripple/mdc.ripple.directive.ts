@@ -7,16 +7,21 @@ import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
 /**
- * Directive for making an element a ripple surface.
+ * Directive for making an element a ripple surface. The ripple can be customized
+ * with the provided
+ * <a href="https://github.com/material-components/material-components-web/tree/master/packages/mdc-ripple#sass-apis"
+ *   target="_blank">Sass Mixins</a>.
+ * Alternatively you can set the <code>surface</code> to get a default styled ripple.
  */
 @Directive({
     selector: '[mdcRipple]'
 })
 export class MdcRippleDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
     private _initialized = false;
-    @HostBinding('class.mdc-ripple-surface') _on = false;
+    private _on = false;
     private _disabled: boolean = null;
     private _unbounded = false;
+    private _surface = false;
     private _dim = null;
 
     constructor(private elm: ElementRef, private renderer: Renderer2, private registry: MdcEventRegistry) {
@@ -95,6 +100,10 @@ export class MdcRippleDirective extends AbstractMdcRipple implements AfterConten
         }
     }
 
+    @HostBinding('attr.data-mdc-ripple-is-unbounded') get _attrUnbounded() {
+        return this._unbounded ? "" : null;
+    }
+
     /**
      * This input sets the dimension of the ripple.
      * This input can be set to null for returning to the defaults, which uses the surface
@@ -122,6 +131,22 @@ export class MdcRippleDirective extends AbstractMdcRipple implements AfterConten
 
     set disabled(value: any) {
         this._disabled = asBooleanOrNull(value);
+    }
+
+    /**
+     * When this input has a value other than false, the ripple element will get the
+     * "mdc-ripple-surface" class. That class has styling for bounded and unbounded
+     * ripples in accordance with your theme customizations. Without this property,
+     * you have to supply your own ripple styles, using the provided
+     * <a href="https://github.com/material-components/material-components-web/tree/master/packages/mdc-ripple#sass-apis"
+     *   target="_blank">Sass Mixins</a>.
+     */
+    @Input() @HostBinding('class.mdc-ripple-surface') get surface() {
+        return this._surface;
+    }
+
+    set surface(value: any) {
+        this._surface = asBoolean(value);
     }
 
     private reInit() {
