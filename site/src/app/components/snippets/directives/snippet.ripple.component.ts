@@ -13,10 +13,6 @@ import { AbstractSnippetComponent } from '../abstract.snippet.component';
   styleUrls: ['./snippet.ripple.component.scss']
 })
 export class SnippetRippleComponent/*snip:skip*/extends AbstractSnippetComponent/*snip:endskip*/ {
-    disabled: boolean = null;
-    unbounded = false;
-    dimension = false;
-
     //snip:skip
     constructor() {
         super({

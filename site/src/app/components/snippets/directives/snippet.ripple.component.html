@@ -1,20 +1,8 @@
 <fieldset class="blox-snippet snippet-skip-line">
-<div tabindex="0" mdcElevation="2"
-  mdcRipple
-  [unbounded]="unbounded"
-  [dimension]="dimension ? 300 : null">Interact with me!</div>
-<section>
-  <div mdcFormField>
-    <div mdcCheckbox>
-      <input mdcCheckboxInput type="checkbox" [(ngModel)]="unbounded"/>
-    </div>
-    <label mdcFormFieldLabel>Unbounded</label>
-  </div>
-  <div mdcFormField>
-    <div mdcCheckbox>
-      <input mdcCheckboxInput type="checkbox" [(ngModel)]="dimension"/>
-    </div>
-    <label mdcFormFieldLabel>Dimension = 300</label>
-  </div>
-</section>
+<div mdcElevation="2" mdcRipple surface tabindex="0">
+    Ripple - Interact with me!
+</div>
+<div mdcElevation="2" mdcRipple surface unbounded tabindex="0">
+    Unbounded Ripple - Interact with me!
+</div>
 </fieldset><div class="snippet-skip-line"></div>
