@@ -1,7 +1,9 @@
 import { AfterContentInit, Component, ContentChildren, Directive, ElementRef, HostBinding, HostListener,
-  Input, QueryList, Renderer2 } from '@angular/core';
+  Input, OnDestroy, QueryList, Renderer2 } from '@angular/core';
 import { asBoolean } from '../../utils/value.utils';
+import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 import { MdcButtonDirective } from '../button/mdc.button.directive';
+import { MdcEventRegistry } from '../../material.module';
 
 /**
  * Directive for a separator in a list (between list items), or as a separator between lists.
@@ -60,9 +62,11 @@ export class MdcListDividerDirective {
 @Directive({
     selector: '[mdcListItem]'
 })
-export class MdcListItemDirective {
+export class MdcListItemDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-list-item') _cls = true;
     @HostBinding('attr.role') public _role = null;
+    private _initialized = false;
+    private _interactive = false;
     private _disabled = false;
     private _selected = false;
     private _activated = false;
@@ -72,7 +76,31 @@ export class MdcListItemDirective {
      */
     @Input() value;
 
-    constructor(public _elm: ElementRef) {}
+    constructor(public _elm: ElementRef, rndr: Renderer2, registry: MdcEventRegistry) {
+        super(_elm, rndr, registry)
+    }
+
+    ngAfterContentInit() {
+        this._initialized = true;
+        if (this._interactive)
+            this.initRipple();
+    }
+  
+    ngOnDestroy() {
+        this.destroyRipple();
+    }
+
+    _setInteractive(interactive: boolean) {
+        if (this._interactive !== interactive) {
+            this._interactive = interactive;
+            if (this._initialized) {
+                if (this._interactive)
+                    this.initRipple();
+                else
+                    this.destroyRipple();
+            }
+        }
+    }
 
     /**
      * When a list is used inside an <code>mdcMenu</code>, or <code>mdcSelect</code>,
@@ -214,20 +242,21 @@ export class MdcListDirective implements AfterContentInit {
     constructor(public _elm: ElementRef) {}
 
     ngAfterContentInit() {
-        this.updateItemRoles();
+        this.updateItems();
         this._items.changes.subscribe(() => {
-            this.updateItemRoles();
+            this.updateItems();
         });
         this._texts.changes.subscribe(_ => this._twoLine = this._texts.length > 0);
         this._twoLine = this._texts.length > 0;
     }
 
-    private updateItemRoles() {
+    private updateItems() {
         let itemRole = null;
         if (this._function === MdcListFunction.menu)
             itemRole = 'menuitem';
         this._items.forEach(item => {
             item._role = itemRole;
+            item._setInteractive(!this._nonInteractive);
         });
     }
 
@@ -245,7 +274,7 @@ export class MdcListDirective implements AfterContentInit {
 
     _setFunction(val: MdcListFunction) {
         this._function = val;
-        this.updateItemRoles();
+        this.updateItems();
     }
 
     /**
@@ -271,7 +300,11 @@ export class MdcListDirective implements AfterContentInit {
     }
     
     set nonInteractive(val: any) {
-        this._nonInteractive = asBoolean(val);
+        let newValue = asBoolean(val);
+        if (newValue !== this._nonInteractive) {
+            this._nonInteractive = newValue;
+            this.updateItems();
+        }
     }
 
     /**
