@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, ContentChildren, ElementRef, OnDestroy, Renderer2, QueryList } from '@angular/core';
+import { AfterContentInit, Component, ContentChildren, ElementRef, OnDestroy, Renderer2 } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { Subject, merge, fromEvent } from 'rxjs';
