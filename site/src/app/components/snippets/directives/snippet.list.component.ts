@@ -17,7 +17,7 @@ export class SnippetListComponent/*snip:skip*/extends AbstractSnippetComponent/*
     endDetail = true;
     avatar = false;
     dense = false;
-    ripple = false;    
+    interactive = true;    
 
     //snip:skip
     constructor() {
