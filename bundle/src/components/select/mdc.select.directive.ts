@@ -9,6 +9,8 @@ import { MdcFloatingLabelDirective } from '../floating-label/mdc.floating-label.
 import { MdcLineRippleAdapter } from '../line-ripple/mdc.line-ripple.adapter';
 import { AbstractMdcInput } from '../abstract/abstract.mdc.input';
 import { asBoolean } from '../../utils/value.utils';
+import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
+import { NotchedOutlineSupport } from '../notched-outline/notched-outline.support';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
 const CLASS_SELECT = 'mdc-select';
@@ -92,12 +94,14 @@ export class MdcSelectControlDirective extends AbstractMdcInput implements OnIni
 @Directive({
     selector: '[mdcSelect]'
 })
-export class MdcSelectDirective implements AfterContentInit, OnDestroy {
+export class MdcSelectDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
     @HostBinding('class.' + CLASS_SELECT) _cls = true;
     @ContentChild(MdcSelectControlDirective) _control: MdcSelectControlDirective;
     @ContentChild(MdcFloatingLabelDirective) _label: MdcFloatingLabelDirective;
+    private _outlineSupport: NotchedOutlineSupport;
     private _initialized = false;
     private _box = false;
+    private _outlined = false;
     private _bottomLineElm: HTMLElement = null;
     private _lineRippleAdapter: MdcLineRippleAdapter = {
         addClass: (className: string) => this._rndr.addClass(this._bottomLineElm, className),
@@ -115,30 +119,39 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
         setRippleCenter: (x: number) => void
     } = new MDCLineRippleFoundation(this._lineRippleAdapter);
     private adapter: MdcSelectAdapter = {
-        addClass: (className: string) => {this._rndr.addClass(this._elm.nativeElement, className); },
-        removeClass: (className: string) => {this._rndr.removeClass(this._elm.nativeElement, className); },
+        addClass: (className: string) => this._rndr.addClass(this._elm.nativeElement, className),
+        removeClass: (className: string) => this._rndr.removeClass(this._elm.nativeElement, className),
         floatLabel: (value: boolean) => {
             if (this._label) this._label._foundation.float(value);
         },
         activateBottomLine: () => this._lineRippleFoundation.activate(),
         deactivateBottomLine: () => this._lineRippleFoundation.deactivate(),
-        setDisabled: (disabled: boolean) => this._control._elm.nativeElement.disabled = disabled,
         registerInteractionHandler: (type, handler) => this._control._registry.listen(this._rndr, type, handler, this._control._elm),
         deregisterInteractionHandler: (type, handler) => this._control._registry.unlisten(type, handler),
         getSelectedIndex: () => this._control._elm.nativeElement.selectedIndex,
         setSelectedIndex: (index: number) => this._control._elm.nativeElement.selectedIndex = index,
+        setDisabled: (disabled: boolean) => this._control._elm.nativeElement.disabled = disabled,
         getValue: () => this._control._elm.nativeElement.value,
-        setValue: (value: string) => this._control._elm.nativeElement.value = value
+        setValue: (value: string) => this._control._elm.nativeElement.value = value,
+        isRtl: () => getComputedStyle(this._elm.nativeElement).getPropertyValue('direction') === 'rtl',
+        hasLabel: () => !!this._label,
+        getLabelWidth: () => this._label._foundation.getWidth(),
+        hasOutline: () => this._outlined,
+        notchOutline: (labelWidth: number, isRtl: boolean) => this._outlineSupport.foundation.notch(labelWidth, isRtl),
+        closeOutline: () => this._outlineSupport.foundation.closeNotch()
     };
     private foundation: {
         init(),
         destroy(),
         setValue(value: string),
         setDisabled(disabled: boolean),
-        setSelectedIndex(index: number)
-    } = new MDCSelectFoundation(this.adapter);
+        setSelectedIndex(index: number),
+        notchOutline(openNotch: boolean)
+    };
 
-    constructor(private _elm: ElementRef, private _rndr: Renderer2, private _registry: MdcEventRegistry) {
+    constructor(private _elm: ElementRef, private _rndr: Renderer2, _registry: MdcEventRegistry) {
+        super(_elm, _rndr, _registry);
+        this._outlineSupport = new NotchedOutlineSupport(_elm, _rndr);
     }
 
     ngAfterContentInit() {
@@ -146,22 +159,85 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
             throw new Error('mdcSelect requires an embedded mdcSelectControl and mdcFloatingLabel');
         if (!this._label._initialized)
             throw new Error('mdcFloatingLabel not properly initialized');
-        // add bottom line:
-        this._bottomLineElm = this._rndr.createElement('div');
-        this._rndr.addClass(this._bottomLineElm, CLASS_LINE_RIPPLE);
-        this._rndr.appendChild(this._elm.nativeElement, this._bottomLineElm);
-        this._lineRippleFoundation.init();
-        this.foundation.init();
         this._initialized = true;
-        
+        this.initComponent();
+
         if (this._control)
             this._control._onChange = (value) => this.foundation.setSelectedIndex(value);
     }
 
     ngOnDestroy() {
-        this._lineRippleFoundation.destroy();
+        this.destroyLineRipple();
         this.foundation.destroy();
         this._control._onChange = (value) => {};
+    }
+
+    private initComponent() {
+        this.initLineRipple();
+        this.initBox();
+        this.initOutline();
+        this.foundation = new MDCSelectFoundation(this.adapter);
+        this.foundation.init();
+    }
+
+    private destroyComponent() {
+        this.destroyLineRipple();
+        this.destroyBox();
+        this.destroyOutline();
+        this.foundation.destroy();
+    }
+
+    private reconstructComponent() {
+        if (this._initialized) {
+            this.destroyComponent();
+            this.initComponent();
+            this.recomputeOutline();
+        }
+    }
+
+    private initLineRipple() {
+        if (!this._outlined) {
+            this._bottomLineElm = this._rndr.createElement('div');
+            this._rndr.addClass(this._bottomLineElm, CLASS_LINE_RIPPLE);
+            this._rndr.appendChild(this._elm.nativeElement, this._bottomLineElm);
+            this._lineRippleFoundation.init();
+        }
+    }
+
+    private destroyLineRipple() {
+        if (this._bottomLineElm) {
+            this._lineRippleFoundation.destroy();
+            this._rndr.removeChild(this._elm.nativeElement, this._bottomLineElm);
+            this._bottomLineElm = null;
+        }
+    }
+
+    private initBox() {
+        if (this._box)
+            this.initRipple();
+    }
+
+    private destroyBox() {
+        this.destroyRipple();
+    }
+
+    private initOutline() {
+        if (this._outlined)
+            this._outlineSupport.init();
+    }
+
+    private destroyOutline() {
+        this._outlineSupport.destroy();
+    }
+
+    private recomputeOutline() {
+        if (this._outlined) {
+            // the outline may not be valid after re-initialisation, recompute outline when all
+            // style/structural changes have been employed:
+            let inputValue = this._control._elm.nativeElement.value;
+            let shouldFloat = inputValue != null && inputValue.length > 0;
+            setTimeout(() => {this.foundation.notchOutline(shouldFloat); }, 0);
+        }
     }
 
     /**
@@ -174,7 +250,28 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
     }
 
     set box(val: any) {
-        this._box = asBoolean(val);
+        let newVal = asBoolean(val);
+        if (newVal !== this._box) {
+            this._box = asBoolean(val);
+            this.reconstructComponent();
+        }
+    }
+
+    /**
+     * When this input is set to a value other than false, the select control will be styled
+     * with a notched outline.
+     */
+    @HostBinding('class.mdc-select--outlined') @Input()
+    get outlined() {
+        return this._outlined;
+    }
+
+    set outlined(val: any) {
+        let newVal = asBoolean(val);
+        if (newVal !== this._outlined) {
+            this._outlined = asBoolean(val);
+            this.reconstructComponent();
+        }
     }
 
     @HostBinding('class.mdc-select--disabled') get _disabled() {

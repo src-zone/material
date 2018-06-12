@@ -1,5 +1,5 @@
 <fieldset class="blox-snippet snippet-skip-line">
-<div mdcSelect [box]="box">
+<div mdcSelect [box]="box" [outlined]="outlined">
   <select mdcSelectControl [(ngModel)]="value" [disabled]="disabled">
     <option value="" disabled selected></option>
     <option value="grains">Bread, Cereal, Rice, and Pasta</option>
@@ -25,7 +25,7 @@
   <div mdcCheckbox>
     <input mdcCheckboxInput type="checkbox" [(ngModel)]="box"/>
   </div>
-  <label mdcFormFieldLabel>Box Select</label>
+  <label mdcFormFieldLabel>Box</label>
 </div>
 <br/>
 <button mdcButton outlined (click)="clear()">Clear Value</button>
