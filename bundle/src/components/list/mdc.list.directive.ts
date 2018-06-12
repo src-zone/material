@@ -3,7 +3,7 @@ import { AfterContentInit, Component, ContentChildren, Directive, ElementRef, Ho
 import { asBoolean } from '../../utils/value.utils';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 import { MdcButtonDirective } from '../button/mdc.button.directive';
-import { MdcEventRegistry } from '../../material.module';
+import { MdcEventRegistry } from '../../utils/mdc.event.registry';;
 
 /**
  * Directive for a separator in a list (between list items), or as a separator between lists.
