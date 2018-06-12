@@ -50,7 +50,7 @@ const inputOptions: RollupFileOptions = {
         // https://github.com/rollup/rollup/wiki/Troubleshooting#this-is-undefined
         if (typeof warning === 'string')
             console.log("Rollup warning: ", warning)
-        else if (warning.code !== 'THIS_IS_UNDEFINED' && warning.code !== 'UNUSED_EXTERNAL_IMPORT')
+        else if (!skipWarning(warning))
             console.log("Rollup warning [", warning.code, "]: ", warning.message);
     },
     external: Object.keys(globals)
@@ -72,6 +72,18 @@ const outputOptionsUmd: OutputOptions = {
 async function build(writeOptions: OutputOptions) {
   const bundle = await rollup(inputOptions);
   await bundle.write(writeOptions);
+}
+
+function skipWarning(warning) {
+    if (warning.code === 'THIS_IS_UNDEFINED' || warning.code === 'UNUSED_EXTERNAL_IMPORT')
+        return true;
+    if (warning.code === 'CIRCULAR_DEPENDENCY')
+        // NGC adds circular dependencies for every service with the "providedIn: 'root'" annotation,
+        // we don't want to see them ;-):
+        return (warning.message && (
+            warning.message.endsWith('.service.js -> build\\material.module.js') ||
+            warning.message.endsWith('.registry.js -> build\\material.module.js')));
+    return false;
 }
 
 build(outputOptionsEs5);
