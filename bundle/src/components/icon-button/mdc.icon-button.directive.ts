@@ -96,7 +96,6 @@ export class MdcIconButtonDirective extends AbstractMdcIcon implements AfterCont
 })
 export class MdcIconButtonToggleDirective extends AbstractMdcIcon implements AfterContentInit {
     @HostBinding('class.mdc-icon-button') _hostClass = true;
-    @HostBinding('attr.role') _role: string = 'button';
     @ContentChild(MdcIconButtonIconDirective, {read: ElementRef}) _innerIcon: ElementRef;
     /**
      * Event emitted when the state of the icon toggle changes (for example when a user clicks
