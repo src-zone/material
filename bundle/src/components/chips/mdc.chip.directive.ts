@@ -108,13 +108,13 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
         addClass: (className: string) => {
             let selectedChanged = className === 'mdc-chip--selected' && !this._elm.nativeElement.classList.contains(className);
             this._renderer.addClass(this._elm.nativeElement, className);
-            if (this.selectedChange)
+            if (selectedChanged)
                 this.selectedChange.emit(true);
         },
         removeClass: (className: string) => {
             let selectedChanged = className === 'mdc-chip--selected' && this._elm.nativeElement.classList.contains(className);
             this._renderer.removeClass(this._elm.nativeElement, className);
-            if (this.selectedChange)
+            if (selectedChanged)
                 this.selectedChange.emit(false);
         },
         hasClass: (className) => this._elm.nativeElement.classList.contains(className),
