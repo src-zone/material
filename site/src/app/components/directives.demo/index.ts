@@ -7,6 +7,7 @@ import { DrawerDirectivesComponent } from './drawer.directives.component';
 import { ElevationDirectivesComponent } from './elevation.directives.component';
 import { FabDirectivesComponent } from './fab.directives.component';
 import { FocusTrapDirectivesComponent } from './focus-trap.directives.component';
+import { IconButtonDirectivesComponent } from './icon-button.directives.component';
 import { IconToggleDirectivesComponent } from './icon-toggle.directives.component';
 import { LinearProgressDirectivesComponent } from './linear-progress.directives.component';
 import { ListDirectivesComponent } from './list.directives.component';
@@ -32,6 +33,7 @@ export * from './drawer.directives.component';
 export * from './elevation.directives.component';
 export * from './fab.directives.component';
 export * from './focus-trap.directives.component';
+export * from './icon-button.directives.component';
 export * from './icon-toggle.directives.component';
 export * from './linear-progress.directives.component';
 export * from './list.directives.component';
@@ -58,6 +60,7 @@ export const MDC_DIRECTIVE_DOC_COMPONENTS = [
     ElevationDirectivesComponent,
     FabDirectivesComponent,
     FocusTrapDirectivesComponent,
+    IconButtonDirectivesComponent,
     IconToggleDirectivesComponent,
     LinearProgressDirectivesComponent,
     ListDirectivesComponent,

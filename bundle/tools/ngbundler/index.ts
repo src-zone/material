@@ -15,6 +15,7 @@ const globals = {
   '@material/drawer/slidable': 'mdc.drawer',
   '@material/floating-label': 'mdc.floatingLabel',
   '@material/form-field': 'mdc.formField',
+  '@material/icon-button': 'mdc.iconButton',
   '@material/icon-toggle': 'mdc.iconToggle',
   '@material/linear-progress': 'mdc.linearProgress',
   '@material/line-ripple': 'mdc.lineRipple',

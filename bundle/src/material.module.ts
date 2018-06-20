@@ -27,6 +27,7 @@ import { MdcFormFieldDirective,
     MdcFormFieldInputDirective,
     MdcFormFieldLabelDirective } from './components/form-field/mdc.form-field.directive';
 import { MdcIconDirective } from './components/icon/mdc.icon.directive';
+import { ICON_BUTTON_DIRECTIVES } from './components/icon-button/mdc.icon-button.directive';
 import { MdcIconToggleDirective,
     MdcIconToggleIconDirective,
     MdcFormsIconToggleDirective } from './components/icon-toggle/mdc.icon-toggle.directive';
@@ -104,6 +105,7 @@ export { MdcFormFieldDirective,
     MdcFormFieldInputDirective,
     MdcFormFieldLabelDirective } from './components/form-field/mdc.form-field.directive';
 export { MdcIconDirective } from './components/icon/mdc.icon.directive';
+export * from './components/icon-button/mdc.icon-button.directive';
 export { MdcIconToggleDirective,
     MdcIconToggleIconDirective,
     MdcFormsIconToggleDirective } from './components/icon-toggle/mdc.icon-toggle.directive';
@@ -173,6 +175,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         ...FOCUS_TRAP_DIRECTIVES,
         MdcFormFieldDirective, MdcFormFieldInputDirective, MdcFormFieldLabelDirective,
         MdcIconDirective,
+        ...ICON_BUTTON_DIRECTIVES,
         MdcIconToggleDirective, MdcIconToggleIconDirective, MdcFormsIconToggleDirective,
         MdcLinearProgressDirective,
         MdcListDividerDirective, MdcListItemDirective, MdcListItemTextDirective, MdcListItemSecondaryTextDirective,
@@ -206,6 +209,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         ...FOCUS_TRAP_DIRECTIVES,
         MdcFormFieldDirective, MdcFormFieldInputDirective, MdcFormFieldLabelDirective,
         MdcIconDirective,
+        ...ICON_BUTTON_DIRECTIVES,
         MdcIconToggleDirective, MdcIconToggleIconDirective, MdcFormsIconToggleDirective,
         MdcLinearProgressDirective,
         MdcListDividerDirective, MdcListItemDirective, MdcListItemTextDirective, MdcListItemSecondaryTextDirective,
