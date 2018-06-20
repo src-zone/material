@@ -32,7 +32,7 @@ elevation            | [docs &amp; demo](https://blox.src.zone/material/componen
 fab                  | [docs &amp; demo](https://blox.src.zone/material/components/fab) |
 form-field           | see docs &amp; demo for e.g. [radio](https://blox.src.zone/material/components/radio), and [checkbox](https://blox.src.zone/material/components/checkbox) |
 ~~grid-list~~        | deprecated by the Material Components Web team |
-icon-button          | in tracker |
+icon-button          | [docs &amp; demo](https://blox.src.zone/material/components/icon-button) |
 icon-toggle          | [docs &amp; demo](https://blox.src.zone/material/components/icon-toggle) |
 linear-progress      | [docs &amp; demo](https://blox.src.zone/material/components/linear-progress) |
 list                 | [docs &amp; demo](https://blox.src.zone/material/components/list) |

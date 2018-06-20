@@ -12,6 +12,7 @@ export * from './snippet.drawer.slidable.component';
 export * from './snippet.elevation.component';
 export * from './snippet.fab.component';
 export * from './snippet.focus-trap.component';
+export * from './snippet.icon-button.component';
 export * from './snippet.icon-toggle.component';
 export * from './snippet.linear-progress.component';
 export * from './snippet.list.component';

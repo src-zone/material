@@ -1,0 +1,52 @@
+<fieldset class="blox-snippet snippet-skip-line">
+<p>Icon Action Buttons:</p>
+<button mdcIconButton [disabled]="disabled" class="material-icons">edit</button>
+<button mdcIconButton [disabled]="disabled" class="material-icons">rotate_left</button>
+<button mdcIconButton [disabled]="disabled" class="material-icons">close</button>
+
+<p>Icon Toggle Buttons:</p>
+<div>
+  <button mdcIconButton id="favorite"
+    class="material-icons"
+    labelOn="Remove from favorites"
+    labelOff="Add to favorites"
+    iconOn="favorite"
+    iconOff="favorite_border"
+    [disabled]="disabled"
+    [(on)]="favorite"></button>
+  <span>(Value: {{favorite}}. Uses an icon from Material Icons)</span>
+</div>
+<div>
+  <button mdcIconButton id="like"
+    labelOn="Do not like"
+    labelOff="Like"
+    iconOn="fa-thumbs-up"
+    iconOff="fa-thumbs-o-up"
+    [disabled]="disabled"
+    [(on)]="like">
+    <i mdcIconButtonIcon class="fa"></i>
+  </button>
+  <span>(Value: {{like}}. Uses an icon from Font Awesome)</span>
+</div>
+<div>
+  <button mdcIconButton id="closed"
+    labelOn="Open envelope"
+    labelOff="Close envelope"
+    iconOn="fa-envelope"
+    iconOff="fa-envelope-open-o"
+    [disabled]="disabled"
+    [(ngModel)]="closed">
+    <i mdcIconButtonIcon class="fa"></i>
+  </button>
+  <span>(Value: {{closed}}. Used with FormModule <code>[(ngModel)]</code> binding)</span>
+</div>
+<p>Modify:</p>
+<div mdcFormField>
+  <div mdcCheckbox>
+    <input mdcCheckboxInput type="checkbox" [(ngModel)]="disabled"/>
+  </div>
+  <label mdcFormFieldLabel>Disable Buttons</label>
+</div><br/>
+<button mdcButton outlined (click)="toggleAll()">Toggle all Values</button>
+
+</fieldset><div class="snippet-skip-line"></div>
