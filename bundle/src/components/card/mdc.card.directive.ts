@@ -74,7 +74,7 @@ export class MdcCardActionButtonsDirective {
 
 /**
  * Directive for displaying the icon card actions. Composed of one or more
- * card actions, which must be icons (for instance <code>mdcIconToggle</code>.
+ * card actions, which must be icons (for instance <code>mdcIconButton</code>.
  * This directive should be placed inside an <code>MdcCardActionsDirective</code>.
  */
 @Directive({
@@ -88,7 +88,7 @@ export class MdcCardActionIconsDirective {
 
 /**
  * Directive for showing the different actions a user can take. Use
- * <code>mdcButton</code>, <code>mdcIcon</code>, or <code>mdcIconToggle</code> as child elements.
+ * <code>mdcButton</code>, or <code>mdcIconButton</code> as child elements.
  * If you want to use both buttons and icons in the same row, wrap them in
  * <code>mdcCardActionButtons</code>, and <code>mdcCardActionIcons</code> directives.
  */

@@ -2,19 +2,18 @@
   <div class="blox-code-sample-toolbar-firstrow">
     <h3><ng-content select="[bloxSampleTitle]"></ng-content></h3>
     <div class="blox-code-sample-toolbar-actions">
-      <i mdcIcon (click)="stackblitz()" class="material-icons"
+      <button mdcIconButton (click)="stackblitz()" class="material-icons"
         [title]="openStackblitz ? 'Edit in Stackblitz IDE' : (snippet.disableStackblitz ? 'Stackblitz not supported for this sample' : 'Preparing Stackblitz IDE')"
         [disabled]="!openStackblitz"
-        tabindex="0"
-        >{{stackblitzIcon}}</i>
-      <i mdcIconToggle
+        >{{stackblitzIcon}}</button>
+      <button mdcIconButton
         class="material-icons"
         labelOn="Hide source code"
         labelOff="Show source code"
         iconOn="expand_less"
         iconOff="expand_more"
         [(on)]="showCode"
-        title="Show/hide code"></i>
+        title="Show/hide code"></button>
     </div>
   </div>
   <nav *ngIf="showCode" mdcTabBar class="blox-sample-tab-bar">
