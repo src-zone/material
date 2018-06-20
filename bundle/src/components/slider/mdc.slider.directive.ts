@@ -75,8 +75,6 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
     private _max = 100;
     private _step = 0;
     private _lastWidth: number;
-    // works around bug https://github.com/material-components/material-components-web/issues/1429:
-    private _interactionHandlers: {type: string, handler: EventListener}[] = [];
 
     private mdcAdapter: MdcSliderAdapter = {
         hasClass: (className: string) => {
@@ -99,17 +97,9 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
         getTabIndex: () => this._root.nativeElement.tabIndex,
         registerInteractionHandler: (type: string, handler: EventListener) => {
             this._registry.listen(this._rndr, type, handler, this._root);
-            this._interactionHandlers.push({type: type, handler: handler});
         },
         deregisterInteractionHandler: (type: string, handler: EventListener) => {
             this._registry.unlisten(type, handler);
-            for (let i = 0; i != this._interactionHandlers.length; ++i) {
-                let handlerInfo = this._interactionHandlers[i];
-                if (handlerInfo.type === type && handlerInfo.handler === handler) {
-                    this._interactionHandlers.splice(i, 1);
-                    break;
-                }
-            }
         },
         registerThumbContainerInteractionHandler: (type: string, handler: EventListener) => {
             this._registry.listenElm(this._rndr, type, handler, this._elmThumbCntr);
@@ -202,10 +192,6 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
     _onChanges(changes: SimpleChanges, callValueAccessorOnValueChange = true) {
         if (this._initialized) {
             if (this.isChanged('discrete', changes) || this.isChanged('markers', changes)) {
-                for (let handlerInfo of this._interactionHandlers)
-                    // workaround for uspstream bug: https://github.com/material-components/material-components-web/issues/1429
-                    this._registry.unlisten(handlerInfo.type, handlerInfo.handler);
-                this._interactionHandlers = [];
                 this.foundation.destroy();
                 this.initElements();
                 this.initDefaultAttributes();
