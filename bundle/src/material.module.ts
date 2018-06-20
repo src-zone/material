@@ -26,7 +26,6 @@ import { FOCUS_TRAP_DIRECTIVES } from './components/focus-trap/mdc.focus-trap.di
 import { MdcFormFieldDirective,
     MdcFormFieldInputDirective,
     MdcFormFieldLabelDirective } from './components/form-field/mdc.form-field.directive';
-import { MdcIconDirective } from './components/icon/mdc.icon.directive';
 import { ICON_BUTTON_DIRECTIVES } from './components/icon-button/mdc.icon-button.directive';
 import { MdcIconToggleDirective,
     MdcIconToggleIconDirective,
@@ -104,7 +103,6 @@ export * from './components/focus-trap/mdc.focus-trap.directive';
 export { MdcFormFieldDirective,
     MdcFormFieldInputDirective,
     MdcFormFieldLabelDirective } from './components/form-field/mdc.form-field.directive';
-export { MdcIconDirective } from './components/icon/mdc.icon.directive';
 export * from './components/icon-button/mdc.icon-button.directive';
 export { MdcIconToggleDirective,
     MdcIconToggleIconDirective,
@@ -174,7 +172,6 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcFloatingLabelDirective,
         ...FOCUS_TRAP_DIRECTIVES,
         MdcFormFieldDirective, MdcFormFieldInputDirective, MdcFormFieldLabelDirective,
-        MdcIconDirective,
         ...ICON_BUTTON_DIRECTIVES,
         MdcIconToggleDirective, MdcIconToggleIconDirective, MdcFormsIconToggleDirective,
         MdcLinearProgressDirective,
@@ -208,7 +205,6 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         MdcFloatingLabelDirective,
         ...FOCUS_TRAP_DIRECTIVES,
         MdcFormFieldDirective, MdcFormFieldInputDirective, MdcFormFieldLabelDirective,
-        MdcIconDirective,
         ...ICON_BUTTON_DIRECTIVES,
         MdcIconToggleDirective, MdcIconToggleIconDirective, MdcFormsIconToggleDirective,
         MdcLinearProgressDirective,
