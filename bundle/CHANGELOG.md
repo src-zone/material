@@ -3,6 +3,45 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.16.0"></a>
+# [0.16.0](https://github.com/src-zone/material/compare/v0.15.0...v0.16.0) (2018-06-20)
+
+
+### Bug Fixes
+
+* **chips:** only emit selectedChange on actual changes ([5d509d1](https://github.com/src-zone/material/commit/5d509d1))
+
+
+### Features
+
+* **list:** add ripples to mdcListItem children of interactive mdcList ([#651](https://github.com/src-zone/material/issues/651)) ([c237b23](https://github.com/src-zone/material/commit/c237b23))
+* **icon-button:** implement icon-button variants ([395e6db](https://github.com/src-zone/material/commit/395e6db))
+* **ripple:** allow customization of ripple styling ([c51dba4](https://github.com/src-zone/material/commit/c51dba4))
+* **text-field:** add outlined style variant to text-field ([4a248df](https://github.com/src-zone/material/commit/4a248df))
+* **toolbar:** improve scroll performance for viewport property ([d36f83d](https://github.com/src-zone/material/commit/d36f83d))
+* **top-app-bar:** add directives for mdc top-app-bar ([75e143a](https://github.com/src-zone/material/commit/75e143a))
+* **icon:** remove mdcIcon, please use mdcIconButton instead ([1eee3b9](https://github.com/src-zone/material/commit/1eee3b9))
+
+
+### BREAKING CHANGES
+
+* mdcIcon has been removed. Please use mdcIconButton
+instead. mdcIconButton is a drop in replacement for mdcIcon.
+But you should place it on a button or anchor element.
+* when an mdcList is interactive (the default), all its
+mdcListItem children will get an interaction ripple. Previously you had
+to add the ripple with the mdcRipple directive. Thus, you should remove
+all mdcRipple directives placed an mdcListItem directives, as they are
+not needed anymore.
+* **ripple:** the mdcRipple directive does not set the class
+mdc-ripple-surface on it's element anymore. This allows for other
+classes to be used with mdcRipple, that can be customized with the
+provided sass-mixins. For the old behavior, add the `surface` property
+to your mdcRipple. This will add the mdc-ripple-surface class as before.
+
+
+
+
 <a name="0.15.0"></a>
 # [0.15.0](https://github.com/src-zone/material/compare/v0.14.0...v0.15.0) (2018-06-05)
 

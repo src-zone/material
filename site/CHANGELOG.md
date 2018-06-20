@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.16.0"></a>
+# [0.16.0](https://github.com/src-zone/material/compare/v0.15.0...v0.16.0) (2018-06-20)
+
+
+### Bug Fixes
+
+* demos source code buttons visibility on firefox and mobile ([a87b3d4](https://github.com/src-zone/material/commit/a87b3d4))
+
+
+### Features
+
+* **list:** add ripples to mdcListItem children of interactive mdcList ([#651](https://github.com/src-zone/material/issues/651)) ([c237b23](https://github.com/src-zone/material/commit/c237b23))
+* **icon-button:** implement icon-button variants ([395e6db](https://github.com/src-zone/material/commit/395e6db))
+* **ripple:** allow customization of ripple styling ([c51dba4](https://github.com/src-zone/material/commit/c51dba4))
+* **text-field:** add outlined style variant to text-field ([4a248df](https://github.com/src-zone/material/commit/4a248df))
+* **top-app-bar:** add directives for mdc top-app-bar ([75e143a](https://github.com/src-zone/material/commit/75e143a))
+
+
+
+
 <a name="0.15.0"></a>
 # [0.15.0](https://github.com/src-zone/material/compare/v0.14.0...v0.15.0) (2018-06-05)
 
