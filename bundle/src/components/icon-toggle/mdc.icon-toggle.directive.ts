@@ -7,7 +7,7 @@ import { MDCIconToggleFoundation } from '@material/icon-toggle';
 import { MdcIconToggleAdapter } from './mdc.icon-toggle.adapter';
 import { asBoolean, asBooleanOrNull } from '../../utils/value.utils';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
-import { AbstractMdcIcon } from '../icon/abstract.mdc.icon';
+import { AbstractMdcIcon } from '../icon-button/abstract.mdc.icon';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
 /**

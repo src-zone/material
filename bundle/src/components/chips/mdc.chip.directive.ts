@@ -6,7 +6,6 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 import { asBoolean } from '../../utils/value.utils';
 import { MdcChipAdapter } from './mdc.chip.adapter';
 import { MdcChipSetAdapter } from './mdc.chip-set.adapter';
-import { MdcIconDirective } from '../../material.module';
 import { Subscription } from 'rxjs';
 
 /**
