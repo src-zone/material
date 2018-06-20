@@ -45,6 +45,7 @@ describe('MdcFocusTrapDirective', () => {
         
         anchors[3].focus();
         let trap = mdcFocusTrap.trapFocus();
+        tick(); // member element is focused with a 0ms delay.
         expect(document.activeElement).toBe(anchors[1]); // first element of trap focused
         expect(cancelledClick(anchors[0])).toBe(true); // outside focus trap
         expect(cancelledClick(anchors[1])).toBe(false);
@@ -63,7 +64,7 @@ describe('MdcFocusTrapDirective', () => {
         expect(cancelledClick(anchors[3])).toBe(false);
     }));
 
-    it('should deactivate on outside click when untrapOnOutsideClick is set', (() => {
+    it('should deactivate on outside click when untrapOnOutsideClick is set', fakeAsync(() => {
         const { fixture } = setup();
         const mdcFocusTrap = fixture.debugElement.query(By.directive(MdcFocusTrapDirective)).injector.get(MdcFocusTrapDirective);
         mdcFocusTrap.untrapOnOutsideClick = true;
@@ -72,6 +73,7 @@ describe('MdcFocusTrapDirective', () => {
         
         anchors[3].focus();
         let trap = mdcFocusTrap.trapFocus();
+        tick(); // member element is focused with a 0ms delay.
         expect(document.activeElement).toBe(anchors[1]); // first element of trap focused
         // clicks outside trap are not cancelled, but deactivate the trap:
         expect(cancelledClick(anchors[0])).toBe(false);
@@ -178,6 +180,7 @@ describe('MdcFocusInitialDirective', () => {
         
         anchors[3].focus();
         let trap = mdcFocusTrap.trapFocus();
+        tick(); // member element is focused with a 0ms delay.
         expect(document.activeElement).toBe(anchors[2]); // mdcFocusInitial
         trap.untrap();
         tick(); // restoring old focus is async
