@@ -2,11 +2,11 @@
   <div class="blox-code-sample-toolbar-firstrow">
     <h3><ng-content select="[bloxSampleTitle]"></ng-content></h3>
     <div class="blox-code-sample-toolbar-actions">
-      <button mdcIconButton (click)="stackblitz()" class="material-icons"
-        [title]="openStackblitz ? 'Edit in Stackblitz IDE' : (snippet.disableStackblitz ? 'Stackblitz not supported for this sample' : 'Preparing Stackblitz IDE')"
+      <button *ngIf="hasSource" mdcIconButton (click)="stackblitz()" class="material-icons"
+        [title]="openStackblitz ? 'Edit in Stackblitz IDE' : (disableStackblitz ? 'Stackblitz not supported for this sample' : 'Preparing Stackblitz IDE')"
         [disabled]="!openStackblitz"
         >{{stackblitzIcon}}</button>
-      <button mdcIconButton
+      <button *ngIf="hasSource" mdcIconButton
         class="material-icons"
         labelOn="Hide source code"
         labelOff="Show source code"
