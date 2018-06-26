@@ -335,7 +335,7 @@ blox-code-sample {
     box-sizing: border-box;
     .blox-code-sample-toolbar-firstrow {
       position: relative;
-      max-height: 48px;
+      height: 48px;
       white-space:nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -365,6 +365,11 @@ blox-code-sample {
   }
   nav.mdc-tab-bar {
     margin: 0;
+  }
+  iframe {
+    width: 100%;
+    height: 350px;
+    border-width: 0;
   }
 }
 
