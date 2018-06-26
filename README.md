@@ -15,7 +15,7 @@ It integrates [Material Components for the Web](https://github.com/material-comp
 [![CircleCI](https://img.shields.io/circleci/project/github/src-zone/material.svg)](https://circleci.com/gh/src-zone/material/tree/master)
 [![Documentation](https://img.shields.io/badge/demo-website-lightgrey.svg)](https://blox.src.zone/material)
 * [Documention, Demo & Examples](https://blox.src.zone/material)
-* [Changelog](bundle/CHANGELOG.md)
+* [Changelog](https://github.com/src-zone/material/blob/master/bundle/CHANGELOG.md)
 * [News (via twitter)](https://twitter.com/TheSourceZone)
 
 ## Status
