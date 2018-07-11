@@ -172,9 +172,9 @@ describe('MdcChipDirective', () => {
         expect(testComponent.interactions).toEqual([]);
         expect(testComponent.trailingIconInteractions).toEqual(['chip']);
         // simulate transitionend event for exit transition of chip:
-        (<any>chipComponent._foundation).handleTransitionEnd_({target: chip, propertyName: 'opacity'});
+        (<any>chipComponent._foundation).handleTransitionEnd({target: chip, propertyName: 'opacity'});
         tick(20); // wait for requestAnimationFrame
-        (<any>chipComponent._foundation).handleTransitionEnd_({target: chip, propertyName: 'width'});
+        (<any>chipComponent._foundation).handleTransitionEnd({target: chip, propertyName: 'width'});
         expect(testComponent.chips).toEqual([]);
     }));
 
@@ -281,12 +281,12 @@ describe('MdcChipDirective', () => {
         
         chip.click();
         // simulate transitionend event for hide animation of icon:
-        (<any>chipComponent._foundation).handleTransitionEnd_({target: icon, propertyName: 'opacity'});
+        (<any>chipComponent._foundation).handleTransitionEnd({target: icon, propertyName: 'opacity'});
         expect(icon.classList.contains('mdc-chip__icon--leading-hidden')).toBe(true);
 
         chip.click();
         // simulate transitionend event for hide animation of checkmark:
-        (<any>chipComponent._foundation).handleTransitionEnd_({target: svg.parentElement, propertyName: 'opacity'});
+        (<any>chipComponent._foundation).handleTransitionEnd({target: svg.parentElement, propertyName: 'opacity'});
         expect(icon.classList.contains('mdc-chip__icon--leading-hidden')).toBe(false);
     }));
 
