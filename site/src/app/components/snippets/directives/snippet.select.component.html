@@ -27,6 +27,12 @@
   </div>
   <label mdcFormFieldLabel>Box</label>
 </div>
+<div mdcFormField>
+  <div mdcCheckbox>
+    <input mdcCheckboxInput type="checkbox" [(ngModel)]="outlined"/>
+  </div>
+  <label mdcFormFieldLabel>Outlined</label>
+</div>
 <br/>
 <button mdcButton outlined (click)="clear()">Clear Value</button>
 <button mdcButton outlined (click)="value = 'vegetables'">Vegetables</button>
