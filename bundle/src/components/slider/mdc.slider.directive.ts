@@ -120,10 +120,10 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
             this._registry.unlisten('resize', handler);
         },
         notifyInput: () => {
-            let newValue = this.foundation.getValue();
+            let newValue = this.asNumber(this.foundation.getValue());
             if (newValue !== this._value) {
                 this._value = newValue;
-                this.notifyValueChanged(true);
+                this.notifyValueChanged();
             }
         },
         notifyChange: () => {
@@ -173,7 +173,7 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
         this.initDefaultAttributes();
         this.foundation.init();
         this._lastWidth = this.mdcAdapter.computeBoundingRect().width;
-        this.updateValues({}, true);
+        this.updateValues({});
         this._initialized = true;
     }
 
@@ -189,7 +189,7 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
         this._onChanges(changes);
     }
 
-    _onChanges(changes: SimpleChanges, callValueAccessorOnValueChange = true) {
+    _onChanges(changes: SimpleChanges) {
         if (this._initialized) {
             if (this.isChanged('discrete', changes) || this.isChanged('markers', changes)) {
                 this.foundation.destroy();
@@ -198,7 +198,7 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
                 this.foundation = new MDCSliderFoundation(this.mdcAdapter);
                 this.foundation.init();
             }
-            this.updateValues(changes, callValueAccessorOnValueChange);
+            this.updateValues(changes);
             this.updateLayout();
         }
     }
@@ -264,7 +264,7 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
         }
     }
 
-    private updateValues(changes: SimpleChanges, callValueAccessorOnChange: boolean) {
+    private updateValues(changes: SimpleChanges) {
         if (this._discrete && this._step < 1) {
             // See https://github.com/material-components/material-components-web/issues/1426
             // mdc-slider doesn't allow a discrete step value < 1 currently:
@@ -283,7 +283,7 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
                 setTimeout(() => {this.maxValueChange.emit(this._max); }, 0);                                
             }
         }
-        let oldValue = changes['value'] ? changes['value'].previousValue : this._value;
+        let currValue = changes['value'] ? changes['value'].currentValue : this._value;
         if (this._value < this._min)
             this._value = this._min;
         if (this._value > this._max)
@@ -303,11 +303,14 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
             // preventing the slider from getting focus on keyboard commands:
             this.foundation.setDisabled(this._disabled);
         }
-        this.foundation.setValue(this._value);
+        // if we pass null, the foundation will make this a number, since we want to support 'no value',
+        // we're passing 'undefined' instead:
+        this.foundation.setValue(this._value == null ? undefined : this._value);
         // value may have changed during setValue(), due to step settings:
-        this._value = this.foundation.getValue();
-        if (oldValue !== this._value)
-            setTimeout(() => {this.notifyValueChanged(callValueAccessorOnChange); }, 0);
+        this._value = this.asNumber(this.foundation.getValue());
+        // compare with '!=' as null and undefined are considered the same (for initialisation sake):
+        if (currValue != this._value && !(isNaN(currValue) && isNaN(this._value)))
+            setTimeout(() => {this.notifyValueChanged(); }, 0);
     }
 
     private updateLayout() {
@@ -318,10 +321,9 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
         }
     }
 
-    private notifyValueChanged(callValueAccessorOnChange: boolean) {
+    private notifyValueChanged() {
         this.valueChange.emit(this._value);
-        if (callValueAccessorOnChange)
-            this._onChange(this._value);
+        this._onChange(this._value);
     }
 
     /** @docs-private */
@@ -372,7 +374,7 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
     }
 
     set value(value: string | number) {
-        this._value = +value;
+        this._value = this.asNumber(value);
     }
 
     /**
@@ -384,7 +386,7 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
     }
 
     set minValue(value: string | number) {
-        this._min = +value;
+        this._min = this.asNumber(value);
     }
 
     /**
@@ -396,7 +398,7 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
     }
 
     set maxValue(value: string | number) {
-        this._max = +value;
+        this._max = this.asNumber(value);
     }
 
     /**
@@ -415,7 +417,7 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
     }
 
     set stepValue(value: string | number) {
-        this._step = +value;
+        this._step = this.asNumber(value);
     }
 
     /**
@@ -428,6 +430,15 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
 
     set disabled(value: any) {
         this._disabled = asBoolean(value);
+    }
+
+    asNumber(value: number | string): number {
+        if (value == null)
+            return <number>value;
+        let result = +value;
+        if (isNaN(result))
+            return null;
+        return result;
     }
 }
 
@@ -448,9 +459,9 @@ export class MdcFormsSliderDirective implements ControlValueAccessor {
 
     /** @docs-private */
     writeValue(obj: any) {
-        let change = new SimpleChange(this.mdcSlider.value, +obj, false);
+        let change = new SimpleChange(this.mdcSlider.value, this.mdcSlider.asNumber(obj), false);
         this.mdcSlider.value = obj;
-        this.mdcSlider._onChanges({value: change}, false);
+        this.mdcSlider._onChanges({value: change});
     }
 
     /** @docs-private */
