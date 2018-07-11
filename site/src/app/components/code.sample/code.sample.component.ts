@@ -10,6 +10,7 @@ export class CodeSampleComponent implements AfterContentInit {
     @ContentChild(AbstractSnippetComponent) snippet;
     snippetNames: string[] = [];
     active: string;
+    hasSource = false;
     private _showCode = false;
     openStackblitz: Function = null;
 
@@ -18,15 +19,16 @@ export class CodeSampleComponent implements AfterContentInit {
 
     ngAfterContentInit() {
         if (this.snippet != null) {
+            this.hasSource = true;
             for (let name in this.snippet.code) {
                 if (this.active == null)
                     this.active = name;
                 if (this.snippet.code.hasOwnProperty(name))
                     this.snippetNames.push(name);
             }
+            if (!this.snippet.disableStackblitz)
+                this.prepareStackblitz();
         }
-        if (!this.snippet.disableStackblitz)
-            this.prepareStackblitz();
     }
 
     isActive(name: string) {
@@ -35,6 +37,10 @@ export class CodeSampleComponent implements AfterContentInit {
 
     activate(name) {
         this.active = name;
+    }
+
+    get disableStackblitz() {
+        return this.snippet == null || this.snippet.disableStackblitz;
     }
 
     get showCode() {
@@ -48,7 +54,7 @@ export class CodeSampleComponent implements AfterContentInit {
     }
 
     get stackblitzIcon() {
-        if (this.snippet.disableStackblitz)
+        if (this.disableStackblitz)
             return 'error';
         else
             return this.openStackblitz ? 'edit' : 'hourglass_empty'

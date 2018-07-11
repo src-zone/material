@@ -25,6 +25,7 @@ export * from './snippet.select.component';
 export * from './snippet.slider.component';
 export * from './snippet.switch.component';
 export * from './snippet.tab.simple.component';
+export * from './snippet.tab.icons.component';
 export * from './snippet.tab.scroller.component';
 export * from './snippet.text-field.component';
 export * from './snippet.text-field.icon.component';
