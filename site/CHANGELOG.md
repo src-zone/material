@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.17.0"></a>
+# [0.17.0](https://github.com/src-zone/material/compare/v0.16.0...v0.17.0) (2018-07-11)
+
+
+### build
+
+* upgrade to material-components-web 0.37.0 ([dccb09d](https://github.com/src-zone/material/commit/dccb09d))
+
+
+### Features
+
+* **select:** add outlined style variant to mdcSelect ([bdea633](https://github.com/src-zone/material/commit/bdea633))
+
+
+
+
 <a name="0.16.0"></a>
 # [0.16.0](https://github.com/src-zone/material/compare/v0.15.0...v0.16.0) (2018-06-20)
 
