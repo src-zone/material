@@ -19,8 +19,7 @@ import { MdcDrawerDirective,
     MdcDrawerHeaderContentDirective,
     MdcDrawerContentDirective } from './components/drawer/mdc.drawer.directive';
 import { MdcElevationDirective } from './components/elevation/mdc.elevation.directive';
-import { MdcFabDirective,
-    MdcFabIconDirective } from './components/fab/mdc.fab.directive';
+import { FAB_DIRECTIVES } from './components/fab/mdc.fab.directive';
 import { MdcFloatingLabelDirective } from './components/floating-label/mdc.floating-label.directive';
 import { FOCUS_TRAP_DIRECTIVES } from './components/focus-trap/mdc.focus-trap.directive';
 import { MdcFormFieldDirective,
@@ -95,8 +94,7 @@ export { MdcDrawerDirective,
     MdcDrawerHeaderContentDirective,
     MdcDrawerContentDirective } from './components/drawer/mdc.drawer.directive';
 export { MdcElevationDirective } from './components/elevation/mdc.elevation.directive';
-export { MdcFabDirective,
-    MdcFabIconDirective } from './components/fab/mdc.fab.directive';
+export * from './components/fab/mdc.fab.directive';
 export { MdcFloatingLabelDirective } from './components/floating-label/mdc.floating-label.directive';
 export * from './components/focus-trap/abstract.mdc.focus-trap';
 export * from './components/focus-trap/mdc.focus-trap.directive';
@@ -168,7 +166,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         ...DIALOG_DIRECTIVES,
         MdcDrawerDirective, MdcDrawerContainerDirective, MdcDrawerToolbarSpacerDirective, MdcDrawerHeaderDirective, MdcDrawerHeaderContentDirective, MdcDrawerContentDirective,
         MdcElevationDirective,
-        MdcFabDirective, MdcFabIconDirective,
+        ...FAB_DIRECTIVES,
         MdcFloatingLabelDirective,
         ...FOCUS_TRAP_DIRECTIVES,
         MdcFormFieldDirective, MdcFormFieldInputDirective, MdcFormFieldLabelDirective,
@@ -201,7 +199,7 @@ export { MdcEventRegistry } from './utils/mdc.event.registry';
         ...DIALOG_DIRECTIVES,
         MdcDrawerDirective, MdcDrawerContainerDirective, MdcDrawerToolbarSpacerDirective, MdcDrawerHeaderDirective, MdcDrawerHeaderContentDirective, MdcDrawerContentDirective,
         MdcElevationDirective,
-        MdcFabDirective, MdcFabIconDirective,
+        ...FAB_DIRECTIVES,
         MdcFloatingLabelDirective,
         ...FOCUS_TRAP_DIRECTIVES,
         MdcFormFieldDirective, MdcFormFieldInputDirective, MdcFormFieldLabelDirective,
