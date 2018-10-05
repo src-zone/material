@@ -124,8 +124,12 @@ export class MdcSelectDirective extends AbstractMdcRipple implements AfterConten
         floatLabel: (value: boolean) => {
             if (this._label) this._label._foundation.float(value);
         },
-        activateBottomLine: () => this._lineRippleFoundation.activate(),
-        deactivateBottomLine: () => this._lineRippleFoundation.deactivate(),
+        activateBottomLine: () => {
+            if (this._bottomLineElm) this._lineRippleFoundation.activate();
+        },
+        deactivateBottomLine: () => {
+            if (this._bottomLineElm) this._lineRippleFoundation.deactivate();
+        },
         registerInteractionHandler: (type, handler) => this._control._registry.listen(this._rndr, type, handler, this._control._elm),
         deregisterInteractionHandler: (type, handler) => this._control._registry.unlisten(type, handler),
         getSelectedIndex: () => this._control._elm.nativeElement.selectedIndex,
