@@ -50,7 +50,7 @@ const postcssLoader = {
 const babelLoader = {
   loader: 'babel-loader',
   options: {
-    presets: [['env', {modules: false, targets: {browsers: ["last 2 versions", "ie >= 11"]}}]]
+    presets: [['@babel/preset-env', {modules: false, targets: {browsers: ["last 2 versions", "ie >= 11"]}}]]
   }
 };
 const buildOptimizerLoader = {
