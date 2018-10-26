@@ -1,10 +1,9 @@
-import { AfterContentInit, Component, ContentChildren, Directive, ElementRef, EventEmitter, HostBinding, HostListener,
-  Input, OnDestroy, Output, Provider, QueryList, Renderer2 } from '@angular/core';
-import { NgControl } from '@angular/forms';
+import { AfterContentInit, ContentChildren, Directive, ElementRef, EventEmitter, HostBinding,
+  Input, OnDestroy, Output, QueryList, Renderer2 } from '@angular/core';
 import { MDCMenuFoundation, MDCMenu } from '@material/menu';
 import { getTransformPropertyName } from '@material/menu/util';
 import { MdcMenuAdapter } from './mdc.menu.adapter';
-import { MdcListDirective, MdcListItemDirective, MdcListFunction } from '../list/mdc.list.directive';
+import { MdcListDirective, MdcListFunction } from '../list/mdc.list.directive';
 import { asBoolean } from '../../utils/value.utils';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
