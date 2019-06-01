@@ -56,7 +56,7 @@ material-components-web team:
 Package              | Documentation |
 ---------------------| --------- |
 image-list           | [image-list documentation](https://github.com/material-components/material-components-web/blob/master/packages/mdc-image-list/README.md) |
-layout-grid          | [layout-grid documentation](https://github.com/material-components/material-components-web/blob/master/packages/mdc-image-list/README.md) |
-shape                | [shape documentation](https://github.com/material-components/material-components-web/blob/master/packages/mdc-image-list/README.md) |
-theme                | [theme documentation](https://github.com/material-components/material-components-web/blob/master/packages/mdc-image-list/README.md) |
-typography           | [typography documentation](https://github.com/material-components/material-components-web/blob/master/packages/mdc-image-list/README.md) |
+layout-grid          | [layout-grid documentation](https://github.com/material-components/material-components-web/blob/master/packages/mdc-layout-grid/README.md) |
+shape                | [shape documentation](https://github.com/material-components/material-components-web/blob/master/packages/mdc-shape/README.md) |
+theme                | [theme documentation](https://github.com/material-components/material-components-web/blob/master/packages/mdc-theme/README.md) |
+typography           | [typography documentation](https://github.com/material-components/material-components-web/blob/master/packages/mdc-typography/README.md) |
