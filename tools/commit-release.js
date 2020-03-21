@@ -11,7 +11,6 @@ function checkModified(modifications, file) {
 function checkNotAllowedModifications(modifications) {
     modifications.every(file => {
         if ([
-            'lerna.json',
             'CHANGELOG.md',
             'package.json',
             'package-lock.json',
@@ -40,7 +39,6 @@ async function tagRelease () {
         throw new Error('there are deleted files, a release commit should only contain modifications');
     if (status.renamed.length > 0)
         throw new Error('there are renames, a release commit should only contain modifications');
-    checkModified(status.modified, 'lerna.json');
     checkModified(status.modified, 'bundle/package.json');
     checkModified(status.modified, 'site/package.json');
     checkNotAllowedModifications(status.modified);
@@ -51,8 +49,7 @@ async function tagRelease () {
     await git.commit('v' + version, status.modified);
     console.log('tagging version v' + version);
     await git.tag(['-a', 'v' + version, '-m', 'v' + version]);
-    await git.push();
-    await git.push(undefined, 'v' + version);
+    await git.push({'--follow-tags': null});
 }
 
 tagRelease().then(

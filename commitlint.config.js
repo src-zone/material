@@ -1,9 +1,7 @@
 const { readdirSync, statSync } = require('fs');
-const { join } = require('path');
 const scopes = readdirSync('bundle/src/components');
 
 module.exports = {
-    extends: ['@commitlint/config-lerna-scopes'],
     rules: {
         'body-leading-blank': [1, 'always'],
         'scope-case': [2, 'always', 'lowerCase'],

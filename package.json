@@ -1,16 +1,16 @@
 {
     "scripts": {
-        "prepare-release": "lerna publish --skip-git --skip-npm --conventional-commits",
-        "prepare-minor-release": "lerna publish --skip-git --skip-npm --conventional-commits --cd-version minor",
-        "prepare-patch-release": "lerna publish --skip-git --skip-npm --conventional-commits --cd-version patch",
+        "prepare-release": "node tools/prepare-release.js",
         "commit-release": "node tools/commit-release.js",
         "commitmsg": "commitlint -e"
     },
     "devDependencies": {
         "@commitlint/cli": "^7.2.1",
-        "@commitlint/config-lerna-scopes": "^7.2.1",
+        "conventional-changelog-angular": "^5.0.1",
+        "conventional-changelog-cli": "^2.0.5",
+        "conventional-recommended-bump": "^4.0.1",
         "husky": "^1.1.2",
-        "lerna": "^3.4.3",
+        "shelljs": "^0.8.2",
         "simple-git": "^1.105.0"
     }
 }
