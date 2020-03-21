@@ -131,6 +131,7 @@ export class CodeSampleComponent implements AfterContentInit {
                     tags: ['blox-material', 'material-components-web', 'angular'],
                     dependencies: {
                         "@angular/common": angularVersion,
+                        "@angular/compiler": angularVersion,
                         "@angular/core": angularVersion,
                         "@angular/forms": angularVersion,
                         "@angular/platform-browser": angularVersion,
