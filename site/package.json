@@ -11,19 +11,14 @@
     "build": "npm run clean && npm run build-demo && prerender",
     "build-ci": "npm run clean && npm run build-demo-ci && prerender",
     "server": "webpack-dev-server --inline --progress --port 8090",
-    "webdriver-update": "webdriver-manager update",
-    "webdriver-start": "webdriver-manager start",
     "lint": "tslint --force \"src/**/*.ts\"",
-    "e2e": "protractor",
-    "e2e-live": "protractor --elementExplorer",
     "pretest": "npm run lint",
     "test": "karma start",
     "test-watch": "karma start --no-single-run --auto-watch",
     "ci": "npm run e2e && npm run test",
     "docs": "typedoc --options typedoc.json src/app/app.component.ts",
     "start": "npm run server",
-    "preinstall": "cd ../bundle && npm install && cd ../site",
-    "postinstall": "npm run webdriver-update"
+    "preinstall": "cd ../bundle && npm install && cd ../site"
   },
   "dependencies": {
     "@angular/animations": "^6.0.7",
@@ -87,7 +82,6 @@
     "null-loader": "0.1.1",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "postcss-loader": "^3.0.0",
-    "protractor": "^5.4.1",
     "raw-loader": "0.5.1",
     "remap-istanbul": "^0.12.0",
     "rimraf": "^2.6.2",

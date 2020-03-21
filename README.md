@@ -60,3 +60,22 @@ layout-grid          | [layout-grid documentation](https://github.com/material-c
 shape                | [shape documentation](https://github.com/material-components/material-components-web/blob/master/packages/mdc-image-list/README.md) |
 theme                | [theme documentation](https://github.com/material-components/material-components-web/blob/master/packages/mdc-image-list/README.md) |
 typography           | [typography documentation](https://github.com/material-components/material-components-web/blob/master/packages/mdc-image-list/README.md) |
+
+## Building from source
+
+If you want to code on the library itself, or build it from source for other reasons, here are
+some tips:
+
+* Please run an `npm install` in the root directory first. The root directory contains git hooks
+  and scripts for releasing/publishing new versions.
+* The library code is in the directory `bundle`. You need to run `npm install` there, before
+  e.g. building (`npm run build`) or testing (`npm run test`) the material library.
+* The demo and documentation website is in the `site` directory. Before building, the site,
+  you must have built the material `bundle` first.
+* Check the `package.json` files for other commands that can be used to build, debug, test,
+  release, or publish the library.
+* Publishing a new bundle is handled by circleci. The commands for publishing/releasing a new
+  version are in the root `package.json`. These commands create the appropriate tags and changes
+  that are picked up by the circleci build to do an actual publish/deploy/distribution of a new
+  version of the library.
+* Please use commit messages according to the [Angular Commit Message Guidelines](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-guidelines).
