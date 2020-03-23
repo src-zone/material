@@ -477,7 +477,7 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
      * text-field validity styling based on this value. A value of <code>null</code>, or
      * <code>undefined</code> will reset the validity styling to the state of the underlying
      * angular form control or native input.
-     * </p><p>
+     * 
      * For most use cases messing with this input is not be needed.
      * When the input/textarea is an ngControl, the mdcTextField is already aware of that,
      * and is already using the 'valid' property of that control.

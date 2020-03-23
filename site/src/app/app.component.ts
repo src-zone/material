@@ -1,4 +1,5 @@
 import { AfterContentInit, Component, ContentChildren, ElementRef, OnDestroy, Renderer2 } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { Subject, merge, fromEvent } from 'rxjs';
@@ -21,6 +22,12 @@ export class AppComponent implements AfterContentInit, OnDestroy {
     private onDestroy$: Subject<any> = new Subject();
     year = new Date().getFullYear();
     appliedTheme: string;
+    // TODO below fields should go back to the template, or at least be static
+    //  Reason that didn't work anymore is that the loader chain returns a module instead of a string
+    //  which the outdated html-loader can't handle. To upgrade html-loader we need to
+    //  rewrite the interpolate option to a preprocessor function.
+    LOGO_TWITTER: SafeHtml;
+    LOGO_GITHUB: SafeHtml;
 
     constructor(
         private titleService: Title,
@@ -31,9 +38,13 @@ export class AppComponent implements AfterContentInit, OnDestroy {
         private renderer: Renderer2,
         private theme: ThemeService,
         angulartics2GoogleTagManager: Angulartics2GoogleTagManager,
-        private angulartics2: Angulartics2)
+        private angulartics2: Angulartics2,
+        private sanitizer: DomSanitizer)
     {
+        this.LOGO_TWITTER = this.sanitizer.bypassSecurityTrustHtml(require('!inline!svg!assets/img/logos/twitter.svg').default);
+        this.LOGO_GITHUB =  this.sanitizer.bypassSecurityTrustHtml(require('!inline!svg!assets/img/logos/github.svg').default);
         this.angulartics2.settings.developerMode = !PRODUCTION;
+        angulartics2GoogleTagManager.startTracking();
         this.router.events.pipe(
             filter((event) => event instanceof NavigationEnd),
             map(() => {

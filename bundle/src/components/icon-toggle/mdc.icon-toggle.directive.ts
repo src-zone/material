@@ -276,12 +276,11 @@ export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterCont
      * the icon by using their textual name). When <code>iconIsClass</code> is true, the directive
      * assumes <code>iconOn</code>, and <code>iconOff</code> represent class names. When
      * <code>iconIsClass</code> is false, the directive assumes the use of ligatures.
-     * <p>
+     * 
      * When <code>iconIsClass</code> is not assigned, the directive bases its decision on whether
      * or not an embedded <code>MdcIconToggleIconDirective</code> is used.
      * In most cases you won't need to set this input, as the default based on an embedded
      * <code>MdcIconToggleIconDirective</code> is typically what you need.
-     * </p>
      */
     @Input() get iconIsClass() {
         return this._iconIsClass;

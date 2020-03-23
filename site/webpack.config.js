@@ -7,7 +7,7 @@ const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const PurifyPlugin = require('@angular-devkit/build-optimizer').PurifyPlugin;
+const BuildOptimizerWebpackPlugin = require('@angular-devkit/build-optimizer').BuildOptimizerWebpackPlugin;
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const AngularCompilerPlugin = require('@ngtools/webpack').AngularCompilerPlugin;
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -25,32 +25,29 @@ const forceSourceMaps = true; // set to true for sourcemaps in production (e.g. 
 const sassLoader = {
   loader: 'sass-loader',
   options: {
-    includePaths: [
-      root('node_modules'),
-      require("bourbon-neat").includePaths
-    ]
+    sassOptions: {
+      includePaths: [
+        root('node_modules'),
+        require("bourbon-neat").includePaths
+      ]
+    }
   }
 };
 const cssLoaderForExtract = {
-  loader: 'css-loader',
-  options: {
-    minimize: false // cause we use OptimizeCssAssetsPlugin after all css is bundled together
-  }
+  loader: 'css-loader'
 }
 const postcssLoader = {
   loader: 'postcss-loader',
   options: {
     plugins: (loader) => [
-      autoprefixer({
-        browsers: ['last 2 version']
-      })
+      autoprefixer()
     ]
   }
 };
 const babelLoader = {
   loader: 'babel-loader',
   options: {
-    presets: [['@babel/preset-env', {modules: false, targets: {browsers: ["last 2 versions", "ie >= 11"]}}]]
+    presets: [['@babel/preset-env', {modules: false}]]
   }
 };
 const buildOptimizerLoader = {
@@ -71,7 +68,9 @@ module.exports = function makeWebpackConfig(env) {
     {name: 'rxjs', filter: /.*[\\/]node_modules[\\/]rxjs[\\/].*\.(js|ts)$/, forRoot: ['app'], build: 'prod'},
     {name: 'ngc', filter: /.[\\/]node_modules[\\/]@angular[\\/]c.*\.(js|ts)$/, forRoot: ['app'], build: 'prod'},
     {name: 'ngx', filter: /.[\\/]node_modules[\\/]@angular[\\/].*\.(js|ts)$/, forRoot: ['app'], build: 'prod'},
-    {name: 'blx', filter: /.*[\\/]bundle[\\/]dist[\\/].*\.(js|ts)$/, forRoot: ['app'], build: 'prod'},
+    //{name: 'blx', filter: /.*[\\/]bundle[\\/]dist[\\/].*\.(js|ts)$/, forRoot: ['app'], build: 'prod'},
+    // bundle moved to node_modules, see ivysupport.md (IVYSUPPORT):
+    {name: 'blx', filter:  /.[\\/]node_modules[\\/]@blox[\\/].*\.(js|ts)$/, forRoot: ['app'], build: 'prod'},
     {name: 'app', src: './src/main.ts', template: './src/html/material.html', filename: 'material.html'}
   ];
   const allEntries = entries.filter(function(e) {
@@ -136,8 +135,9 @@ module.exports = function makeWebpackConfig(env) {
     // only discover files that have those extensions
     extensions: ['.ts', '.js', '.json', '.css', '.scss', '.html'],
     alias: {
-        'assets': path.resolve(__dirname, 'src/assets/'),
-        '@blox/material': path.resolve(__dirname, '../bundle')
+        'assets': path.resolve(__dirname, 'src/assets/')
+        // bundle moved to node_modules, see ivysupport.md (IVYSUPPORT):
+        // '@blox/material': path.resolve(__dirname, '../bundle')
     }, mainFields: [
       //'es2015', (we can use this once we target es2015)
       'browser',
@@ -206,7 +206,11 @@ module.exports = function makeWebpackConfig(env) {
       // copy those assets to output
       {
         test: /\.(png|jpe?g|gif|svg|woff2?|ttf|eot|ico)$/,
-        loader: 'file-loader?name=assets/[name].[hash].[ext]'
+        loader: 'file-loader',
+        options: {
+          esModule: false,
+          name: 'assets/[name].[hash].[ext]'
+        }
       },
 
       // Support for CSS as raw text
@@ -348,7 +352,7 @@ module.exports = function makeWebpackConfig(env) {
   if (isProd) {
     config.plugins.push(
       // change angular code to allow for more aggressive tree-shaking:
-      new PurifyPlugin(),
+      new BuildOptimizerWebpackPlugin(),
 
       // Reference: https://www.npmjs.com/package/uglifyjs-webpack-plugin
       // Minify all javascript, switch loaders to minimizing mode

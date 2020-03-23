@@ -18,7 +18,7 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
  * effect. This can be solved by having a child element in your <code>mdcIconButton</code>
  * and set this directive on it. The icon classes will then be applied to the child
  * element, and won't interfere with the icon button pseudo elements anymore.
- * </p><p>
+ * 
  * For icon fonts that don't use pseudo elements (such as the Material
  * Design Icons from Google), this directive is not necessary.
  */
@@ -82,7 +82,7 @@ export class MdcIconButtonDirective extends AbstractMdcIcon implements AfterCont
 /**
  * Directive for creating a Material Design icon toggle button: a button that toggles state, and
  * switches the icon based on the value of the toggle.
- * </p><p>
+ * 
  * When the applied icon font uses CSS pseudo elements, add a child element for the actual icon,
  * and give that element the <code>mdcIconButtonIcon</code> directive. The icon button will
  * then update the child element with the correct icon if it is toggled.

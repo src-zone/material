@@ -16,8 +16,7 @@ function initScrollbarResizeListener() {
     iframe.onload = function() {
       iframe.contentWindow.addEventListener('resize', function() {
         try {
-          var evt = document.createEvent('UIEvents');
-          evt.initUIEvent('resize', true, false, window, 0);
+          let evt = new UIEvent('resize', {view: window, cancelable: false, bubbles: true});
           window.dispatchEvent(evt);
         } catch(e) {}
       });

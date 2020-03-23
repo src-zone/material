@@ -16,10 +16,11 @@
       "node_modules/@types"
     ],
     "outDir": "build",
-    "baseUrl": "./node_modules",
-    "paths": {
-      "@blox/material": ["../../bundle"]
-    }
+    "baseUrl": "./node_modules"
+    // moved to node_modules, see ivysupport.md (IVYSUPPORT):
+    //"paths": {
+    //  "@blox/material": ["../../bundle"]
+    //}
   },
   "compileOnSave": false,
   "buildOnSave": false,

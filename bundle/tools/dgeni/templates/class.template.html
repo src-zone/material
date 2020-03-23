@@ -13,7 +13,7 @@
 {%- endif -%}
 
 {%- if class.description -%}
-<p class="blox-docs-class-description">{$ class.description | safe $}</p>
+<div class="blox-docs-class-description">{$ class.description | marked | safe $}</div>
 {%- endif -%}
 
 {%- if class.isDeprecated -%}

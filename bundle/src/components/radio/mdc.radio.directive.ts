@@ -53,7 +53,7 @@ export class MdcRadioInputDirective extends AbstractMdcInput {
  * background).
  * Future implementations will also support supplying (customized) background
  * elements.
- * </p><p>
+ * 
  * This directive can be used together with an <code>mdcFormField</code> to
  * easily position radio buttons and their labels, see
  * <a href="/material/components/form-field">mdcFormField</a>.
