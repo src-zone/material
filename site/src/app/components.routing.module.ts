@@ -26,7 +26,7 @@ import {
     TextFieldDirectivesComponent,
     ToolbarDirectivesComponent,
     TopAppBarDirectivesComponent,
-    UtilityDirectivesComponent } from './components';
+    UtilityDirectivesComponent } from './components/components';
 
 const routes: Routes = [
     {path: '', pathMatch: 'full', component: OverviewComponent},

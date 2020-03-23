@@ -4,8 +4,7 @@ import { MaterialModule } from '@blox/material';
 import {
   CodeSampleComponent,
   HighlightjsDirective
-} from './components';
-import { ThemeService } from './services';
+} from './components/shared';
 
 @NgModule({
   imports: [

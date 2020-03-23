@@ -34,7 +34,7 @@ import {
   SnippetTabScrollerComponent,
   SnippetTextFieldComponent, SnippetTextFieldIconComponent, SnippetTextFieldTextareaComponent,
   SnippetToolbarComponent, SnippetToolbarFlexibleComponent,
-  SnippetTopAppBarComponent } from './components';
+  SnippetTopAppBarComponent } from './components/components';
 
 @NgModule({
   imports: [

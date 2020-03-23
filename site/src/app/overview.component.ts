@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { MDC_DIRECTIVE_DOC_COMPONENTS } from './components';
+import { MDC_DIRECTIVE_DOC_COMPONENTS } from './components/components';
 
 const messages = require('./messages.json');
 

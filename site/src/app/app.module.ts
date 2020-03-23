@@ -10,12 +10,8 @@ import {
   GuidesComponent,
   GettingstartedComponent,
   IE11Component,
-
-  NotFoundComponent,
-
-  CodeSampleComponent,
-  HighlightjsDirective, HighlightjsService
-} from './components';
+} from './components/app';
+import { NotFoundComponent } from './components/shared';
 import { SharedModule } from './shared.module';
 
 @NgModule({

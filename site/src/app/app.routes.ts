@@ -1,13 +1,12 @@
 import { Routes, RouterModule } from '@angular/router';
-import { OverviewComponent } from './overview.component';
 import {
     IndexComponent,
     DocsComponent,
     GuidesComponent,
     GettingstartedComponent,
-    IE11Component,
-    NotFoundComponent
-} from './components';
+    IE11Component
+} from './components/app';
+import { NotFoundComponent } from './components/shared';
 
 export const routes: Routes = [
     {path: '', component: IndexComponent},
@@ -16,7 +15,7 @@ export const routes: Routes = [
         {path: 'gettingstarted', component: GettingstartedComponent},
         {path: 'ie11', component: IE11Component}
     ]},
-    {path: 'components', loadChildren: './components.module#ComponentsModule' },
+    {path: 'components', loadChildren: () => import('./components.module').then(m => m.ComponentsModule)},
     {path: '**', component: NotFoundComponent}
 ];
 
