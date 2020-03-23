@@ -15,14 +15,16 @@ export class AbstractSnippetComponent {
 
     }
 
-    rewrite(value: string): string {
-        return value
-            .replace(/\s*\/\/\s*snip\:skip[\s\S]*?\/\/\s*snip:endskip.*/g, '')
-            .replace(/\/\*\s*snip\:skip[\s\S]*?snip:endskip\*\//g, '')
-            .replace(/.*snippet-skip-line.*/g, '')
-            .replace(/^(?:[ \r]*\n)*/, '')  // drop empty lines from start
-            .replace(/(?:\r?\n[ \r]*)*$/, '')  // drop empty lines from end
-            ;
+    rewrite(value: string | {default}): string {
+        if (typeof value === 'string')
+            return value
+                .replace(/\s*\/\/\s*snip\:skip[\s\S]*?\/\/\s*snip:endskip.*/g, '')
+                .replace(/\/\*\s*snip\:skip[\s\S]*?snip:endskip\*\//g, '')
+                .replace(/.*snippet-skip-line.*/g, '')
+                .replace(/^(?:[ \r]*\n)*/, '')  // drop empty lines from start
+                .replace(/(?:\r?\n[ \r]*)*$/, '')  // drop empty lines from end
+                ;
+        return this.rewrite(value.default);
     }
 
     extract(code: string, matcher: RegExp) {

@@ -18,7 +18,7 @@ export class OverviewComponent {
         this.components = MDC_DIRECTIVE_DOC_COMPONENTS.map(c => ({
             'title': messages[c.DOC_TYPE + '.' + c.DOC_HREF + '.title'],
             'description': messages[c.DOC_TYPE + '.' + c.DOC_HREF + '.description'],
-            'img': this.sanitizer.bypassSecurityTrustHtml(c.DOC_SVG),
+            'img': this.sanitizer.bypassSecurityTrustHtml(c.DOC_SVG.default),
             'href': '/' + c.DOC_TYPE + '/' + c.DOC_HREF
         }))
     }

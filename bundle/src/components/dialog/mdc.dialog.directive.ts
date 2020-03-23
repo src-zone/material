@@ -105,7 +105,7 @@ export class MdcDialogFooterDirective implements AfterContentInit {
  * Directive to mark the accept button of a <code>mdcDialog</code>. This directive should
  * be used in combination with the <code>mdcButton</code> directive. Accept button presses
  * trigger the <code>accept</code> event on the dialog.
- * </p><p>
+ * 
  * When the dialog is marked with the <code>mdcFocusTrap</code> directive, the focus trap will
  * focus this button when activated. If you want to focus another element in the dialog
  * instead, add the <code>mdcFocusInitial</code> directive to that element.
@@ -168,7 +168,7 @@ export class MdcDialogSurfaceDirective {
  * Directive for creating a modal dialog with Material Design styling. The dialog should have two
  * child elements: a surface (marked with the <code>mdcDialogSurface</code> directive), and a
  * backdrop (marked with the <code>mdcDialogBackdrop</code> directive).
- * </p><p>
+ * 
  * For an accessible user experience, the surface behind the dialog should not be accessible.
  * This can be achieved by adding the <code>mdcFocusTrap</code> directive to the dialog element
  * as well.

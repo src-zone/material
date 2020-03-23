@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { Angulartics2Module } from 'angulartics2';
-import { Angulartics2GoogleTagManager } from 'angulartics2/gtm';
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routes';
 import {
@@ -23,7 +22,7 @@ import { SharedModule } from './shared.module';
   imports: [
     BrowserModule.withServerTransition({appId: 'blox-app'}),
     routing,
-    Angulartics2Module.forRoot([Angulartics2GoogleTagManager]),
+    Angulartics2Module.forRoot(),
     SharedModule
   ],
   declarations: [

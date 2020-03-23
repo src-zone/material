@@ -31,11 +31,11 @@
     <section>
       <a mdcButton href="https://twitter.com/intent/follow?screen_name=TheSourceZone" class="blox-nobreak blox-social" target="_blank"
         angulartics2On="click" angularticsCategory="social" angularticsAction="click" angularticsLabel="twitter">
-        ${require('!inline!svg!assets/img/logos/twitter.svg')}&nbsp;Follow Blox Material
-      </a>
+        <span [innerHTML]="LOGO_TWITTER"></span>&nbsp;Follow Blox Material
+      </a> <!-- TODO: put back inlining of logos; fix this when upgrading html-loader -->
       <a mdcButton href="https://github.com/src-zone/material" class="blox-nobreak blox-social" target="_blank"
         angulartics2On="click" angularticsCategory="social" angularticsAction="click" angularticsLabel="github">
-        ${require('!inline!svg!assets/img/logos/github.svg')}&nbsp;<span class="weak">github.com/</span>src&#8209;zone/material
+        <span [innerHTML]="LOGO_GITHUB"></span>&nbsp;<span class="weak">github.com/</span>src&#8209;zone/material
       </a>
     </section>
     Powered by The Source Zone &copy; 2017 - {{year}}, Amsterdam<br/>

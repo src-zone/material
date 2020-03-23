@@ -30,7 +30,7 @@ export class MdcDrawerToolbarSpacerDirective extends AbstractDrawerElement {
  * A toolbar header is an optional first child of an <code>mdcDrawer</code>.
  * A toolbar header adds space to create a 16:9 drawer header.
  * It's often used for user account selection or profile information.
- * </p><p>
+ * 
  * To place content inside a toolbar header, add a child element with the
  * <code>mdcDrawerHeaderContent</code> directive.
  */
@@ -83,7 +83,7 @@ export class MdcDrawerContentDirective extends AbstractDrawerElement {
  * A standalone <code>mdcDrawer</code> is a <i>permanent</i> drawer. A <i>permanent</i>
  * drawer is always open, sitting to the side of the content. It is appropriate for any
  * display size larger than mobile.
- * </p><p>
+ * 
  * To make a drawer that can be opened/closed, wrap the <code>mdcDrawer</code> inside an
  * <code>mdcDrawerContainer</code>. That makes the drawer a <i>persistent</i> or
  * <i>temporary</i> drawer. See <code>MdcDrawerContainerDirective</code> for more information.

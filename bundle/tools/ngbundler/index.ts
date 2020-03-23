@@ -1,5 +1,5 @@
-import { rollup, RollupFileOptions, OutputOptions } from 'rollup';
-const resolve = require('rollup-plugin-node-resolve');
+import { rollup, InputOptions, OutputOptions } from 'rollup';
+const resolve = require('@rollup/plugin-node-resolve');
 const sourcemaps = require('rollup-plugin-sourcemaps');
 
 const globals = {
@@ -40,7 +40,7 @@ const globals = {
   'tslib': 'tslib'
 };
 
-const inputOptions: RollupFileOptions = {
+const inputOptions: InputOptions = {
     input: 'build/material.js',
     plugins: [
         resolve({jail: '/src', modulesOnly: true}),
@@ -78,12 +78,12 @@ async function build(writeOptions: OutputOptions) {
 function skipWarning(warning) {
     if (warning.code === 'THIS_IS_UNDEFINED' || warning.code === 'UNUSED_EXTERNAL_IMPORT')
         return true;
-    if (warning.code === 'CIRCULAR_DEPENDENCY')
-        // NGC adds circular dependencies for every service with the "providedIn: 'root'" annotation,
-        // we don't want to see them ;-):
-        return (warning.message && (
-            warning.message.endsWith('.service.js -> build\\material.module.js') ||
-            warning.message.endsWith('.registry.js -> build\\material.module.js')));
+    // if (warning.code === 'CIRCULAR_DEPENDENCY')
+    //     // NGC adds circular dependencies for every service with the "providedIn: 'root'" annotation,
+    //     // we don't want to see them ;-):
+    //     return (warning.message && (
+    //         warning.message.endsWith('.service.js -> build\\material.module.js') ||
+    //         warning.message.endsWith('.registry.js -> build\\material.module.js')));
     return false;
 }
 

@@ -80,12 +80,12 @@ export class CodeSampleComponent implements AfterContentInit {
             const bloxMaterialVersion = bundlePackageJson['version'];
             const focusTrapVersion = packageJson['dependencies']['focus-trap'];
             const files = {
-                'angular.json': require('raw-loader!../../../stackblitz.template/angular.json.template'),
-                'src/polyfills.ts': require('raw-loader!../../../stackblitz.template/src/polyfills.ts.template'),
-                'src/main.ts': require('raw-loader!../../../stackblitz.template/src/main.ts.template'),
-                'src/styles.scss': require('raw-loader!../../../stackblitz.template/src/styles.scss.template'),
-                'src/index.html': require('raw-loader!../../../stackblitz.template/src/index.html.template'),
-                'src/app/app.module.ts': require('raw-loader!../../../stackblitz.template/src/app/app.module.ts.template'),
+                'angular.json': require('raw-loader!../../../stackblitz.template/angular.json.template').default,
+                'src/polyfills.ts': require('raw-loader!../../../stackblitz.template/src/polyfills.ts.template').default,
+                'src/main.ts': require('raw-loader!../../../stackblitz.template/src/main.ts.template').default,
+                'src/styles.scss': require('raw-loader!../../../stackblitz.template/src/styles.scss.template').default,
+                'src/index.html': require('raw-loader!../../../stackblitz.template/src/index.html.template').default,
+                'src/app/app.module.ts': require('raw-loader!../../../stackblitz.template/src/app/app.module.ts.template').default
             };
             const assetLocations = {
                 'assets/img/mdc-demos/animal1.svg': require('assets/img/mdc-demos/animal1.svg'),

@@ -12,8 +12,8 @@
     "skipTemplateCodegen": true,
     "flatModuleOutFile": "material.js",
     "flatModuleId": "@blox/material",
-    "annotateForClosureCompiler": true,
-    "preserveWhitespaces": false
+    "generateCodeForLibraries": true,
+    "preserveWhitespaces": false,
+    "enableIvy": false
   }
 }
-
