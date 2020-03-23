@@ -7,46 +7,45 @@
   <li>Material Web Components are distributed as ES6 javascript. IE11 only supports ES5 javascript.</li>
 </ol>
 <p>
-  Luckily both issues can be solved relatively easy.
+  Luckily since Angular CLI 9 it has become a lot easier to configure your angular app for IE11.
+  However this will only work for (production) builds. The <code>ng serve</code> command does not
+  offer a configuration options to transpile library dependencies to ES5 on demand. Since
+  the material-web-components library is currently only distributed in ES6 javascript,
+  <code>ng serve</code> will not work for IE11.
+</p>
+<p>
+  For (production) builds, supporting IE11 is made super easy though, with the default
+  differential loading that Angular CLI supports.
 </p>
 
-<h2>Step 1: Adding polyfills for IE11</h2>
+<h2>Step 1: Edit browserslist</h2>
 <p>
-  The Angular CLI has created a file <code>polyfills.ts</code> in the <code>src</code> directory of your project.
-  That file contains all the code required to help IE11 with executing some javascript functions that it does
-  not support natively.
-  These lines are just commented out.
-  So to support Internet Explorer, remove the comments from the lines that are indicated as required for IE11.
-  The result will look like:
+  Angular CLI has created a file <code>browserslist</code> in the root directory of your project.
+  Just make sure that the list of supported browsers includes IE:
+</p>
+<div class="blox-code-sample">
+  <pre><code highlightJs>...
+last 2 versions
+not dead
+IE 11
+...</code></pre>
+</div>
+<p>
+  Now when you run <code>ng serve</code>, the generated application will contain
+  javascript for both es2015 and es5 browsers. The html is generated so that
+  browsers will only load the versions they need (and support).
+</p>
+
+<h2>Step 2: Edit polyfills.ts</h2>
+<p>
+  Angular CLI has created a file polyfills.ts in the src directory of your project.
+  For classlist support on SVG, you will have to uncomment the line that imports
+  <code>classlist.js</code>. The result will look like:
 </p>
 <div class="blox-code-sample">
   <pre><code highlightJs lang="typescript">...
-/** IE9, IE10 and IE11 requires all of the following polyfills. **/
-import 'core-js/es6/symbol';
-import 'core-js/es6/object';
-import 'core-js/es6/function';
-import 'core-js/es6/parse-int';
-import 'core-js/es6/parse-float';
-import 'core-js/es6/number';
-import 'core-js/es6/math';
-import 'core-js/es6/string';
-import 'core-js/es6/date';
-import 'core-js/es6/array';
-import 'core-js/es6/regexp';
-import 'core-js/es6/map';
-import 'core-js/es6/weak-map';
-import 'core-js/es6/set';
-        
 /** IE10 and IE11 requires the following for NgClass support on SVG elements */
 import 'classlist.js';  // Run 'npm install --save classlist.js'.
-        
-/** IE10 and IE11 requires the following for the Reflect API. */
-import 'core-js/es6/reflect';
-              
-/** Evergreen browsers require these. **/
-// Used for reflect-metadata in JIT. If you use AOT (and only Angular decorators), you can remove.
-import 'core-js/es7/reflect';
-
 ...</code></pre>
 </div>
 <p>
@@ -56,43 +55,6 @@ import 'core-js/es7/reflect';
   <pre><code highlightJs lang="bash">npm install --save classlist.js</code></pre>
 </div>
 
-<h2>Step 2: Transpiling generated Javascript bundles</h2>
-<blockquote>
-  This step is only for Angular CLI projects. If you build your Angular app with Webpack or
-  Rollup a better approach is to configure the build to only transpile the <code>@material/*</code>
-  packages. Have a look at the
-  <a href="https://github.com/src-zone/material/blob/master/site/webpack.config.js"
-    target="_blank">webpack.config.js</a>
-  file of this demo website for inspiration (search for babelLoader in the file).
-</blockquote>
-<p>
-  Add the <code>@blox/utils</code> package as developer dependency to your project:
-</p>
-<div class="blox-code-sample">
-  <pre><code highlightJs lang="bash">npm install --save-dev @blox/utils</code></pre>
-</div>
-<p>
-  Now open your <code>package.json</code> and edit the scripts section to customize the <code>start</code>
-  and <code>build</code> scripts, and add a <code>transpile</code> script:
-</p>
-<div class="blox-code-sample">
-  <pre><code highlightJs lang="json">{{'{'}}
-    ...
-    "scripts": [
-        ...
-        "transpile": "transpile --dir dist/NAME-OF-PROJECT --verbose --browsers ignore",
-        "build": "ng build --prod && npm run transpile",
-        ...
-    ],
-    ...
-{{'}'}}</code></pre>
-</div>
-
-<p>From now on make sure to always use the following command to create a production distribution of your
-  application (instead of <code>ng build --prod</code>):</p>
-<div class="blox-code-sample">
-  <pre><code highlightJs lang="bash">npm run build</code></pre>
-</div>
 <p class="blox-content-last">
   Congratulations! You now have your Angular application fully integrated with Blox Material, optimized and working for
   any browser supported by Angular.

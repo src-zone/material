@@ -14,9 +14,9 @@
 <p></p>
 <blockquote>
   Check that you are using recent versions of Angular CLI, Node, and Npm:
-  run <code>ng -v &amp;&amp; npm -v &amp;&amp; node -v</code> to
+  run <code>ng version &amp;&amp; npm -v &amp;&amp; node -v</code> to
   check your versions.
-  This guide was written using Angular CLI 6.0.3, Npm 6.0.0, and Node 8.11.1.
+  This guide was written using Angular CLI 9.0.7, Npm 6.13.4, and Node 12.16.1.
 </blockquote>
 
 <h2>Step 1: Prepare your Angular Project</h2>
@@ -27,7 +27,7 @@
   preprocessor:</p>
 <div class="blox-code-sample">
   <pre><code highlightJs lang="bash">ng new NAME-OF-PROJECT --style=scss
-  cd NAME-OF-PROJECT</code></pre>
+cd NAME-OF-PROJECT</code></pre>
 </div>
 <p>For existing projects that do not use Sass yet, you can switch to Sass as default stylesheet preprocessor
   with the following command (run inside the root directory of your project):</p>
@@ -41,9 +41,9 @@
   in the file).
   Since scss is an extension of css, this will not affect your existing styles.
 </p>
-<p>For existing projects, also make sure that you are using at least Angular CLI 6.0.0
+<p>For existing projects, also make sure that you are using at least Angular CLI 9
   (Angular CLI uses the version installed for your project, not the globally installed
-  version). This can be checked by running <code>ng -v</code> in the project directory.
+  version). This can be checked by running <code>ng version</code> in the project directory.
   If the project uses an older Angular CLI version, upgrade it by running
   <code>npm install --save-dev @angular/cli</code> in your project directory.
 </p>
