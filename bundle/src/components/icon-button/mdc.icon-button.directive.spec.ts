@@ -44,9 +44,10 @@ describe('mdcIconButton as action button', () => {
         const { fixture } = setup();
         const iconButton = fixture.nativeElement.querySelector('button');
         const testComponent = fixture.debugElement.injector.get(TestComponent);
+        expect(iconButton.disabled).toBe(false);
         testComponent.disabled = true;
         fixture.detectChanges();
-        expect(iconButton.classList).toContain('mdc-icon-button--disabled');
+        expect(iconButton.disabled).toBe(true);
     }));
 
     it('should act on clicks', (() => {
@@ -133,9 +134,10 @@ describe('mdcIconButton as toggle', () => {
         const { fixture } = setup();
         const iconToggle = fixture.debugElement.query(By.directive(MdcIconButtonToggleDirective)).injector.get(MdcIconButtonToggleDirective);
         const testComponent = fixture.debugElement.injector.get(TestComponent);
+        expect(iconToggle.disabled).toBe(false);
         testComponent.disabled = true;
         fixture.detectChanges();
-        expect(iconToggle._elm.nativeElement.classList).toContain('mdc-icon-button--disabled');
+        expect(iconToggle.disabled).toBe(true);
     }));
 
     it('should toggle state when clicked', (() => {
@@ -295,11 +297,12 @@ describe('mdcIconButton with FormsModule', () => {
         const iconToggle = fixture.debugElement.query(By.directive(MdcIconButtonToggleDirective)).injector.get(MdcIconButtonToggleDirective);
         const testComponent = fixture.debugElement.injector.get(TestComponent);
         tick();
+        expect(iconToggle._elm.nativeElement.disabled).toBe(false);
         expect(testComponent.ngModel.disabled).toBe(false);
         testComponent.disabled = true;
         fixture.detectChanges();
         tick();
-        expect(iconToggle._elm.nativeElement.classList).toContain('mdc-icon-button--disabled');
+        expect(iconToggle._elm.nativeElement.disabled).toBe(true);
         expect(testComponent.ngModel.disabled).toBe(true);
     }));
 });

@@ -1,7 +1,6 @@
 import { AfterContentInit, Directive, ContentChild, ElementRef, EventEmitter, forwardRef, HostBinding,
     HostListener, Input, OnDestroy, Output, Renderer2, Self } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MDCRipple } from '@material/ripple';
 import { MDCIconButtonToggleFoundation } from '@material/icon-button';
 import { MdcIconButtonToggleAdapter } from './mdc.icon-button.adapter';
 import { asBoolean, asBooleanOrNull } from '../../utils/value.utils';
@@ -63,7 +62,7 @@ export class MdcIconButtonDirective extends AbstractMdcIcon implements AfterCont
      * To disable the icon, set this input to true.
      */
     @Input()
-    @HostBinding('class.mdc-icon-button--disabled')
+    @HostBinding()
     get disabled() {
         return this._disabled;
     }
@@ -313,7 +312,7 @@ export class MdcIconButtonToggleDirective extends AbstractMdcIcon implements Aft
      * To disable the icon, set this input to true.
      */
     @Input()
-    @HostBinding('class.mdc-icon-button--disabled')
+    @HostBinding()
     get disabled() {
         return this._disabled;
     }
