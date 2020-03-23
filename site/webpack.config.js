@@ -8,7 +8,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BuildOptimizerWebpackPlugin = require('@angular-devkit/build-optimizer').BuildOptimizerWebpackPlugin;
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const AngularCompilerPlugin = require('@ngtools/webpack').AngularCompilerPlugin;
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
@@ -306,6 +306,38 @@ module.exports = function makeWebpackConfig(env) {
     })
   ];
 
+  config.optimization.minimize = isProd;
+  if (isProd) {
+    config.optimization.minimizer = [
+      new TerserPlugin({
+        sourceMap: !!config.devtool,
+        extractComments: false,
+        terserOptions: {
+          ecma: 5,
+          warnings: false,
+          parse: {},
+          compress: {
+            global_defs: {
+              ngDevMode: false,
+              ngI18nClosureMode: false,
+              ngJitMode: false
+            }
+          },
+          mangle: true,
+          module: false,
+          output: {
+            comments: false
+          },
+          toplevel: false,
+          ie8: false,
+          keep_classnames: undefined,
+          keep_fnames: false,
+          safari10: false
+        }
+      })
+    ]
+  }
+
   if (isProd)
     config.plugins.push(new AngularCompilerPlugin({
       tsConfigPath: root('tsconfig.json'),
@@ -323,7 +355,7 @@ module.exports = function makeWebpackConfig(env) {
       config.optimization.splitChunks.cacheGroups[entry.name] = {
         test: entry.filter,
         name: entry.name,
-        chunks: 'all', minSize:0, minChunks: 1, reuseExistingChunk: true, enforce: true
+        chunks: 'all', minSize: 0, minChunks: 1, reuseExistingChunk: true, enforce: true
       };
     });
     
@@ -353,26 +385,6 @@ module.exports = function makeWebpackConfig(env) {
     config.plugins.push(
       // change angular code to allow for more aggressive tree-shaking:
       new BuildOptimizerWebpackPlugin(),
-
-      // Reference: https://www.npmjs.com/package/uglifyjs-webpack-plugin
-      // Minify all javascript, switch loaders to minimizing mode
-      new UglifyJsPlugin({
-        sourceMap: !!config.devtool,
-        uglifyOptions: {
-          ecma: 5,
-          ie8: false,
-          warning: false,
-          mangle: true,
-          compress: {
-            pure_getters: true,
-            passes: 3
-          },
-          output: {
-            ascii_only: true,
-            comments: false
-          }
-        }
-      }),
 
       new OptimizeCssAssetsPlugin({
         assetNameRegExp: /\.bundle\.css$/g,
