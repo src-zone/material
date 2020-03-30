@@ -32,7 +32,7 @@ cd NAME-OF-PROJECT</code></pre>
 <p>For existing projects that do not use Sass yet, you can switch to Sass as default stylesheet preprocessor
   with the following command (run inside the root directory of your project):</p>
 <div class="blox-code-sample">
-  <pre><code highlightJs lang="bash">ng set defaults.styleExt scss</code></pre>
+  <pre><code highlightJs lang="bash">ng config schematics.@schematics/angular:component.styleext scss</code></pre>
 </div>
 <p>Then simply rename <code>src/styles.css</code> to <code>src/styles.scss</code>,
   and in the configuration file <code>angular.json</code> also change the reference
