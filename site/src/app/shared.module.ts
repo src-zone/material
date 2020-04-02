@@ -9,7 +9,7 @@ import {
 @NgModule({
   imports: [
     CommonModule,
-    MaterialModule,
+    MaterialModule
   ],
   declarations: [
     CodeSampleComponent,

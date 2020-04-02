@@ -1,16 +1,14 @@
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+
 import { AppModule } from './app/app.module';
+import { environment } from './environments/environment';
 
-require('./style/app.scss');
-
-declare const PRODUCTION: any;
-
-// PRODUCTION is injected by webpack depending on the build/run:
-if (PRODUCTION) {
+if (environment.production) {
   enableProdMode();
-} else {
+}else {
   console.log('development mode');
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule);
+platformBrowserDynamic().bootstrapModule(AppModule)
+  .catch(err => console.error(err));

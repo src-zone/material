@@ -14,4 +14,4 @@ interface WebpackContext extends WebpackRequire {
 interface NodeRequire extends WebpackRequire {}
 
 declare var require: NodeRequire;
-declare var process: NodeJS.Process;
+// declare var process: NodeJS.Process;

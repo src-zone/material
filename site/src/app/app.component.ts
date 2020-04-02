@@ -8,8 +8,8 @@ import { Angulartics2 } from 'angulartics2';
 import { Angulartics2GoogleTagManager } from 'angulartics2/gtm';
 import { filter, map } from 'rxjs/operators';
 import { ThemeService } from './services';
+import { environment } from '../environments/environment';
 
-declare const PRODUCTION: any;
 const messages = require('./messages.json');
 const defaultTitle = messages['default.title'];
 const defaultMetaDescription = messages['default.meta.description'];
@@ -22,12 +22,9 @@ export class AppComponent implements AfterContentInit, OnDestroy {
     private onDestroy$: Subject<any> = new Subject();
     year = new Date().getFullYear();
     appliedTheme: string;
-    // TODO below fields should go back to the template, or at least be static
-    //  Reason that didn't work anymore is that the loader chain returns a module instead of a string
-    //  which the outdated html-loader can't handle. To upgrade html-loader we need to
-    //  rewrite the interpolate option to a preprocessor function.
-    LOGO_TWITTER: SafeHtml;
-    LOGO_GITHUB: SafeHtml;
+    svgAttributes = {
+        class: 'blox-inline-svg'
+    };
 
     constructor(
         private titleService: Title,
@@ -38,12 +35,9 @@ export class AppComponent implements AfterContentInit, OnDestroy {
         private renderer: Renderer2,
         private theme: ThemeService,
         angulartics2GoogleTagManager: Angulartics2GoogleTagManager,
-        private angulartics2: Angulartics2,
-        private sanitizer: DomSanitizer)
+        private angulartics2: Angulartics2)
     {
-        this.LOGO_TWITTER = this.sanitizer.bypassSecurityTrustHtml(require('!inline!svg!assets/img/logos/twitter.svg').default);
-        this.LOGO_GITHUB =  this.sanitizer.bypassSecurityTrustHtml(require('!inline!svg!assets/img/logos/github.svg').default);
-        this.angulartics2.settings.developerMode = !PRODUCTION;
+        this.angulartics2.settings.developerMode = !environment || !environment.production;
         angulartics2GoogleTagManager.startTracking();
         this.router.events.pipe(
             filter((event) => event instanceof NavigationEnd),

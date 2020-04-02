@@ -7,8 +7,8 @@ import { Observable, ReplaySubject } from 'rxjs';
 export class HighlightjsService {
     highlight(code: string, lang: string): Observable<string> {
         let result = new ReplaySubject<string>(1);
-        require.ensure([], (require) => {
-            const hljs = require('highlight.js/lib/highlight');
+        import('highlight.js/lib/highlight').then(mod => { // TODO name module hljs
+            const hljs = mod.default;
             const langTs = require('highlight.js/lib/languages/typescript');
             const langHtml = require('highlight.js/lib/languages/xml');
             const langScss = require('highlight.js/lib/languages/scss');
@@ -22,7 +22,7 @@ export class HighlightjsService {
             let prettyCode = hljs.highlight(lang, code, true).value;
             result.next(prettyCode);
             result.complete();
-        }, 'hljs');
+        });
         return result.asObservable();
     }
 }
