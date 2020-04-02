@@ -70,8 +70,8 @@ export class CodeSampleComponent implements AfterContentInit {
         // import('@stackblitz/sdk').then(module => {
         //     ...
         // });
-        require.ensure([], (require) => {
-            const sdk = require('@stackblitz/sdk').default;
+        import('@stackblitz/sdk').then(mod => { // TODO name module ide
+            const sdk = mod.default;
             const packageJson = require('../../../../package.json');
             const bundlePackageJson = require('../../../../../bundle/package.json');
             const mcwPackageJson = require('material-components-web/package.json');
@@ -87,12 +87,12 @@ export class CodeSampleComponent implements AfterContentInit {
                 'src/index.html': require('raw-loader!../../../stackblitz.template/src/index.html.template').default,
                 'src/app/app.module.ts': require('raw-loader!../../../stackblitz.template/src/app/app.module.ts.template').default
             };
-            const assetLocations = {
-                'assets/img/mdc-demos/animal1.svg': require('assets/img/mdc-demos/animal1.svg'),
-                'assets/img/mdc-demos/animal2.svg': require('assets/img/mdc-demos/animal2.svg'),
-                'assets/img/mdc-demos/16-9.jpg': require('assets/img/mdc-demos/16-9.jpg'),
-                'assets/img/mdc-demos/1-1.jpg': require('assets/img/mdc-demos/1-1.jpg'),
-                'assets/img/banners/purple-header-design.jpg': require('assets/img/banners/purple-header-design.jpg')
+            const assetLocations = { // TODO
+                'assets/img/mdc-demos/animal1.svg': require('../../../assets/img/mdc-demos/animal1.svg'),
+                'assets/img/mdc-demos/animal2.svg': require('../../../assets/img/mdc-demos/animal2.svg'),
+                'assets/img/mdc-demos/16-9.jpg': require('../../../assets/img/mdc-demos/16-9.jpg'),
+                'assets/img/mdc-demos/1-1.jpg': require('../../../assets/img/mdc-demos/1-1.jpg'),
+                'assets/img/banners/purple-header-design.jpg': require('../../../assets/img/banners/purple-header-design.jpg')
             };
             const appTitle = this.elm.nativeElement.querySelector('h3').textContent;
             const mainSourceName = 'src/app/' + this.snippet.mainImport + '.ts';
@@ -149,7 +149,7 @@ export class CodeSampleComponent implements AfterContentInit {
                     hideDevTools: false
                 });
             };
-        }, 'ide');
+        });
     }
 
     addAssets(code: string, matcher: RegExp, assets: string[]) {
