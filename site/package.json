@@ -10,15 +10,7 @@
     "build": "ng build --prod && prerender",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "IVYSUPPORT_COMMENT": "echo See ivysupport.md",
-    "IVYSUPPORT_CLEAN": "rimraf node_modules/@blox/material && mkdirp node_modules/@blox/material",
-    "IVYSUPPORT_COPY": "cpy \"dist/**/*\" ../site/node_modules/@blox/material --cwd=../bundle --parents && cpy ../bundle/package.json node_modules/@blox/material/",
-    "IVYSUPPORT_APIDOCS": "cpy \"apidocs/**/*\" ../site/node_modules/@blox/material --cwd=../bundle --parents",
-    "IVYSUPPORT_NGCC": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points --loglevel debug",
-    "IVYSUPPORT_BUILD": "cd ../bundle && npm run build && cd ../site",
-    "preinstall": "cd ../bundle && npm install && cd ../site && npm run IVYSUPPORT_BUILD",
-    "postinstall": "npm run IVYSUPPORT_CLEAN && npm run IVYSUPPORT_COPY && npm run IVYSUPPORT_APIDOCS"
+    "e2e": "ng e2e"
   },
   "dependencies": {
     "@angular/animations": "^9.1.0",
