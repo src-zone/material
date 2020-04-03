@@ -1,14 +1,7 @@
-import { AfterContentInit, ChangeDetectorRef, ContentChild, ContentChildren, EventEmitter, forwardRef, QueryList, Directive, ElementRef,
-    HostBinding, HostListener, Input, OnChanges, OnDestroy, Optional, Output, Renderer2, Self } from '@angular/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { NgControl } from '@angular/forms';
+import { ContentChildren, forwardRef, QueryList, Directive, ElementRef, Optional, Renderer2 } from '@angular/core';
 import { Router, RouterLink, RouterLinkWithHref } from '@angular/router';
-import { MDCTabFoundation } from '@material/tabs';
-import { MdcTabAdapter } from './mdc.tab.adapter';
 import { AbstractMdcTabDirective } from './mdc.tab.directive';
 import { RouterActiveDetector } from '../utility/router.active.detector';
-import { asBoolean } from '../../utils/value.utils';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
 @Directive({
@@ -21,7 +14,8 @@ export class MdcTabRouterDirective extends AbstractMdcTabDirective {
     @ContentChildren(RouterLinkWithHref, {descendants: true}) _linksWithHrefs: QueryList<RouterLinkWithHref>;
     private routerActive: RouterActiveDetector;
 
-    constructor(rndr: Renderer2, root: ElementRef, registry: MdcEventRegistry, private router: Router, private cdr: ChangeDetectorRef) {
+    constructor(rndr: Renderer2, root: ElementRef, registry: MdcEventRegistry, private router: Router,
+        @Optional() private link?: RouterLink, @Optional() private linkWithHref?: RouterLinkWithHref) {
         super(rndr, root, registry);
     }
 
@@ -33,8 +27,14 @@ export class MdcTabRouterDirective extends AbstractMdcTabDirective {
 
     ngAfterContentInit(): void {
         super.ngAfterContentInit();
-        this.routerActive = new RouterActiveDetector(this, this._links, this._linksWithHrefs, this.router, this.cdr);
+        this.routerActive = new RouterActiveDetector(this, this._links, this._linksWithHrefs, this.router,
+            this.link, this.linkWithHref);
         this.routerActive.init();
+    }
+
+    ngOnChanges(): void {
+        if (this.routerActive)
+            this.routerActive.update();
     }
 
     /** @docs-private */
