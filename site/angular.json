@@ -24,7 +24,12 @@
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": [
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "*.*",
+                "input": "src/public/",
+                "output": ""
+              }
             ],
             "styles": [
               "src/style/app.scss"
