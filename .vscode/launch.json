@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Site - Chrome",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/site"
+        },
+        {
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
