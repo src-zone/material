@@ -83,22 +83,15 @@ export class CodeSampleComponent implements AfterContentInit {
                 'src/index.html': require('raw-loader!../../../stackblitz.template/src/index.html.template').default,
                 'src/app/app.module.ts': require('raw-loader!../../../stackblitz.template/src/app/app.module.ts.template').default
             };
-            const assetLocations = { // TODO
-                'assets/img/mdc-demos/animal1.svg': require('../../../assets/img/mdc-demos/animal1.svg'),
-                'assets/img/mdc-demos/animal2.svg': require('../../../assets/img/mdc-demos/animal2.svg'),
-                'assets/img/mdc-demos/16-9.jpg': require('../../../assets/img/mdc-demos/16-9.jpg'),
-                'assets/img/mdc-demos/1-1.jpg': require('../../../assets/img/mdc-demos/1-1.jpg'),
-                'assets/img/banners/purple-header-design.jpg': require('../../../assets/img/banners/purple-header-design.jpg')
-            };
             const appTitle = this.elm.nativeElement.querySelector('h3').textContent;
             const mainSourceName = 'src/app/' + this.snippet.mainImport + '.ts';
             const templateSourceName = 'src/app/' + this.snippet.mainImport + '.html';
             const styleSourceName = 'src/app/' + this.snippet.mainImport + '.scss';
             let assets: string[] = [];
             if (this.snippet.code['html'])
-                this.addAssets(this.snippet.code['html'], /\ssrc\s*=\s*\"(assets\/[^"]+)\"/g, assets);
+                this.addAssets(this.snippet.code['html'], /\ssrc\s*=\s*\"(\/?assets\/[^"]+)\"/g, assets);
             if (this.snippet.code['scss'])
-                this.addAssets(this.snippet.code['scss'], /url\s*\(\s*~(assets\/[^\)]+)\)/g, assets);
+                this.addAssets(this.snippet.code['scss'], /url\s*\(\s*(\/?assets\/[^\)]+)\)/g, assets);
         
             for (let file in files) {
                 if (files.hasOwnProperty(file))
@@ -109,11 +102,10 @@ export class CodeSampleComponent implements AfterContentInit {
                         .replace(/\$\{mainImport\}/g, this.snippet.mainImport)
             };
             files[mainSourceName] = this.snippet.code['typescript'];
-            files[templateSourceName] = this.fixAssets(this.snippet.code['html'], assetLocations, 'html', assets);
+            files[templateSourceName] = this.fixAssets(this.snippet.code['html'], 'html', assets);
             if (this.snippet.code['scss'])
                 files[styleSourceName] = this.fixAssets(
                     this.snippet.code['scss'].replace(/\@material/g, '~@material'),
-                    assetLocations,
                     'scss',
                     assets).replace(/(\s*)(.*)stackblitz-skip-line(\s*:\s*)?(.*)/g, '$1// skip on stackblitz $2 $4');
 
@@ -158,14 +150,11 @@ export class CodeSampleComponent implements AfterContentInit {
         }
     }
 
-    fixAssets(code: string, assetLocations: {[asset: string]: string}, type: 'html' | 'scss', assets: string[]) {
+    fixAssets(code: string, type: 'html' | 'scss', assets: string[]) {
         for (let asset of assets) {
-            // find the webpack generated url of the asset, but default to the original asset reference,
-            // if we don't have an actual webpack location for the asset:
-            let location = assetLocations[asset];
-            location = location ? (document.location.origin + location) : asset;
-            let origin = type === 'scss' ? ('~' + asset) : asset;
-            code = code.split(origin).join(location);
+            const path = asset.startsWith('/') ? asset : `/${asset}`;
+            const location = `${document.location.origin}${path}`;
+            code = code.split(asset).join(location);
         }
         return code;
     }
