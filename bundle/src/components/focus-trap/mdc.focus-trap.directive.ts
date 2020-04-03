@@ -1,10 +1,8 @@
-import { ContentChildren, Directive, ElementRef, HostBinding,
-    Input, OnDestroy, QueryList, forwardRef } from '@angular/core';
+import { ContentChildren, Directive, ElementRef, Input, OnDestroy, QueryList, forwardRef } from '@angular/core';
 import createFocusTrap from 'focus-trap';
 import { Options, FocusTrap } from "focus-trap";
-import { asBoolean, asBooleanOrNull } from '../../utils/value.utils';
+import { asBoolean } from '../../utils/value.utils';
 import { AbstractMdcFocusTrap, AbstractMdcFocusInitial, FocusTrapHandle } from './abstract.mdc.focus-trap';
-import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
 /**
  * When placed on a child element of an <code>mdcFocusTrap</code>, the focus trap

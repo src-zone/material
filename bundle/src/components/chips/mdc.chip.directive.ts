@@ -1,5 +1,5 @@
-import { AfterContentInit, ContentChild, ContentChildren, Directive, ElementRef, EventEmitter, HostBinding, Input,
-    OnDestroy, Optional, Output, QueryList, Renderer2, Self, forwardRef, ChangeDetectorRef } from '@angular/core';
+import { AfterContentInit, ContentChildren, Directive, ElementRef, EventEmitter, HostBinding, Input,
+    OnDestroy,Output, QueryList, Renderer2, ChangeDetectorRef } from '@angular/core';
 import { MDCChipFoundation, MDCChipSetFoundation } from '@material/chips';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';

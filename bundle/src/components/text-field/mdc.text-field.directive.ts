@@ -1,19 +1,14 @@
-import { AfterContentInit, AfterViewInit, Component, ContentChild, ContentChildren, Directive, ElementRef, EventEmitter, forwardRef, HostBinding,
-  HostListener, Input, OnDestroy, OnInit, Optional, Output, Provider, QueryList, Renderer2, Self, ViewChild,
-  ViewEncapsulation } from '@angular/core';
+import { AfterContentInit, ContentChild, ContentChildren, Directive, ElementRef, forwardRef, HostBinding,
+  HostListener, Input, OnDestroy, OnInit, Optional, QueryList, Renderer2, Self } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { MDCRipple } from '@material/ripple';
 import { MDCTextFieldFoundation } from '@material/textfield';
 import { MDCLineRippleFoundation } from '@material/line-ripple';
 import { MDCTextFieldHelperTextFoundation } from '@material/textfield/helper-text';
 import { MDCTextFieldIconFoundation } from '@material/textfield/icon';
-import { MDCFloatingLabelFoundation } from '@material/floating-label';
 import { MdcTextFieldAdapter, MdcTextFieldIconAdapter, MdcTextFieldHelperTextAdapter } from './mdc.text-field.adapter';
-import { MdcFloatingLabelAdapter } from '../floating-label/mdc.floating-label.adapter';
 import { MdcFloatingLabelDirective } from '../floating-label/mdc.floating-label.directive';
 import { MdcLineRippleAdapter } from '../line-ripple/mdc.line-ripple.adapter';
 import { AbstractMdcInput } from '../abstract/abstract.mdc.input';
-import { AbstractMdcLabel } from '../abstract/abstract.mdc.label';
 import { asBoolean } from '../../utils/value.utils';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 import { NotchedOutlineSupport } from '../notched-outline/notched-outline.support';

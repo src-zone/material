@@ -1,12 +1,12 @@
-import { AfterContentInit, ContentChild, ContentChildren, Directive, ElementRef, EventEmitter, forwardRef,
+import { AfterContentInit, ContentChildren, Directive, ElementRef, EventEmitter, forwardRef,
     HostBinding, Input, OnDestroy, Output, QueryList, Renderer2 } from '@angular/core';
-import { FOCUSABLE_ELEMENTS, MDCSlidableDrawerFoundation } from '@material/drawer/slidable';
+import { FOCUSABLE_ELEMENTS } from '@material/drawer/slidable';
 import { MDCPersistentDrawerFoundation, MDCTemporaryDrawerFoundation, util } from '@material/drawer';
 import { MdcSlidableDrawerAdapter } from './mdc.slidable.drawer.adapter';
 import { MdcPersistentDrawerAdapter } from './mdc.persistent.drawer.adapter';
 import { MdcTemporaryDrawerAdapter } from './mdc.temporary.drawer.adapter';
 import { AbstractDrawerElement, MdcDrawerType } from '../abstract/abstract.mdc.drawer.element';
-import { asBoolean, asBooleanOrNull } from '../../utils/value.utils';
+import { asBoolean } from '../../utils/value.utils';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
 /**

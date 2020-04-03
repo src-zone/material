@@ -1,5 +1,4 @@
 import { QueryList, Renderer2, ElementRef } from '@angular/core';
-import { first } from 'rxjs/operators';
 
 /** @docs-private */
 export interface ElementProvider {

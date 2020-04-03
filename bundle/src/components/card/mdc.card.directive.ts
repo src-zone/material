@@ -1,5 +1,5 @@
-import { AfterContentInit, AfterViewInit, Component, ContentChild, ContentChildren, Directive, ElementRef, forwardRef,
-  HostBinding, HostListener, Input, OnDestroy, QueryList, Renderer2, ViewEncapsulation } from '@angular/core';
+import { AfterContentInit, ContentChildren, Directive, ElementRef, HostBinding, Input, OnDestroy,
+    QueryList, Renderer2 } from '@angular/core';
 import { asBoolean } from '../../utils/value.utils';
 import { AbstractMdcIcon } from '../icon-button/abstract.mdc.icon';
 import { MdcButtonDirective } from '../button/mdc.button.directive';

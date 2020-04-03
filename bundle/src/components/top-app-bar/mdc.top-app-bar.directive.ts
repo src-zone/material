@@ -1,12 +1,11 @@
-import { AfterContentInit, ContentChildren, Directive, ElementRef, HostBinding, HostListener, Input,
+import { AfterContentInit, ContentChildren, Directive, ElementRef, HostBinding, Input,
     NgZone, OnDestroy, QueryList, Renderer2 } from '@angular/core';
-import { MDCTopAppBarBaseFoundation, MDCTopAppBarFoundation, MDCFixedTopAppBarFoundation,
+import { MDCTopAppBarFoundation, MDCFixedTopAppBarFoundation,
     MDCShortTopAppBarFoundation } from '@material/top-app-bar';
 import { util } from '@material/ripple';
 import { MdcTopAppBarAdapter } from './mdc.top-app-bar.adapter';
 import { asBoolean, asBooleanOrNull } from '../../utils/value.utils';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
-import { MdcToolbarFixedAdjustDirective } from '../../material.module';
 
 /**
  * A directive for a top-app-bar row. The content of a top-app-bar should always be embedded

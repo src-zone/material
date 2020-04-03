@@ -1,8 +1,7 @@
-import { AfterContentInit, Component, ContentChildren, Directive, ElementRef, HostBinding, HostListener,
+import { AfterContentInit, ContentChildren, Directive, ElementRef, HostBinding,
   Input, OnDestroy, QueryList, Renderer2 } from '@angular/core';
 import { asBoolean } from '../../utils/value.utils';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
-import { MdcButtonDirective } from '../button/mdc.button.directive';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';;
 
 /**
