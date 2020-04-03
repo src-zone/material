@@ -6,7 +6,7 @@ import { environment } from './environments/environment';
 
 if (environment.production) {
   enableProdMode();
-}else {
+} else {
   console.log('development mode');
 }
 
