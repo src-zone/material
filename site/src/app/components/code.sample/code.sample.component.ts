@@ -66,11 +66,7 @@ export class CodeSampleComponent implements AfterContentInit {
     }
 
     prepareStackblitz() {
-        // Note: module=esnext would allow to write this like:
-        // import('@stackblitz/sdk').then(module => {
-        //     ...
-        // });
-        import('@stackblitz/sdk').then(mod => { // TODO name module ide
+        import(/* webpackChunkName: "ide" */'@stackblitz/sdk').then(mod => {
             const sdk = mod.default;
             const packageJson = require('../../../../package.json');
             const bundlePackageJson = require('../../../../../bundle/package.json');

@@ -16,7 +16,7 @@ const routes: Routes = [
         {path: 'gettingstarted', component: GettingstartedComponent},
         {path: 'ie11', component: IE11Component}
     ]},
-    {path: 'components', loadChildren: () => import('./components.module').then(m => m.ComponentsModule)},
+    {path: 'components', loadChildren: () => import(/* webpackChunkName: "comps" */'./components.module').then(m => m.ComponentsModule)},
     {path: '**', component: NotFoundComponent}
 ];
 
