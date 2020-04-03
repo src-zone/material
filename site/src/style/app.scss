@@ -45,7 +45,7 @@ main {
   top: $mdc-toolbar-row-height;
   bottom: 0;
   align-self: center;
-  background-image: url(~assets/img/logos/bloxmaterial.svg);
+  background-image: url(/assets/img/logos/bloxmaterial.svg);
   background-repeat: no-repeat;
   background-size: contain;
   transition: mdc-animation-exit-temporary(top, 175ms);
@@ -233,11 +233,11 @@ $blox-img-list-grid-m: (
   align-self: stretch;
   background-size: contain;
   background-repeat: no-repeat;
-  &.blox-bg-fast { background-image: url(~assets/img/photos/speed.jpg); }
-  &.blox-bg-themeable { background-image: url(~assets/img/photos/crayons.jpg); }
-  &.blox-bg-accessible { background-image: url(~assets/img/photos/mobile.jpg); }
-  &.blox-bg-agnostic { background-image: url(~assets/img/photos/bridge.jpg); }
-  &.blox-bg-404 { background-image: url(~assets/img/photos/shark.jpg); }
+  &.blox-bg-fast { background-image: url(/assets/img/photos/speed.jpg); }
+  &.blox-bg-themeable { background-image: url(/assets/img/photos/crayons.jpg); }
+  &.blox-bg-accessible { background-image: url(/assets/img/photos/mobile.jpg); }
+  &.blox-bg-agnostic { background-image: url(/assets/img/photos/bridge.jpg); }
+  &.blox-bg-404 { background-image: url(/assets/img/photos/shark.jpg); }
 }
 .blox-img-list-cap {
   @include grid-column(1, $blox-img-list-grid);
@@ -468,15 +468,15 @@ p.blox-demo-paragraph {
   }
 }
 
-svg.blox-inline-svg {
-  position: relative;
-  top: -0.14em;
-  height: 1.3em;
+span.blox-inline-svg {
   fill: #000;
   stroke: #000;
   .blox-theme-dark & {
     fill: #fff;
     stroke: #fff;
+  }
+  svg {
+    height: 1.3em;  
   }
 }
 

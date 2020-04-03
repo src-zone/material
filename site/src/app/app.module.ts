@@ -2,8 +2,10 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { Angulartics2Module } from 'angulartics2';
+import { InlineSVGModule } from 'ng-inline-svg';
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
-import { routing, appRoutingProviders } from './app.routes';
+import { AppRoutingModule } from './app-routing.module';
 import {
   IndexComponent,
   DocsComponent,
@@ -17,9 +19,10 @@ import { SharedModule } from './shared.module';
 @NgModule({
   imports: [
     BrowserModule.withServerTransition({appId: 'blox-app'}),
-    routing,
+    AppRoutingModule,
     Angulartics2Module.forRoot(),
-    SharedModule
+    SharedModule,
+    InlineSVGModule.forRoot(), HttpClientModule
   ],
   declarations: [
     AppComponent,
@@ -33,7 +36,6 @@ import { SharedModule } from './shared.module';
     NotFoundComponent,
   ],
   providers: [
-    appRoutingProviders,
     {provide: LocationStrategy, useClass: PathLocationStrategy}
   ],
   bootstrap: [ AppComponent ]

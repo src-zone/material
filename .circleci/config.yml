@@ -3,7 +3,7 @@ version: 2
 defaults: &defaults
   working_directory: ~/repo
   docker:
-    - image: circleci/node:8.11.1-browsers
+    - image: circleci/node:12.16.1-browsers
 jobs:
   build-bundle:
     <<: *defaults
@@ -73,7 +73,7 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-site-dependencies-
       - run: cd site && npm install
-      - run: cd site && npm run build-ci
+      - run: cd site && npm run build
       - save_cache:
           paths:
             - site/node_modules
