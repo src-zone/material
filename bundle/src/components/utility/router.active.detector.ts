@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, QueryList } from '@angular/core';
+import { Optional, QueryList } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { NavigationEnd, Router, RouterLink, RouterLinkWithHref } from '@angular/router';
@@ -14,7 +14,8 @@ export class RouterActiveDetector {
             private links: QueryList<RouterLink>,
             private linksWithHrefs: QueryList<RouterLinkWithHref>,
             private router: Router,
-            private cdr: ChangeDetectorRef) {
+            @Optional() private link?: RouterLink,
+            @Optional() private linkWithHref?: RouterLinkWithHref) {
         router.events.pipe(takeUntil(this.onDestroy$)).subscribe(s => {
             if (s instanceof NavigationEnd) {
                 this.update();
@@ -37,15 +38,20 @@ export class RouterActiveDetector {
 
     public update(): void {
         if (!this.links || !this.linksWithHrefs || !this.router.navigated) return;
-        const hasActiveLinks = this.hasActiveLinks();
-        const active = this.component.isRouterActive();
-        if (active !== hasActiveLinks) {
-            this.component.setRouterActive(hasActiveLinks);
-        }
+        Promise.resolve().then(() => {
+            const hasActiveLinks = this.hasActiveLinks();
+            const active = this.component.isRouterActive();
+            if (active !== hasActiveLinks) {
+                this.component.setRouterActive(hasActiveLinks);
+            }
+        });
     }
 
     private hasActiveLinks(): boolean {
-        return this.links.some(this.isLinkActive(this.router)) || this.linksWithHrefs.some(this.isLinkActive(this.router));
+        return (this.link && this.isLinkActive(this.router)(this.link)) ||
+            (this.linkWithHref && this.isLinkActive(this.router)(this.linkWithHref)) ||
+            this.links.some(this.isLinkActive(this.router)) ||
+            this.linksWithHrefs.some(this.isLinkActive(this.router));
     }
 
     private isLinkActive(router: Router): (link: (RouterLink | RouterLinkWithHref)) => boolean {
