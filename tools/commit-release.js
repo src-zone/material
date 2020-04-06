@@ -1,6 +1,6 @@
 const {readFileSync} = require('fs');
 const git = require('simple-git/promise')();
-const versionFile = 'package.json';
+const versionFile = 'bundle/package.json';
 const version = JSON.parse(readFileSync(versionFile, 'utf8'))['version'];
 
 function checkModified(modifications, file) {
