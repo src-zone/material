@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MdcButtonDirective, MdcButtonIconDirective } from './components/button/mdc.button.directive';
+import { MdcButtonDirective,
+    MdcButtonIconDirective,
+    MdcButtonLabelDirective } from './components/button/mdc.button.directive';
 import { MdcCardDirective,
     MdcCardMediaDirective,
     MdcCardMediaContentDirective,
@@ -77,7 +79,7 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         CommonModule
     ],
     declarations: [
-        MdcButtonDirective, MdcButtonIconDirective,
+        MdcButtonDirective, MdcButtonIconDirective, MdcButtonLabelDirective,
         MdcCardDirective, MdcCardMediaDirective, MdcCardMediaContentDirective,
         MdcCardActionButtonsDirective, MdcCardActionIconsDirective, MdcCardActionsDirective, MdcCardPrimaryActionDirective,
         MdcCheckboxDirective, MdcCheckboxInputDirective,
@@ -110,7 +112,7 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         MdcScrollbarResizeDirective
     ],
     exports: [
-        MdcButtonDirective, MdcButtonIconDirective,
+        MdcButtonDirective, MdcButtonIconDirective, MdcButtonLabelDirective,
         MdcCardDirective, MdcCardMediaDirective, MdcCardMediaContentDirective,
         MdcCardActionButtonsDirective, MdcCardActionIconsDirective, MdcCardActionsDirective, MdcCardPrimaryActionDirective,
         MdcCheckboxDirective, MdcCheckboxInputDirective,

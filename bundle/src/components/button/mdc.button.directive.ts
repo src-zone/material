@@ -1,8 +1,8 @@
-import { AfterContentInit, Directive, ElementRef, HostBinding, Input, OnDestroy, Renderer2, forwardRef } from '@angular/core';
-import { MDCRipple } from '@material/ripple';
+import { AfterContentInit, Directive, ElementRef, HostBinding, Input, OnDestroy, Renderer2, forwardRef, ContentChild } from '@angular/core';
 import { asBoolean } from '../../utils/value.utils';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
+import { applyPassive } from '@material/dom/events';
 
 /**
  * Use this directive for adding an icon to an <code>mdcButton</code>. This directive can be
@@ -10,7 +10,7 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
  * from Google fonts), or with <code>svg</code> elements for svg based icons.
  */
 @Directive({
-    selector: 'mdcButtonIcon'
+    selector: '[mdcButtonIcon]'
 })
 export class MdcButtonIconDirective {
     @HostBinding('class.mdc-button__icon') _cls = true;
@@ -18,10 +18,24 @@ export class MdcButtonIconDirective {
 }
 
 /**
+ * Directive for the label of an <code>mdcButton</code>. Must be a direct child
+ * of <code>mdcButton</code>.
+ */
+@Directive({
+    selector: '[mdcButtonLabel]'
+})
+export class MdcButtonLabelDirective {
+    @HostBinding('class.mdc-button__label') _cls = true;
+}
+
+/**
  * Material design button. Anchors can also be styled as buttons with this directive.
  * Defaults to a button that is flushed with the surface.
  * Use the input modifiers to alter the styling, or create your own style
  * based on the provided sass-mixins.
+ * 
+ * A ripple (and the required DOM elements for the ripple) will be added automatically.
+ * Future implementations will also support supplying a (customized) ripple DOM element.
  */
 @Directive({
     selector: 'button[mdcButton],a[mdcButton]',
@@ -29,13 +43,19 @@ export class MdcButtonIconDirective {
 })
 export class MdcButtonDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-button') _cls = true;
-    private _dense = false;
     private _raised = false;
     private _unelevated = false;
     private _outlined = false;
 
     constructor(public _elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry) {
-        super(_elm, renderer, registry);
+        super(MdcButtonDirective.addRippleElm(_elm, renderer), renderer, registry);
+    }
+
+    private static addRippleElm(elm: ElementRef, renderer: Renderer2) {
+        let ripple = renderer.createElement('div');
+        renderer.addClass(ripple, 'mdc-button__ripple');
+        renderer.appendChild(elm.nativeElement, ripple);
+        return elm; // the ripple should still be initialized on the parent
     }
 
     ngAfterContentInit() {
@@ -83,18 +103,5 @@ export class MdcButtonDirective extends AbstractMdcRipple implements AfterConten
 
     set unelevated(val: any) {
         this._unelevated = asBoolean(val);
-    }
-
-    /**
-     * When this input is defined and does not have value false, the button text is compressed
-     * to make it slightly smaller.
-     */
-    @HostBinding('class.mdc-button--dense') @Input()
-    get dense() {
-        return this._dense;
-    }
-
-    set dense(val: any) {
-        this._dense = asBoolean(val);
     }
 }
