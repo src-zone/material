@@ -158,11 +158,14 @@ export class MdcCardActionsDirective implements AfterContentInit {
 export class MdcCardPrimaryActionDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-card__primary-action') _cls = true;
 
-    constructor(elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry) {
+    constructor(private elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry) {
         super(elm, renderer, registry);
     }
 
     ngAfterContentInit() {
+        if (!this.elm.nativeElement.hasAttribute('tabindex'))
+            // unless overridden, make the action tabbable:
+            this.elm.nativeElement.tabIndex = 0;
         this.initRipple();
     }
   
