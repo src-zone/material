@@ -1,4 +1,6 @@
 import { ComponentFixture, tick } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { Type } from '@angular/core';
 
 export function booleanAttributeVerify(
     setValue: (value: any) => void,
@@ -22,15 +24,27 @@ export function booleanAttributeStyleTest(
     directive: any,
     componentProperty: string,
     directiveProperty: string,
-    directiveStyle: string) {
+    directiveStyle: string,
+    sync: () => void = () => {}) {
     // test various ways to set the property value:
     booleanAttributeVerify(
-        (value) => {component[componentProperty] = value; fixture.detectChanges(); },
+        (value) => {component[componentProperty] = value; fixture.detectChanges(); sync(); },
         (expected) => {
             expect(directive[directiveProperty]).toBe(expected, directiveProperty);
             expect(directive._elm.nativeElement.classList.contains(directiveStyle)).toBe(expected, directiveStyle);
         }
     )
+}
+
+export function testStyle(fixture: ComponentFixture<any>, property: string, dirProperty: string, style: string,
+    type: Type<any>, testComponentType: Type<any>, sync: () => void = () => {}) {
+    const element = fixture.debugElement.query(By.directive(type)).injector.get(type);
+    const testComponent = fixture.debugElement.injector.get(testComponentType);
+    // initial the styles are not set:
+    expect(element[dirProperty]).toBe(false);
+    expect(element._elm.nativeElement.classList.contains(style)).toBe(false);
+    // test various ways to set the property value, and the result of having the class or not:
+    booleanAttributeStyleTest(fixture, testComponent, element, property, dirProperty, style, sync);
 }
 
 export function hasRipple(el: HTMLElement) {

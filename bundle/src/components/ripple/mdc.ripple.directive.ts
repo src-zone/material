@@ -1,7 +1,5 @@
-import { AfterContentInit, Directive, ElementRef, HostBinding,
-    Input, OnDestroy, Renderer2 } from '@angular/core';
-import { MDCRipple } from '@material/ripple';
-import { MDCRippleFoundation } from '@material/ripple';
+import { AfterContentInit, Directive, ElementRef, HostBinding, Input, OnDestroy, Renderer2, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { asBoolean, asBooleanOrNull } from '../../utils/value.utils';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
@@ -20,12 +18,11 @@ export class MdcRippleDirective extends AbstractMdcRipple implements AfterConten
     private _initialized = false;
     private _on = false;
     private _disabled: boolean = null;
-    private _unbounded = false;
-    private _surface = false;
+    private _surface: boolean | 'primary' | 'accent' = false;
     private _dim = null;
 
-    constructor(private elm: ElementRef, private renderer: Renderer2, private registry: MdcEventRegistry) {
-        super(elm, renderer, registry);
+    constructor(public _elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry) {
+        super(_elm, renderer, registry);
     }
   
     ngAfterContentInit() {
@@ -39,11 +36,6 @@ export class MdcRippleDirective extends AbstractMdcRipple implements AfterConten
     }
 
     /** @docs-private */
-    protected isRippleUnbounded() {
-        return this._unbounded;
-    }
-
-    /** @docs-private */
     protected isRippleSurfaceDisabled() {
         return this._disabled == null ? super.isRippleSurfaceDisabled() : this._disabled;
     }
@@ -52,14 +44,14 @@ export class MdcRippleDirective extends AbstractMdcRipple implements AfterConten
     protected computeRippleBoundingRect() {
         if (this._dim == null)
             return super.computeRippleBoundingRect();
-        const {left, top} = this.elm.nativeElement.getBoundingClientRect();
+        const {left, top} = this._elm.nativeElement.getBoundingClientRect();
         return {
             left,
             top,
             width: this._dim,
             height: this._dim,
             right: left + this._dim,
-            bottom: left + this._dim,
+            bottom: top + this._dim,
         };
     }
 
@@ -67,11 +59,11 @@ export class MdcRippleDirective extends AbstractMdcRipple implements AfterConten
      * Set this input to false to remove the ripple effect from the surface.
      */
     @Input() get mdcRipple() {
-        return !this._on;
+        return this._on;
     }
 
     set mdcRipple(value: any) {
-        let newValue = asBoolean(value);
+        const newValue = asBoolean(value);
         if (newValue !== this._on) {
             this._on = newValue;
             if (this._initialized) {
@@ -89,19 +81,15 @@ export class MdcRippleDirective extends AbstractMdcRipple implements AfterConten
      * while surfaces for unbounded ripples should have it set to <code>visible</code>.
      */
     @Input() get unbounded() {
-        return this._unbounded;
+        return this.isRippleUnbounded();
     }
 
     set unbounded(value: any) {
-        let newValue = asBoolean(value);
-        if (newValue !== this._unbounded) {
-            this._unbounded = newValue;
-            this.reInit();
-        }
+        this.setRippleUnbounded(asBoolean(value));
     }
 
     @HostBinding('attr.data-mdc-ripple-is-unbounded') get _attrUnbounded() {
-        return this._unbounded ? "" : null;
+        return this.unbounded ? "" : null;
     }
 
     /**
@@ -140,25 +128,26 @@ export class MdcRippleDirective extends AbstractMdcRipple implements AfterConten
      * you have to supply your own ripple styles, using the provided
      * <a href="https://github.com/material-components/material-components-web/tree/master/packages/mdc-ripple#sass-apis"
      *   target="_blank">Sass Mixins</a>.
+     * 
+     * To apply a standard surface ripple, set the value to `true`, `"primary"`, or `"accent"`.
+     * The values primary and accent set the ripple color to the theme primary or secondary color.
      */
     @Input() @HostBinding('class.mdc-ripple-surface') get surface() {
-        return this._surface;
+        return !!this._surface;
     }
 
-    set surface(value: any) {
-        this._surface = asBoolean(value);
+    set surface(value: boolean | 'primary' | 'accent') {
+        if (value === 'primary' || value === 'accent')
+            this._surface = value;
+        else
+            this._surface = asBoolean(value);
     }
 
-    private reInit() {
-        if (this._initialized && this.isRippleInitialized()) {
-            this.destroyRipple();
-            this.initRipple();
-        }
+    @HostBinding('class.mdc-ripple-surface--primary') get _surfacePrimary() {
+        return this._surface === 'primary';
     }
 
-    private layout() {
-        if (this._initialized && this.isRippleInitialized()) {
-            this._rippleFoundation.layout();
-        }
+    @HostBinding('class.mdc-ripple-surface--accent') get _surfaceAccent() {
+        return this._surface === 'accent';
     }
 }
