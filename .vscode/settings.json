@@ -1,0 +1,3 @@
+{
+    "typescript.tsdk": "bundle/node_modules/typescript/lib"
+}
