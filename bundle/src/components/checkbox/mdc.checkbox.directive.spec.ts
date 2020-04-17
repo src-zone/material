@@ -1,10 +1,9 @@
-import { TestBed, fakeAsync, ComponentFixture, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync, ComponentFixture, tick, flush } from '@angular/core/testing';
 import { Component, Type } from '@angular/core';
 import { MdcCheckboxInputDirective, MdcCheckboxDirective } from './mdc.checkbox.directive';
 import { hasRipple } from '../../testutils/page.test';
 import { By } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { TLSSocket } from 'tls';
 
 describe('MdcCheckBoxDirective', () => {
     it('should render the checkbox with ripple and label', fakeAsync(() => {
@@ -25,9 +24,11 @@ describe('MdcCheckBoxDirective', () => {
         setAndCheck(fixture, 1, true);
         setAndCheck(fixture, true, true);
         setAndCheck(fixture, 'false', false);
-        setAndCheck(fixture, false, false);
         setAndCheck(fixture, '0', true);
+        setAndCheck(fixture, false, false);
+        setAndCheck(fixture, 0, true);
         setAndCheck(fixture, null, false);
+        setAndCheck(fixture, '', true);
     }));
 
     it('indeterminate can be set programmatically', fakeAsync(() => {
@@ -43,32 +44,22 @@ describe('MdcCheckBoxDirective', () => {
         setAndCheckIndeterminate(fixture, '0', true);
     }));
 
-    it('checked can be set by user', fakeAsync(() => {
+    it('checked can be set by user, indeterminate can be unset by user', fakeAsync(() => {
         const { fixture, testComponent, element, input } = setup();
 
-        element.click();
-        tick(); fixture.detectChanges();
-        expect(element.checked).toBe(true);
-        expect(input.checked).toBe(true);
-        expect(testComponent.checked).toBe(true);
-
-        element.click();
-        tick(); fixture.detectChanges();
         expect(element.checked).toBe(false);
-        expect(input.checked).toBe(false);
-        expect(testComponent.checked).toBe(false);
+        expect(element.indeterminate).toBe(false);
+        clickAndCheck(fixture, true, false);
+        clickAndCheck(fixture, false, false);
+        clickAndCheck(fixture, true, false);
 
-        // indeterminate property was never changed from origin value, because
-        //  null is interpreted as false:
-        expect(testComponent.indeterminate).toBe(null);
-        input.indeterminate = true;
-        tick(); fixture.detectChanges();
-        expect(testComponent.indeterminate).toBe(true);
-        // changing the value should remove the indeterminate flag:
-        element.click();
-        tick(); fixture.detectChanges();
-        expect(testComponent.indeterminate).toBe(false);
-        expect(testComponent.checked).toBe(true);
+        // indeterminate should switch to false on click:
+        testComponent.indeterminate = true;
+        fixture.detectChanges();
+        expect(input.indeterminate).toBe(true);
+        expect(element.indeterminate).toBe(true);
+        // clicking should set indeterminate to false again:
+        clickAndCheck(fixture, false, false);
     }));
 
     it('can be disabled', fakeAsync(() => {
@@ -128,26 +119,68 @@ describe('MdcCheckBoxDirective', () => {
         expect(testComponent.checked).toBe(check);
     }));
 
+    it('user interactions are registered in the absence of template bindings', fakeAsync(() => {
+        const { fixture, element, input } = setup(TestComponentNoBindings);
+        
+        expect(element.checked).toBe(false);
+        expect(input.checked).toBe(false);
+        expect(element.indeterminate).toBe(false);
+        expect(input.indeterminate).toBe(false);
+        clickAndCheckNb(true);
+        clickAndCheckNb(false);
+        input.indeterminate = true;
+        fixture.detectChanges();
+        expect(element.indeterminate).toBe(true);
+        clickAndCheckNb(true);
+
+        function clickAndCheckNb(expected) {
+            element.click();
+            tick(); fixture.detectChanges();
+            expect(element.checked).toBe(expected);
+            expect(input.checked).toBe(expected);
+            expect(element.indeterminate).toBe(false);
+            expect(input.indeterminate).toBe(false);
+        }
+    }));
+
     function setAndCheck(fixture: ComponentFixture<TestComponent>, value: any, expected: boolean) {
         const testComponent = fixture.debugElement.injector.get(TestComponent);
         const element = fixture.nativeElement.querySelector('.mdc-checkbox__native-control');
+        const input = fixture.debugElement.query(By.directive(MdcCheckboxInputDirective))?.injector.get(MdcCheckboxInputDirective);
         testComponent.checked = value;
         fixture.detectChanges();
         expect(element.checked).toBe(expected);
+        expect(input.checked).toBe(expected);
     }
 
     function setAndCheckIndeterminate(fixture: ComponentFixture<TestComponent>, value: any, expected: boolean) {
         const testComponent = fixture.debugElement.injector.get(TestComponent);
         const element = fixture.nativeElement.querySelector('.mdc-checkbox__native-control');
+        const input = fixture.debugElement.query(By.directive(MdcCheckboxInputDirective))?.injector.get(MdcCheckboxInputDirective);
         testComponent.indeterminate = value;
         fixture.detectChanges();
         expect(element.indeterminate).toBe(expected);
+        expect(input.indeterminate).toBe(expected);
+    }
+
+    function clickAndCheck(fixture: ComponentFixture<TestComponent>, expected: boolean, expectIndeterminate: any) {
+        const testComponent = fixture.debugElement.injector.get(TestComponent);
+        const element = fixture.nativeElement.querySelector('.mdc-checkbox__native-control');
+        const input = fixture.debugElement.query(By.directive(MdcCheckboxInputDirective))?.injector.get(MdcCheckboxInputDirective);
+        element.click();
+        tick(); fixture.detectChanges();
+        expect(element.checked).toBe(expected);
+        expect(input.checked).toBe(expected);
+        expect(testComponent.checked).toBe(expected);
+        expect(element.indeterminate).toBe(false);
+        expect(input.indeterminate).toBe(false);
+        expect(testComponent.indeterminate).toBe(false);
     }
 
     @Component({
         template: `
           <div mdcCheckbox>
-            <input mdcCheckboxInput type="checkbox" [(checked)]="checked" [(indeterminate)]="indeterminate" [disabled]="disabled"/>
+            <input mdcCheckboxInput type="checkbox" [checked]="checked" (click)="onClick()" [indeterminate]="indeterminate" [disabled]="disabled"/>
           </div>
         `
     })
@@ -155,14 +188,28 @@ describe('MdcCheckBoxDirective', () => {
         checked: any = null;
         indeterminate: any = null;
         disabled: any = null;
+        onClick() {
+            this.checked = !this.checked;
+            this.indeterminate = false;
+        }
     }
 
     @Component({
         template: `
           <div mdcCheckbox>
-            <input *ngIf="input === 0" id="i0" mdcCheckboxInput type="checkbox" [(checked)]="checked"/>
-            <input *ngIf="input === 1" id="i1" mdcCheckboxInput type="checkbox" [(checked)]="checked"/>
-            <input *ngIf="input === 2" id="i2" mdcCheckboxInput type="checkbox" [(checked)]="checked"/>
+            <input mdcCheckboxInput type="checkbox" />
+          </div>
+        `
+    })
+    class TestComponentNoBindings {
+    }
+
+    @Component({
+        template: `
+          <div mdcCheckbox>
+            <input *ngIf="input === 0" id="i0" mdcCheckboxInput type="checkbox" [checked]="checked"/>
+            <input *ngIf="input === 1" id="i1" mdcCheckboxInput type="checkbox" [checked]="checked"/>
+            <input *ngIf="input === 2" id="i2" mdcCheckboxInput type="checkbox" [checked]="checked"/>
           </div>
         `
     })
@@ -239,8 +286,9 @@ describe('MdcCheckBoxDirective with FormsModule', () => {
         const input = fixture.debugElement.query(By.directive(MdcCheckboxInputDirective)).injector.get(MdcCheckboxInputDirective);
         testComponent.value = value;
         fixture.detectChanges(); tick();
-        expect(input.checked).toBe(value);
+        expect(input.checked).toBe(expectedValue);
         expect(element.checked).toBe(expectedValue);
+        expect(testComponent.value).toBe(value);
         expect(input.indeterminate).toBe(value == null);
         expect(element.indeterminate).toBe(value == null);
     }

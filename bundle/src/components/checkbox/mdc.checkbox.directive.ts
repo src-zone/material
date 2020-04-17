@@ -1,6 +1,6 @@
-import { AfterContentInit, ContentChild, Directive, ElementRef, HostBinding,
-  Input, OnDestroy, Optional, Renderer2, Self, forwardRef, HostListener, Output, EventEmitter, ChangeDetectorRef, ContentChildren, QueryList } from '@angular/core';
-import { NgControl, NgModel } from '@angular/forms';
+import { AfterContentInit, Directive, ElementRef, HostBinding, Input, OnDestroy, OnInit, Optional, Renderer2,
+    Self, forwardRef, HostListener, Output, EventEmitter, ContentChildren, QueryList } from '@angular/core';
+import { NgControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MDCCheckboxFoundation, MDCCheckboxAdapter } from '@material/checkbox';
@@ -16,31 +16,24 @@ import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
     selector: 'input[mdcCheckboxInput][type=checkbox]',
     providers: [{provide: AbstractMdcInput, useExisting: forwardRef(() => MdcCheckboxInputDirective) }]
 })
-export class MdcCheckboxInputDirective extends AbstractMdcInput {
+export class MdcCheckboxInputDirective extends AbstractMdcInput implements OnInit, OnDestroy {
     @HostBinding('class.mdc-checkbox__native-control') _cls = true;
     private onDestroy$: Subject<any> = new Subject();
     private _id: string;
     private _disabled = false;
-    private _checked = false;;
+    private _checked = false;
     private _indeterminate = false;
-    /**
-     * Event emitted when the `checked` property is changed.
-     */
-    @Output() checkedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
-    /**
-     * Event emitted when the `intermediate` property is changed.
-     */
-    @Output() indeterminateChange: EventEmitter<boolean> = new EventEmitter<boolean>();
-    @Output() _disabledChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @Output() readonly _checkedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @Output() readonly _indeterminateChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @Output() readonly _disabledChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-    constructor(public _elm: ElementRef, private cdRef: ChangeDetectorRef, @Optional() @Self() public _cntr: NgControl,
-        @Optional() private ngModel: NgModel) {
+    constructor(public _elm: ElementRef, @Optional() @Self() public _cntr: NgControl) {
         super();
     }
 
     ngOnInit() {
-        this.ngModel?.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe((value) => {
-            this.updateValue(value, false);
+        this._cntr?.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe((value) => {
+            this.updateValue(value, true);
         });
     }
 
@@ -75,30 +68,27 @@ export class MdcCheckboxInputDirective extends AbstractMdcInput {
 
     /** @docs-private */
     @HostBinding()
-    @Input() get checked() {
+    @Input() get checked(): any {
         return this._checked;
     }
 
     set checked(value: any) {
-        this.updateValue(value, true);
+        this.updateValue(value, false);
     }
 
-    private updateValue(value: any, booleanCoerce: boolean) {
-        // Don't use asBoolean for ngModel, since CheckboxControlValueAccessor will just set the supplied value,
-        //  without string coercion to boolean.
-        // When using the 'checked' we do use asBoolean. So that just adding an attribute selected, or
-        // setting attribute selected="false" will work as expected:
-        const newVal = booleanCoerce ? asBoolean(value) : value;
+    private updateValue(value: any, fromControl: boolean) {
+        // When the 'checked' property is the source of the change, we want to coerce boolean
+        // values using asBoolean, so that initializing with an attribute with no value works
+        // as expected.
+        // When the NgControl is the source of the change we don't want that. The value should
+        // be interpreted like NgControl/NgForms handles non-boolean values when binding.
+        const newVal = fromControl ? !!value : asBoolean(value);
         if (newVal !== this._checked) {
             this._checked = newVal;
-            Promise.resolve().then(() => {
-                this.checkedChange.emit(newVal);
-            });
+            this._checkedChange.emit(newVal);
         }
-        if (this.ngModel && newVal !== this.ngModel.value) {
-            Promise.resolve().then(() => {
-                this.ngModel.update.emit(newVal);
-            });
+        if (!fromControl && this._cntr && newVal !== this._cntr.value) {
+            this._cntr.control.setValue(newVal);
         }
     }
 
@@ -112,19 +102,18 @@ export class MdcCheckboxInputDirective extends AbstractMdcInput {
         const newVal = asBoolean(value);
         if (newVal !== this._indeterminate) {
             this._indeterminate = newVal;
-            Promise.resolve().then(() => this.indeterminateChange.emit(newVal));
+            Promise.resolve().then(() => this._indeterminateChange.emit(newVal));
         }
     }
 
-    @HostListener('change') _onChange() {
-        this.checked = this._elm.nativeElement.checked;
-        this.indeterminate = this._elm.nativeElement.indeterminate;
-    }
-
-    // TODO IE doesn't fire change event when indeterminate checkbox is clicked,
-    //  so we also listen to 'click'. But maybe we should also listen to key events
-    //  that may unset the indeterminate state?
-    @HostListener('click') _onClick() {
+    // We listen to click-event instead of change-event, because IE doesn't fir the
+    // change-event when an indeterminate checkbox is clicked. There's no need to
+    // also listen to click-events.
+    @HostListener('click') _onChange() {
+        // only update the checked state from click if there is no control for which we already
+        // listen to value changes:
+        if (!this._cntr)
+            this.checked = this._elm.nativeElement.checked;
         this.indeterminate = this._elm.nativeElement.indeterminate;
     }
 }
@@ -151,12 +140,8 @@ export class MdcCheckboxDirective extends AbstractMdcRipple implements AfterCont
     private onInputChange$: Subject<any> = new Subject();
     @ContentChildren(MdcCheckboxInputDirective) _inputs: QueryList<MdcCheckboxInputDirective>;
     private mdcAdapter: MDCCheckboxAdapter = {
-        addClass: (className: string) => {
-            this._renderer.addClass(this.root.nativeElement, className);
-        },
-        removeClass: (className: string) => {
-            this._renderer.removeClass(this.root.nativeElement, className);
-        },
+        addClass: (className: string) => this._renderer.addClass(this.root.nativeElement, className),
+        removeClass: (className: string) => this._renderer.removeClass(this.root.nativeElement, className),
         setNativeControlAttr: (attr: string, value: string) => this._renderer.setAttribute(this._input._elm.nativeElement, attr, value),
         removeNativeControlAttr: (attr: string) => this._renderer.removeAttribute(this._input._elm.nativeElement, attr),
         forceLayout: () => this.root.nativeElement.offsetWidth, // force layout
@@ -164,9 +149,7 @@ export class MdcCheckboxDirective extends AbstractMdcRipple implements AfterCont
         hasNativeControl: () => !!this._input,
         isChecked: () => this._input._elm.nativeElement.checked,
         isIndeterminate: () => this._input._elm.nativeElement.indeterminate,
-        setNativeControlDisabled: (disabled: boolean) => {
-                this._input.disabled = disabled;
-        }
+        setNativeControlDisabled: (disabled: boolean) => this._input.disabled = disabled
     };
     _foundation: MDCCheckboxFoundation = null;
 
@@ -183,6 +166,7 @@ export class MdcCheckboxDirective extends AbstractMdcRipple implements AfterCont
             this._foundation.init();
         }
         this._inputs.changes.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+            this.reinitRipple();
             if (this._foundation)
                 this._foundation.destroy();
             if (this._input) {
@@ -207,16 +191,9 @@ export class MdcCheckboxDirective extends AbstractMdcRipple implements AfterCont
 
     private subscribeInputChanges() {
         this.onInputChange$.next();
-        this._input?.indeterminateChange.asObservable().pipe(takeUntil(this.onInputChange$)).subscribe(() => this._foundation?.handleChange());
-        this._input?.checkedChange.asObservable().pipe(takeUntil(this.onInputChange$)).subscribe(() => this._foundation?.handleChange());
+        this._input?._indeterminateChange.asObservable().pipe(takeUntil(this.onInputChange$)).subscribe(() => this._foundation?.handleChange());
+        this._input?._checkedChange.asObservable().pipe(takeUntil(this.onInputChange$)).subscribe(() => this._foundation?.handleChange());
         this._input?._disabledChange.asObservable().pipe(takeUntil(this.onInputChange$)).subscribe(val => this._foundation?.setDisabled(val));
-    }
-
-    private static addRipple(elm: ElementRef, renderer: Renderer2) {
-        let ripple = renderer.createElement('div');
-        renderer.addClass(ripple, 'mdc-checkbox__ripple');
-        renderer.appendChild(elm.nativeElement, ripple);
-        return elm;
     }
 
     private static addBackground(elm: ElementRef, renderer: Renderer2) {
