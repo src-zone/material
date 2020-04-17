@@ -1,8 +1,5 @@
 import { Directive, ElementRef, HostBinding, Input, Renderer2 } from '@angular/core';
-import { MDCRipple } from '@material/ripple';
-import { MDCRippleFoundation } from '@material/ripple';
-import { asBoolean, asBooleanOrNull } from '../../utils/value.utils';
-import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
+import { asBoolean } from '../../utils/value.utils';
 
 /**
  * Directive for elevating an element above its surface.
