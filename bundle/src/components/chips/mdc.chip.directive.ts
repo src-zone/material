@@ -161,7 +161,6 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
      */
     @Output() _notifyRemoval: EventEmitter<{removedAnnouncement: string | null}> = new EventEmitter();
     _set: MdcChipSetDirective;
-    private _ripple: HTMLElement;
     private _checkmark: HTMLElement;
     private _leadingIcon: MdcChipIconDirective;
     private _trailingIcon: MdcChipIconDirective;
@@ -226,7 +225,7 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
         this._texts.changes.subscribe(() => this._reInit());
         this._primaryActions.changes.subscribe(() => this._reInit());
         this._chipCells.changes.subscribe(() => this._reInit());
-        this.addRippleElm();
+        this.addRippleSurface('mdc-chip__ripple');
         this.initCheckMark();
         this.initRipple();
         this._foundation.init();
@@ -349,12 +348,6 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
             this.addCheckMark();
         else
             this.removeCheckMark();
-    }
-
-    private addRippleElm() {
-        this._ripple = this._renderer.createElement('div');
-        this._renderer.addClass(this._ripple, 'mdc-chip__ripple');
-        this._renderer.appendChild(this._elm.nativeElement, this._ripple);
     }
     
     private addCheckMark() {

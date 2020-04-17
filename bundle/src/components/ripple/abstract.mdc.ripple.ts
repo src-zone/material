@@ -66,6 +66,13 @@ export abstract class AbstractMdcRipple {
         return this._rippleFoundation != null;
     }
 
+    protected addRippleSurface(clazz) {
+        const ripple = this._renderer.createElement('div');
+        this._renderer.addClass(ripple, clazz);
+        this._renderer.appendChild(this._rippleElm.nativeElement, ripple);
+        return ripple;
+    }
+
     activateRipple() {
         if (this._rippleFoundation)
             this._rippleFoundation.activate();

@@ -171,7 +171,8 @@ export class MdcCheckboxDirective extends AbstractMdcRipple implements AfterCont
     _foundation: MDCCheckboxFoundation = null;
 
     constructor(renderer: Renderer2, private root: ElementRef, registry: MdcEventRegistry) {
-        super(MdcCheckboxDirective.addRipple(root, renderer), renderer, registry);
+        super(root, renderer, registry);
+        this.addRippleSurface('mdc-checkbox__ripple');
     }
 
     ngAfterContentInit() {

@@ -1,8 +1,7 @@
-import { AfterContentInit, Directive, ElementRef, HostBinding, Input, OnDestroy, Renderer2, forwardRef, ContentChild } from '@angular/core';
+import { AfterContentInit, Directive, ElementRef, HostBinding, Input, OnDestroy, Renderer2, forwardRef } from '@angular/core';
 import { asBoolean } from '../../utils/value.utils';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
-import { applyPassive } from '@material/dom/events';
 
 /**
  * Use this directive for adding an icon to an <code>mdcButton</code>. This directive can be
@@ -48,14 +47,8 @@ export class MdcButtonDirective extends AbstractMdcRipple implements AfterConten
     private _outlined = false;
 
     constructor(public _elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry) {
-        super(MdcButtonDirective.addRippleElm(_elm, renderer), renderer, registry);
-    }
-
-    private static addRippleElm(elm: ElementRef, renderer: Renderer2) {
-        let ripple = renderer.createElement('div');
-        renderer.addClass(ripple, 'mdc-button__ripple');
-        renderer.appendChild(elm.nativeElement, ripple);
-        return elm; // the ripple should still be initialized on the parent
+        super(_elm, renderer, registry);
+        this.addRippleSurface('mdc-button__ripple');
     }
 
     ngAfterContentInit() {
