@@ -90,6 +90,7 @@ export class MdcIconDirective  {
 })
 export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterContentInit {
     @HostBinding('class.mdc-icon-button') _hostClass = true;
+    @HostBinding('attr.aria-label') @Input() label: string;
     /**
      * Event emitted when the state of the icon toggle changes (for example when a user clicks
      * the icon). 

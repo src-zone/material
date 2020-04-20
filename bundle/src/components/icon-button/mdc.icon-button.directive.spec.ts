@@ -1,4 +1,4 @@
-import { TestBed, fakeAsync, tick, flush } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick, flush, ComponentFixture } from '@angular/core/testing';
 import { FormsModule, NgModel } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Component, ViewChild } from '@angular/core';
@@ -62,10 +62,10 @@ describe('mdcIconButton', () => {
 });
 
 describe('mdcIconToggle', () => {
-    // TODO: labelOn/Off
     @Component({
         template: `
-            <button mdcIconToggle (onChange)="changeValue($event)" (click)="action()" [disabled]="disabled" [on]="favorite">
+            <button mdcIconToggle (onChange)="changeValue($event)" (click)="action()" [disabled]="disabled" [on]="favorite"
+                label="Add to favorites">
                 <i mdcIcon="on" class="material-icons">favorite</i>
                 <i mdcIcon class="material-icons">favorite_border</i>
             </button>
@@ -91,7 +91,7 @@ describe('mdcIconToggle', () => {
         }).createComponent(testComponentType);
         fixture.detectChanges();
         const iconToggle = fixture.debugElement.query(By.directive(MdcIconToggleDirective)).injector.get(MdcIconToggleDirective);
-        const element = fixture.nativeElement.querySelector('.mdc-icon-button');
+        const element: HTMLButtonElement = fixture.nativeElement.querySelector('.mdc-icon-button');
         const testComponent = fixture.debugElement.injector.get(testComponentType);
         return { fixture, iconToggle, element, testComponent };
     }
@@ -111,7 +111,7 @@ describe('mdcIconToggle', () => {
     }));
 
     it('should toggle state when clicked', (() => {
-        const { fixture, iconToggle, testComponent, element } = setup();
+        const { iconToggle, testComponent, element } = setup();
         
         expect(iconToggle.on).toBe(false); // initial value from 'favorite' property
         expect(testComponent.favorite).toBeUndefined(); // not yet initialized, so undefined (coerced to false on button)
@@ -131,7 +131,46 @@ describe('mdcIconToggle', () => {
                 expect(element.classList).not.toContain('mdc-icon-button--on');
         }
 
-        // TODO check that labels change
+        
+    }));
+
+    it('aria-pressed should reflect state of toggle', (() => {
+        const { fixture, testComponent, element } = setup();
+        
+        expect(testComponent.favorite).toBeUndefined(); // not yet initialized, so undefined (coerced to false on button)
+        expect(element.getAttribute('aria-pressed')).toBe('false');
+        element.click(); // user change
+        expect(element.getAttribute('aria-pressed')).toBe('true');
+        testComponent.favorite = false; //programmatic change
+        fixture.detectChanges();
+        expect(element.getAttribute('aria-pressed')).toBe('false');
+    }));
+
+    it('label is reflected as aria-label', (() => {
+        const { element } = setup();
+        expect(element.getAttribute('aria-label')).toBe('Add to favorites');
+    }));
+
+    it('should toggle state when clicked', (() => {
+        const { iconToggle, testComponent, element } = setup();
+        
+        expect(iconToggle.on).toBe(false); // initial value from 'favorite' property
+        expect(testComponent.favorite).toBeUndefined(); // not yet initialized, so undefined (coerced to false on button)
+        expect(element.classList).not.toContain('mdc-icon-button--on');
+
+        clickAndCheck(true);
+        clickAndCheck(false);
+        clickAndCheck(true);
+
+        function clickAndCheck(expected) {
+            element.click();
+            expect(iconToggle.on).toBe(expected);
+            expect(testComponent.favorite).toBe(expected);
+            if (expected)
+                expect(element.classList).toContain('mdc-icon-button--on');
+            else
+                expect(element.classList).not.toContain('mdc-icon-button--on');
+        }
     }));
 
     it('value changes must be emitted via onChange', (() => {
@@ -197,7 +236,7 @@ describe('mdcIconToggle with FormsModule', () => {
     function setup() {
         const fixture = TestBed.configureTestingModule({
             imports: [FormsModule],
-            declarations: [MdcIconToggleDirective, MdcFormsIconButtonDirective, TestComponent]
+            declarations: [MdcIconToggleDirective, MdcIconDirective, MdcFormsIconButtonDirective, TestComponent]
         }).createComponent(TestComponent);
         fixture.detectChanges();
         const iconToggle = fixture.debugElement.query(By.directive(MdcIconToggleDirective)).injector.get(MdcIconToggleDirective);
