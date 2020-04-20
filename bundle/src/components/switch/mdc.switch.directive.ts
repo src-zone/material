@@ -81,3 +81,9 @@ export class MdcSwitchDirective implements AfterContentInit {
         return this._input == null || this._input.disabled;
     }
 }
+
+export const SWITCH_DIRECTIVES = [
+    MdcSwitchInputDirective,
+    MdcSwitchThumbDirective,
+    MdcSwitchDirective
+];

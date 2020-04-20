@@ -33,6 +33,11 @@ export class MdcButtonLabelDirective {
  * Use the input modifiers to alter the styling, or create your own style
  * based on the provided sass-mixins.
  * 
+ * For buttons with a trailing icon, you must put the label inside a `mdcButtonLabel`
+ * directive. For all other buttons it is also recommnded to put the label inside
+ * an `mdcButtonLabel`, because future version of material-components-web may make
+ * it's use mandatory.
+ * 
  * A ripple (and the required DOM elements for the ripple) will be added automatically.
  * Future implementations will also support supplying a (customized) ripple DOM element.
  */
@@ -98,3 +103,9 @@ export class MdcButtonDirective extends AbstractMdcRipple implements AfterConten
         this._unelevated = asBoolean(val);
     }
 }
+
+export const BUTTON_DIRECTIVES = [
+    MdcButtonIconDirective,
+    MdcButtonLabelDirective,
+    MdcButtonDirective
+];

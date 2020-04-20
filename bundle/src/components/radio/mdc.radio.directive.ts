@@ -127,3 +127,8 @@ export class MdcRadioDirective extends AbstractMdcRipple implements AfterContent
         return this._inputs && this._inputs.length > 0 ? this._inputs.first : null;
     }
 }
+
+export const RADIO_DIRECTIVES = [
+    MdcRadioInputDirective,
+    MdcRadioDirective
+];

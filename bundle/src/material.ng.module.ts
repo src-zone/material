@@ -1,17 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MdcButtonDirective,
-    MdcButtonIconDirective,
-    MdcButtonLabelDirective } from './components/button/mdc.button.directive';
-import { MdcCardDirective,
-    MdcCardMediaDirective,
-    MdcCardMediaContentDirective,
-    MdcCardActionButtonsDirective,
-    MdcCardActionIconsDirective,
-    MdcCardActionsDirective,
-    MdcCardPrimaryActionDirective } from './components/card/mdc.card.directive';
-import { MdcCheckboxDirective,
-    MdcCheckboxInputDirective } from './components/checkbox/mdc.checkbox.directive';
+import { BUTTON_DIRECTIVES } from './components/button/mdc.button.directive';
+import { CARD_DIRECTIVES } from './components/card/mdc.card.directive';
+import { CHECKBOX_DIRECTIVES } from './components/checkbox/mdc.checkbox.directive';
 import { CHIP_DIRECTIVES } from './components/chips/mdc.chip.directive';
 import { DIALOG_DIRECTIVES } from './components/dialog/mdc.dialog.directive';
 import { MdcDrawerDirective,
@@ -42,14 +33,12 @@ import { MdcListDividerDirective,
     MdcListGroupSubHeaderDirective,
     MdcListGroupDirective } from './components/list/mdc.list.directive';
 import { MdcMenuAnchorDirective, MdcMenuDirective } from './components/menu/mdc.menu.directive';
-import { MdcRadioDirective,
-    MdcRadioInputDirective } from './components/radio/mdc.radio.directive';
+import { RADIO_DIRECTIVES } from './components/radio/mdc.radio.directive';
 import { MdcRippleDirective } from './components/ripple/mdc.ripple.directive';
 import { MdcSelectDirective, MdcSelectControlDirective } from './components/select/mdc.select.directive';
 import { MdcSliderDirective,
     MdcFormsSliderDirective } from './components/slider/mdc.slider.directive';
-import { MdcSwitchInputDirective,
-    MdcSwitchDirective } from './components/switch/mdc.switch.directive';    
+import { SWITCH_DIRECTIVES } from './components/switch/mdc.switch.directive';    
 import { MdcTabDirective,
     MdcTabIconDirective,
     MdcTabIconTextDirective } from './components/tabs/mdc.tab.directive';
@@ -79,10 +68,9 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         CommonModule
     ],
     declarations: [
-        MdcButtonDirective, MdcButtonIconDirective, MdcButtonLabelDirective,
-        MdcCardDirective, MdcCardMediaDirective, MdcCardMediaContentDirective,
-        MdcCardActionButtonsDirective, MdcCardActionIconsDirective, MdcCardActionsDirective, MdcCardPrimaryActionDirective,
-        MdcCheckboxDirective, MdcCheckboxInputDirective,
+        ...BUTTON_DIRECTIVES,
+        ...CARD_DIRECTIVES,
+        ...CHECKBOX_DIRECTIVES,
         ...CHIP_DIRECTIVES,
         ...DIALOG_DIRECTIVES,
         MdcDrawerDirective, MdcDrawerContainerDirective, MdcDrawerToolbarSpacerDirective, MdcDrawerHeaderDirective, MdcDrawerHeaderContentDirective, MdcDrawerContentDirective,
@@ -97,11 +85,11 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         MdcListDividerDirective, MdcListItemDirective, MdcListItemTextDirective, MdcListItemSecondaryTextDirective,
         MdcListItemGraphicDirective, MdcListItemMetaDirective, MdcListDirective, MdcListGroupSubHeaderDirective, MdcListGroupDirective,
         MdcMenuAnchorDirective, MdcMenuDirective,
-        MdcRadioDirective, MdcRadioInputDirective,
+        ...RADIO_DIRECTIVES,
         MdcRippleDirective,
         MdcSelectDirective, MdcSelectControlDirective,
         MdcSliderDirective, MdcFormsSliderDirective,
-        MdcSwitchInputDirective, MdcSwitchDirective,
+        ...SWITCH_DIRECTIVES,
         MdcTabDirective, MdcTabIconDirective, MdcTabIconTextDirective,
         MdcTabRouterDirective,
         MdcTabBarDirective,
@@ -112,10 +100,9 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         MdcScrollbarResizeDirective
     ],
     exports: [
-        MdcButtonDirective, MdcButtonIconDirective, MdcButtonLabelDirective,
-        MdcCardDirective, MdcCardMediaDirective, MdcCardMediaContentDirective,
-        MdcCardActionButtonsDirective, MdcCardActionIconsDirective, MdcCardActionsDirective, MdcCardPrimaryActionDirective,
-        MdcCheckboxDirective, MdcCheckboxInputDirective,
+        ...BUTTON_DIRECTIVES,
+        ...CARD_DIRECTIVES,
+        ...CHECKBOX_DIRECTIVES,
         ...CHIP_DIRECTIVES,
         ...DIALOG_DIRECTIVES,
         MdcDrawerDirective, MdcDrawerContainerDirective, MdcDrawerToolbarSpacerDirective, MdcDrawerHeaderDirective, MdcDrawerHeaderContentDirective, MdcDrawerContentDirective,
@@ -130,11 +117,11 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         MdcListDividerDirective, MdcListItemDirective, MdcListItemTextDirective, MdcListItemSecondaryTextDirective,
         MdcListItemGraphicDirective, MdcListItemMetaDirective, MdcListDirective, MdcListGroupSubHeaderDirective, MdcListGroupDirective,
         MdcMenuAnchorDirective, MdcMenuDirective,
-        MdcRadioDirective, MdcRadioInputDirective,
+        ...RADIO_DIRECTIVES,
         MdcRippleDirective,
         MdcSelectDirective, MdcSelectControlDirective,
         MdcSliderDirective, MdcFormsSliderDirective,
-        MdcSwitchInputDirective, MdcSwitchDirective,
+        ...SWITCH_DIRECTIVES,
         MdcTabDirective, MdcTabIconDirective, MdcTabIconTextDirective,
         MdcTabRouterDirective,
         MdcTabBarDirective,

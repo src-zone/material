@@ -1,13 +1,6 @@
 export * from './components/button/mdc.button.directive';
-export { MdcCardDirective,
-    MdcCardMediaDirective,
-    MdcCardMediaContentDirective,
-    MdcCardActionButtonsDirective,
-    MdcCardActionIconsDirective,
-    MdcCardActionsDirective,
-    MdcCardPrimaryActionDirective } from './components/card/mdc.card.directive';
-export { MdcCheckboxDirective,
-    MdcCheckboxInputDirective } from './components/checkbox/mdc.checkbox.directive';
+export * from './components/card/mdc.card.directive';
+export * from './components/checkbox/mdc.checkbox.directive';
 export * from './components/chips/mdc.chip.directive';
 export * from './components/dialog/mdc.dialog.directive';
 export { MdcDrawerDirective,
@@ -39,8 +32,7 @@ export { MdcListDividerDirective,
     MdcListGroupSubHeaderDirective,
     MdcListGroupDirective } from './components/list/mdc.list.directive';
 export { MdcMenuAnchorDirective, MdcMenuDirective } from './components/menu/mdc.menu.directive';    
-export { MdcRadioDirective,
-    MdcRadioInputDirective } from './components/radio/mdc.radio.directive';
+export * from './components/radio/mdc.radio.directive';
 export * from './components/ripple/abstract.mdc.ripple';
 export { MdcRippleDirective } from './components/ripple/mdc.ripple.directive';
 export { MdcSelectDirective, MdcSelectControlDirective } from './components/select/mdc.select.directive';
@@ -48,8 +40,7 @@ export { MdcSliderDirective,
     MdcFormsSliderDirective } from './components/slider/mdc.slider.directive';
 export { MdcSnackbarMessage } from './components/snackbar/mdc.snackbar.message';
 export { MdcSnackbarService } from './components/snackbar/mdc.snackbar.service';
-export { MdcSwitchInputDirective,
-    MdcSwitchDirective } from './components/switch/mdc.switch.directive';
+export { SWITCH_DIRECTIVES } from './components/switch/mdc.switch.directive';
 export { AbstractMdcTabDirective, MdcTabDirective,
     MdcTabIconDirective,
     MdcTabIconTextDirective,

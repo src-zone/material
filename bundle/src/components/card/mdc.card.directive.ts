@@ -200,3 +200,13 @@ export class MdcCardDirective {
         this._outlined = asBoolean(val);
     }
 }
+
+export const CARD_DIRECTIVES = [
+    MdcCardMediaDirective,
+    MdcCardMediaContentDirective,
+    MdcCardActionButtonsDirective,
+    MdcCardActionIconsDirective,
+    MdcCardActionsDirective,
+    MdcCardPrimaryActionDirective,
+    MdcCardDirective
+];

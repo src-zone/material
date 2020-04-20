@@ -228,3 +228,8 @@ export class MdcCheckboxDirective extends AbstractMdcRipple implements AfterCont
         return this._inputs && this._inputs.length > 0 ? this._inputs.first : null;
     }
 }
+
+export const CHECKBOX_DIRECTIVES = [
+    MdcCheckboxInputDirective,
+    MdcCheckboxDirective
+];
