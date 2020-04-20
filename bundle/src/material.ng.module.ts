@@ -19,9 +19,6 @@ import { MdcFormFieldDirective,
     MdcFormFieldInputDirective,
     MdcFormFieldLabelDirective } from './components/form-field/mdc.form-field.directive';
 import { ICON_BUTTON_DIRECTIVES } from './components/icon-button/mdc.icon-button.directive';
-import { MdcIconToggleDirective,
-    MdcIconToggleIconDirective,
-    MdcFormsIconToggleDirective } from './components/icon-toggle/mdc.icon-toggle.directive';
 import { MdcLinearProgressDirective } from './components/linear-progress/mdc.linear-progress.directive';
 import { MdcListDividerDirective,
     MdcListItemDirective,
@@ -33,6 +30,7 @@ import { MdcListDividerDirective,
     MdcListGroupSubHeaderDirective,
     MdcListGroupDirective } from './components/list/mdc.list.directive';
 import { MdcMenuAnchorDirective, MdcMenuDirective } from './components/menu/mdc.menu.directive';
+import { NOTCHED_OUTLINE_DIRECTIVES } from './components/notched-outline/mdc.notched-outline.directive';
 import { RADIO_DIRECTIVES } from './components/radio/mdc.radio.directive';
 import { MdcRippleDirective } from './components/ripple/mdc.ripple.directive';
 import { MdcSelectDirective, MdcSelectControlDirective } from './components/select/mdc.select.directive';
@@ -80,11 +78,11 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         ...FOCUS_TRAP_DIRECTIVES,
         MdcFormFieldDirective, MdcFormFieldInputDirective, MdcFormFieldLabelDirective,
         ...ICON_BUTTON_DIRECTIVES,
-        MdcIconToggleDirective, MdcIconToggleIconDirective, MdcFormsIconToggleDirective,
         MdcLinearProgressDirective,
         MdcListDividerDirective, MdcListItemDirective, MdcListItemTextDirective, MdcListItemSecondaryTextDirective,
         MdcListItemGraphicDirective, MdcListItemMetaDirective, MdcListDirective, MdcListGroupSubHeaderDirective, MdcListGroupDirective,
         MdcMenuAnchorDirective, MdcMenuDirective,
+        ...NOTCHED_OUTLINE_DIRECTIVES,
         ...RADIO_DIRECTIVES,
         MdcRippleDirective,
         MdcSelectDirective, MdcSelectControlDirective,
@@ -112,11 +110,11 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         ...FOCUS_TRAP_DIRECTIVES,
         MdcFormFieldDirective, MdcFormFieldInputDirective, MdcFormFieldLabelDirective,
         ...ICON_BUTTON_DIRECTIVES,
-        MdcIconToggleDirective, MdcIconToggleIconDirective, MdcFormsIconToggleDirective,
         MdcLinearProgressDirective,
         MdcListDividerDirective, MdcListItemDirective, MdcListItemTextDirective, MdcListItemSecondaryTextDirective,
         MdcListItemGraphicDirective, MdcListItemMetaDirective, MdcListDirective, MdcListGroupSubHeaderDirective, MdcListGroupDirective,
         MdcMenuAnchorDirective, MdcMenuDirective,
+        ...NOTCHED_OUTLINE_DIRECTIVES,
         ...RADIO_DIRECTIVES,
         MdcRippleDirective,
         MdcSelectDirective, MdcSelectControlDirective,
