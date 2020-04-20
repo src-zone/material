@@ -1,9 +1,7 @@
 import { AfterContentInit, Directive, ElementRef, forwardRef, HostBinding,
   OnDestroy, Renderer2 } from '@angular/core';
-import { MDCFloatingLabelFoundation } from '@material/floating-label';
-import { MdcFloatingLabelAdapter } from './mdc.floating-label.adapter';
+import { MDCFloatingLabelFoundation, MDCFloatingLabelAdapter } from '@material/floating-label';
 import { AbstractMdcLabel } from '../abstract/abstract.mdc.label';
-import { asBoolean } from '../../utils/value.utils';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
 /**
@@ -26,7 +24,7 @@ export class MdcFloatingLabelDirective extends AbstractMdcLabel implements After
     /** @docs-private */
     @HostBinding() for: string;
     @HostBinding('class.mdc-floating-label') _cls = true;
-    _mdcAdapter: MdcFloatingLabelAdapter = {
+    _mdcAdapter: MDCFloatingLabelAdapter = {
         addClass: (className: string) => {
             this._rndr.addClass(this._elm.nativeElement, className);
         },
@@ -34,20 +32,14 @@ export class MdcFloatingLabelDirective extends AbstractMdcLabel implements After
             this._rndr.removeClass(this._elm.nativeElement, className);
         },
         getWidth:() => this._elm.nativeElement.offsetWidth,
-        registerInteractionHandler: (type: string, handler: EventListener) => {
+        registerInteractionHandler: (type, handler) => {
             this.registry.listen(this._rndr, type, handler, this._elm);
         },
-        deregisterInteractionHandler: (type: string, handler: EventListener) => {
+        deregisterInteractionHandler: (type, handler) => {
             this.registry.unlisten(type, handler);
         }
     };
-    _foundation: {
-        init: Function,
-        destroy: Function,
-        float: (should: boolean) => void,
-        shake: (should: boolean) => void,
-        getWidth: () => number
-    } = new MDCFloatingLabelFoundation(this._mdcAdapter);
+    _foundation = new MDCFloatingLabelFoundation(this._mdcAdapter);
 
     constructor(private _rndr: Renderer2, public _elm: ElementRef, private registry: MdcEventRegistry) {
         super();
