@@ -116,8 +116,9 @@ export class MdcChipCellDirective {
 }
 
 /**
- * Directive for a chip. Chips must be child elements of an <code>mdcChipSet</code>,
- * and must contain an `mdcChipCell`, and may additionally contain an `mdcChipIcon`.
+ * Directive for a chip. Chips must be child elements of an `mdcChipSet`,
+ * and must contain an `mdcChipCell`, and may additionally contain an `mdcChipIcon` for
+ * the leading icon. An optional trailing icon must be wrapped in a second `mdcChipCell`.
  */
 @Directive({
     selector: '[mdcChip]'
@@ -153,12 +154,6 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
     @Output() selectedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
     // Like selectedChange, but only the events that should go to the chipset (i.e. not including the ones initiated by the chipset)
     @Output() _selectedForChipSet: EventEmitter<boolean> = new EventEmitter();
-        /**
-     * Event emitted when the user has removed (by clicking the trailing icon) the chip.
-     * This event must be implemented when the chip has a trailing icon, and the implementation
-     * must remove the chip from the set. Without such implementation the directive will
-     * animate the chip out of vision, but will not remove the chip from the DOM.
-     */
     @Output() _notifyRemoval: EventEmitter<{removedAnnouncement: string | null}> = new EventEmitter();
     _set: MdcChipSetDirective;
     private _checkmark: HTMLElement;
@@ -201,7 +196,6 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
         getComputedStyleValue: (propertyName: string) => getComputedStyle(this._elm.nativeElement).getPropertyValue(propertyName),
         setStyleProperty: (style: string, value: string) => this._renderer.setStyle(this._elm.nativeElement, style, value),
         hasLeadingIcon: () => !!this._leadingIcon,
-
         getRootBoundingClientRect: () => this._elm.nativeElement.getBoundingClientRect(),
         getCheckmarkBoundingClientRect: () => this._checkmark?.getBoundingClientRect(),
         setPrimaryActionAttr: (attr: string, value: string) => this._primaryAction && this._renderer.setAttribute(this._primaryAction._elm.nativeElement, attr, value),
