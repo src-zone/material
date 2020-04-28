@@ -130,7 +130,7 @@ module.exports = (config) => {
         customLaunchers: isWatch ? {
             ChromeDebugging: {
                 base: 'Chrome',
-                flags: ['--remote-debugging-port=9222']
+                flags: ['--remote-debugging-port=9333']
             }
         } : undefined,
         singleRun: true
