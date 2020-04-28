@@ -37,6 +37,7 @@ export abstract class AbstractMdcRipple {
 
     protected _rippleFoundation: MDCRippleFoundation;
     private _unbounded = false;
+    private _rippleSurface: HTMLElement | null = null;
 
     constructor(protected _rippleElm: ElementRef, protected _renderer: Renderer2, protected _registry: MdcEventRegistry) {}
 
@@ -66,11 +67,23 @@ export abstract class AbstractMdcRipple {
         return this._rippleFoundation != null;
     }
 
-    protected addRippleSurface(clazz) {
-        const ripple = this._renderer.createElement('div');
-        this._renderer.addClass(ripple, clazz);
-        this._renderer.appendChild(this._rippleElm.nativeElement, ripple);
-        return ripple;
+    protected addRippleSurface(clazz, firstElement = false) {
+        this.destroyRippleSurface();
+        this._rippleSurface = this._renderer.createElement('div');
+        this._renderer.addClass(this._rippleSurface, clazz);
+        if (firstElement && this._rippleElm.nativeElement.children.length > 0) {
+            const firstChild = this._rippleElm.nativeElement.children.item(0);
+            this._renderer.insertBefore(this._rippleElm.nativeElement, this._rippleSurface, firstChild);
+        } else
+            this._renderer.appendChild(this._rippleElm.nativeElement, this._rippleSurface);
+        return this._rippleSurface;
+    }
+
+    protected destroyRippleSurface() {
+        if (this._rippleSurface) {
+            this._renderer.removeChild(this._rippleElm.nativeElement, this._rippleSurface);
+            this._rippleSurface = null;
+        }
     }
 
     activateRipple() {

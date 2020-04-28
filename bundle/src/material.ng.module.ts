@@ -47,10 +47,7 @@ import { MdcTabBarScrollerDirective,
     MdcTabBarScrollerBackDirective,
     MdcTabBarScrollerForwardDirective,
     MdcTabBarScrollerFrameDirective } from './components/tabs/mdc.tab.bar.scroller.directive';
-import { MdcTextFieldDirective,
-    MdcTextFieldInputDirective,
-    MdcTextFieldIconDirective,
-    MdcTextFieldHelperTextDirective } from './components/text-field/mdc.text-field.directive';
+import { TEXT_FIELD_DIRECTIVES } from './components/text-field/mdc.text-field.directive';
 import { MdcToolbarDirective,
     MdcToolbarRowDirective,
     MdcToolbarSectionDirective,
@@ -92,7 +89,7 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         MdcTabRouterDirective,
         MdcTabBarDirective,
         MdcTabBarScrollerDirective, MdcTabBarScrollerInnerDirective, MdcTabBarScrollerBackDirective, MdcTabBarScrollerForwardDirective, MdcTabBarScrollerFrameDirective,
-        MdcTextFieldDirective, MdcTextFieldInputDirective, MdcTextFieldIconDirective, MdcTextFieldHelperTextDirective,
+        ...TEXT_FIELD_DIRECTIVES,
         MdcToolbarDirective, MdcToolbarRowDirective, MdcToolbarSectionDirective, MdcToolbarTitleDirective, MdcToolbarIcon, MdcToolbarMenuIcon, MdcToolbarFixedAdjustDirective,
         TOP_APP_BAR_DIRECTIVES,
         MdcScrollbarResizeDirective
@@ -124,7 +121,7 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         MdcTabRouterDirective,
         MdcTabBarDirective,
         MdcTabBarScrollerDirective, MdcTabBarScrollerInnerDirective, MdcTabBarScrollerBackDirective, MdcTabBarScrollerForwardDirective, MdcTabBarScrollerFrameDirective,
-        MdcTextFieldDirective, MdcTextFieldInputDirective, MdcTextFieldIconDirective, MdcTextFieldHelperTextDirective,
+        ...TEXT_FIELD_DIRECTIVES,
         MdcToolbarDirective, MdcToolbarRowDirective, MdcToolbarSectionDirective, MdcToolbarTitleDirective, MdcToolbarIcon, MdcToolbarMenuIcon, MdcToolbarFixedAdjustDirective,
         TOP_APP_BAR_DIRECTIVES,
         MdcScrollbarResizeDirective

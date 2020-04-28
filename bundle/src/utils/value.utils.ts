@@ -7,3 +7,9 @@ export function asBooleanOrNull(value: any) {
         return value;
     return `${value}` !== 'false';
 }
+
+export function asNumberOrNull(value: any) {
+    if (value == null)
+        return value;
+    return +value;
+}

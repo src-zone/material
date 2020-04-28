@@ -50,10 +50,7 @@ export { MdcTabBarScrollerDirective,
     MdcTabBarScrollerBackDirective,
     MdcTabBarScrollerForwardDirective,
     MdcTabBarScrollerFrameDirective } from './components/tabs/mdc.tab.bar.scroller.directive';
-export { MdcTextFieldDirective,
-    MdcTextFieldInputDirective,
-    MdcTextFieldIconDirective,
-    MdcTextFieldHelperTextDirective } from './components/text-field/mdc.text-field.directive';
+export * from './components/text-field/mdc.text-field.directive';
 export { MdcToolbarDirective,
     MdcToolbarRowDirective,
     MdcToolbarSectionDirective,

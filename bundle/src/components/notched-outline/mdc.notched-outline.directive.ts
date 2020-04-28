@@ -87,7 +87,9 @@ export class MdcNotchedOutlineDirective implements AfterContentInit, OnDestroy {
      * @param width The width of the notch.
      */
     open(width: number) {
-        if (this.notchWidth !== width) {
+        // TODO we actually want to compare the size here as well as the open/closed state (by dropping !! on both sides)
+        // but this reduces the width of the label when the input has a non-empty value. Needs investigation.
+        if (!!this.notchWidth !== !!width) {
             this.notchWidth = width;
             if (this.foundation)
                 this.foundation.notch(width);

@@ -1,11 +1,14 @@
 import { AfterContentInit, Directive, ElementRef, forwardRef, HostBinding,
-  OnDestroy, Renderer2 } from '@angular/core';
+  OnDestroy, Renderer2, Input, OnInit } from '@angular/core';
 import { MDCFloatingLabelFoundation, MDCFloatingLabelAdapter } from '@material/floating-label';
+import { estimateScrollWidth } from '@material/dom/ponyfill';
 import { AbstractMdcLabel } from '../abstract/abstract.mdc.label';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
+let nextId = 1;
+
 /**
- * Directive for the floating label of input fields. Flaoting labels are used by
+ * Directive for the floating label of input fields. Floating labels are used by
  * <code>mdcTextField</code> and <code>mdcSelect</code> to display the type of input
  * the field requires. Floating labels are resting when the field is inactive, and
  * float when the field is active.
@@ -16,22 +19,23 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
  * to the id of the parent <code>mdcInput</code>.
  */
 @Directive({
-    selector: 'label[mdcFloatingLabel]',
+    selector: '[mdcFloatingLabel]',
     providers: [{provide: AbstractMdcLabel, useExisting: forwardRef(() => MdcFloatingLabelDirective) }]
 })
-export class MdcFloatingLabelDirective extends AbstractMdcLabel implements AfterContentInit, OnDestroy {
-    _initialized = false;
+export class MdcFloatingLabelDirective implements AfterContentInit, OnDestroy, OnInit {
+    private _id: string;
+    private cachedId: string;
     /** @docs-private */
-    @HostBinding() for: string;
+    @HostBinding('attr.for') for: string | null = null;
     @HostBinding('class.mdc-floating-label') _cls = true;
-    _mdcAdapter: MDCFloatingLabelAdapter = {
+    private _mdcAdapter: MDCFloatingLabelAdapter = {
         addClass: (className: string) => {
             this._rndr.addClass(this._elm.nativeElement, className);
         },
         removeClass: (className: string) => {
             this._rndr.removeClass(this._elm.nativeElement, className);
         },
-        getWidth:() => this._elm.nativeElement.offsetWidth,
+        getWidth:() => estimateScrollWidth(this._elm.nativeElement),
         registerInteractionHandler: (type, handler) => {
             this.registry.listen(this._rndr, type, handler, this._elm);
         },
@@ -39,19 +43,55 @@ export class MdcFloatingLabelDirective extends AbstractMdcLabel implements After
             this.registry.unlisten(type, handler);
         }
     };
-    _foundation = new MDCFloatingLabelFoundation(this._mdcAdapter);
+    private _foundation = new MDCFloatingLabelFoundation(this._mdcAdapter);
 
     constructor(private _rndr: Renderer2, public _elm: ElementRef, private registry: MdcEventRegistry) {
-        super();
+    }
+
+    ngOnInit() {
+        // Force setter to be called in case id was not specified.
+        this.id = this.id;
     }
 
     ngAfterContentInit() {
         this._foundation.init();
-        this._initialized = true;
     }
 
     ngOnDestroy() {
-        this._foundation.init();
-        this._initialized = false;
+        this._foundation.destroy();
+    }
+
+    shake(shouldShake: boolean) {
+        this._foundation.shake(shouldShake);
+    }
+
+    float(shouldFloat: boolean) {
+        this._foundation.float(shouldFloat);
+    }
+
+    getWidth(): number {
+        return this._foundation.getWidth();
+    }
+
+    /**
+     * Mirrors the <code>id</code> attribute. If no id is assigned, this directive will
+     * assign a unique id by itself.
+     */
+    @HostBinding()
+    @Input() get id() {
+        return this._id;
+    }
+  
+    set id(value: string) {
+        this._id = value || this._newId();
+    }
+
+    _newId(): string {
+        this.cachedId = this.cachedId || `mdc-floating-label-${nextId++}`;
+        return this.cachedId;
+    }
+
+    isLabelElement() {
+        return this._elm.nativeElement.nodeName.toLowerCase() === 'label';
     }
 }
