@@ -8,7 +8,7 @@
             "type": "chrome",
             "request": "attach",
             "name": "Chrome Attach",
-            "port": 9222,
+            "port": 9333,
             "webRoot": "${workspaceFolder}/bundle",
             "pathMapping": {
                 "/": "${workspaceFolder}/bundle",
