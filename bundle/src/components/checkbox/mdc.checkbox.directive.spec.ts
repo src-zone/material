@@ -251,7 +251,7 @@ describe('MdcCheckBoxDirective with FormsModule', () => {
     }));
 
     it('ngModel can be changed by updating checked property', fakeAsync(() => {
-        const { fixture, testComponent, element, input } = setup();
+        const { fixture, testComponent, input } = setup();
 
         input.checked = true;
         fixture.detectChanges(); tick();
