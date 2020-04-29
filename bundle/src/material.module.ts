@@ -18,7 +18,7 @@ export { MdcFormFieldDirective,
     MdcFormFieldInputDirective,
     MdcFormFieldLabelDirective } from './components/form-field/mdc.form-field.directive';
 export * from './components/icon-button/mdc.icon-button.directive';
-export { MdcLinearProgressDirective } from './components/linear-progress/mdc.linear-progress.directive';
+export * from './components/linear-progress/mdc.linear-progress.directive';
 export { MdcListDividerDirective,
     MdcListItemDirective,
     MdcListItemTextDirective,

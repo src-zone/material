@@ -19,7 +19,7 @@ import { MdcFormFieldDirective,
     MdcFormFieldInputDirective,
     MdcFormFieldLabelDirective } from './components/form-field/mdc.form-field.directive';
 import { ICON_BUTTON_DIRECTIVES } from './components/icon-button/mdc.icon-button.directive';
-import { MdcLinearProgressDirective } from './components/linear-progress/mdc.linear-progress.directive';
+import { LINEAR_PROGRESS_DIRECTIVES } from './components/linear-progress/mdc.linear-progress.directive';
 import { MdcListDividerDirective,
     MdcListItemDirective,
     MdcListItemTextDirective,
@@ -75,7 +75,7 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         ...FOCUS_TRAP_DIRECTIVES,
         MdcFormFieldDirective, MdcFormFieldInputDirective, MdcFormFieldLabelDirective,
         ...ICON_BUTTON_DIRECTIVES,
-        MdcLinearProgressDirective,
+        ...LINEAR_PROGRESS_DIRECTIVES,
         MdcListDividerDirective, MdcListItemDirective, MdcListItemTextDirective, MdcListItemSecondaryTextDirective,
         MdcListItemGraphicDirective, MdcListItemMetaDirective, MdcListDirective, MdcListGroupSubHeaderDirective, MdcListGroupDirective,
         MdcMenuAnchorDirective, MdcMenuDirective,
@@ -107,7 +107,7 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         ...FOCUS_TRAP_DIRECTIVES,
         MdcFormFieldDirective, MdcFormFieldInputDirective, MdcFormFieldLabelDirective,
         ...ICON_BUTTON_DIRECTIVES,
-        MdcLinearProgressDirective,
+        ...LINEAR_PROGRESS_DIRECTIVES,
         MdcListDividerDirective, MdcListItemDirective, MdcListItemTextDirective, MdcListItemSecondaryTextDirective,
         MdcListItemGraphicDirective, MdcListItemMetaDirective, MdcListDirective, MdcListGroupSubHeaderDirective, MdcListGroupDirective,
         MdcMenuAnchorDirective, MdcMenuDirective,

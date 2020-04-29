@@ -1,22 +1,9 @@
 import { AfterContentInit, Directive, ElementRef, HostBinding, Input, OnDestroy, Renderer2 } from '@angular/core';
-import { MDCLinearProgressFoundation, strings } from '@material/linear-progress';
-import { MdcLinearProgressAdapter } from './mdc.linear-progress.adapter';
+import { MDCLinearProgressFoundation, MDCLinearProgressAdapter } from '@material/linear-progress';
 import { asBoolean } from '../../utils/value.utils';
-import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
 const CLASS_INDETERMINATE = 'mdc-linear-progress--indeterminate';
 const CLASS_REVERSED = 'mdc-linear-progress--reversed';
-
-interface MdcLinearProgressFoundationInterface {
-    init();
-    destroy();
-    setDeterminate(isDeterminate: boolean);
-    setProgress(value: number);
-    setBuffer(value: number);
-    setReverse(isReversed: boolean);
-    open();
-    close();
-}
 
 /**
  * Directive for creating a Material Design linear progress indicator.
@@ -31,7 +18,8 @@ interface MdcLinearProgressFoundationInterface {
 export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-linear-progress') _cls = true;
     @HostBinding('attr.role') _role: string = 'progressbar';
-    private _initialized = false;
+    @HostBinding('attr.aria-valuemin') _min = 0;
+    @HostBinding('attr.aria-valuemax') _max = 1;
     @HostBinding('class.' + CLASS_INDETERMINATE) _indeterminate = false;
     @HostBinding('class.' + CLASS_REVERSED) _reverse = false;
     private _progress = 0;
@@ -39,8 +27,13 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
     private _closed = false;
     private _elmBuffer: HTMLElement;
     private _elmPrimaryBar: HTMLElement;
+    /**
+     * Label indicationg how the progress bar should be announced to the user.
+     * Determines the ària-label` attribute value.
+     */
+    @HostBinding('attr.aria-label') @Input() label: string;
 
-    private mdcAdapter: MdcLinearProgressAdapter = {
+    private mdcAdapter: MDCLinearProgressAdapter = {
         addClass: (className: string) => {
             if (className !== CLASS_INDETERMINATE && className != CLASS_REVERSED)
                 this._rndr.addClass(this._root.nativeElement, className);
@@ -58,19 +51,22 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
             if (className !== CLASS_INDETERMINATE && className != CLASS_REVERSED)
                 this._rndr.removeClass(this._root.nativeElement, className);
         },
-        setStyle: (el: Element, styleProperty: string, value: number) => {
+        setStyle: (el, styleProperty, value) => {
             this._rndr.setStyle(el, styleProperty, value);
-        }
+        },
+        forceLayout: () => this._root.nativeElement.offsetWidth,
+        removeAttribute: (name) => this._rndr.removeAttribute(this._root.nativeElement, name),
+        setAttribute: (name, value) => this._rndr.setAttribute(this._root.nativeElement, name, value)
     };
-    private foundation: MdcLinearProgressFoundationInterface = new MDCLinearProgressFoundation(this.mdcAdapter);
+    private foundation: MDCLinearProgressFoundation;
 
-    constructor(private _rndr: Renderer2, private _root: ElementRef, private _registry: MdcEventRegistry) {
+    constructor(private _rndr: Renderer2, private _root: ElementRef) {
     }
 
     ngAfterContentInit() {
         this.initElements();
+        this.foundation = new MDCLinearProgressFoundation(this.mdcAdapter);
         this.foundation.init();
-        this._initialized = true;
         this.foundation.setProgress(this._progress);
         this.foundation.setBuffer(this._buffer);
         if (this._closed)
@@ -79,15 +75,17 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
 
     ngOnDestroy() {
         this.foundation.destroy();
+        this._elmPrimaryBar = null;
+        this._elmBuffer = null;
     }
 
     private initElements() {
-        const elmBufferingDots = this.addElement(this._root.nativeElement, 'div', ['mdc-linear-progress__buffering-dots']);
+        this.addElement(this._root.nativeElement, 'div', ['mdc-linear-progress__buffering-dots']);
         this._elmBuffer = this.addElement(this._root.nativeElement, 'div', ['mdc-linear-progress__buffer']);
         this._elmPrimaryBar = this.addElement(this._root.nativeElement, 'div', ['mdc-linear-progress__bar', 'mdc-linear-progress__primary-bar']);
         this.addElement(this._elmPrimaryBar, 'span', ['mdc-linear-progress__bar-inner']);
         const secondaryBar = this.addElement(this._root.nativeElement, 'div', ['mdc-linear-progress__bar', 'mdc-linear-progress__secondary-bar']);
-        this.addElement(this._elmPrimaryBar, 'span', ['mdc-linear-progress__bar-inner']);
+        this.addElement(secondaryBar, 'span', ['mdc-linear-progress__bar-inner']);
     }
 
     private addElement(parent: HTMLElement, element: string, classNames: string[]) {
@@ -103,7 +101,8 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
      * Puts the progress indicator in 'indeterminate' state, signaling
      * that the exact progress on a measured task is not known.
      */
-    @Input() @HostBinding('class.' + CLASS_INDETERMINATE)
+    @Input()
+    @HostBinding('class.' + CLASS_INDETERMINATE)
     get indeterminate() {
         return this._indeterminate;
     }
@@ -112,7 +111,7 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
         let newValue = asBoolean(value);
         if (newValue !== this._indeterminate) {
             this._indeterminate = newValue;
-            if (this._initialized) {
+            if (this.foundation) {
                 this.foundation.setDeterminate(!this._indeterminate);
                 if (!this._indeterminate) {
                     this.foundation.setProgress(this._progress);
@@ -132,8 +131,7 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
 
     set reversed(value: any) {
         this._reverse = asBoolean(value);
-        if (this._initialized)        
-            this.foundation.setReverse(this._reverse);
+        this.foundation?.setReverse(this._reverse);
     }
 
     /**
@@ -146,8 +144,7 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
 
     set progressValue(value: number | string) {
         this._progress = +value;
-        if (this._initialized)        
-            this.foundation.setProgress(this._progress);
+        this.foundation?.setProgress(this._progress);
     }
 
     /**
@@ -160,8 +157,7 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
 
     set bufferValue(value: number | string) {
         this._buffer = +value;
-        if (this._initialized)        
-            this.foundation.setBuffer(this._buffer);
+        this.foundation?.setBuffer(this._buffer);
     }
 
     /**
@@ -177,12 +173,14 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
         let newValue = asBoolean(value);
         if (newValue !== this._closed) {
             this._closed = newValue;
-            if (this._initialized) {
-                if (newValue)
-                    this.foundation.close();
-                else
-                    this.foundation.open();
-            }
+            if (newValue)
+                this.foundation?.close();
+            else
+                this.foundation?.open();
         }
     }
 }
+
+export const LINEAR_PROGRESS_DIRECTIVES = [
+    MdcLinearProgressDirective
+];
