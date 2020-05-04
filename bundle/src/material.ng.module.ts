@@ -20,16 +20,7 @@ import { MdcFormFieldDirective,
     MdcFormFieldLabelDirective } from './components/form-field/mdc.form-field.directive';
 import { ICON_BUTTON_DIRECTIVES } from './components/icon-button/mdc.icon-button.directive';
 import { LINEAR_PROGRESS_DIRECTIVES } from './components/linear-progress/mdc.linear-progress.directive';
-import { MdcListDividerDirective,
-    MdcListItemDirective,
-    MdcListItemTextDirective,
-    MdcListItemSecondaryTextDirective,
-    MdcListItemGraphicDirective,
-    MdcListItemMetaDirective,
-    MdcListDirective,
-    MdcListGroupSubHeaderDirective,
-    MdcListGroupDirective } from './components/list/mdc.list.directive';
-import { MdcMenuAnchorDirective, MdcMenuDirective } from './components/menu/mdc.menu.directive';
+import { LIST_DIRECTIVES } from './components/list/mdc.list.directive';
 import { NOTCHED_OUTLINE_DIRECTIVES } from './components/notched-outline/mdc.notched-outline.directive';
 import { RADIO_DIRECTIVES } from './components/radio/mdc.radio.directive';
 import { MdcRippleDirective } from './components/ripple/mdc.ripple.directive';
@@ -76,9 +67,7 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         MdcFormFieldDirective, MdcFormFieldInputDirective, MdcFormFieldLabelDirective,
         ...ICON_BUTTON_DIRECTIVES,
         ...LINEAR_PROGRESS_DIRECTIVES,
-        MdcListDividerDirective, MdcListItemDirective, MdcListItemTextDirective, MdcListItemSecondaryTextDirective,
-        MdcListItemGraphicDirective, MdcListItemMetaDirective, MdcListDirective, MdcListGroupSubHeaderDirective, MdcListGroupDirective,
-        MdcMenuAnchorDirective, MdcMenuDirective,
+        ...LIST_DIRECTIVES,
         ...NOTCHED_OUTLINE_DIRECTIVES,
         ...RADIO_DIRECTIVES,
         MdcRippleDirective,
@@ -108,9 +97,7 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         MdcFormFieldDirective, MdcFormFieldInputDirective, MdcFormFieldLabelDirective,
         ...ICON_BUTTON_DIRECTIVES,
         ...LINEAR_PROGRESS_DIRECTIVES,
-        MdcListDividerDirective, MdcListItemDirective, MdcListItemTextDirective, MdcListItemSecondaryTextDirective,
-        MdcListItemGraphicDirective, MdcListItemMetaDirective, MdcListDirective, MdcListGroupSubHeaderDirective, MdcListGroupDirective,
-        MdcMenuAnchorDirective, MdcMenuDirective,
+        ...LIST_DIRECTIVES,
         ...NOTCHED_OUTLINE_DIRECTIVES,
         ...RADIO_DIRECTIVES,
         MdcRippleDirective,

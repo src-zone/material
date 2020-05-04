@@ -178,8 +178,7 @@ export class MdcTextFieldIconDirective implements AfterContentInit, OnDestroy {
     };
     _foundation = new MDCTextFieldIconFoundation(this._mdcAdapter);
 
-    constructor(private _rndr: Renderer2, public _el: ElementRef, private _reg: MdcEventRegistry,
-        @Attribute('tabindex') private tabIndex: string) {
+    constructor(private _rndr: Renderer2, public _el: ElementRef, private _reg: MdcEventRegistry) {
     }
 
     ngAfterContentInit() {

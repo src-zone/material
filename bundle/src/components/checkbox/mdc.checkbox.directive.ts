@@ -106,9 +106,9 @@ export class MdcCheckboxInputDirective extends AbstractMdcInput implements OnIni
         }
     }
 
-    // We listen to click-event instead of change-event, because IE doesn't fir the
+    // We listen to click-event instead of change-event, because IE doesn't fire the
     // change-event when an indeterminate checkbox is clicked. There's no need to
-    // also listen to click-events.
+    // also listen to change-events.
     @HostListener('click') _onChange() {
         // only update the checked state from click if there is no control for which we already
         // listen to value changes:
@@ -224,7 +224,7 @@ export class MdcCheckboxDirective extends AbstractMdcRipple implements AfterCont
         this._foundation?.handleAnimationEnd();
     }
 
-    private get _input() {
+    get _input() {
         return this._inputs && this._inputs.length > 0 ? this._inputs.first : null;
     }
 }

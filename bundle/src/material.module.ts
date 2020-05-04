@@ -19,16 +19,7 @@ export { MdcFormFieldDirective,
     MdcFormFieldLabelDirective } from './components/form-field/mdc.form-field.directive';
 export * from './components/icon-button/mdc.icon-button.directive';
 export * from './components/linear-progress/mdc.linear-progress.directive';
-export { MdcListDividerDirective,
-    MdcListItemDirective,
-    MdcListItemTextDirective,
-    MdcListItemSecondaryTextDirective,
-    MdcListItemGraphicDirective,
-    MdcListItemMetaDirective,
-    MdcListDirective,
-    MdcListGroupSubHeaderDirective,
-    MdcListGroupDirective } from './components/list/mdc.list.directive';
-export { MdcMenuAnchorDirective, MdcMenuDirective } from './components/menu/mdc.menu.directive';
+export * from './components/list/mdc.list.directive';
 export * from './components/notched-outline/mdc.notched-outline.directive';
 export * from './components/radio/mdc.radio.directive';
 export * from './components/ripple/abstract.mdc.ripple';
