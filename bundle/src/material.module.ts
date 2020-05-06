@@ -20,6 +20,7 @@ export { MdcFormFieldDirective,
 export * from './components/icon-button/mdc.icon-button.directive';
 export * from './components/linear-progress/mdc.linear-progress.directive';
 export * from './components/list/mdc.list.directive';
+export * from './components/menu/mdc.menu.directive';
 export * from './components/menu-surface/mdc.menu-surface.directive';
 export * from './components/notched-outline/mdc.notched-outline.directive';
 export * from './components/radio/mdc.radio.directive';

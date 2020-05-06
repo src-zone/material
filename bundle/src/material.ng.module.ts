@@ -21,6 +21,7 @@ import { MdcFormFieldDirective,
 import { ICON_BUTTON_DIRECTIVES } from './components/icon-button/mdc.icon-button.directive';
 import { LINEAR_PROGRESS_DIRECTIVES } from './components/linear-progress/mdc.linear-progress.directive';
 import { LIST_DIRECTIVES } from './components/list/mdc.list.directive';
+import { MENU_DIRECTIVES } from './components/menu/mdc.menu.directive';
 import { MENU_SURFACE_DIRECTIVES } from './components/menu-surface/mdc.menu-surface.directive';
 import { NOTCHED_OUTLINE_DIRECTIVES } from './components/notched-outline/mdc.notched-outline.directive';
 import { RADIO_DIRECTIVES } from './components/radio/mdc.radio.directive';
@@ -69,6 +70,7 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         ...ICON_BUTTON_DIRECTIVES,
         ...LINEAR_PROGRESS_DIRECTIVES,
         ...LIST_DIRECTIVES,
+        ...MENU_DIRECTIVES,
         ...MENU_SURFACE_DIRECTIVES,
         ...NOTCHED_OUTLINE_DIRECTIVES,
         ...RADIO_DIRECTIVES,
@@ -100,6 +102,7 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         ...ICON_BUTTON_DIRECTIVES,
         ...LINEAR_PROGRESS_DIRECTIVES,
         ...LIST_DIRECTIVES,
+        ...MENU_DIRECTIVES,
         ...MENU_SURFACE_DIRECTIVES,
         ...NOTCHED_OUTLINE_DIRECTIVES,
         ...RADIO_DIRECTIVES,

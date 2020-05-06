@@ -64,8 +64,12 @@ export function cancelledClick(el: HTMLElement) {
 }
 
 export function simulateEscape() {
-    event = new KeyboardEvent('keydown', {
-        key: 'Escape'
+    simulateKey(document, 'Escape');
+}
+
+export function simulateKey(element: Element | Document, key: string, name = 'keydown') {
+    event = new KeyboardEvent(name, {
+        key
     });
-    document.dispatchEvent(event);
+    element.dispatchEvent(event);
 }

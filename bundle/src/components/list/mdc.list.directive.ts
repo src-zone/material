@@ -553,8 +553,17 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
         return (this._hidden && this._function === MdcListFunction.menu) ? 'true' : null;
     }
 
+    @HostBinding('attr.aria-orientation') get _ariaOrientation() {
+        return this._function === MdcListFunction.menu ? 'vertical' : null;
+    }
+
     @HostBinding('class.mdc-menu__items') get _isMenu() {
         return this._function === MdcListFunction.menu;
+    }
+
+    @HostBinding('tabindex') get _tabindex() {
+        // the root of a menu should be focusable
+        return this._function === MdcListFunction.menu ? "-1" : null;
     }
 
     _setFunction(val: MdcListFunction) {

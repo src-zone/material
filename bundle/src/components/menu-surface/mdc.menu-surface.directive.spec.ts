@@ -1,13 +1,18 @@
-import { TestBed, fakeAsync, tick, ComponentFixture, flush } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick, flush } from '@angular/core/testing';
 import { Component, Type } from '@angular/core';
 import { MENU_SURFACE_DIRECTIVES } from './mdc.menu-surface.directive';
+import { simulateKey } from '../../testutils/page.test';
 
 describe('mdcMenuSurface', () => {
     @Component({
         template: `
             <div mdcMenuAnchor id="anchor" tabindex="0">
                 <div mdcMenuSurface id="surface" [open]="open" [openFrom]="openFrom"
-                  [fixed]="fixed" [hoisted]="hoisted" tabindex="0"></div>
+                  [fixed]="fixed" [hoisted]="hoisted"
+                  (openChange)="notify('open', $event)"
+                  (afterOpened)="notify('afterOpened', true)"
+                  (afterClosed)="notify('afterClosed', true)"
+                  tabindex="0"></div>
             </div>
         `,
         styles: [`
@@ -25,9 +30,15 @@ describe('mdcMenuSurface', () => {
         ]
     })
     class TestComponent {
+        notifications = [];
         open = null;
         openFrom = null;
         fixed = null;
+        notify(name: string, value: boolean) {
+            let notification = {};
+            notification[name] = value;
+            this.notifications.push(notification);
+        }
     }
 
     it('open and close', fakeAsync(() => {
@@ -35,15 +46,18 @@ describe('mdcMenuSurface', () => {
         expect(anchor).toBeDefined();
         expect(surface.classList).not.toContain('mdc-menu-surface--open');
         testComponent.open = true;
-        animationCycle(fixture);
+        animationCycle(fixture, () => expect(testComponent.notifications).toEqual([{open: true}]));
+        expect(testComponent.notifications).toEqual([{open: true}, {afterOpened: true}]);
         expect(surface.classList).toContain('mdc-menu-surface--open');
         const position = surface.style['transform-origin'].split(' '); // left,bottom or left,top depending on size of window
         expect(position[0]).toBe('left');
         expect(surface.style['transform-origin']).toBe(position.join(' '));
         expect(surface.style[position[0]]).toBe('0px', position[0]);
         expect(surface.style[position[1]]).toBe('0px', position[1]);
+        testComponent.notifications = [];
         testComponent.open = false;
-        animationCycle(fixture);
+        animationCycle(fixture, () => expect(testComponent.notifications).toEqual([{open: false}]));
+        expect(testComponent.notifications).toEqual([{open: false}, {afterClosed: true}]);
         expect(surface.classList).not.toContain('mdc-menu-surface--open');
 
         testComponent.open = true;
@@ -80,7 +94,7 @@ describe('mdcMenuSurface', () => {
     }));
 
     it('fixed positioning', fakeAsync(() => {
-        const { fixture, surface, anchor, testComponent } = setup();
+        const { fixture, surface, testComponent } = setup();
         testComponent.fixed = true;
         testComponent.open = true;
         animationCycle(fixture);
@@ -100,6 +114,44 @@ describe('mdcMenuSurface', () => {
         expect(surface.style['transform-origin']).toBe(position.join(' '));
         expect(surface.style[position[0]]).not.toBe('0px', position[0]);
         expect(surface.style[position[1]]).not.toBe('0px', position[1]);
+    }));
+
+    it('close by outside bodyclick', fakeAsync(() => {
+        const { fixture, surface, testComponent } = setup();
+        testComponent.open = true;
+        animationCycle(fixture);
+        expect(surface.classList).toContain('mdc-menu-surface--open');
+
+        // clicking on surface itself does nothing:
+        testComponent.notifications = [];
+        surface.click();
+        animationCycle(fixture);
+        expect(testComponent.notifications).toEqual([]);
+        expect(surface.classList).toContain('mdc-menu-surface--open');
+
+        document.body.click();
+        animationCycle(fixture, () => expect(testComponent.notifications).toEqual([{open: false}]));
+        expect(testComponent.notifications).toEqual([{open: false}, {afterClosed: true}]);
+        expect(surface.classList).not.toContain('mdc-menu-surface--open');
+    }));
+
+    it('close by outside ESC key', fakeAsync(() => {
+        const { fixture, surface, testComponent } = setup();
+        testComponent.open = true;
+        animationCycle(fixture);
+        expect(surface.classList).toContain('mdc-menu-surface--open');
+
+        // TAB key does nothing
+        testComponent.notifications = [];
+        simulateKey(surface, 'Enter');
+        animationCycle(fixture);
+        expect(testComponent.notifications).toEqual([]);
+        expect(surface.classList).toContain('mdc-menu-surface--open');
+
+        simulateKey(surface, 'Escape');
+        animationCycle(fixture, () => expect(testComponent.notifications).toEqual([{open: false}]));
+        expect(testComponent.notifications).toEqual([{open: false}, {afterClosed: true}]);
+        expect(surface.classList).not.toContain('mdc-menu-surface--open');
     }));
 
     @Component({
@@ -137,7 +189,9 @@ describe('mdcMenuSurface', () => {
         return { fixture, anchor, surface, testComponent };
     }
 
-    function animationCycle(fixture) {
-        fixture.detectChanges(); flush(); tick(20); flush();
+    function animationCycle(fixture, checksBeforeAnimation: () => void = () => {}) {
+        fixture.detectChanges(); flush();
+        checksBeforeAnimation();
+        tick(20); flush();
     }
 });

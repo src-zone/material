@@ -1,7 +1,9 @@
 import { AfterContentInit, ContentChildren, Directive, ElementRef, HostBinding,
-  Input, OnDestroy, QueryList, Renderer2, Output, EventEmitter } from '@angular/core';
+  Input, OnDestroy, QueryList, Renderer2, Output, EventEmitter, HostListener, Inject } from '@angular/core';
 import { MDCMenuSurfaceFoundation, MDCMenuSurfaceAdapter, util, cssClasses, Corner } from '@material/menu-surface';
 import { asBoolean } from '../../utils/value.utils';
+import { DOCUMENT } from '@angular/common';
+import { simulateKey } from '../../testutils/page.test';
 
 /**
  * The `mdcMenuSurface` is a reusable surface that appears above the content of the page
@@ -14,7 +16,6 @@ import { asBoolean } from '../../utils/value.utils';
 export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-menu-surface') _cls = true;
     private _open = false;
-    private _lastEmittedOpen = null;
     private _openFrom: 'tl' | 'tr' | 'bl' | 'br' | 'ts' | 'te' | 'bs' | 'be' = 'ts';
     // the anchor to use if no menuAnchor is provided (a direct parent MdcMenuAnchor if available):
     _parentAnchor: MdcMenuAnchorDirective | null = null;
@@ -34,12 +35,25 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
      */
     @Input() viewport: HTMLElement | null = null;
     /**
-     * Event emitted when the menu is opened or closed.
+     * Event emitted when the menu is opened or closed. (When this event is triggered, the
+     * surface is starting to open/close, but the animation may not have fully completed
+     * yet).
      */
     @Output() openChange: EventEmitter<boolean> = new EventEmitter();
+    /**
+     * Event emitted after the menu has fully opened. When this event is emitted the full
+     * opening animation has completed, and the menu is visible.
+     */
+    @Output() afterOpened: EventEmitter<boolean> = new EventEmitter();
+    /**
+     * Event emitted after the menu has fully closed. When this event is emitted the full
+     * closing animation has completed, and the menu is not visible anymore.
+     */
+    @Output() afterClosed: EventEmitter<boolean> = new EventEmitter();
     private _prevFocus: Element;
     private _hoisted = false;
     private _fixed = false;
+    private _handleBodyClick = (event) => this.handleBodyClick(event);
 
     private mdcAdapter: MDCMenuSurfaceAdapter = {
         addClass: (className: string) => this.rndr.addClass(this._elm.nativeElement, className),
@@ -52,8 +66,8 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
             return this._elm.nativeElement.classList.contains(className);
         },
         hasAnchor: () => !!this._parentAnchor || !!this.menuAnchor,
-        isElementInContainer: (el: Element) => false,
-        isFocused: () => document.activeElement === this._elm.nativeElement,
+        isElementInContainer: (el: Element) => this._elm.nativeElement.contains(el),
+        isFocused: () => this.document.activeElement === this._elm.nativeElement,
         isRtl: () =>  getComputedStyle(this._elm.nativeElement).getPropertyValue('direction') === 'rtl',
         getInnerDimensions: () => ({width: this._elm.nativeElement.offsetWidth, height: this._elm.nativeElement.offsetHeight}),
         getAnchorDimensions: () => {
@@ -78,8 +92,8 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
             height: this.viewport ? this.viewport.clientHeight : window.innerHeight
         }),
         getBodyDimensions: () => ({
-            width: this.viewport ? this.viewport.scrollWidth : document.body.clientWidth,
-            height: this.viewport ? this.viewport.scrollHeight : document.body.clientHeight}),
+            width: this.viewport ? this.viewport.scrollWidth : this.document.body.clientWidth,
+            height: this.viewport ? this.viewport.scrollHeight : this.document.body.clientHeight}),
         getWindowScroll: () => ({
             x: this.viewport ? this.viewport.scrollLeft : window.pageXOffset,
             y: this.viewport ? this.viewport.scrollTop : window.pageYOffset
@@ -94,22 +108,24 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
         setMaxHeight: (height: string) => this._elm.nativeElement.style.maxHeight = height,
         setTransformOrigin: (origin: string) => this.rndr.setStyle(this._elm.nativeElement,
             `${util.getTransformPropertyName(window)}-origin`, origin),
-        saveFocus: () => this._prevFocus = document.activeElement,
-        restoreFocus: () => this._elm.nativeElement.contains(document.activeElement) && this._prevFocus
+        saveFocus: () => this._prevFocus = this.document.activeElement,
+        restoreFocus: () => this._elm.nativeElement.contains(this.document.activeElement) && this._prevFocus
             && this._prevFocus['focus'] && this._prevFocus['focus'](),
         notifyClose: () => {
             this._open = false;
-            this._onOpenClose();
+            this.afterClosed.emit();
+            this.document.removeEventListener('click', this._handleBodyClick);
         },
         notifyOpen: () => {
             this._open = true;
-            this._onOpenClose();
+            this.afterOpened.emit();
+            this.document.addEventListener('click', this._handleBodyClick);
         }
     };
     /** @docs-private */
-    foundation: MDCMenuSurfaceFoundation;
+    private foundation: MDCMenuSurfaceFoundation;
 
-    constructor(private _elm: ElementRef, private rndr: Renderer2) {
+    constructor(private _elm: ElementRef, private rndr: Renderer2, @Inject(DOCUMENT) private document: Document) {
     }
 
     ngAfterContentInit() {
@@ -123,6 +139,8 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
     }
   
     ngOnDestroy() {
+        // when we're destroying a closing surface, the event listener may not be removed yet:
+        document.removeEventListener('click', this._handleBodyClick);
         this.foundation.destroy();
         this.foundation = null;
     }
@@ -144,16 +162,26 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
                 this.foundation?.open();
             else
                 this.foundation?.close();
+            this.openChange.emit(newValue);
+        }
+    }
+
+    /** @docs-private */
+    closeWithoutFocusRestore() {
+        if (this._open) {
+            this._open = false;
+            this.foundation?.close(true);
+            this.openChange.emit(false);
         }
     }
 
     /**
      * Set this value if you want to customize the direction from which the menu will be opened.
-     * Note that without this setting the menu will base the direction upon its position in the viewport,
-     * which is normally the right behavior. Use `tl` for top-left, `br` for bottom-right, etc.
+     * Use `tl` for top-left, `br` for bottom-right, etc.
      * When the left/right position depends on the text directionality, use `ts` for top-start,
      * `te` for top-end, etc. Start will map to left in left-to-right text directionality, and to
      * to right in right-to-left text directionality. End maps the other way around.
+     * The default value is 'ts'.
      */
     @Input()
     get openFrom(): 'tl' | 'tr' | 'bl' | 'br' | 'ts' | 'te' | 'bs' | 'be' {
@@ -204,7 +232,7 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
 
     /**
      * Set to a value other then false use fixed positioning, so that the menu stays in the
-     * same place on the window (or viewport when set) even if the page (or viewport) is
+     * same place on the window (or viewport) even if the page (or viewport) is
      * scrolled.
      */
     @Input()  @HostBinding('class.mdc-menu-surface--fixed')
@@ -220,10 +248,27 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
         }
     }
 
-    private _onOpenClose() {
-        if (this._open !== this._lastEmittedOpen) {
-            this._lastEmittedOpen = this._open;
-            this.openChange.emit(this._open);
+    // listened after notifyOpen, listening stopped after notifyClose
+    /** @docs-private */
+    handleBodyClick(event: MouseEvent) {
+        if (this.foundation) {
+            this.foundation.handleBodyClick(event);
+            if (this._open && this._open !== this.foundation.isOpen()) {// if just closed:
+                this._open = false;
+                this.openChange.emit(false);
+            }
+        }
+    }
+
+    /** @docs-private */
+    @HostListener('keydown', ['$event'])
+    handleKeydow(event: KeyboardEvent) {
+        if (this.foundation) {
+            this.foundation.handleKeydown(event);
+            if (this._open && this._open !== this.foundation.isOpen()) {// if just closed:
+                this._open = false;
+                this.openChange.emit(false);
+            }
         }
     }
 }
@@ -231,7 +276,6 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
 /**
  * Defines an anchor to position an `mdcMenuSurface` to.  If this directive is used as the direct parent of an `mdcMenuSurface`,
  * it will automatically be used as the anchor point. (Unless de `mdcMenuSurface` sets another anchor via its `menuAnchor`property).
- * 
  */
 @Directive({
     selector: '[mdcMenuAnchor]'
@@ -256,10 +300,10 @@ export class MdcMenuAnchorDirective implements AfterContentInit, OnDestroy {
     private setSurfaces(anchor: MdcMenuAnchorDirective) {
         this.surfaces.toArray().forEach(surface => {
             surface._parentAnchor = anchor;
-        })
+        });
     }
 
-    /** @doocs-private */
+    /** @docs-private */
     public getBoundingClientRect() {
         return this._elm.nativeElement.getBoundingClientRect();
     }
