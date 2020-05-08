@@ -54,8 +54,6 @@ export class MdcCardMediaDirective {
 })
 export class MdcCardMediaContentDirective {
     @HostBinding('class.mdc-card__media-content') _cls = true;
-    
-    constructor() {}
 }
 
 /**
@@ -68,8 +66,6 @@ export class MdcCardMediaContentDirective {
 })
 export class MdcCardActionButtonsDirective {
     @HostBinding('class.mdc-card__action-buttons') _cls = true;
-
-    constructor() {}
 }
 
 /**
@@ -82,8 +78,6 @@ export class MdcCardActionButtonsDirective {
 })
 export class MdcCardActionIconsDirective {
     @HostBinding('class.mdc-card__action-icons') _cls = true;
-    
-    constructor() {}
 }
 
 /**
@@ -184,8 +178,6 @@ export class MdcCardPrimaryActionDirective extends AbstractMdcRipple implements 
 export class MdcCardDirective {
     @HostBinding('class.mdc-card') _cls = true;
     private _outlined = false;
-
-    constructor() {}
 
     /**
      * When this input is set to a value other than false, the card will have a
