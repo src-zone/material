@@ -11,7 +11,7 @@ import { simulateKey } from '../../testutils/page.test';
  * but can also be used by itself.
  */
 @Directive({
-    selector: '[mdcMenuSurface]'
+    selector: '[mdcMenuSurface],[mdcMenu]'
 })
 export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-menu-surface') _cls = true;
@@ -112,12 +112,10 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
         restoreFocus: () => this._elm.nativeElement.contains(this.document.activeElement) && this._prevFocus
             && this._prevFocus['focus'] && this._prevFocus['focus'](),
         notifyClose: () => {
-            this._open = false;
             this.afterClosed.emit();
             this.document.removeEventListener('click', this._handleBodyClick);
         },
         notifyOpen: () => {
-            this._open = true;
             this.afterOpened.emit();
             this.document.addEventListener('click', this._handleBodyClick);
         }

@@ -140,18 +140,10 @@ export class MdcMenuDirective implements AfterContentInit, OnInit, OnDestroy {
                 this._lastList?._setFunction(MdcListFunction.plain);
                 this._lastList = this._listQuery.first;
                 this.destroyFoundation();
-                if (this._lastList) {
-                    this._lastList._setFunction(this._function);
-                    this.initFoundation();
-                    this.subscribeItemActions();
-                }
+                if (this._lastList)
+                    this.initAll();
             }
         });
-        if (this._lastList) {
-            this._lastList._setFunction(this._function);
-            this.initFoundation();
-            this.subscribeItemActions();
-        }
         this.surface.afterOpened.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
             this.foundation?.handleMenuSurfaceOpened();
             // reset default focus state for programmatic opening of menu;
@@ -163,12 +155,20 @@ export class MdcMenuDirective implements AfterContentInit, OnInit, OnDestroy {
             if (this._list)
                 this._list._hidden = !this.surface.open;
         });
+        if (this._lastList)
+            this.initAll();
     }
 
     ngOnDestroy() {
         this.onListChange$.next(); this.onListChange$.complete();
         this.onDestroy$.next(); this.onDestroy$.complete();
         this.destroyFoundation();
+    }
+
+    private initAll() {
+        Promise.resolve().then(() => this._lastList._setFunction(this._function));
+        this.initFoundation();
+        this.subscribeItemActions();
     }
 
     private initFoundation() {
@@ -200,11 +200,11 @@ export class MdcMenuDirective implements AfterContentInit, OnInit, OnDestroy {
     }
   
     set id(value: string) {
-        this._id = value;
+        this._id = value || this._newId();
     }
 
     _newId(): string {
-        this.cachedId = this.cachedId || `mdc-floating-label-${nextId++}`;
+        this.cachedId = this.cachedId || `mdc-menu-${nextId++}`;
         return this.cachedId;
     }
 
