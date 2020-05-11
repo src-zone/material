@@ -1,5 +1,4 @@
 import { AfterContentInit, Directive, ElementRef, HostBinding, Input, OnDestroy, Renderer2, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
 import { asBoolean, asBooleanOrNull } from '../../utils/value.utils';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';

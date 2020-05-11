@@ -12,25 +12,25 @@ export abstract class AbstractMdcRipple {
         isUnbounded: () => this._unbounded,
         isSurfaceActive: () => this.isRippleSurfaceActive(),
         isSurfaceDisabled: () => this.isRippleSurfaceDisabled(),
-        addClass: (className: string) => this.addClassToRipple(className),
-        removeClass: (className: string) => this.removeClassFromRipple(className),
-        containsEventTarget: (target: EventTarget | null) => this._rippleElm.nativeElement.contains(target),
-        registerInteractionHandler: (type: string, handler: EventListener) => {
+        addClass: (className) => this.addClassToRipple(className),
+        removeClass: (className) => this.removeClassFromRipple(className),
+        containsEventTarget: (target) => this._rippleElm.nativeElement.contains(target),
+        registerInteractionHandler: (type, handler) => {
             if (this.getRippleInteractionElement())
                 this._registry.listenElm(this._renderer, type, handler, this.getRippleInteractionElement().nativeElement, applyPassive());
         },
-        deregisterInteractionHandler: (type: string, handler: EventListener) => {
+        deregisterInteractionHandler: (type, handler) => {
             this._registry.unlisten(type, handler);
         },
-        registerDocumentInteractionHandler: (type: string, handler: EventListener) => this._registry.listenElm(this._renderer, type, handler, document, applyPassive()),
-        deregisterDocumentInteractionHandler: (type: string, handler: EventListener) => this._registry.unlisten(type, handler),
-        registerResizeHandler: (handler:  SpecificEventListener<'resize'>) => {
+        registerDocumentInteractionHandler: (type, handler) => this._registry.listenElm(this._renderer, type, handler, document, applyPassive()),
+        deregisterDocumentInteractionHandler: (type, handler) => this._registry.unlisten(type, handler),
+        registerResizeHandler: (handler) => {
             this._registry.listenElm(this._renderer, 'resize', handler, window);
         },
-        deregisterResizeHandler: (handler: SpecificEventListener<'resize'>) => {
+        deregisterResizeHandler: (handler) => {
             this._registry.unlisten('resize', handler);
         },
-        updateCssVariable: (name: string, value: string) => { this._rippleElm.nativeElement.style.setProperty(name, value); },
+        updateCssVariable: (name, value) => { this._rippleElm.nativeElement.style.setProperty(name, value); },
         computeBoundingRect: () => this.computeRippleBoundingRect(),
         getWindowPageOffset: () => ({x: window.pageXOffset, y: window.pageYOffset})
     }

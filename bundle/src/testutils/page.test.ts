@@ -69,7 +69,9 @@ export function simulateEscape() {
 
 export function simulateKey(element: Element | Document, key: string, name = 'keydown') {
     event = new KeyboardEvent(name, {
-        key
+        key,
+        bubbles: true,
+        cancelable: true
     });
     element.dispatchEvent(event);
 }
