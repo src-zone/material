@@ -4,9 +4,12 @@ import { MDCFloatingLabelFoundation, MDCFloatingLabelAdapter } from '@material/f
 import { estimateScrollWidth } from '@material/dom/ponyfill';
 import { AbstractMdcLabel } from '../abstract/abstract.mdc.label';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
+import { HasId } from '../abstract/mixin.mdc.hasid';
+import { applyMixins } from '../../utils/mixins';
 
-let nextId = 1;
-
+class MdcFloatingLabelDirectiveBase {}
+interface MdcFloatingLabelDirectiveBase extends HasId {}
+applyMixins(MdcFloatingLabelDirectiveBase, [HasId]);
 /**
  * Directive for the floating label of input fields. Floating labels are used by
  * <code>mdcTextField</code> and <code>mdcSelect</code> to display the type of input
@@ -22,9 +25,7 @@ let nextId = 1;
     selector: '[mdcFloatingLabel]',
     providers: [{provide: AbstractMdcLabel, useExisting: forwardRef(() => MdcFloatingLabelDirective) }]
 })
-export class MdcFloatingLabelDirective implements AfterContentInit, OnDestroy, OnInit {
-    private _id: string;
-    private cachedId: string;
+export class MdcFloatingLabelDirective extends MdcFloatingLabelDirectiveBase implements AfterContentInit, OnDestroy, OnInit {
     /** @docs-private */
     @HostBinding('attr.for') for: string | null = null;
     @HostBinding('class.mdc-floating-label') _cls = true;
@@ -46,11 +47,11 @@ export class MdcFloatingLabelDirective implements AfterContentInit, OnDestroy, O
     private _foundation = new MDCFloatingLabelFoundation(this._mdcAdapter);
 
     constructor(private _rndr: Renderer2, public _elm: ElementRef, private registry: MdcEventRegistry) {
+        super();
     }
 
     ngOnInit() {
-        // Force setter to be called in case id was not specified.
-        this.id = this.id;
+        this.initId();
     }
 
     ngAfterContentInit() {
@@ -71,24 +72,6 @@ export class MdcFloatingLabelDirective implements AfterContentInit, OnDestroy, O
 
     getWidth(): number {
         return this._foundation.getWidth();
-    }
-
-    /**
-     * Mirrors the <code>id</code> attribute. If no id is assigned, this directive will
-     * assign a unique id by itself.
-     */
-    @HostBinding()
-    @Input() get id() {
-        return this._id;
-    }
-  
-    set id(value: string) {
-        this._id = value || this._newId();
-    }
-
-    _newId(): string {
-        this.cachedId = this.cachedId || `mdc-floating-label-${nextId++}`;
-        return this.cachedId;
     }
 
     isLabelElement() {

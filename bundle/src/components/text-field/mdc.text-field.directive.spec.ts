@@ -20,7 +20,7 @@ describe('MdcTextFieldDirective', () => {
         expect(hasRipple(root)).toBe(true, 'the ripple element should be attached');
 
         // input must be labelled by the floating label:
-        expect(root.children[2].id).toMatch(/mdc-floating-label-.*/);
+        expect(root.children[2].id).toMatch(/mdc-u-id-.*/);
         expect(root.children[1].getAttribute('aria-labelledby')).toBe(root.children[2].id);
     }));
 
@@ -55,7 +55,7 @@ describe('MdcTextFieldDirective', () => {
         expect(hasRipple(root)).toBe(false, 'no ripple allowed on outlined inputs');
 
         // input must be labelled by the floating label:
-        expect(floatingLabel.id).toMatch(/mdc-floating-label-.*/);
+        expect(floatingLabel.id).toMatch(/mdc-u-id-.*/);
         expect(root.children[0].getAttribute('aria-labelledby')).toBe(floatingLabel.id);
     }));
 

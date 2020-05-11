@@ -402,7 +402,7 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
             this.onHelperTextChange$
         ).pipe(
             takeUntil(this.onDestroy$),
-            debounceTime(2)
+            debounceTime(1)
         ).subscribe(() => {
             this.reconstructComponent();
         });
