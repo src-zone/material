@@ -26,7 +26,7 @@ export * from './components/notched-outline/mdc.notched-outline.directive';
 export * from './components/radio/mdc.radio.directive';
 export * from './components/ripple/abstract.mdc.ripple';
 export { MdcRippleDirective } from './components/ripple/mdc.ripple.directive';
-export { MdcSelectDirective, MdcSelectControlDirective } from './components/select/mdc.select.directive';
+export * from './components/select/mdc.select.directive';
 export { MdcSliderDirective,
     MdcFormsSliderDirective } from './components/slider/mdc.slider.directive';
 export { MdcSnackbarMessage } from './components/snackbar/mdc.snackbar.message';

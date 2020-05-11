@@ -11,7 +11,7 @@ import { simulateKey } from '../../testutils/page.test';
  * but can also be used by itself.
  */
 @Directive({
-    selector: '[mdcMenuSurface],[mdcMenu]'
+    selector: '[mdcMenuSurface],[mdcMenu],[mdcSelectMenu]'
 })
 export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-menu-surface') _cls = true;
@@ -24,7 +24,7 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
      * will position itself relative to this anchor element. Assigning this property is not needed
      * if you wrap your surface inside an `mdcMenuAnchor`.
      */
-    @Input() menuAnchor: MdcMenuAnchorDirective | HTMLElement | null = null;
+    @Input() menuAnchor: MdcMenuAnchorDirective | Element | null = null;
     /**
      * Assign any `HTMLElement` to this property to use as the viewport instead of
      * the window object. The menu will choose to open from the top or bottom, and
@@ -207,6 +207,11 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
             'bs': Corner.BOTTOM_START,
             'be': Corner.BOTTOM_END
         }[this._openFrom];
+        this.foundation?.setAnchorCorner(corner);
+    }
+
+    /** @docs-private */
+    setFoundationAnchorCorner(corner) {
         this.foundation?.setAnchorCorner(corner);
     }
 

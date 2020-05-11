@@ -53,12 +53,16 @@ let nextId = 1;
  * * The `mdcList` will get an `aria-hidden=true` attribute when the menu surface is closed.
  */
 @Directive({
-    selector: '[mdcMenu]',
+    selector: '[mdcMenu],[mdcSelectMenu]',
     exportAs: 'mdcMenu'
 })
 export class MdcMenuDirective implements AfterContentInit, OnInit, OnDestroy {
     private onDestroy$: Subject<any> = new Subject();
     private onListChange$: Subject<any> = new Subject();
+    /** docs-private */
+    @Output() readonly itemsChanged: EventEmitter<void> = new EventEmitter();
+    /** docs-private */
+    @Output() readonly itemValuesChanged: EventEmitter<void> = new EventEmitter();
     @HostBinding('class.mdc-menu') _cls = true;
     private _id: string;
     private cachedId: string;
@@ -114,7 +118,7 @@ export class MdcMenuDirective implements AfterContentInit, OnInit, OnDestroy {
         },
         getElementIndex: (element) => this._list?._items.toArray().findIndex(i => i._elm.nativeElement === element),
         notifySelected: (evtData) => {
-            this.pick.emit({index: evtData.index, value: this._list._items.toArray()[evtData.index].name});
+            this.pick.emit({index: evtData.index, value: this._list._items.toArray()[evtData.index].value});
         },
         getMenuItemCount: () => this._list?._items.length || 0,
         focusItemAtIndex: (index) => this._list.getItem(index)?._elm.nativeElement.focus(),
@@ -169,6 +173,8 @@ export class MdcMenuDirective implements AfterContentInit, OnInit, OnDestroy {
         Promise.resolve().then(() => this._lastList._setFunction(this._function));
         this.initFoundation();
         this.subscribeItemActions();
+        this._lastList?.itemsChanged.pipe(takeUntil(this.onListChange$)).subscribe(() => this.itemsChanged.emit());
+        this._lastList?.itemValuesChanged.pipe(takeUntil(this.onListChange$)).subscribe(() => this.itemValuesChanged.emit());
     }
 
     private initFoundation() {
@@ -227,6 +233,11 @@ export class MdcMenuDirective implements AfterContentInit, OnInit, OnDestroy {
                 this.foundation?.setDefaultFocusState(DefaultFocusState.LIST_ROOT);
         }
         this.surface.open = true;
+    }
+
+    /** @docs-private */
+    doClose() {
+        this.surface.open = false;
     }
 
     set _listFunction(val: MdcListFunction) {

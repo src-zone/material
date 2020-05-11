@@ -10,7 +10,7 @@ describe('mdcList', () => {
         template: `
             <ul mdcList [selectionMode]="selectionMode" [nonInteractive]="nonInteractive">
                 <li *ngFor="let item of items; let i = index" mdcListItem [disabled]="disabled === i"
-                    (action)="action(i)" (activeChanged)="active($event, i)">
+                    (action)="action(i)" (activeChange)="active($event, i)">
                     <span mdcListItemText>{{item}}</span>
                 </li>
             </ul>
@@ -18,7 +18,7 @@ describe('mdcList', () => {
     })
     class TestComponent {
         actions: number[] = [];
-        activeChanged: {index: number, value: boolean}[] = [];
+        activeChange: {index: number, value: boolean}[] = [];
         items = ['item 1', 'item 2', 'item 3'];
         nonInteractive = false;
         selectionMode: string = null;
@@ -27,7 +27,7 @@ describe('mdcList', () => {
             this.actions.push(i);
         }
         active(value: boolean, index: number) {
-            this.activeChanged.push({index, value});
+            this.activeChange.push({index, value});
         }
     }
 
@@ -99,7 +99,7 @@ describe('mdcList', () => {
         expectTabbable(items, -1);
         // no action events have been emitted:
         expect(testComponent.actions).toEqual([]);
-        expect(testComponent.activeChanged).toEqual([]);
+        expect(testComponent.activeChange).toEqual([]);
     }));
 
     it('disabled items are correctly styled, not actionable, and not selectable', fakeAsync(() => {
@@ -116,7 +116,7 @@ describe('mdcList', () => {
         expectActive(items, -11, 'selected'); // can not be activated
         // no action events have been emitted:
         expect(testComponent.actions).toEqual([]);
-        expect(testComponent.activeChanged).toEqual([]);
+        expect(testComponent.activeChange).toEqual([]);
     }));
 
     it('selectionMode=single/current', fakeAsync(() => {
@@ -127,7 +127,7 @@ describe('mdcList', () => {
         testComponent.selectionMode = 'active';
         fixture.detectChanges(); tick();
         testComponent.actions.length = 0;
-        testComponent.activeChanged.length = 0;
+        testComponent.activeChange.length = 0;
         validateSelectionMode('current', 2);
 
         function validateSelectionMode(type, initialActive) {
@@ -140,15 +140,15 @@ describe('mdcList', () => {
             // should also emit action event:
             expect(testComponent.actions).toEqual([1]);
             if (initialActive !== -1)
-                expect(testComponent.activeChanged).toEqual([
+                expect(testComponent.activeChange).toEqual([
                     {index: initialActive, value: false},
                     {index: 1, value: true}
                 ]);
             else
-                expect(testComponent.activeChanged).toEqual([
+                expect(testComponent.activeChange).toEqual([
                     {index: 1, value: true}
                 ]);
-            testComponent.activeChanged.length = 0;
+            testComponent.activeChange.length = 0;
 
             // active on keyboard on input:
             items[1].dispatchEvent(newKeydownEvent('ArrowDown'));
@@ -160,7 +160,7 @@ describe('mdcList', () => {
             expectActive(items, 2, type);
             // should also emit action event:
             expect(testComponent.actions).toEqual([1, 2]);
-            expect(testComponent.activeChanged).toEqual([
+            expect(testComponent.activeChange).toEqual([
                 {index: 1, value: false},
                 {index: 2, value: true}
             ]);
