@@ -1,5 +1,6 @@
 import { TestBed, fakeAsync, tick, flush } from '@angular/core/testing';
 import { Component, Type } from '@angular/core';
+import { numbers } from '@material/menu-surface';
 import { MENU_SURFACE_DIRECTIVES } from './mdc.menu-surface.directive';
 import { simulateKey } from '../../testutils/page.test';
 
@@ -190,8 +191,9 @@ describe('mdcMenuSurface', () => {
     }
 
     function animationCycle(fixture, checksBeforeAnimation: () => void = () => {}) {
-        fixture.detectChanges(); flush();
+        fixture.detectChanges();
         checksBeforeAnimation();
-        tick(20); flush();
+        tick(Math.max(numbers.TRANSITION_CLOSE_DURATION, numbers.TRANSITION_OPEN_DURATION));
+        flush();
     }
 });

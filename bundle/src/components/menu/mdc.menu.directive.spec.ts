@@ -326,6 +326,6 @@ describe('mdcMenuTrigger', () => {
 });
 
 function animationCycle(fixture) {
-    fixture.detectChanges(); flush(); tick(20); flush();
+    fixture.detectChanges(); tick(300); flush();
 }
 

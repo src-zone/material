@@ -342,5 +342,5 @@ function checkFloating(fixture: ComponentFixture<any>, expected: boolean) {
 }
 
 function animationCycle(fixture) {
-    fixture.detectChanges(); flush(); tick(20); flush();
+    fixture.detectChanges(); tick(300); flush();
 }
