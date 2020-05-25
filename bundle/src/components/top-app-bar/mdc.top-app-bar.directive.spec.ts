@@ -1,17 +1,18 @@
-import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Component } from '@angular/core';
+import { ICON_BUTTON_DIRECTIVES } from '../icon-button/mdc.icon-button.directive';
 import { TOP_APP_BAR_DIRECTIVES, MdcTopAppBarDirective } from './mdc.top-app-bar.directive';
 
 const template = `
 <header [mdcTopAppBar]="type" [collapsed]="collapsed" [prominent]="prominent" [dense]="dense" [fixedAdjust]="fixedAdjust">
   <div mdcTopAppBarRow>
     <section mdcTopAppBarSection alignStart>
-      <a href="#" mdcTopAppBarNavIcon class="material-icons">menu</a>
+      <button mdcIconButton mdcTopAppBarNavIcon class="material-icons">menu</button>
       <span mdcTopAppBarTitle>Title</span>
     </section>
     <section mdcTopAppBarSection alignEnd role="toolbar">
-      <a *ngFor="let item of actionItems" href="#" mdcTopAppBarAction class="material-icons" [label]="item.label">{{item.icon}}</a>
+      <button *ngFor="let item of actionItems" mdcTopAppBarAction mdcIconButton class="material-icons" [label]="item.label">{{item.icon}}</button>
     </section>
   </div>
 </header>
@@ -45,7 +46,7 @@ describe('MdcTopAppBarDirective', () => {
 
     function setup(testComponentType: any = TestComponent) {
         const fixture = TestBed.configureTestingModule({
-            declarations: [...TOP_APP_BAR_DIRECTIVES, testComponentType]
+            declarations: [...ICON_BUTTON_DIRECTIVES, ...TOP_APP_BAR_DIRECTIVES, testComponentType]
         }).createComponent(testComponentType);
         fixture.detectChanges();
         return { fixture };
@@ -201,11 +202,11 @@ describe('MdcTopAppBarDirective', () => {
           <header mdcTopAppBar="short" [viewport]="viewport" [fixedAdjust]="fixedAdjust">
             <div mdcTopAppBarRow>
               <section mdcTopAppBarSection alignStart>
-                <a href="#" mdcTopAppBarNavIcon class="material-icons">menu</a>
+                <button mdcIconButton mdcTopAppBarNavIcon class="material-icons">menu</button>
                 <span mdcTopAppBarTitle>Title</span>
               </section>
               <section mdcTopAppBarSection alignEnd role="toolbar">
-                <a *ngFor="let item of actionItems" href="#" mdcTopAppBarAction class="material-icons" [label]="item.label">{{item.icon}}</a>
+                <button mdcIconButton *ngFor="let item of actionItems" mdcTopAppBarAction class="material-icons" [label]="item.label">{{item.icon}}</button>
               </section>
             </div>
           </header>
@@ -231,7 +232,6 @@ describe('MdcTopAppBarDirective', () => {
         const header: HTMLElement = fixture.nativeElement.querySelector('header.mdc-top-app-bar');
         const viewport = fixture.nativeElement.querySelector('#viewport');
         const spans: NodeListOf<HTMLElement> = fixture.nativeElement.querySelectorAll('main span');
-        const testComponent = fixture.debugElement.injector.get(TestViewportComponent);
         expect(header.classList.contains('mdc-top-app-bar')).toBe(true);
         expect(header.style.position).toBe('absolute');
         expect(header.getBoundingClientRect().width).toBeLessThan(window.innerWidth / 4 * 3);
@@ -240,12 +240,5 @@ describe('MdcTopAppBarDirective', () => {
         viewport.dispatchEvent(new Event('scroll'));
         fixture.detectChanges();
         expect(header.classList.contains('mdc-top-app-bar--short-collapsed')).toBe(true);
-    }));
-
-    it('reassign viewport not allowed', (() => {
-        const { fixture } = setup(TestViewportComponent);
-        const bar = fixture.debugElement.query(By.directive(MdcTopAppBarDirective)).injector.get(MdcTopAppBarDirective);
-        expect(bar.viewport).toBeDefined();
-        expect(() => {bar.viewport = bar.viewport.parentElement;}).toThrowError(/.*viewport.*directive.*changed.*/);
     }));
 });

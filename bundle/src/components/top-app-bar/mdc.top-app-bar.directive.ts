@@ -1,11 +1,9 @@
 import { AfterContentInit, ContentChildren, Directive, ElementRef, HostBinding, Input,
     NgZone, OnDestroy, QueryList, Renderer2 } from '@angular/core';
-import { MDCTopAppBarFoundation, MDCFixedTopAppBarFoundation,
-    MDCShortTopAppBarFoundation } from '@material/top-app-bar';
-import { util } from '@material/ripple';
-import { MdcTopAppBarAdapter } from './mdc.top-app-bar.adapter';
+import { MDCTopAppBarAdapter, MDCTopAppBarBaseFoundation,
+    MDCTopAppBarFoundation, MDCFixedTopAppBarFoundation, MDCShortTopAppBarFoundation } from '@material/top-app-bar';
+import {applyPassive} from '@material/dom/events';
 import { asBoolean, asBooleanOrNull } from '../../utils/value.utils';
-import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
 /**
  * A directive for a top-app-bar row. The content of a top-app-bar should always be embedded
@@ -123,16 +121,29 @@ export class MdcTopAppBarActionDirective {
 export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-top-app-bar') _hostClass = true;
     @ContentChildren(MdcTopAppBarActionDirective, {descendants: true}) _actionItems: QueryList<MdcTopAppBarActionDirective>;
+    private handleScroll = () => {
+        if (this.viewport && (this._type === 'short' || this._type === 'fixed'))
+            this._updateViewPort();
+        this.foundation?.handleTargetScroll();
+    }
+    private handleResize = () => {
+        if (this.viewport && (this._type === 'short' || this._type === 'fixed'))
+            this._updateViewPort();
+        this.foundation?.handleWindowResize();
+    }
+    private updateViewport = () => {
+        if (this.viewport && (this._type === 'short' || this._type === 'fixed'))
+            this._updateViewPort();
+    }
     private _viewport: HTMLElement;
     private _fixedAdjust: HTMLElement;
-    private _initialized = false;
     private _type: 'short' | 'fixed' | 'default' = 'default';
     private _prominent = false;
     private _dense = false;
     private _collapsedOverride: boolean;
     private _collapsedState: boolean;
 
-    private mdcAdapter: MdcTopAppBarAdapter = {
+    private mdcAdapter: MDCTopAppBarAdapter = {
         hasClass: (className: string) => {
             if (className === 'mdc-top-app-bar--short-collapsed')
                 // the foundation uses this during initialisation to determine whether
@@ -156,33 +167,18 @@ export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
             else
                 this._rndr.removeClass(this._elm.nativeElement, className);
         },
-        registerNavigationIconInteractionHandler: (type: string, handler: EventListener) => {},
-        deregisterNavigationIconInteractionHandler: (type: string, handler: EventListener) => {},
-        // no need for notifyNavigationIconClicked emitting anything, library consumers can just
-        // attach an angular click event listener to the navigation icon for the same behavior
-        notifyNavigationIconClicked: () => {},
-        registerScrollHandler: (handler: EventListener) => {
-            if (this._viewport)
-                this._registry.listenElm(this._rndr, 'scroll', handler, this._viewport);
-            else
-                this._registry.listenElm(this._rndr, 'scroll', handler, window);
-        },
-        deregisterScrollHandler: (handler: EventListener) => {
-            this._registry.unlisten('scroll', handler);
-        },
+        setStyle: (property, value) => this._rndr.setStyle(this._elm.nativeElement, property, value),
+        getTopAppBarHeight: () => this._elm.nativeElement.clientHeight,
+        notifyNavigationIconClicked: () => {}, // not a special event in our implementation
         getViewportScrollY: () => this._viewport ? this._viewport.scrollTop : window.pageYOffset,
         getTotalActionItems: () => this._actionItems.length
     };
-    private foundation: { init: Function, destroy: Function, isCollapsed: boolean };
+    private foundation: MDCTopAppBarBaseFoundation;
     
-    constructor(private _rndr: Renderer2, private _elm: ElementRef, private _registry: MdcEventRegistry,
-        private zone: NgZone) {
+    constructor(private _rndr: Renderer2, private _elm: ElementRef, private zone: NgZone) {
     }
 
     ngAfterContentInit() {
-        if (this._viewport)
-            this._elm.nativeElement.style.position = 'absolute';
-        this._initialized = true;
         this.foundationReInit();
     }
 
@@ -190,44 +186,39 @@ export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
         this.removeScrollListeners();
         this.foundation.destroy();
         this.foundation = null;
-        this._initialized = false;
     }
 
     private foundationReInit() {
-        if (this._initialized) {
-            if (this.foundation)
-                this.foundation.destroy();
+        if (this.foundation)
+            this.foundation.destroy();
 
-            // undow viewport init specific for a foundation implementation:
-            this.removeScrollListeners();
-            this._elm.nativeElement.style.top = null;
+        // undo viewport init specific for a foundation implementation:
+        this.removeScrollListeners();
+        this._elm.nativeElement.style.top = null;
 
-            // remove classes set by foundations, if we reinitialize/switch foundation:
-            this._rndr.removeClass(this._elm.nativeElement, 'mdc-top-app-bar--fixed-scrolled');
+        // remove classes set by foundations, if we reinitialize/switch foundation:
+        this._rndr.removeClass(this._elm.nativeElement, 'mdc-top-app-bar--fixed-scrolled');
 
-            this.initFixedAdjust();
+        if (this._type === 'short')
+            this.foundation = new MDCShortTopAppBarFoundation(this.mdcAdapter);
+        else if (this._type === 'fixed')
+            this.foundation = new MDCFixedTopAppBarFoundation(this.mdcAdapter);
+        else
+            this.foundation = new MDCTopAppBarFoundation(this.mdcAdapter);
+        this.initFixedAdjust();
 
-            // first check short, because a short bar is also more or less fixed:
-            if (this._type === 'short')
-                this.foundation = new MDCShortTopAppBarFoundation(this.mdcAdapter);
-            else if (this._type === 'fixed')
-                this.foundation = new MDCFixedTopAppBarFoundation(this.mdcAdapter);
-            else
-                this.foundation = new MDCTopAppBarFoundation(this.mdcAdapter);
-            if (this.viewport && (this._type === 'short' || this._type === 'fixed')) {
-                this.zone.runOutsideAngular(() => {
-                    this._viewport.addEventListener('scroll', this._updateViewPort, util.applyPassive());
-                    this._viewport.addEventListener('touchmove', this._updateViewPort, util.applyPassive());
-                    window.addEventListener('resize', this._updateViewPort, util.applyPassive());
-                });
-                this._updateViewPort();
-            }
-            this.foundation.init();
-        }
+        this.zone.runOutsideAngular(() => {
+            (this._viewport || window).addEventListener('scroll', this.handleScroll, applyPassive());
+            (this._viewport || window).addEventListener('touchmove', this.updateViewport, applyPassive());
+            window.addEventListener('resize', this.handleResize, applyPassive());
+        });
+        if (this.viewport && (this._type === 'short' || this._type === 'fixed'))
+            this._updateViewPort();
+        this.foundation.init();
     }
 
     private initFixedAdjust() {
-        if (this._initialized && this._fixedAdjust) {
+        if (this.foundation && this._fixedAdjust) {
             this._rndr.removeClass(this._fixedAdjust, 'mdc-top-app-bar--fixed-adjust');
             this._rndr.removeClass(this._fixedAdjust, 'mdc-top-app-bar--dense-fixed-adjust');
             this._rndr.removeClass(this._fixedAdjust, 'mdc-top-app-bar--short-fixed-adjust');
@@ -248,15 +239,13 @@ export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
     }
 
     private removeScrollListeners() {
-        if (this._viewport) {
-            this._viewport.removeEventListener('scroll', this._updateViewPort);
-            this._viewport.removeEventListener('touchmove', this._updateViewPort);
-            window.removeEventListener('resize', this._updateViewPort);
-        }
+        (this._viewport || window).removeEventListener('scroll', this.handleScroll);
+        (this._viewport || window).removeEventListener('touchmove', this.updateViewport);
+        window.removeEventListener('resize', this.handleResize);
     }
 
     /**
-     * The top-app-bar can heva different styles. Set this property to <code>fixed</code>
+     * The top-app-bar can have different styles. Set this property to <code>fixed</code>
      * for a top-app-bar fixed to the top of the screen or viewport.
      * Set to <code>short</code> for a top-app-bar that will collapse to the navigation
      * icon side when scrolled.
@@ -271,7 +260,8 @@ export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
             val = 'default';
         if (val !== this._type) {
             this._type = val;
-            this.foundationReInit();
+            if (this.foundation)
+                this.foundationReInit();
         }
     }
 
@@ -358,9 +348,12 @@ export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
     }
 
     set viewport(elm: HTMLElement) {
-        if (this._initialized && elm !== this._viewport)
-            throw new Error('viewport directive should not be changed after the mdcToolbar is initialized');
-        this._viewport = elm;
+        if (this._viewport !== elm) {
+            this.removeScrollListeners();
+            this._viewport = elm;
+            if (this.foundation)
+                this.foundationReInit();
+        }
     }
 
     @HostBinding('class.mdc-top-app-bar--short-has-action-item') get _hasActionItems() {
@@ -378,6 +371,10 @@ export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
 
     @HostBinding('class.mdc-top-app-bar--short') get _short() {
         return this._type === 'short';
+    }
+
+    @HostBinding('style.position') get _position() {
+        return this._viewport ? 'absolute' : null;
     }
 }
 
