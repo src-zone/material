@@ -22,7 +22,6 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 })
 export class MdcIconButtonDirective extends AbstractMdcIcon implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-icon-button') _hostClass = true;
-    private _disabled = false;
 
     constructor(_elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry) {
         super(_elm, renderer, registry);
@@ -34,19 +33,6 @@ export class MdcIconButtonDirective extends AbstractMdcIcon implements AfterCont
 
     ngOnDestroy() {
         this.destroyRipple();
-    }
-
-    /**
-     * To disable the icon, set this input to true.
-     */
-    @Input()
-    @HostBinding()
-    get disabled() {
-        return this._disabled;
-    }
-
-    set disabled(value: any) {
-        this._disabled = asBoolean(value);
     }
 }
 
@@ -103,6 +89,7 @@ export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterCont
     private toggleAdapter: MDCIconButtonToggleAdapter = {
         addClass: (className: string) => this._renderer.addClass(this._elm.nativeElement, className),
         removeClass: (className: string) => this._renderer.removeClass(this._elm.nativeElement, className),
+        // TODO return mdc-icon-button__icon--on for on...
         hasClass: (className: string) => this._elm.nativeElement.classList.contains(className),
         setAttr: (name: string, value: string) => this._renderer.setAttribute(this._elm.nativeElement, name, value),
         notifyChange: (evtData: MDCIconButtonToggleEventDetail) => {
