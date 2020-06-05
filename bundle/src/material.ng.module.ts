@@ -5,12 +5,7 @@ import { CARD_DIRECTIVES } from './components/card/mdc.card.directive';
 import { CHECKBOX_DIRECTIVES } from './components/checkbox/mdc.checkbox.directive';
 import { CHIP_DIRECTIVES } from './components/chips/mdc.chip.directive';
 import { DIALOG_DIRECTIVES } from './components/dialog/mdc.dialog.directive';
-import { MdcDrawerDirective,
-    MdcDrawerContainerDirective,
-    MdcDrawerToolbarSpacerDirective,
-    MdcDrawerHeaderDirective,
-    MdcDrawerHeaderContentDirective,
-    MdcDrawerContentDirective } from './components/drawer/mdc.drawer.directive';
+import { DRAWER_DIRECTIVES } from './components/drawer/mdc.drawer.directive';
 import { MdcElevationDirective } from './components/elevation/mdc.elevation.directive';
 import { FAB_DIRECTIVES } from './components/fab/mdc.fab.directive';
 import { MdcFloatingLabelDirective } from './components/floating-label/mdc.floating-label.directive';
@@ -61,7 +56,7 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         ...CHECKBOX_DIRECTIVES,
         ...CHIP_DIRECTIVES,
         ...DIALOG_DIRECTIVES,
-        MdcDrawerDirective, MdcDrawerContainerDirective, MdcDrawerToolbarSpacerDirective, MdcDrawerHeaderDirective, MdcDrawerHeaderContentDirective, MdcDrawerContentDirective,
+        ...DRAWER_DIRECTIVES,
         MdcElevationDirective,
         ...FAB_DIRECTIVES,
         MdcFloatingLabelDirective,
@@ -93,7 +88,7 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         ...CHECKBOX_DIRECTIVES,
         ...CHIP_DIRECTIVES,
         ...DIALOG_DIRECTIVES,
-        MdcDrawerDirective, MdcDrawerContainerDirective, MdcDrawerToolbarSpacerDirective, MdcDrawerHeaderDirective, MdcDrawerHeaderContentDirective, MdcDrawerContentDirective,
+        ...DRAWER_DIRECTIVES,
         MdcElevationDirective,
         ...FAB_DIRECTIVES,
         MdcFloatingLabelDirective,

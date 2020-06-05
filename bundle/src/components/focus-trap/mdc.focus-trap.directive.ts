@@ -65,7 +65,7 @@ class FocusTrapHandleImpl implements FocusTrapHandle {
  * child element of the focus trap.
  */
 @Directive({
-    selector: '[mdcFocusTrap],[mdcDialog]',
+    selector: '[mdcFocusTrap],[mdcDialog],[mdcDrawer]',
     providers: [{provide: AbstractMdcFocusTrap, useExisting: forwardRef(() => MdcFocusTrapDirective) }]
 })
 export class MdcFocusTrapDirective extends AbstractMdcFocusTrap implements OnDestroy {

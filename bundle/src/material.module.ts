@@ -3,12 +3,7 @@ export * from './components/card/mdc.card.directive';
 export * from './components/checkbox/mdc.checkbox.directive';
 export * from './components/chips/mdc.chip.directive';
 export * from './components/dialog/mdc.dialog.directive';
-export { MdcDrawerDirective,
-    MdcDrawerContainerDirective,
-    MdcDrawerToolbarSpacerDirective,
-    MdcDrawerHeaderDirective,
-    MdcDrawerHeaderContentDirective,
-    MdcDrawerContentDirective } from './components/drawer/mdc.drawer.directive';
+export * from './components/drawer/mdc.drawer.directive';
 export { MdcElevationDirective } from './components/elevation/mdc.elevation.directive';
 export * from './components/fab/mdc.fab.directive';
 export { MdcFloatingLabelDirective } from './components/floating-label/mdc.floating-label.directive';
