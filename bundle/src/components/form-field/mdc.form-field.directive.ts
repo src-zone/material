@@ -1,8 +1,7 @@
 import { AfterContentInit, ContentChild, ContentChildren, forwardRef, Directive, ElementRef, HostBinding, HostListener,
   Input, OnDestroy, Optional, Renderer2, Self } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { MDCFormFieldFoundation } from '@material/form-field';
-import { MdcFormFieldAdapter } from './mdc.form-field.adapter';
+import { MDCFormFieldFoundation, MDCFormFieldAdapter } from '@material/form-field';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 import { AbstractMdcInput } from '../abstract/abstract.mdc.input';
 import { AbstractMdcLabel } from '../abstract/abstract.mdc.label';
@@ -64,11 +63,11 @@ export class MdcFormFieldDirective implements AfterContentInit, OnDestroy {
     @ContentChild(AbstractMdcInput) mdcInput: AbstractMdcInput;
     @ContentChild(AbstractMdcLabel) mdcLabel: AbstractMdcLabel;
 
-    private mdcAdapter: MdcFormFieldAdapter = {
-        registerInteractionHandler: (type: string, handler: EventListener) => {
+    private mdcAdapter: MDCFormFieldAdapter = {
+        registerInteractionHandler: (type, handler) => {
             this.registry.listen(this.renderer, type, handler, this.root);
         },
-        deregisterInteractionHandler: (type: string, handler: EventListener) => {
+        deregisterInteractionHandler: (type, handler) => {
             this.registry.unlisten(type, handler);
         },
         activateInputRipple: () => {
@@ -80,7 +79,7 @@ export class MdcFormFieldDirective implements AfterContentInit, OnDestroy {
                 this.rippleChild.deactivateRipple();
         }
     };
-    private foundation: { init: Function, destroy: Function } = new MDCFormFieldFoundation(this.mdcAdapter);
+    private foundation: MDCFormFieldFoundation;
 
     constructor(private renderer: Renderer2, private root: ElementRef, private registry: MdcEventRegistry) {
     }
@@ -94,11 +93,13 @@ export class MdcFormFieldDirective implements AfterContentInit, OnDestroy {
             else if (this.mdcLabel.for == null)
                 this.mdcLabel.for = this.mdcInput.id;
         }
+        this.foundation = new MDCFormFieldFoundation(this.mdcAdapter);
         this.foundation.init();
     }
 
     ngOnDestroy() {
         this.foundation.destroy();
+        this.foundation = null;
     }
 
     @Input() @HostBinding('class.mdc-form-field--align-end') get alignEnd() {
