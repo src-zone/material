@@ -110,3 +110,9 @@ export class MdcFormFieldDirective implements AfterContentInit, OnDestroy {
         this._alignEnd = asBoolean(val);
     }
 }
+
+export const FORM_FIELD_DIRECTIVES = [
+    MdcFormFieldInputDirective,
+    MdcFormFieldLabelDirective,
+    MdcFormFieldDirective
+];

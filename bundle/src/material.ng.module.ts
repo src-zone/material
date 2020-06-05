@@ -10,9 +10,7 @@ import { MdcElevationDirective } from './components/elevation/mdc.elevation.dire
 import { FAB_DIRECTIVES } from './components/fab/mdc.fab.directive';
 import { MdcFloatingLabelDirective } from './components/floating-label/mdc.floating-label.directive';
 import { FOCUS_TRAP_DIRECTIVES } from './components/focus-trap/mdc.focus-trap.directive';
-import { MdcFormFieldDirective,
-    MdcFormFieldInputDirective,
-    MdcFormFieldLabelDirective } from './components/form-field/mdc.form-field.directive';
+import { FORM_FIELD_DIRECTIVES } from './components/form-field/mdc.form-field.directive';
 import { ICON_BUTTON_DIRECTIVES } from './components/icon-button/mdc.icon-button.directive';
 import { LINEAR_PROGRESS_DIRECTIVES } from './components/linear-progress/mdc.linear-progress.directive';
 import { LIST_DIRECTIVES } from './components/list/mdc.list.directive';
@@ -61,7 +59,7 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         ...FAB_DIRECTIVES,
         MdcFloatingLabelDirective,
         ...FOCUS_TRAP_DIRECTIVES,
-        MdcFormFieldDirective, MdcFormFieldInputDirective, MdcFormFieldLabelDirective,
+        ...FORM_FIELD_DIRECTIVES,
         ...ICON_BUTTON_DIRECTIVES,
         ...LINEAR_PROGRESS_DIRECTIVES,
         ...LIST_DIRECTIVES,
@@ -93,7 +91,7 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         ...FAB_DIRECTIVES,
         MdcFloatingLabelDirective,
         ...FOCUS_TRAP_DIRECTIVES,
-        MdcFormFieldDirective, MdcFormFieldInputDirective, MdcFormFieldLabelDirective,
+        ...FORM_FIELD_DIRECTIVES,
         ...ICON_BUTTON_DIRECTIVES,
         ...LINEAR_PROGRESS_DIRECTIVES,
         ...LIST_DIRECTIVES,

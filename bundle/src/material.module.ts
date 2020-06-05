@@ -9,9 +9,7 @@ export * from './components/fab/mdc.fab.directive';
 export { MdcFloatingLabelDirective } from './components/floating-label/mdc.floating-label.directive';
 export * from './components/focus-trap/abstract.mdc.focus-trap';
 export * from './components/focus-trap/mdc.focus-trap.directive';
-export { MdcFormFieldDirective,
-    MdcFormFieldInputDirective,
-    MdcFormFieldLabelDirective } from './components/form-field/mdc.form-field.directive';
+export * from './components/form-field/mdc.form-field.directive';
 export * from './components/icon-button/mdc.icon-button.directive';
 export * from './components/linear-progress/mdc.linear-progress.directive';
 export * from './components/list/mdc.list.directive';
