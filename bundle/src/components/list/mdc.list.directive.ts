@@ -253,10 +253,11 @@ export class MdcListDirective implements AfterContentInit {
         let itemRole = null;
         if (this._function === MdcListFunction.menu)
             itemRole = 'menuitem';
-        this._items.forEach(item => {
-            item._role = itemRole;
-            item._setInteractive(!this._nonInteractive);
-        });
+        if (this._items)
+            this._items.forEach(item => {
+                item._role = itemRole;
+                item._setInteractive(!this._nonInteractive);
+            });
     }
 
     @HostBinding('attr.role') get _role() {
