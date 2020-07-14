@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.18.1"></a>
+## [0.18.1](https://github.com/src-zone/material/compare/v0.18.0...v0.18.1) (2020-07-14)
+
+
+### Bug Fixes
+
+* **list:** console errors for nonInteractive property fixed ([368ca0f](https://github.com/src-zone/material/commit/368ca0fab9b23f52eb314e6c250f58ce8478304a)), closes [#690](https://github.com/src-zone/material/issues/690)
+
+
+
 <a name="0.18.0"></a>
 # [0.18.0](https://github.com/src-zone/material/compare/v0.17.0...v0.18.0) (2020-04-06)
 
