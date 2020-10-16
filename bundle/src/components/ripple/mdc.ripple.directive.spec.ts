@@ -113,9 +113,9 @@ describe('MdcRippleDirective', () => {
 
     it('can be activated', fakeAsync(() => {
         const { button, adapter } = setupEnabled();
-        adapter.computeBoundingRect.calls.reset();
-        adapter.addClass.calls.reset();
-        adapter.removeClass.calls.reset();
+        (<jasmine.Spy>adapter.computeBoundingRect).calls.reset();
+        (<jasmine.Spy>adapter.addClass).calls.reset();
+        (<jasmine.Spy>adapter.removeClass).calls.reset();
         button.dispatchEvent(new Event('mousedown'));
         tick(5);
         expect(adapter.computeBoundingRect).toHaveBeenCalled();
@@ -126,17 +126,17 @@ describe('MdcRippleDirective', () => {
 
     it('can be programmatically activated/deactivated', fakeAsync(() => {
         const { ripple, foundation, adapter } = setupEnabled();
-        adapter.computeBoundingRect.calls.reset();
-        adapter.addClass.calls.reset();
-        adapter.removeClass.calls.reset();
+        (<jasmine.Spy>adapter.computeBoundingRect).calls.reset();
+        (<jasmine.Spy>adapter.addClass).calls.reset();
+        (<jasmine.Spy>adapter.removeClass).calls.reset();
         ripple.activateRipple();
         tick(5);
         expect(foundation.activate).toHaveBeenCalled();
         expect(adapter.computeBoundingRect).toHaveBeenCalled();
         expect(adapter.addClass).toHaveBeenCalledWith('mdc-ripple-upgraded--foreground-activation');
         expect(adapter.removeClass).toHaveBeenCalledWith('mdc-ripple-upgraded--foreground-activation');
-        adapter.addClass.calls.reset();
-        adapter.removeClass.calls.reset();
+        (<jasmine.Spy>adapter.addClass).calls.reset();
+        (<jasmine.Spy>adapter.removeClass).calls.reset();
         ripple.deactivateRipple();
         expect(foundation.deactivate).toHaveBeenCalled();
         tick(400); // wait for all animation frames / queued timers
