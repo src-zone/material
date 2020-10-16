@@ -1,27 +1,12 @@
 import { AfterContentInit, AfterViewInit, Directive, ElementRef, EventEmitter, forwardRef,
-    HostBinding, Input, OnChanges, OnDestroy, Output, Renderer2, Self, SimpleChange, SimpleChanges } from '@angular/core';
+    HostBinding, HostListener, Inject, Input, OnChanges, OnDestroy, Output, Renderer2, Self, SimpleChange,
+    SimpleChanges } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import { MDCSliderFoundation, strings } from '@material/slider';
-import { MdcSliderAdapter } from './mdc.slider.adapter';
+import { MDCSliderFoundation, MDCSliderAdapter } from '@material/slider';
+import { applyPassive } from '@material/dom/events';
 import { asBoolean } from '../../utils/value.utils';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
-
-interface MdcSliderFoundationInterface {
-    init: () => void,
-    destroy: () => void,
-    setupTrackMarker(),
-    layout(),
-    getValue(),
-    setValue(value: number),
-    getMax(): number,
-    setMax(max: number),
-    getMin(): number,
-    setMin(min: number),
-    getStep(): number,
-    setStep(step: number),
-    isDisabled(): boolean,
-    setDisabled(disabled: boolean),
-}
 
 /**
  * Directive for creating a Material Design slider input.
@@ -58,7 +43,8 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
      * of making the slider discrete.
      */
     @Output() stepValueChange: EventEmitter<number> = new EventEmitter();
-    private _initialized = false;
+    private trackCntr: HTMLElement;
+    private thumbCntr: HTMLElement;
     private _elmThumbCntr: HTMLElement;
     private _elmSliderPin: HTMLElement;
     private _elmValueMarker: HTMLElement;
@@ -76,7 +62,7 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
     private _step = 0;
     private _lastWidth: number;
 
-    private mdcAdapter: MdcSliderAdapter = {
+    private mdcAdapter: MDCSliderAdapter = {
         hasClass: (className: string) => {
             if (className === 'mdc-slider--discrete')
                 return this._discrete;
@@ -91,34 +77,22 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
             this._rndr.removeClass(this._root.nativeElement, className);
         },
         getAttribute: (name: string) => this._root.nativeElement.getAttribute(name),
-        setAttribute: (name: string, value: string) => {this._rndr.setAttribute(this._root.nativeElement, name, value); },
+        setAttribute: (name: string, value: string) => {
+            // skip attributes that we control with angular
+            if (!/^aria-(value.*|disabled)$/.test(name))
+                this._rndr.setAttribute(this._root.nativeElement, name, value);
+        },
         removeAttribute: (name: string) => {this._rndr.removeAttribute(this._root.nativeElement, name); },
         computeBoundingRect: () => this._root.nativeElement.getBoundingClientRect(),
         getTabIndex: () => this._root.nativeElement.tabIndex,
-        registerInteractionHandler: (type: string, handler: EventListener) => {
-            this._registry.listen(this._rndr, type, handler, this._root);
-        },
-        deregisterInteractionHandler: (type: string, handler: EventListener) => {
-            this._registry.unlisten(type, handler);
-        },
-        registerThumbContainerInteractionHandler: (type: string, handler: EventListener) => {
-            this._registry.listenElm(this._rndr, type, handler, this._elmThumbCntr);
-        },
-        deregisterThumbContainerInteractionHandler: (type: string, handler: EventListener) => {
-            this._registry.unlisten(type, handler);
-        },
-        registerBodyInteractionHandler: (type: string, handler: EventListener) => {
-            this._registry.listenElm(this._rndr, type, handler, document.body);
-        },
-        deregisterBodyInteractionHandler: (type: string, handler: EventListener) => {
-            this._registry.unlisten(type, handler);
-        },
-        registerResizeHandler: (handler: EventListener) => {
-            this._registry.listenElm(this._rndr, 'resize', handler, window);
-        },
-        deregisterResizeHandler: (handler: EventListener) => {
-            this._registry.unlisten('resize', handler);
-        },
+        registerInteractionHandler: (evtType, handler) => this._registry.listen(this._rndr, evtType, handler, this._root, applyPassive()),
+        deregisterInteractionHandler: (evtType, handler) => this._registry.unlisten(evtType, handler),
+        registerThumbContainerInteractionHandler: (evtType, handler) => this._registry.listenElm(this._rndr, evtType, handler, this._elmThumbCntr, applyPassive()),
+        deregisterThumbContainerInteractionHandler: (evtType, handler) => this._registry.unlisten(evtType, handler),
+        registerBodyInteractionHandler: (evtType, handler) => this._registry.listenElm(this._rndr, evtType, handler, this.document.body),
+        deregisterBodyInteractionHandler: (evtType, handler) => this._registry.unlisten(evtType, handler),
+        registerResizeHandler: (handler) => this._registry.listenElm(this._rndr, 'resize', handler, window),
+        deregisterResizeHandler: (handler) => this._registry.unlisten('resize', handler),
         notifyInput: () => {
             let newValue = this.asNumber(this.foundation.getValue());
             if (newValue !== this._value) {
@@ -138,43 +112,38 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
         },
         setMarkerValue: (value: number) => {
             if (this._elmValueMarker)
-                this._elmValueMarker.innerText = value != null ? value.toString() : null;
+                this._elmValueMarker.innerText = value != null ? value.toLocaleString() : null;
         },
-        appendTrackMarkers: (numMarkers: number) => {
+        setTrackMarkers: (step, max, min) => {
             if (this._elmTrackMarkerCntr) {
-                const frag = document.createDocumentFragment();
-                for (let i = 0; i < numMarkers; i++) {
-                    const marker = document.createElement('div');
-                    marker.classList.add('mdc-slider__track-marker');
-                    frag.appendChild(marker);
-                }
-                this._rndr.appendChild(this._elmTrackMarkerCntr, frag);
+                // from https://github.com/material-components/material-components-web/blob/v5.1.0/packages/mdc-slider/component.ts#L141
+                const stepStr = step.toLocaleString();
+                const maxStr = max.toLocaleString();
+                const minStr = min.toLocaleString();
+                const markerAmount = `((${maxStr} - ${minStr}) / ${stepStr})`;
+                const markerWidth = `2px`;
+                const markerBkgdImage = `linear-gradient(to right, currentColor ${markerWidth}, transparent 0)`;
+                const markerBkgdLayout = `0 center / calc((100% - ${markerWidth}) / ${markerAmount}) 100% repeat-x`;
+                const markerBkgdShorthand = `${markerBkgdImage} ${markerBkgdLayout}`;
+                this._rndr.setStyle(this._elmTrackMarkerCntr, 'background', markerBkgdShorthand);
             }
         },
-        removeTrackMarkers: () => {
-            if (this._elmTrackMarkerCntr)
-                while (this._elmTrackMarkerCntr.firstChild)
-                    this._rndr.removeChild(this._elmTrackMarkerCntr, this._elmTrackMarkerCntr.firstChild);
-        },
-        setLastTrackMarkersStyleProperty: (propertyName: string, value: string) => {
-            const lastTrackMarker = this._root.nativeElement.querySelector('.mdc-slider__track-marker:last-child');
-            if (lastTrackMarker)
-                this._rndr.setStyle(lastTrackMarker, propertyName, value);
-        },
         isRTL: () => getComputedStyle(this._root.nativeElement).direction === 'rtl'
+     
     };
-    private foundation: MdcSliderFoundationInterface = new MDCSliderFoundation(this.mdcAdapter);
+    private foundation: MDCSliderFoundation;
 
-    constructor(private _rndr: Renderer2, private _root: ElementRef, private _registry: MdcEventRegistry) {
+    constructor(private _rndr: Renderer2, private _root: ElementRef, private _registry: MdcEventRegistry,
+        @Inject(DOCUMENT) private document: Document) {
     }
 
     ngAfterContentInit() {
         this.initElements();
         this.initDefaultAttributes();
+        this.foundation = new MDCSliderFoundation(this.mdcAdapter)
         this.foundation.init();
         this._lastWidth = this.mdcAdapter.computeBoundingRect().width;
         this.updateValues({});
-        this._initialized = true;
     }
 
     ngAfterViewInit() {
@@ -190,7 +159,7 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
     }
 
     _onChanges(changes: SimpleChanges) {
-        if (this._initialized) {
+        if (this.foundation) {
             if (this.isChanged('discrete', changes) || this.isChanged('markers', changes)) {
                 this.foundation.destroy();
                 this.initElements();
@@ -210,12 +179,14 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
     private initElements() {
         // initElements is also called when changes dictate a new Foundation initialization,
         // in which case we create new child elements:
-        while (this._root.nativeElement.firstChild)
-            this._rndr.removeChild(this._root.nativeElement, this._root.nativeElement.firstChild);
-        const elmTrackContainer = this.addElement(this._root.nativeElement, 'div', ['mdc-slider__track-container']);
-        this._elmTrack = this.addElement(elmTrackContainer, 'div', ['mdc-slider__track']);
+        if (this.trackCntr) {
+            this._rndr.removeChild(this._root.nativeElement, this.trackCntr);
+            this._rndr.removeChild(this._root.nativeElement, this.thumbCntr);
+        }
+        this.trackCntr = this.addElement(this._root.nativeElement, 'div', ['mdc-slider__track-container']);
+        this._elmTrack = this.addElement(this.trackCntr, 'div', ['mdc-slider__track']);
         if (this._discrete && this._markers)
-            this._elmTrackMarkerCntr = this.addElement(elmTrackContainer, 'div', ['mdc-slider__track-marker-container']);
+            this._elmTrackMarkerCntr = this.addElement(this.trackCntr, 'div', ['mdc-slider__track-marker-container']);
         else
             this._elmTrackMarkerCntr = null;
         this._elmThumbCntr = this.addElement(this._root.nativeElement, 'div', ['mdc-slider__thumb-container']);
@@ -269,18 +240,18 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
             // See https://github.com/material-components/material-components-web/issues/1426
             // mdc-slider doesn't allow a discrete step value < 1 currently:
             this._step = 1;
-            setTimeout(() => {this.stepValueChange.emit(this._step); }, 0);
+            Promise.resolve().then(() => {this.stepValueChange.emit(this._step); });
         } else if (this._step < 0) {
             this._step = 0;
-            setTimeout(() => {this.stepValueChange.emit(this._step); }, 0);
+            Promise.resolve().then(() => {this.stepValueChange.emit(this._step); });
         }
         if (this._min > this._max) {
             if (this.isChanged('maxValue', changes)) {
                 this._min = this._max;
-                setTimeout(() => {this.minValueChange.emit(this._min); }, 0);                
+                Promise.resolve().then(() => {this.minValueChange.emit(this._min); });
             } else {
                 this._max = this._min;
-                setTimeout(() => {this.maxValueChange.emit(this._max); }, 0);                                
+                Promise.resolve().then(() => {this.maxValueChange.emit(this._max); });
             }
         }
         let currValue = changes['value'] ? changes['value'].currentValue : this._value;
@@ -303,14 +274,12 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
             // preventing the slider from getting focus on keyboard commands:
             this.foundation.setDisabled(this._disabled);
         }
-        // if we pass null, the foundation will make this a number, since we want to support 'no value',
-        // we're passing 'undefined' instead:
-        this.foundation.setValue(this._value == null ? undefined : this._value);
+        this.foundation.setValue(this._value);
         // value may have changed during setValue(), due to step settings:
-        this._value = this.asNumber(this.foundation.getValue());
+        this._value = this._value == null ? null : this.asNumber(this.foundation.getValue());
         // compare with '!=' as null and undefined are considered the same (for initialisation sake):
         if (currValue != this._value && !(isNaN(currValue) && isNaN(this._value)))
-            setTimeout(() => {this.notifyValueChanged(); }, 0);
+            Promise.resolve().then(() => {this.notifyValueChanged(); });
     }
 
     private updateLayout() {
@@ -430,6 +399,11 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
 
     set disabled(value: any) {
         this._disabled = asBoolean(value);
+    }
+
+    /** @docs-private */
+    @HostListener('blur') _onBlur() {
+        this._onTouched();
     }
 
     asNumber(value: number | string): number {
