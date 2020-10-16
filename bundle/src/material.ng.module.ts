@@ -22,16 +22,6 @@ import { MdcRippleDirective } from './components/ripple/mdc.ripple.directive';
 import { SELECT_DIRECTIVES } from './components/select/mdc.select.directive';
 import { SLIDER_DIRECTIVES } from './components/slider/mdc.slider.directive';
 import { SWITCH_DIRECTIVES } from './components/switch/mdc.switch.directive';    
-import { MdcTabDirective,
-    MdcTabIconDirective,
-    MdcTabIconTextDirective } from './components/tabs/mdc.tab.directive';
-import { MdcTabRouterDirective } from './components/tabs/mdc.tab.router.directive';
-import { MdcTabBarDirective } from './components/tabs/mdc.tab.bar.directive';
-import { MdcTabBarScrollerDirective,
-    MdcTabBarScrollerInnerDirective,
-    MdcTabBarScrollerBackDirective,
-    MdcTabBarScrollerForwardDirective,
-    MdcTabBarScrollerFrameDirective } from './components/tabs/mdc.tab.bar.scroller.directive';
 import { TEXT_FIELD_DIRECTIVES } from './components/text-field/mdc.text-field.directive';
 import { MdcToolbarDirective,
     MdcToolbarRowDirective,
@@ -70,10 +60,6 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         ...SELECT_DIRECTIVES,
         ...SLIDER_DIRECTIVES,
         ...SWITCH_DIRECTIVES,
-        MdcTabDirective, MdcTabIconDirective, MdcTabIconTextDirective,
-        MdcTabRouterDirective,
-        MdcTabBarDirective,
-        MdcTabBarScrollerDirective, MdcTabBarScrollerInnerDirective, MdcTabBarScrollerBackDirective, MdcTabBarScrollerForwardDirective, MdcTabBarScrollerFrameDirective,
         ...TEXT_FIELD_DIRECTIVES,
         MdcToolbarDirective, MdcToolbarRowDirective, MdcToolbarSectionDirective, MdcToolbarTitleDirective, MdcToolbarIcon, MdcToolbarMenuIcon, MdcToolbarFixedAdjustDirective,
         TOP_APP_BAR_DIRECTIVES,
@@ -102,10 +88,6 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         ...SELECT_DIRECTIVES,
         ...SLIDER_DIRECTIVES,
         ...SWITCH_DIRECTIVES,
-        MdcTabDirective, MdcTabIconDirective, MdcTabIconTextDirective,
-        MdcTabRouterDirective,
-        MdcTabBarDirective,
-        MdcTabBarScrollerDirective, MdcTabBarScrollerInnerDirective, MdcTabBarScrollerBackDirective, MdcTabBarScrollerForwardDirective, MdcTabBarScrollerFrameDirective,
         ...TEXT_FIELD_DIRECTIVES,
         MdcToolbarDirective, MdcToolbarRowDirective, MdcToolbarSectionDirective, MdcToolbarTitleDirective, MdcToolbarIcon, MdcToolbarMenuIcon, MdcToolbarFixedAdjustDirective,
         TOP_APP_BAR_DIRECTIVES,

@@ -24,17 +24,6 @@ export * from './components/slider/mdc.slider.directive';
 export { MdcSnackbarMessage } from './components/snackbar/mdc.snackbar.message';
 export { MdcSnackbarService } from './components/snackbar/mdc.snackbar.service';
 export { SWITCH_DIRECTIVES } from './components/switch/mdc.switch.directive';
-export { AbstractMdcTabDirective, MdcTabDirective,
-    MdcTabIconDirective,
-    MdcTabIconTextDirective,
-    MdcTabChange } from './components/tabs/mdc.tab.directive';
-export { MdcTabRouterDirective } from './components/tabs/mdc.tab.router.directive';
-export { MdcTabBarDirective } from './components/tabs/mdc.tab.bar.directive';
-export { MdcTabBarScrollerDirective,
-    MdcTabBarScrollerInnerDirective,
-    MdcTabBarScrollerBackDirective,
-    MdcTabBarScrollerForwardDirective,
-    MdcTabBarScrollerFrameDirective } from './components/tabs/mdc.tab.bar.scroller.directive';
 export * from './components/text-field/mdc.text-field.directive';
 export { MdcToolbarDirective,
     MdcToolbarRowDirective,
