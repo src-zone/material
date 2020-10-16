@@ -79,6 +79,7 @@ export class MdcDrawerDirective implements AfterContentInit, OnDestroy {
     private type: MdcDrawerType = 'permanent';
     private previousFocus: Element | HTMLOrSVGElement | null;
     private _open: boolean;
+    private document: Document;
     private mdcAdapter: MDCDrawerAdapter = {
         addClass: (className) =>  this._rndr.addClass(this._elm.nativeElement, className),
         removeClass: (className) => this._rndr.removeClass(this._elm.nativeElement, className),
@@ -127,8 +128,10 @@ export class MdcDrawerDirective implements AfterContentInit, OnDestroy {
      */
     @Output() afterClosed: EventEmitter<void> = new EventEmitter();
     
-    constructor(public _elm: ElementRef, protected _rndr: Renderer2, @Inject(DOCUMENT) private document: Document,
-        @Optional() @Self() private _focusTrap: AbstractMdcFocusTrap) {}
+    constructor(public _elm: ElementRef, protected _rndr: Renderer2, @Inject(DOCUMENT) doc: any,
+        @Optional() @Self() private _focusTrap: AbstractMdcFocusTrap) {
+        this.document = doc as Document; // work around ngc issue https://github.com/angular/angular/issues/20351
+    }
 
     ngAfterContentInit() {
         this.initDrawer();
