@@ -122,8 +122,10 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
     };
     /** @docs-private */
     private foundation: MDCMenuSurfaceFoundation;
+    private document: Document;
 
-    constructor(private _elm: ElementRef, private rndr: Renderer2, @Inject(DOCUMENT) private document: Document) {
+    constructor(private _elm: ElementRef, private rndr: Renderer2, @Inject(DOCUMENT) doc: any) {
+        this.document = doc as Document; // work around ngc issue https://github.com/angular/angular/issues/20351
     }
 
     ngAfterContentInit() {
