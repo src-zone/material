@@ -23,13 +23,6 @@ import { SELECT_DIRECTIVES } from './components/select/mdc.select.directive';
 import { SLIDER_DIRECTIVES } from './components/slider/mdc.slider.directive';
 import { SWITCH_DIRECTIVES } from './components/switch/mdc.switch.directive';    
 import { TEXT_FIELD_DIRECTIVES } from './components/text-field/mdc.text-field.directive';
-import { MdcToolbarDirective,
-    MdcToolbarRowDirective,
-    MdcToolbarSectionDirective,
-    MdcToolbarTitleDirective,
-    MdcToolbarIcon,
-    MdcToolbarMenuIcon,
-    MdcToolbarFixedAdjustDirective } from './components/toolbar/mdc.toolbar.directive';
 import { TOP_APP_BAR_DIRECTIVES } from './components/top-app-bar/mdc.top-app-bar.directive';
 import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-resize.directive';
 
@@ -61,7 +54,6 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         ...SLIDER_DIRECTIVES,
         ...SWITCH_DIRECTIVES,
         ...TEXT_FIELD_DIRECTIVES,
-        MdcToolbarDirective, MdcToolbarRowDirective, MdcToolbarSectionDirective, MdcToolbarTitleDirective, MdcToolbarIcon, MdcToolbarMenuIcon, MdcToolbarFixedAdjustDirective,
         TOP_APP_BAR_DIRECTIVES,
         MdcScrollbarResizeDirective
     ],
@@ -89,7 +81,6 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         ...SLIDER_DIRECTIVES,
         ...SWITCH_DIRECTIVES,
         ...TEXT_FIELD_DIRECTIVES,
-        MdcToolbarDirective, MdcToolbarRowDirective, MdcToolbarSectionDirective, MdcToolbarTitleDirective, MdcToolbarIcon, MdcToolbarMenuIcon, MdcToolbarFixedAdjustDirective,
         TOP_APP_BAR_DIRECTIVES,
         MdcScrollbarResizeDirective
     ]
