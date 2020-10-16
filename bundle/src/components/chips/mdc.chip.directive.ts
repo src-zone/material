@@ -417,15 +417,15 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
         return this._foundation.getDimensions();
     }
 
-    @HostListener('click', ['$event']) @HostListener('keydown', ['$event']) _handleInteraction(event) {
+    @HostListener('click', ['$event']) @HostListener('keydown', ['$event']) _handleInteraction(event: MouseEvent | KeyboardEvent) {
         this._foundation?.handleInteraction(event);
     }
 
-    @HostListener('transitionend', ['$event']) handleTransitionEnd(event) {
+    @HostListener('transitionend', ['$event']) handleTransitionEnd(event: TransitionEvent) {
         this._foundation?.handleTransitionEnd(event);
     }
 
-    @HostListener('keydown', ['$event']) handleKeydown(event) {
+    @HostListener('keydown', ['$event']) handleKeydown(event: KeyboardEvent) {
         this._foundation?.handleKeydown(event);
     }
 }
