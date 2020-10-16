@@ -25,13 +25,6 @@ export { MdcSnackbarMessage } from './components/snackbar/mdc.snackbar.message';
 export { MdcSnackbarService } from './components/snackbar/mdc.snackbar.service';
 export { SWITCH_DIRECTIVES } from './components/switch/mdc.switch.directive';
 export * from './components/text-field/mdc.text-field.directive';
-export { MdcToolbarDirective,
-    MdcToolbarRowDirective,
-    MdcToolbarSectionDirective,
-    MdcToolbarTitleDirective,
-    MdcToolbarIcon,
-    MdcToolbarMenuIcon,
-    MdcToolbarFixedAdjustDirective } from './components/toolbar/mdc.toolbar.directive';
 export * from './components/top-app-bar/mdc.top-app-bar.directive';
 export { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-resize.directive';
 export { MdcEventRegistry } from './utils/mdc.event.registry';
