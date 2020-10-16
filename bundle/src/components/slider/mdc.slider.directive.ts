@@ -453,3 +453,7 @@ export class MdcFormsSliderDirective implements ControlValueAccessor {
         this.mdcSlider.disabled = disabled;
     }
 }
+
+export const SLIDER_DIRECTIVES = [
+    MdcSliderDirective, MdcFormsSliderDirective
+];

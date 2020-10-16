@@ -20,8 +20,7 @@ export * from './components/radio/mdc.radio.directive';
 export * from './components/ripple/abstract.mdc.ripple';
 export { MdcRippleDirective } from './components/ripple/mdc.ripple.directive';
 export * from './components/select/mdc.select.directive';
-export { MdcSliderDirective,
-    MdcFormsSliderDirective } from './components/slider/mdc.slider.directive';
+export * from './components/slider/mdc.slider.directive';
 export { MdcSnackbarMessage } from './components/snackbar/mdc.snackbar.message';
 export { MdcSnackbarService } from './components/snackbar/mdc.snackbar.service';
 export { SWITCH_DIRECTIVES } from './components/switch/mdc.switch.directive';

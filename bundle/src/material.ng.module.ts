@@ -20,8 +20,7 @@ import { NOTCHED_OUTLINE_DIRECTIVES } from './components/notched-outline/mdc.not
 import { RADIO_DIRECTIVES } from './components/radio/mdc.radio.directive';
 import { MdcRippleDirective } from './components/ripple/mdc.ripple.directive';
 import { SELECT_DIRECTIVES } from './components/select/mdc.select.directive';
-import { MdcSliderDirective,
-    MdcFormsSliderDirective } from './components/slider/mdc.slider.directive';
+import { SLIDER_DIRECTIVES } from './components/slider/mdc.slider.directive';
 import { SWITCH_DIRECTIVES } from './components/switch/mdc.switch.directive';    
 import { MdcTabDirective,
     MdcTabIconDirective,
@@ -69,7 +68,7 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         ...RADIO_DIRECTIVES,
         MdcRippleDirective,
         ...SELECT_DIRECTIVES,
-        MdcSliderDirective, MdcFormsSliderDirective,
+        ...SLIDER_DIRECTIVES,
         ...SWITCH_DIRECTIVES,
         MdcTabDirective, MdcTabIconDirective, MdcTabIconTextDirective,
         MdcTabRouterDirective,
@@ -101,7 +100,7 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         ...RADIO_DIRECTIVES,
         MdcRippleDirective,
         ...SELECT_DIRECTIVES,
-        MdcSliderDirective, MdcFormsSliderDirective,
+        ...SLIDER_DIRECTIVES,
         ...SWITCH_DIRECTIVES,
         MdcTabDirective, MdcTabIconDirective, MdcTabIconTextDirective,
         MdcTabRouterDirective,
