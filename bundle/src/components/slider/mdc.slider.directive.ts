@@ -132,9 +132,11 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
      
     };
     private foundation: MDCSliderFoundation;
+    private document: Document;
 
     constructor(private _rndr: Renderer2, private _root: ElementRef, private _registry: MdcEventRegistry,
-        @Inject(DOCUMENT) private document: Document) {
+        @Inject(DOCUMENT) doc: any) {
+            this.document = doc as Document; // work around ngc issue https://github.com/angular/angular/issues/20351
     }
 
     ngAfterContentInit() {
