@@ -1,5 +1,5 @@
 import { AfterContentInit, ContentChild, ContentChildren, Directive, ElementRef, EventEmitter, HostBinding, Input,
-    OnDestroy, Optional, Output, QueryList, Renderer2, Self, Inject, HostListener, forwardRef } from '@angular/core';
+    OnDestroy, OnInit, Optional, Output, QueryList, Renderer2, Self, Inject, HostListener, forwardRef } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { MDCDialogFoundation, MDCDialogAdapter, util, cssClasses } from '@material/dialog';
 import { matches } from '@material/dom/ponyfill'
@@ -281,10 +281,12 @@ export class MdcDialogDirective implements AfterContentInit, OnDestroy {
         trapFocus: () => this.trapFocus()
     };
     private foundation: MDCDialogFoundation;
+    private document: Document;
 
     constructor(private _elm: ElementRef, private _rndr: Renderer2, private _registry: MdcEventRegistry,
         @Optional() @Self() private _focusTrap: AbstractMdcFocusTrap,
-        @Inject(DOCUMENT) private document: Document) {
+        @Inject(DOCUMENT) doc: any) {
+            this.document = doc as Document; // work around ngc issue https://github.com/angular/angular/issues/20351
     }
 
     ngAfterContentInit() {
