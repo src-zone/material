@@ -522,19 +522,21 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
             'group': 'checked',
             'radiogroup': 'checked'
         }[this._role] || null;
-        const firstTabbable = this._nonInteractive ? null :
-            this._items.find(item => item._elm.nativeElement.tabIndex === 0) ||
-            this._items.find(item => item.active) ||
-            this._items.first;
-        this._items.forEach(item => {
-            item._role = itemRole;
-            item._ariaActive = ariaActive;
-            item._setInteractive(!this._nonInteractive);
-            if (this._nonInteractive)
-                // not focusable if not interactive:
-                this.rndr.removeAttribute(item._elm.nativeElement, 'tabindex');
-            this.rndr.setAttribute(item._elm.nativeElement, 'tabindex', item === firstTabbable ? '0' : '-1');
-        });
+        if (this._items) {
+            const firstTabbable = this._nonInteractive ? null :
+                this._items.find(item => item._elm.nativeElement.tabIndex === 0) ||
+                this._items.find(item => item.active) ||
+                this._items.first;
+            this._items.forEach(item => {
+                item._role = itemRole;
+                item._ariaActive = ariaActive;
+                item._setInteractive(!this._nonInteractive);
+                if (this._nonInteractive)
+                    // not focusable if not interactive:
+                    this.rndr.removeAttribute(item._elm.nativeElement, 'tabindex');
+                this.rndr.setAttribute(item._elm.nativeElement, 'tabindex', item === firstTabbable ? '0' : '-1');
+            });
+        }
     }
 
     private updateLayout() {

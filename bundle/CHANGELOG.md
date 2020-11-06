@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.18.1"></a>
+## [0.18.1](https://github.com/src-zone/material/compare/v0.18.0...v0.18.1) (2020-07-14)
+
+
+### Bug Fixes
+
+* **list:** console errors for nonInteractive property fixed ([368ca0f](https://github.com/src-zone/material/commit/368ca0fab9b23f52eb314e6c250f58ce8478304a)), closes [#690](https://github.com/src-zone/material/issues/690)
+
+
+
+<a name="0.18.0"></a>
+# [0.18.0](https://github.com/src-zone/material/compare/v0.17.0...v0.18.0) (2020-04-06)
+
+
+### Bug Fixes
+
+* **icon-button:** disabled property should disable the button ([e483175](https://github.com/src-zone/material/commit/e483175cf6a68955d9dfa0ddfcf69a35fe4a29f4))
+* **select:** only (de)activate line ripple when there is one ([52041a9](https://github.com/src-zone/material/commit/52041a9f60ce056bd9858dff2e9424dd0f827263)), closes [#663](https://github.com/src-zone/material/issues/663)
+* **tab:** activate mdcTabRouter correctly when using Ivy rendering engine (Angular9) ([586cef3](https://github.com/src-zone/material/commit/586cef399c073ac9785a75a568608f6f0da7b520)), closes [#684](https://github.com/src-zone/material/issues/684)
+
+
+### Features
+
+* **fab:** add extended property to floating action button ([1ba6e7d](https://github.com/src-zone/material/commit/1ba6e7dfaec9f82571262b2bf811f82b9c896cf6))
+
+
+
 <a name="0.17.0"></a>
 # [0.17.0](https://github.com/src-zone/material/compare/v0.16.0...v0.17.0) (2018-07-11)
 
