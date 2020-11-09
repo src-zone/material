@@ -1,4 +1,4 @@
-import { ContentChildren, EventEmitter, QueryList, Directive, ElementRef, HostBinding, Output, Renderer2, HostListener } from '@angular/core';
+import { ContentChildren, EventEmitter, QueryList, Directive, ElementRef, HostBinding, Output, Renderer2, HostListener, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { MDCTabBarFoundation, MDCTabBarAdapter } from '@material/tab-bar';
 import { AbstractMdcTabDirective, MdcTabChange } from './mdc.tab.directive';
@@ -11,7 +11,7 @@ import { takeUntil } from 'rxjs/operators';
 @Directive({
     selector: '[mdcTabBar]'
 })
-export class MdcTabBarDirective {
+export class MdcTabBarDirective implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-tab-bar') _hostClass = true;
     @HostBinding('attr.role') _role = 'tablist';
     private onDestroy$: Subject<any> = new Subject();
@@ -29,12 +29,12 @@ export class MdcTabBarDirective {
         getOffsetWidth: () => (this._el.nativeElement as HTMLElement).offsetWidth,
         isRTL: () => getComputedStyle(this._el.nativeElement).getPropertyValue('direction') === 'rtl',
         setActiveTab: (index) => this._foundation.activateTab(index),
-        activateTabAtIndex: (index, clientRect) => this._tabs.toArray()[index]._activate(clientRect),
+        activateTabAtIndex: (index, clientRect) => this._tabs.toArray()[index]._activate(index, clientRect),
         deactivateTabAtIndex: (index) => this._tabs.toArray()[index]._deactivate(),
         focusTabAtIndex: (index) => this._tabs.toArray()[index]._focus(),
         getTabIndicatorClientRectAtIndex: (index) => this._tabs.toArray()[index]._computeIndicatorClientRect(),
         getTabDimensionsAtIndex: (index) => this._tabs.toArray()[index]._computeDimensions(),
-        getPreviousActiveTabIndex: () => this._tabs.toArray().findIndex(e => e.active),
+        getPreviousActiveTabIndex: () => this._tabs.toArray().findIndex(e => e.isActive()),
         getFocusedTabIndex: () => this._tabs.map(t => t._root.nativeElement).indexOf(document.activeElement),
         getIndexOfTabById: () => -1, // we're not using the id's, and nothing should call getIndexOfTabById
         getTabListLength: () => this._tabs.length,
@@ -98,8 +98,9 @@ export class MdcTabBarDirective {
         this._unlistenTabSelected();
         this._subscriptions = new Array<Subscription>();
         this._tabs.forEach(tab => {
-            this._subscriptions.push(tab.interact.subscribe(event => {
-                this._setActive(event.tab);
+            this._subscriptions.push(tab.activationRequest$.subscribe(activated => {
+                if (activated)
+                    this._setActive(tab);
             }));
         });
     }

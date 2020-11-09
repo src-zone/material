@@ -10,6 +10,8 @@ const template = `
 </span>
 `;
 
+// TODO: change nested content, check correct reinitialization and state of mdc-tab-indicator--active
+
 describe('MdcTabIndicatorDirective', () => {
     abstract class AbstractTestComponent {
         type: string = null;

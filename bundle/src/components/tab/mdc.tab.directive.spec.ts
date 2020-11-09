@@ -1,12 +1,12 @@
 import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { TAB_DIRECTIVES, MdcTabDirective } from './mdc.tab.directive';
 import { TAB_INDICATOR_DIRECTIVES } from './mdc.tab.indicator.directive';
 import { hasRipple } from '../../testutils/page.test';
 
 const template = `
-<button mdcTab [active]="active" (interact)="interact($event)">
+<button mdcTab [active]="active" (activate)="activate($event)">
   <span mdcTabContent>
     <span mdcTabIcon class="material-icons">favorite</span>
     <span mdcTabLabel>Favorites</span>
@@ -18,7 +18,7 @@ const template = `
 `;
 
 const templateIndicatorSpanning = `
-<button mdcTab [active]="active" (interact)="interact($event)">
+<button mdcTab [active]="active" (activate)="activate($event)">
   <span mdcTabContent>
     <span mdcTabIcon class="material-icons">favorite</span>
     <span mdcTabLabel>Favorites</span>
@@ -31,9 +31,9 @@ const templateIndicatorSpanning = `
 
 describe('MdcTabDirective', () => {
     abstract class AbstractTestComponent {
-        events = [];
+        events: any[] = [];
         active: boolean = null;
-        interact(event: any) { // TODO: it's now interact & private, do we have this in tests like this?
+        activate(event: any) {
             this.events.push(event);
         }
     }
@@ -47,7 +47,7 @@ describe('MdcTabDirective', () => {
     @Component({
         template: templateIndicatorSpanning
     })
-    class SpanningTestComponent {
+    class SpanningTestComponent extends AbstractTestComponent {
     }
 
     function setup(testComponentType: any = TestComponent) {
@@ -63,6 +63,8 @@ describe('MdcTabDirective', () => {
         const tab: HTMLElement = fixture.nativeElement.querySelector('.mdc-tab');
         expect(tab).toBeDefined();
         expect(tab.classList).not.toContain('mdc-tab--active');
+        expect(tab.getAttribute('aria-selected')).toBe('false');
+        expect(tab.getAttribute('tabindex')).toBe('-1');
         expect(fixture.nativeElement.querySelector('.mdc-tab__content')).toBeDefined();
         expect(fixture.nativeElement.querySelector('.mdc-tab__icon')).toBeDefined();
         expect(fixture.nativeElement.querySelector('.mdc-tab__text-label')).toBeDefined();
@@ -81,39 +83,90 @@ describe('MdcTabDirective', () => {
         validateActivation(fixture, SpanningTestComponent);
     }));
 
-    it('click triggers interact event', fakeAsync(() => {
+    it('click triggers activationRequest', fakeAsync(() => {
+        const { fixture } = setup(TestComponent);
+        const tab: HTMLElement = fixture.nativeElement.querySelector('.mdc-tab');
+        const mdcTab = fixture.debugElement.query(By.directive(MdcTabDirective)).injector.get(MdcTabDirective);
+        const events = [];
+        const subscription = mdcTab.activationRequest$.subscribe(activation => events.push(activation));
+        try {
+          expect(events).toEqual([false]);
+          tab.click(); tick(); fixture.detectChanges();
+          expect(events).toEqual([false, true]);  
+        } finally {
+          subscription.unsubscribe();
+        }
+    }));
+
+    it('active property triggers activationRequest', fakeAsync(() => {
         const { fixture } = setup(TestComponent);
         const tab: HTMLElement = fixture.nativeElement.querySelector('.mdc-tab');
         const mdcTab = fixture.debugElement.query(By.directive(MdcTabDirective)).injector.get(MdcTabDirective);
         const testComponent = fixture.debugElement.injector.get(TestComponent);
+        const events = [];
+        const subscription = mdcTab.activationRequest$.subscribe(activation => events.push(activation));
+        try {
+            expect(events).toEqual([false]);
 
-        expect(testComponent.events).toEqual([]);
-        tab.click(); tick(); fixture.detectChanges();
-        expect(testComponent.events).toEqual([{tab: mdcTab, tabIndex: null}]);
+            testComponent.active = true; tick(); fixture.detectChanges();
+            expect(events).toEqual([false, true]);
+
+            testComponent.active = false; tick(); fixture.detectChanges();
+            expect(events).toEqual([false, true, false]);
+
+            testComponent.active = true; tick(); fixture.detectChanges();
+            expect(events).toEqual([false, true, false, true]);
+
+            testComponent.active = true; tick(); fixture.detectChanges();
+            expect(events).toEqual([false, true, false, true]); // no value change => no new event
+        } finally {
+            subscription.unsubscribe();
+        }
     }));
 
     function validateActivation(fixture: ComponentFixture<unknown>, testComponentType: any = TestComponent) {
         const tab: HTMLElement = fixture.nativeElement.querySelector('.mdc-tab');
         const mdcTab = fixture.debugElement.query(By.directive(MdcTabDirective)).injector.get(MdcTabDirective);
-        const indicator: HTMLElement = fixture.nativeElement.querySelector('.mdc-tab-indicator');
         const testComponent = fixture.debugElement.injector.get(testComponentType);
-        
-        expect(tab.classList).not.toContain('mdc-tab--active');
-        expect(indicator.classList).not.toContain('mdc-tab-indicator--active');
+        expect(testComponent.events).toEqual([]);
+
+        validateActive(tab, false);
+        expect(testComponent.events).toEqual([]);
     
-        mdcTab._activate(); fixture.detectChanges();
-        expect(tab.classList).toContain('mdc-tab--active');
-        expect(indicator.classList).toContain('mdc-tab-indicator--active');
+        mdcTab._activate(0); fixture.detectChanges();
+        validateActive(tab);
+        expect(testComponent.events).toEqual([{tab: mdcTab, tabIndex: 0}]);
+        testComponent.events = [];
     
         // changing active property should not do anything (but send a message to the parent,
         // so that it can deactivate the right tab and activate this one):
         testComponent.active = false; fixture.detectChanges();
-        expect(tab.classList).toContain('mdc-tab--active');
-        expect(indicator.classList).toContain('mdc-tab-indicator--active');
+        validateActive(tab);
+        expect(testComponent.events).toEqual([]);
     
-        mdcTab._foundation.deactivate(); fixture.detectChanges();
-        expect(tab.classList).not.toContain('mdc-tab--active');
-        expect(indicator.classList).not.toContain('mdc-tab-indicator--active');
+        mdcTab._deactivate(); fixture.detectChanges();
+        validateActive(tab, false);
+        expect(testComponent.events).toEqual([]);
+
+        testComponent.active = true; fixture.detectChanges();
+        validateActive(tab, false); // as above: active property should not affect state by itself
+        expect(testComponent.events).toEqual([]);
+    }
+
+    function validateActive(tab: HTMLElement, active = true, focusOnActivate = true) {
+        const indicator: HTMLElement = tab.querySelector('.mdc-tab-indicator');
+        if (active) {
+            expect(tab.classList).toContain('mdc-tab--active');
+            expect(indicator.classList).toContain('mdc-tab-indicator--active');
+            expect(tab.getAttribute('aria-selected')).toBe('true');
+            expect(tab.getAttribute('tabindex')).toBe('0');
+            if (focusOnActivate)
+                expect(document.activeElement).toBe(tab);
+        } else {
+            expect(tab.classList).not.toContain('mdc-tab--active');
+            expect(indicator.classList).not.toContain('mdc-tab-indicator--active');
+            expect(tab.getAttribute('aria-selected')).toBe('false');
+            expect(tab.getAttribute('tabindex')).toBe('-1');
+        }
     }
 });
-

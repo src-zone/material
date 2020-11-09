@@ -6,7 +6,7 @@ import { asBoolean } from '../../utils/value.utils';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 import { MdcTabIndicatorDirective } from './mdc.tab.indicator.directive';
 import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { ReplaySubject, Subject } from 'rxjs';  
 
 /**
  * The interface for events send by the <code>activate</code> output of an
@@ -37,7 +37,7 @@ export class MdcTabIconDirective {
 }
 
 /**
- * Directive for the text label of a tabs.
+ * Directive for the text label of a tab.
  * This directive must be used as a child of an `mdcTabContent`.
  * It can be preceded by an optional `mdcTabIcon`.
  */
@@ -51,7 +51,7 @@ export class MdcTabLabelDirective {
 /**
  * Directive for the content (label and optional icon of the tab).
  * This directive must be used as a child of an `mdcTab`, and
- * can contain an (optional) `mdcTabIcon` and a `mdcTabLabel`.
+ * can contain an (optional) `mdcTabIcon` and an `mdcTabLabel`.
  */
 @Directive({
     selector: '[mdcTabContent]'
@@ -73,7 +73,7 @@ export abstract class AbstractMdcTabDirective extends AbstractMdcRipple implemen
      * Event called when the tab is activated.
      */
     @Output() activate: EventEmitter<MdcTabChange> = new EventEmitter();
-    @Output() interact: EventEmitter<MdcTabChange> = new EventEmitter();
+    private activationRequest: Subject<boolean> = new ReplaySubject<boolean>(1);
     protected _adapter: MDCTabAdapter = {
         addClass: (className) => this._rndr.addClass(this._root.nativeElement, className),
         removeClass: (className) => this._rndr.removeClass(this._root.nativeElement, className),
@@ -81,7 +81,7 @@ export abstract class AbstractMdcTabDirective extends AbstractMdcRipple implemen
         setAttr: (attr, value) => this._rndr.setAttribute(this._root.nativeElement, attr, value),
         activateIndicator: (previousIndicatorClientRect) => this._indicator?.activate(previousIndicatorClientRect),
         deactivateIndicator: () => this._indicator?.deactivate(),
-        notifyInteracted: () => this.interact.emit({tab: this, tabIndex: null}),
+        notifyInteracted: () => this.activationRequest.next(true),
         getOffsetLeft: () => this._root.nativeElement.offsetLeft,
         getOffsetWidth: () => this._root.nativeElement.offsetWidth,
         getContentOffsetLeft: () => this._content._root.nativeElement.offsetLeft,
@@ -129,13 +129,18 @@ export abstract class AbstractMdcTabDirective extends AbstractMdcRipple implemen
         if (this._active) {
             let clientRect = typeof this._active === 'boolean' ? null : this._active;
             this._foundation.activate(clientRect);
+        } else {
+            // foundation doesn't initialize these attributes:
+            this._rndr.setAttribute(this._root.nativeElement, 'aria-selected', 'false');
+            this._rndr.setAttribute(this._root.nativeElement, 'tabindex', '-1');
         }
     }
 
-    _activate(previousIndicatorClientRect?: ClientRect) {
+    _activate(tabIndex: number, previousIndicatorClientRect?: ClientRect) {
         this._active = previousIndicatorClientRect || true;
         if (this._foundation)
             this._foundation.activate(previousIndicatorClientRect);
+        this.activate.emit({tab: this, tabIndex});
     }
 
     _deactivate() {
@@ -156,21 +161,22 @@ export abstract class AbstractMdcTabDirective extends AbstractMdcRipple implemen
         return this._foundation?.computeDimensions();
     }
 
-    /**
-     * Input for activating the tab. Assign a truthy value to activate the tab. A falsy value
-     * will have no effect: to deactivate the tab, you must activate another tab.
-     */
-    @Input() get active() {
+    /** @docs-private */
+    isActive() {
         return !!this._active;
-    }
+    } 
 
-    set active(value: boolean) {
+    /** @docs-private */
+    triggerActivation(value: boolean = true) {
         // Note: this should not set the _active property. It just notifies the tab-bar
         // that it wants to be activated. The tab-bar will deactivate the previous tab, and activate
         // this one.
-        let activate = asBoolean(value);
-        if (activate)
-            this.interact.emit({tab: this, tabIndex: null});
+        this.activationRequest.next(value);
+    }
+
+    /** @docs-private */
+    get activationRequest$() {
+        return this.activationRequest.asObservable();
     }
 
     @HostListener('click') _onClick() {
@@ -189,6 +195,8 @@ export abstract class AbstractMdcTabDirective extends AbstractMdcRipple implemen
 
 /**
  * Directive for a tab. This directive must be used as a child of <code>mdcTabBar</code>.
+ * When using tabs in combination with angular routes, add a `routerLink` property, so that
+ * the `MdcTabRouterDirective` is selected instead of this directive.
  */
 @Directive({
     selector: '[mdcTab]:not([routerLink])',
@@ -198,6 +206,18 @@ export abstract class AbstractMdcTabDirective extends AbstractMdcRipple implemen
 export class MdcTabDirective extends AbstractMdcTabDirective {
     constructor(rndr: Renderer2, root: ElementRef, registry: MdcEventRegistry) {
         super(rndr, root, registry);
+    }
+
+    /**
+     * Input for activating the tab. Assign a truthy value to activate the tab. A falsy value
+     * will have no effect. In order to deactivate the tab, you must activate another tab.
+     */
+    @Input() get active() {
+        return this.isActive();
+    }
+
+    set active(value: boolean) {
+        this.triggerActivation(asBoolean(value));
     }
 }
 
