@@ -60,6 +60,7 @@ export class MdcTabBarDirective implements AfterContentInit, OnDestroy {
             this.onTabsChange$.next();
             tabChangeInit();
         });
+        tabChangeInit();
 
         this.onTabsChange$.pipe(
             takeUntil(this.onDestroy$)
