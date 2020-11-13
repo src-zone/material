@@ -3,6 +3,77 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+
+
+<a name="1.0.0-beta.1"></a>
+# [1.0.0-beta.1](https://github.com/src-zone/material/compare/v0.18.1...v1.0.0-beta.1) (2020-11-13)
+
+
+### Bug Fixes
+
+* **icon-button:** disabled property removed from icon-button ([f3d1e80](https://github.com/src-zone/material/commit/f3d1e8012277836b28a83c64b8e2de23b8e7acd8))
+* **list:** render primary text correctly ([b3ffb4c](https://github.com/src-zone/material/commit/b3ffb4c469eee73e098f2ebb661e5a784d5ed350))
+* **tab:** fix tab focused styling (through ripple) ([2bb3007](https://github.com/src-zone/material/commit/2bb30076cddde2a09b04a447151c8cd501573596))
+* **tab:** fix tab focused styling (through ripple) ([8134993](https://github.com/src-zone/material/commit/8134993dce8f4a437b80855fadb1d90b9198d770))
+* **tab:** include new directives in module ([5648257](https://github.com/src-zone/material/commit/5648257b32b8eff9f74b576061e017428c898303))
+* **top-app-bar:** properly remove event listeners with properties ([ff569ee](https://github.com/src-zone/material/commit/ff569ee5b763c03d2d1aa66ed69c9913f4ce4b20))
+
+
+### Code Refactoring
+
+* **dialog:** upgrade to material-components-web upgraded@5.1.0 ([e1e66a2](https://github.com/src-zone/material/commit/e1e66a2807a399ed605332d801f1499aa389727b))
+* **top-app-bar:** upgrade to material-components-web@5.1.0 ([207b95d](https://github.com/src-zone/material/commit/207b95ddf6e5e86cba08db7ee01e6413d3c53aae))
+
+
+### feature
+
+* **button:** upgrade to material-components-web@5.1.0 ([1dce48e](https://github.com/src-zone/material/commit/1dce48ebfded4e14886bfe2382fbee890626a6f2))
+* **card:** upgrade to material-components-web@5.1.0 ([7e25cde](https://github.com/src-zone/material/commit/7e25cdef4b154dc354c03a3995a041196708f304))
+* **checbox:** upgrade to material-components-web@5.1.0 ([9314e9e](https://github.com/src-zone/material/commit/9314e9ee6dc1279b2a5266b1e9c33efb7c78095f))
+* **chips:** upgrade to material-components-web@5.1.0 ([2914b20](https://github.com/src-zone/material/commit/2914b20cc30b573aa080f4488fa8508511b8bcf0))
+* **drawer:** upgrade to material-components-web@5.1.0 ([2448239](https://github.com/src-zone/material/commit/24482394c93ab69befeefd6dd4b551f198daf014))
+* **fab:** upgrade to material-components-web@5.1.0 ([c3111de](https://github.com/src-zone/material/commit/c3111deb18a7e27f7e9ed6690af991ba5f16478c))
+* **floating-label:** upgrade to material-components-web@5.1.0 ([d87f3e9](https://github.com/src-zone/material/commit/d87f3e959e4a77887c0c1d2815e74726338aa3eb))
+* **focus-trap:** upgrade tomaterial-components-web@5.1.0 ([db4bda9](https://github.com/src-zone/material/commit/db4bda90807c1e6e71db6cae2f3af41f1c81654d))
+* **list:** upgrade to material-components-web@5.1.0 ([eb99aca](https://github.com/src-zone/material/commit/eb99aca0f708521ab0352ef344fbd6becc3baf0f)), closes [#658](https://github.com/src-zone/material/issues/658)
+* **notched-outline:** upgrade to material-components-web@5.1.0 ([a372d28](https://github.com/src-zone/material/commit/a372d28191da37d6f807971efb5fceef68c30a0f))
+* **ripple:** upgrade to material-components-web@5.1.0 ([90b3410](https://github.com/src-zone/material/commit/90b3410b92c3a538d717aba5f7475a2b00ad1951))
+* **switch:** upgrade to material-components-web@5.1.0 ([72c705a](https://github.com/src-zone/material/commit/72c705af116c7e95c5aeb8ac26e6e2314a7cc28a))
+* **tab:** remove tab component, since it's replaced by a newer component in MCW ([f9523f1](https://github.com/src-zone/material/commit/f9523f19a3fba75d56789e2f749ebb1c4e7ea345))
+* **text-field:** upgrade to material-components-web@5.1.0 ([8f1bd2d](https://github.com/src-zone/material/commit/8f1bd2d63b615d6596a44a2e18e28e1d7ddd080d))
+* **toolbar:** remove toolbar component, use top-app-bar instead ([94841e8](https://github.com/src-zone/material/commit/94841e85bcde517f252f0f5b078cc96b31d3bed7))
+* upgrade to material-components-web@5.1.0 ([b7f9e2d](https://github.com/src-zone/material/commit/b7f9e2d924270e7be697c52563042dc42d91eafa))
+* **menu-surface:** add menu-surface directives ([a62e7a1](https://github.com/src-zone/material/commit/a62e7a17474350de786eec649033c3513a441121))
+
+
+### BREAKING CHANGES
+
+* **toolbar:** deprecated toolbar component is removed, see top-app-bar for a replacement
+* **tab:** tab component is removed
+* **drawer:** material-components-web drawer upgraded to 5.1.0
+* **top-app-bar:** material-components-web top-app-bar upgraded to 5.1.0
+* **dialog:** material-components-web dialog upgraded to 5.1.0
+* **focus-trap:** focus-trap only traps keyboard-focus
+* **focus-trap:** untrapOnOutsideClick not supported anymore
+* **focus-trap:** ignoreEscape not supported anymore (trap always ignores escape key presses)
+* **list:** list upgraded to material-components-web@5.1.0
+* **text-field:** text-field, notched-outline, and floating-label upgraded to material-components-web@5.1.0
+* **notched-outline:** notched-outline upgraded to material-components-web@5.1.0
+* **floating-label:** floating-label upgraded to material-components-web@5.1.0
+* **fab:** fab upgraded to material-components-web@5.1.0
+* **switch:** switch upgraded to material-components-web@5.1.0
+* **chips:** material-components-web upgraded to 5.1.0
+* **chips:** the DOM structure of mdcChip has changed, please check the documentation for examples of the new structure
+* **checbox:** material-components-web upgraded to 5.1.0
+* **card:** mdcCardPrimaryAction now gets a tabIndex by default, to make the action focusable/tabbable
+* **button:** material-components-web upgraded to 5.1.0
+* **button:** dense property removed from button, use the buttons density mixin instead, see https://github.com/material-components/material-components-web/tree/master/packages/mdc-button#advanced-sass-mixins
+* **button:** labels of buttons should now go into a separate span.mdcButtonLabel element as a child of the mdcButton in most cases
+* **ripple:** material-components-web upgraded to 5.1.0
+* material-components-web upgraded to 5.1.0
+
+
+
 <a name="0.18.1"></a>
 ## [0.18.1](https://github.com/src-zone/material/compare/v0.18.0...v0.18.1) (2020-07-14)
 

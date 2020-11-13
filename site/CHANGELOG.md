@@ -1,3 +1,8 @@
+<a name="1.0.0-beta.1"></a>
+# [1.0.0-beta.1](https://github.com/src-zone/material/compare/v0.18.1...v1.0.0-beta.1) (2020-11-13)
+
+
+
 # Change Log
 
 All notable changes to this project will be documented in this file.
