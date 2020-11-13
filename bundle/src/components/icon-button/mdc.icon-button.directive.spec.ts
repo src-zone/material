@@ -34,12 +34,6 @@ describe('mdcIconButton', () => {
         expect(hasRipple(iconButton)).toBe(true);
     }));
 
-    it('should read behavioral properties from inputs', (() => {
-        const { fixture } = setup();
-        const iconButton = fixture.debugElement.query(By.directive(MdcIconButtonDirective)).injector.get(MdcIconButtonDirective);
-        expect(iconButton.disabled).toBeFalsy();
-    }));
-
     it('should be styled differently when disabled', (() => {
         const { fixture } = setup();
         const iconButton = fixture.nativeElement.querySelector('button');
