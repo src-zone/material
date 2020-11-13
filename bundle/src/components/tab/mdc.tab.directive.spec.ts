@@ -1,6 +1,6 @@
 import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { TAB_DIRECTIVES, MdcTabDirective } from './mdc.tab.directive';
 import { TAB_INDICATOR_DIRECTIVES } from './mdc.tab.indicator.directive';
 import { hasRipple } from '../../testutils/page.test';
@@ -130,31 +130,32 @@ describe('MdcTabDirective', () => {
         const testComponent = fixture.debugElement.injector.get(testComponentType);
         expect(testComponent.events).toEqual([]);
 
-        validateActive(tab, false);
+        validateActive(tab, mdcTab, false);
         expect(testComponent.events).toEqual([]);
     
         mdcTab._activate(0); fixture.detectChanges();
-        validateActive(tab);
+        validateActive(tab, mdcTab);
         expect(testComponent.events).toEqual([{tab: mdcTab, tabIndex: 0}]);
         testComponent.events = [];
     
         // changing active property should not do anything (but send a message to the parent,
         // so that it can deactivate the right tab and activate this one):
         testComponent.active = false; fixture.detectChanges();
-        validateActive(tab);
+        validateActive(tab, mdcTab);
         expect(testComponent.events).toEqual([]);
     
         mdcTab._deactivate(); fixture.detectChanges();
-        validateActive(tab, false);
+        validateActive(tab, mdcTab, false);
         expect(testComponent.events).toEqual([]);
 
         testComponent.active = true; fixture.detectChanges();
-        validateActive(tab, false); // as above: active property should not affect state by itself
+        validateActive(tab, mdcTab, false); // as above: active property should not affect state by itself
         expect(testComponent.events).toEqual([]);
     }
 
-    function validateActive(tab: HTMLElement, active = true, focusOnActivate = true) {
+    function validateActive(tab: HTMLElement, mdcTab: MdcTabDirective, active = true, focusOnActivate = true) {
         const indicator: HTMLElement = tab.querySelector('.mdc-tab-indicator');
+        expect(mdcTab.active).toBe(active);
         if (active) {
             expect(tab.classList).toContain('mdc-tab--active');
             expect(indicator.classList).toContain('mdc-tab-indicator--active');
