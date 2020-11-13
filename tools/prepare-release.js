@@ -21,8 +21,8 @@ bumpVersion({preset: `angular`}, (error, recommendation) => {
         console.log('but this branch is configured as beta branch, so making the next beta release');
         bump = 'prerelease';
         
-        prepare('bundle', bump, 'beta');
-        prepare('site', bump, 'beta');
+        prepare('bundle', bump);
+        prepare('site', bump);
     });
 });
 
