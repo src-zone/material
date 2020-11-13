@@ -17,17 +17,20 @@ bumpVersion({preset: `angular`}, (error, recommendation) => {
         if (bump !== 'minor' && bump !== 'patch')
             // we don't do major releases, we want to stay in 0.x.y:
             bump = 'minor';
+
+        console.log('but this branch is configured as beta branch, so making the next beta release');
+        bump = 'prerelease';
         
-        prepare('bundle', bump);
-        prepare('site', bump);
+        prepare('bundle', bump, 'beta');
+        prepare('site', bump, 'beta');
     });
 });
 
-function prepare(name, bump) {
+function prepare(name, bump, prereleaseId) {
     console.log(`bumping npm version for: ${name}`);
     shell.cd(name);
     try {
-        shell.exec(`npm version ${bump} --no-git-tag-version`);
+        shell.exec(`npm version ${bump} ${prereleaseId ? ('--preid=' + prereleaseId) : ''} --no-git-tag-version`);
     } finally {
         shell.cd('..');
     }
