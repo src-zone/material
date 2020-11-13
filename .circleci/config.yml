@@ -60,7 +60,7 @@ jobs:
           command: cd bundle && echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
       - run:
           name: Publish Blox Material
-          command: cd bundle && npm publish
+          command: cd bundle && npm publish --tag beta
   build-site:
     <<: *defaults
     steps:
