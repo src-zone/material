@@ -21,7 +21,12 @@ import { RADIO_DIRECTIVES } from './components/radio/mdc.radio.directive';
 import { MdcRippleDirective } from './components/ripple/mdc.ripple.directive';
 import { SELECT_DIRECTIVES } from './components/select/mdc.select.directive';
 import { SLIDER_DIRECTIVES } from './components/slider/mdc.slider.directive';
-import { SWITCH_DIRECTIVES } from './components/switch/mdc.switch.directive';    
+import { SWITCH_DIRECTIVES } from './components/switch/mdc.switch.directive';
+import { TAB_BAR_DIRECTIVES } from './components/tab/mdc.tab.bar.directive';
+import { TAB_DIRECTIVES } from './components/tab/mdc.tab.directive';
+import { TAB_INDICATOR_DIRECTIVES } from './components/tab/mdc.tab.indicator.directive';
+import { TAB_ROUTER_DIRECTIVES } from './components/tab/mdc.tab.router.directive';
+import { TAB_SCROLLER_DIRECTIVES } from './components/tab/mdc.tab.scroller.directive';   
 import { TEXT_FIELD_DIRECTIVES } from './components/text-field/mdc.text-field.directive';
 import { TOP_APP_BAR_DIRECTIVES } from './components/top-app-bar/mdc.top-app-bar.directive';
 import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-resize.directive';
@@ -53,6 +58,11 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         ...SELECT_DIRECTIVES,
         ...SLIDER_DIRECTIVES,
         ...SWITCH_DIRECTIVES,
+        ...TAB_BAR_DIRECTIVES,
+        ...TAB_DIRECTIVES,
+        ...TAB_INDICATOR_DIRECTIVES,
+        ...TAB_ROUTER_DIRECTIVES,
+        ...TAB_SCROLLER_DIRECTIVES,
         ...TEXT_FIELD_DIRECTIVES,
         TOP_APP_BAR_DIRECTIVES,
         MdcScrollbarResizeDirective
@@ -80,6 +90,11 @@ import { MdcScrollbarResizeDirective } from './components/utility/mdc.scrollbar-
         ...SELECT_DIRECTIVES,
         ...SLIDER_DIRECTIVES,
         ...SWITCH_DIRECTIVES,
+        ...TAB_BAR_DIRECTIVES,
+        ...TAB_DIRECTIVES,
+        ...TAB_INDICATOR_DIRECTIVES,
+        ...TAB_ROUTER_DIRECTIVES,
+        ...TAB_SCROLLER_DIRECTIVES,
         ...TEXT_FIELD_DIRECTIVES,
         TOP_APP_BAR_DIRECTIVES,
         MdcScrollbarResizeDirective
