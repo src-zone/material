@@ -1,29 +1,29 @@
-import { AfterContentInit, ContentChildren, Directive, ElementRef, EventEmitter, forwardRef,
-    HostBinding, Input, OnDestroy, Output, QueryList, Renderer2 } from '@angular/core';
-import { FOCUSABLE_ELEMENTS } from '@material/drawer/slidable';
-import { MDCPersistentDrawerFoundation, MDCTemporaryDrawerFoundation, util } from '@material/drawer';
-import { MdcSlidableDrawerAdapter } from './mdc.slidable.drawer.adapter';
-import { MdcPersistentDrawerAdapter } from './mdc.persistent.drawer.adapter';
-import { MdcTemporaryDrawerAdapter } from './mdc.temporary.drawer.adapter';
-import { AbstractDrawerElement, MdcDrawerType } from '../abstract/abstract.mdc.drawer.element';
+import { AfterContentInit, ContentChildren, Directive, ElementRef, EventEmitter, HostBinding,
+    Input, OnDestroy, Output, QueryList, Renderer2, Inject, Optional, Self, HostListener } from '@angular/core';
+import { MDCDismissibleDrawerFoundation, MDCModalDrawerFoundation, MDCDrawerAdapter } from '@material/drawer';
 import { asBoolean } from '../../utils/value.utils';
-import { MdcEventRegistry } from '../../utils/mdc.event.registry';
+import { DOCUMENT } from '@angular/common';
+import { AbstractMdcFocusTrap, FocusTrapHandle } from '../focus-trap/abstract.mdc.focus-trap';
+import { MdcListItemDirective } from '../list/mdc.list.directive';
 
 /**
- * A toolbar spacer is an optional first child of an <code>mdcDrawer</code>.
- * A toolbar spacer adds space to the drawer in the same amount of the space that the toolbar takes up in your application.
- * This is useful for visual alignment and consistency. Note that you can place content inside the toolbar spacer.
+ * @docs-private
+ * Represents the different types of drawers that are supported: permanent, persistent, and temporary.
  */
-@Directive({
-    selector: '[mdcDrawerToolbarSpacer]',
-    providers: [{provide: AbstractDrawerElement, useExisting: forwardRef(() => MdcDrawerToolbarSpacerDirective) }]
-})
-export class MdcDrawerToolbarSpacerDirective extends AbstractDrawerElement {
-    @HostBinding('class.mdc-drawer__toolbar-spacer') _cls = true;
+export type MdcDrawerType = 'permanent' | 'dismissible' | 'modal';
 
-    constructor() {
-        super();
-    }
+@Directive({
+    selector: '[mdcDrawerTitle]'
+})
+export class MdcDrawerTitleDirective {
+    @HostBinding('class.mdc-drawer__title') _cls = true;
+}
+
+@Directive({
+    selector: '[mdcDrawerSubtitle]'
+})
+export class MdcDrawerSubtitleDirective {
+    @HostBinding('class.mdc-drawer__subtitle') _cls = true;
 }
 
 /**
@@ -35,32 +35,10 @@ export class MdcDrawerToolbarSpacerDirective extends AbstractDrawerElement {
  * <code>mdcDrawerHeaderContent</code> directive.
  */
 @Directive({
-    selector: '[mdcDrawerHeader]',
-    providers: [{provide: AbstractDrawerElement, useExisting: forwardRef(() => MdcDrawerHeaderDirective) }]
+    selector: '[mdcDrawerHeader]'
 })
-export class MdcDrawerHeaderDirective extends AbstractDrawerElement {
+export class MdcDrawerHeaderDirective {
     @HostBinding('class.mdc-drawer__header') _cls = true;
-
-    constructor() {
-        super();
-    }
-}
-
-/**
- * Directive for the content of a drawer header. This should be the child of an
- * <code>mdcDrawerHeader</code> directive. The content of the header will be bottom
- * aligned.
- */
-@Directive({
-    selector: '[mdcDrawerHeaderContent]',
-    providers: [{provide: AbstractDrawerElement, useExisting: forwardRef(() => MdcDrawerHeaderContentDirective) }]
-})
-export class MdcDrawerHeaderContentDirective extends AbstractDrawerElement {
-    @HostBinding('class.mdc-drawer__header-content') _cls = true;
-
-    constructor() {
-        super();
-    }
 }
 
 /**
@@ -68,15 +46,17 @@ export class MdcDrawerHeaderContentDirective extends AbstractDrawerElement {
  * or <code>mdcListGroup</code> directive to the drawer content (see the examples).
  */
 @Directive({
-    selector: '[mdcDrawerContent]',
-    providers: [{provide: AbstractDrawerElement, useExisting: forwardRef(() => MdcDrawerContentDirective) }]    
+    selector: '[mdcDrawerContent]'
 })
-export class MdcDrawerContentDirective extends AbstractDrawerElement {
+export class MdcDrawerContentDirective {
     @HostBinding('class.mdc-drawer__content') _cls = true;
+}
 
-    constructor() {
-        super();
-    }
+@Directive({
+    selector: '[mdcDrawerScrim]'
+})
+export class MdcDrawerScrimDirective {
+    @HostBinding('class.mdc-drawer-scrim') _cls = true;
 }
 
 /**
@@ -89,230 +69,155 @@ export class MdcDrawerContentDirective extends AbstractDrawerElement {
  * <i>temporary</i> drawer. See <code>MdcDrawerContainerDirective</code> for more information.
  */
 @Directive({
-    selector: '[mdcDrawer]',
-    providers: [{provide: AbstractDrawerElement, useExisting: forwardRef(() => MdcDrawerDirective) }]
+    selector: '[mdcDrawer]'
 })
-export class MdcDrawerDirective implements AfterContentInit {
-    private initialized = false;
+export class MdcDrawerDirective implements AfterContentInit, OnDestroy {
+    @HostBinding('class.mdc-drawer') _cls = true;
+    @ContentChildren(MdcListItemDirective, {descendants: true}) _items: QueryList<MdcListItemDirective>;
+    private _onDocumentClick = (event: MouseEvent) => this.onDocumentClick(event);
+    private focusTrapHandle: FocusTrapHandle;
     private type: MdcDrawerType = 'permanent';
-    @ContentChildren(AbstractDrawerElement, {descendants: true}) _children: QueryList<AbstractDrawerElement>;
-
-    constructor(public _elm: ElementRef) {
-    }
-
-    ngAfterContentInit() {
-        this.initialized = true;
-        this.updateTypeForChildren();
-        this._children.changes.subscribe(() => {
-            this.updateTypeForChildren();
-        });
-    }
-
-    private updateTypeForChildren() {
-        if (this.initialized) {
-            this._children.forEach(child => {
-                child._drawerType = this.type;
-            });
-        }
-    }
-
-    _setType(drawerType: MdcDrawerType) {
-        this.type = drawerType;
-        this.updateTypeForChildren();
-    }
-
-    @HostBinding('class.mdc-drawer--permanent') get _isPermanent() {
-        return this.type === 'permanent';
-    }
-
-    @HostBinding('class.mdc-drawer__drawer') get _isContainedDrawer() {
-        return this.type === 'persistent' || this.type === 'temporary';
-    }
-}
-
-/**
- * Wrap an <code>mdcDrawer</code> inside a <code>mdcDrawerContainer</code> to make it a
- * persistent or temporary drawer. Persistent and temporary drawers are slideable: they
- * can be opened or closed by the user, or by code.
- */
-@Directive({
-    selector: '[mdcDrawerContainer]'
-})
-export class MdcDrawerContainerDirective implements AfterContentInit, OnDestroy {
-    private initialized = false;
-    private openMem: boolean;
-    private mdcAdapter: MdcSlidableDrawerAdapter;
-    @ContentChildren(MdcDrawerDirective) _drawers: QueryList<MdcDrawerDirective>;
+    private previousFocus: Element | HTMLOrSVGElement | null;
+    private _open: boolean;
+    private document: Document;
+    private mdcAdapter: MDCDrawerAdapter = {
+        addClass: (className) =>  this._rndr.addClass(this._elm.nativeElement, className),
+        removeClass: (className) => this._rndr.removeClass(this._elm.nativeElement, className),
+        hasClass: (className) => this._elm.nativeElement.classList.contains(className),
+        elementHasClass: (element, className) => element.classList.contains(className),
+        saveFocus: () => this.previousFocus = this.document.activeElement,
+        restoreFocus: () => {
+            const prev = this.previousFocus as HTMLOrSVGElement | null;
+            if (prev && prev.focus && this._elm.nativeElement.contains(this.document.activeElement))
+                prev.focus();
+        },
+        focusActiveNavigationItem: () => {
+            const active = this._items.find(item => item.active);
+            active?._elm.nativeElement.focus();
+        },
+        notifyClose: () => {
+            this.fixOpenClose(false);
+            this.afterClosed.emit();
+            this.document.removeEventListener('click', this._onDocumentClick);
+        },
+        notifyOpen: () => {
+            this.fixOpenClose(true);
+            this.afterOpened.emit();
+            if (this.type === 'modal')
+                this.document.addEventListener('click', this._onDocumentClick);
+        },
+        trapFocus: () => this.trapFocus(),
+        releaseFocus: () => this.untrapFocus()
+    };
+    private foundation: MDCDismissibleDrawerFoundation; // MDCModalDrawerFoundation extends MDCDismissibleDrawerFoundation
     /**
      * Event emitted when the drawer is opened or closed. The event value will be
      * <code>true</code> when the drawer is opened, and <code>false</code> when the
-     * drawer is closed.
+     * drawer is closed. (When this event is triggered, the drawer is starting to open/close,
+     * but the animation may not have fully completed yet)
      */
     @Output() openChange: EventEmitter<boolean> = new EventEmitter<boolean>();
-    private type: 'persistent' | 'temporary' = 'persistent';
-    private foundation: {
-        init(),
-        destroy(),
-        open(),
-        close(),
-        isOpen(): boolean
-    };
-
-    constructor(protected _elm: ElementRef, protected _rndr: Renderer2, protected _registry: MdcEventRegistry) {}
+    /**
+     * Event emitted after the drawer has fully opened. When this event is emitted the full
+     * opening animation has completed, and the drawer is visible.
+     */
+    @Output() afterOpened: EventEmitter<void> = new EventEmitter();
+    /**
+     * Event emitted after the drawer has fully closed. When this event is emitted the full
+     * closing animation has completed, and the drawer is not visible anymore.
+     */
+    @Output() afterClosed: EventEmitter<void> = new EventEmitter();
+    
+    constructor(public _elm: ElementRef, protected _rndr: Renderer2, @Inject(DOCUMENT) doc: any,
+        @Optional() @Self() private _focusTrap: AbstractMdcFocusTrap) {
+        this.document = doc as Document; // work around ngc issue https://github.com/angular/angular/issues/20351
+    }
 
     ngAfterContentInit() {
-        this.initialized = true;
-        this.updateType();
         this.initDrawer();
-        this._drawers.changes.subscribe(() => {
-            this.updateType();
-        });
     }
 
     ngOnDestroy() {
         this.destroyDrawer();
     }
 
-    private updateType() {
-        if (this.initialized)
-            this.forDrawer((d) => {d._setType(this.type); });
-    }
-
     private destroyDrawer() {
         if (this.foundation) {
-            this.openMem = this.foundation.isOpen();
+            this.document.removeEventListener('click', this._onDocumentClick);
             this.foundation.destroy();
             this.foundation = null;
         }
     }
 
     private initDrawer() {
-        if (this.initialized) {
-            this.destroyDrawer();
-            if (this.hasNecessaryDom()) {
-                this.createAdapter();
-                let newFoundation = this.type === 'temporary' ?
-                    new MDCTemporaryDrawerFoundation(this.mdcAdapter) :
-                    new MDCPersistentDrawerFoundation(this.mdcAdapter);
-                // first init, then assign to this.foundation, so that
-                // this.openMem is used to detect the open state, instead
-                // of the new foundation (which would never be opened otherwise):
-                newFoundation.init();
-                this.open = this.openMem;
-                this.foundation = newFoundation;
-            } else
-                console.error('mdcDrawerContainer can\'t be constructed because of missing DOM elements');
+        this.destroyDrawer();
+        let newFoundation: MDCDismissibleDrawerFoundation = null;
+        const thiz = this;
+        if (this.type === 'dismissible')
+            newFoundation = new class extends MDCDismissibleDrawerFoundation{
+                close() {
+                    const emit = thiz._open;
+                    thiz._open = false;
+                    super.close();
+                    emit ? thiz.openChange.emit(thiz._open) : undefined;
+                }
+                open() {
+                    const emit = !thiz._open;
+                    thiz._open = true;
+                    super.open();
+                    emit ? thiz.openChange.emit(thiz._open) : undefined;
+                }
+            }(this.mdcAdapter);
+        else if (this.type === 'modal')
+            newFoundation = new class extends MDCModalDrawerFoundation{
+                close() {
+                    const emit = thiz._open;
+                    thiz._open = false;
+                    super.close();
+                    emit ? thiz.openChange.emit(thiz._open) : undefined;
+                }
+                open() {
+                    const emit = !thiz._open;
+                    thiz._open = true;
+                    super.open();
+                    emit ? thiz.openChange.emit(thiz._open) : undefined;
+                }
+            }(this.mdcAdapter);
+        // else: permanent drawer -> doesn't need a foundation, just styling
+        if (newFoundation) {
+            newFoundation.init();
+            if (this._open)
+                newFoundation.open();
+            this.foundation = newFoundation;
         }
     }
 
-    private createAdapter() {
-        let adapter: MdcPersistentDrawerAdapter | MdcTemporaryDrawerAdapter = {
-            addClass: (className) => {
-                if ('mdc-drawer--open' !== className) // *--open is tracked by HostBinding
-                    this._rndr.addClass(this._elm.nativeElement, className);
-            },
-            removeClass: (className) => {
-                if ('mdc-drawer--open' !== className) // *--open is tracked by HostBinding
-                    this._rndr.removeClass(this._elm.nativeElement, className);
-            },
-            hasClass: (className) => {
-                if ('mdc-drawer--persistent' === className)
-                    return this.type === 'persistent';
-                else if ('mdc-drawer--temporary' === className)
-                    return this.type === 'temporary';
-                else if ('mdc-drawer--open' === className)
-                    return this.open;
-                else
-                    return this._elm.nativeElement.classList.contains(className);
-            },
-            hasNecessaryDom: () => this.hasNecessaryDom(),
-            registerInteractionHandler: (evt, handler) => this._registry.listen(this._rndr, util.remapEvent(evt), handler, this._elm, util.applyPassive()),
-            deregisterInteractionHandler: (evt, handler) => this._registry.unlisten(util.remapEvent(evt), handler),
-            registerDrawerInteractionHandler: (evt, handler) => this._registry.listen(this._rndr, util.remapEvent(evt), handler, this.drawer._elm),
-            deregisterDrawerInteractionHandler: (evt, handler) => this._registry.unlisten(util.remapEvent(evt), handler),
-            registerTransitionEndHandler: (handler) => this._registry.listen(this._rndr, 'transitionend', handler, this._elm),
-            deregisterTransitionEndHandler: (handler) => this._registry.unlisten('transitionend', handler),
-            registerDocumentKeydownHandler: (handler) => this._registry.listenElm(this._rndr, 'keydown', handler, document),
-            deregisterDocumentKeydownHandler: (handler) => this._registry.unlisten('keydown', handler),
-            setTranslateX: (value) => this.forDrawer((d) => {
-                return d._elm.nativeElement.style.setProperty(util.getTransformPropertyName(),
-                    value === null ? null : `translateX(${value}px)`);
-            }),
-            getFocusableElements: () => this.forDrawer((d) => {
-                return d._elm.nativeElement.querySelectorAll(FOCUSABLE_ELEMENTS);
-            }),
-            saveElementTabState: (el) => util.saveElementTabState(el),
-            restoreElementTabState: (el) => util.restoreElementTabState(el),
-            makeElementUntabbable: (el: HTMLElement) => el.tabIndex = -1,
-            notifyOpen: () => this.openChange.emit(true),
-            notifyClose: () => this.openChange.emit(false),
-            isRtl: () => getComputedStyle(this._elm.nativeElement).getPropertyValue('direction') === 'rtl',
-            getDrawerWidth: () => this.forDrawer((d) => d._elm.nativeElement.offsetWidth, 0),
-            isDrawer: (el: Element) => (this.drawer && this.drawer._elm.nativeElement === el),
-
-            // for the temporary drawer:
-            addBodyClass: (className: string) => {this._rndr.addClass(document.body, className); },
-            removeBodyClass: (className: string) => {this._rndr.removeClass(document.body, className); },
-            updateCssVariable: (value: string) => {
-                if (util.supportsCssCustomProperties())
-                    this._elm.nativeElement.style.setProperty(MDCTemporaryDrawerFoundation.strings.OPACITY_VAR_NAME, value);
-            },
-            eventTargetHasClass: (target: HTMLElement, className: string) => {
-                if (target === this._elm.nativeElement && className === 'mdc-drawer--temporary')
-                    // make sure this returns true even if class HostBinding is not effectuated yet:
-                    return this.type === 'temporary';
-                return target.classList.contains(className);
-            }
-        };
-        this.mdcAdapter = adapter;
+    @HostBinding('class.mdc-drawer--modal') get _isModal() {
+        return this.type === 'modal';
     }
 
-    private hasNecessaryDom() {
-        return this.drawer != null;
-    }
-
-    private get drawer(): MdcDrawerDirective {
-        if (this._drawers && this._drawers.length > 0)
-                return this._drawers.first;
-        return null;
-    }
-
-    private forDrawer<T>(func: (drawer: MdcDrawerDirective) => T, defaultVal: T = null) {
-        let theDrawer = this.drawer;
-        return theDrawer ? func(theDrawer) : defaultVal;
+    @HostBinding('class.mdc-drawer--dismissible') get _isDismisible() {
+        return this.type === 'dismissible';
     }
 
     /**
-     * Set the type of drawer. Either <code>persistent</code> or <code>temporary</code>.
-     * The default (when no value given) is <code>persistent</code>. Please note that
+     * Set the type of drawer. Either `permanent`, `dismissible`, or `modal`.
+     * The default (when no value given) is `persistent`. Please note that
      * a third type of drawer exists: the <code>permanent</code> drawer. But a permanent
      * drawer is created by not wrapping your <code>mdcDrawer</code> in a
      * <code>mdcDrawerContainer</code>.
      */
-    @Input() get mdcDrawerContainer(): 'persistent' | 'temporary' | null {
+    @Input() get mdcDrawer(): MdcDrawerType {
         return this.type;
     }
 
-    set mdcDrawerContainer(value: 'persistent' | 'temporary' | null) {
-        if (value !== 'persistent' && value !== 'temporary')
-            value = 'persistent';
+    set mdcDrawer(value: MdcDrawerType) {
+        if (value !== 'dismissible' && value !== 'modal')
+            value = 'permanent';
         if (value !== this.type) {
             this.type = value;
-            this.updateType();
             this.initDrawer();
         }
-    }
-
-    @HostBinding('class.mdc-drawer--persistent') get _isPersistent() {
-        return this.type === 'persistent';
-    }
-
-    @HostBinding('class.mdc-drawer--temporary') get _isTemporary() {
-        return this.type === 'temporary';
-    }
-
-    @HostBinding('class.mdc-drawer--open') get _isOpenCls() {
-        return (this.type === 'persistent' || this.type === 'temporary') && this.open;
     }
 
     /**
@@ -320,20 +225,78 @@ export class MdcDrawerContainerDirective implements AfterContentInit, OnDestroy 
      * the drawer.
      */
     @Input() get open() {
-        return this.foundation ? this.foundation.isOpen() : this.openMem;
+        return this._open;
     }
 
     set open(value: any) {
         let newValue = asBoolean(value);
-        if (newValue !== this.open) {
-            this.openMem = newValue;
+        if (newValue !== this._open) {
             if (this.foundation) {
-                if (newValue)
-                    this.foundation.open();
-                else
-                    this.foundation.close();
+                newValue ? this.foundation.open() : this.foundation.close();
             } else
                 this.openChange.emit(newValue);
         }
     }
+
+    private fixOpenClose(open: boolean) {
+        // the foundation ignores calls to open/close while an opening/closing animation is running.
+        // so when the animation ends, we're just going to try again
+        // (needs to be done in the next micro cycle, because otherwise foundation will still think it's
+        // running the opening/closing animation):
+        Promise.resolve().then(() => {
+            if (this._open !== open) {
+                if (this._open)
+                    this.foundation.open();
+                else
+                    this.foundation.close();
+            }
+        });
+    }
+
+    private trapFocus() {
+        this.untrapFocus();
+        if (this._focusTrap)
+            this.focusTrapHandle = this._focusTrap.trapFocus();
+    }
+
+    private untrapFocus() {
+        if (this.focusTrapHandle && this.focusTrapHandle.active) {
+            this.focusTrapHandle.untrap();
+            this.focusTrapHandle = null;
+        }
+    }
+
+    /** @docs-private */
+    @HostListener('keydown', ['$event']) onKeydown(event: KeyboardEvent) {
+        this.foundation?.handleKeydown(event);
+    }
+
+    /** @docs-private */
+    @HostListener('transitionend', ['$event']) handleTransitionEnd(event: TransitionEvent) {
+        this.foundation?.handleTransitionEnd(event);
+    }
+
+    /** @docs-private */
+    onDocumentClick(event: MouseEvent) {
+        if (this.type === 'modal') {
+            // instead of listening to click event on mdcDrawerScrim (which would require wiring between
+            // mdcDrawerScrim and mdcDrawer), we just listen to document clicks:
+            let el: Element | null = event.target as Element;
+            while (el) {
+                if (el === this._elm.nativeElement)
+                    return;
+                el = el.parentElement;
+            }
+            (this.foundation as MDCModalDrawerFoundation)?.handleScrimClick();
+        }
+    }
 }
+
+export const DRAWER_DIRECTIVES = [
+    MdcDrawerTitleDirective,
+    MdcDrawerSubtitleDirective,
+    MdcDrawerHeaderDirective,
+    MdcDrawerContentDirective,
+    MdcDrawerScrimDirective,
+    MdcDrawerDirective
+];

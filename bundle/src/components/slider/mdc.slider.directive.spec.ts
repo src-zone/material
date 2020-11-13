@@ -1,4 +1,4 @@
-import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed, ComponentFixture, fakeAsync, tick, flush } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -141,7 +141,7 @@ describe('MdcSliderDirective', () => {
 
         testComponent.clear();
         testComponent._value = 90;
-        fixture.detectChanges(); tick();
+        fixture.detectChanges(); tick(); fixture.detectChanges();
 
         expect(slider.getAttribute('aria-valuenow')).toBe('90');
         expect(slider.getAttribute('aria-valuemin')).toBe('0');
@@ -150,7 +150,7 @@ describe('MdcSliderDirective', () => {
 
         testComponent.clear();
         testComponent._max = 50;
-        fixture.detectChanges(); tick();
+        fixture.detectChanges(); tick(); fixture.detectChanges();
 
         expect(slider.getAttribute('aria-valuenow')).toBe('50');
         expect(slider.getAttribute('aria-valuemin')).toBe('0');
@@ -161,7 +161,7 @@ describe('MdcSliderDirective', () => {
 
         testComponent.clear();
         testComponent._value = 60;
-        fixture.detectChanges(); tick();
+        fixture.detectChanges(); tick(); fixture.detectChanges();
         expect(slider.getAttribute('aria-valuenow')).toBe('50');
         expect(slider.getAttribute('aria-valuemin')).toBe('0');
         expect(slider.getAttribute('aria-valuemax')).toBe('50');
@@ -171,7 +171,7 @@ describe('MdcSliderDirective', () => {
 
         testComponent.clear();
         testComponent._min = 60;
-        fixture.detectChanges(); tick();
+        fixture.detectChanges(); tick(); fixture.detectChanges();
         expect(slider.getAttribute('aria-valuenow')).toBe('60');
         expect(slider.getAttribute('aria-valuemin')).toBe('60');
         expect(slider.getAttribute('aria-valuemax')).toBe('60');
@@ -182,7 +182,7 @@ describe('MdcSliderDirective', () => {
 
         testComponent.clear();
         testComponent._max = 10;
-        fixture.detectChanges(); tick();
+        fixture.detectChanges(); tick(); fixture.detectChanges();
         expect(slider.getAttribute('aria-valuenow')).toBe('10');
         expect(slider.getAttribute('aria-valuemin')).toBe('10');
         expect(slider.getAttribute('aria-valuemax')).toBe('10');

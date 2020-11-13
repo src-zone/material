@@ -1,7 +1,5 @@
 import { ContentChildren, Directive, ElementRef, Input, OnDestroy, QueryList, forwardRef } from '@angular/core';
-import createFocusTrap from 'focus-trap';
-import { Options, FocusTrap } from "focus-trap";
-import { asBoolean } from '../../utils/value.utils';
+import { FocusTrap } from '@material/dom/focus-trap';
 import { AbstractMdcFocusTrap, AbstractMdcFocusInitial, FocusTrapHandle } from './abstract.mdc.focus-trap';
 
 /**
@@ -20,20 +18,32 @@ export class MdcFocusInitialDirective extends AbstractMdcFocusInitial {
     }
 }
 
+let activeTrap: FocusTrapHandleImpl = null;
+
 /** @docs-private */
 class FocusTrapHandleImpl implements FocusTrapHandle {
     private _active = true;
     private trap: FocusTrap;
 
-    constructor(public _elm: ElementRef, options: Options) {
-        options.onActivate = () => { this._active = true; activeTrap = this; };
-        options.onDeactivate = () => { this._active = false; activeTrap = null; };
-        this.trap = createFocusTrap(_elm.nativeElement, options);
-        this.trap.activate();
+    constructor(public _elm: ElementRef, focusElm: HTMLElement, skipFocus: boolean) {
+        if (activeTrap)
+            // Stacking focus tracks (i.e. changing to another focus trap, and returning
+            // to the previous on deactivation) is not supported:
+            throw new Error('An mdcFocusTrap is already active.');
+        this.trap = new FocusTrap(_elm.nativeElement, {
+            initialFocusEl: focusElm,
+            skipInitialFocus: skipFocus
+        });
+        this.trap.trapFocus();
+        activeTrap = this;
     }
 
     untrap() {
-        this.trap.deactivate();
+        this._active = false;
+        if (activeTrap === this) {
+            activeTrap = null;
+            this.trap.releaseFocus();
+        }
     }
 
     get active() {
@@ -41,24 +51,26 @@ class FocusTrapHandleImpl implements FocusTrapHandle {
     }
 }
 
-let activeTrap: FocusTrapHandleImpl = null;
-
 /**
- * Directive for trapping focus (by key and/or mouse input) inside an element. To be used
+ * Directive for trapping the tab key focus within an element. To be used
  * for e.g. modal dialogs, where focus must be constrained for an accesssible experience.
- * Use <code>mdcFocusInitial</code> on a child element if a specific element needs to get
- * focus upon activation of the trap. In the absense of an <code>mdcFocusInitial</code>,
+ * 
+ * This will only trap the keyboard focus (when using tab or shift+tab). It will not prevent the focus from moving
+ * out of the trapped region due to mouse interaction. You can use a background scrim element that overlays
+ * the window to achieve that. (Like `mdcDialog` does).
+ *
+ * Use `mdcFocusInitial` on a child element if a specific element needs to get
+ * focus upon activation of the trap. In the absense of an `mdcFocusInitial`,
  * or when that element can't be focused, the focus trap will activate the first tabbable
  * child element of the focus trap.
  */
 @Directive({
-    selector: '[mdcFocusTrap]',
+    selector: '[mdcFocusTrap],[mdcDialog],[mdcDrawer]',
     providers: [{provide: AbstractMdcFocusTrap, useExisting: forwardRef(() => MdcFocusTrapDirective) }]
 })
 export class MdcFocusTrapDirective extends AbstractMdcFocusTrap implements OnDestroy {
-    private _untrapOnOutsideClick = false;
-    private _ignoreEscape = false;
     @ContentChildren(AbstractMdcFocusInitial, {descendants: true}) _focusInitial: QueryList<AbstractMdcFocusInitial>;
+    private trap: FocusTrapHandle = null;
     
     constructor(private _elm: ElementRef) {
         super();
@@ -66,54 +78,17 @@ export class MdcFocusTrapDirective extends AbstractMdcFocusTrap implements OnDes
 
     ngOnDestroy() {
         // if this element is destroyed, it must not leave the trap in activated state:
-        if (activeTrap && activeTrap._elm.nativeElement === this._elm.nativeElement)
-            activeTrap.untrap();
+        if (this.trap)
+            this.trap.untrap();
+        this.trap = null;
     }
 
     /** @docs-private */
     trapFocus(): FocusTrapHandle {
-        if (activeTrap)
-            // Currently stacking focus tracks (i.e. changing to another focus trap, and returning
-            // to the previous on deactivation) is not yet supported. Will be in a future release:
-            throw new Error('An mdcFocusTrap is already active.');
-        let options: Options = {
-            clickOutsideDeactivates: this._untrapOnOutsideClick,
-            escapeDeactivates: !this._ignoreEscape,
-        };
-        if (this._focusInitial.length > 0) {
-            let fi: AbstractMdcFocusInitial = null;
-            this._focusInitial.forEach(focus => fi = (fi == null || fi.priority <= focus.priority) ? focus : fi);
-            if (fi)
-                options.initialFocus = fi._elm.nativeElement;
-        }
-        return new FocusTrapHandleImpl(this._elm, options);
-    }
-
-    /**
-     * Set this property to have clicks outside the focus area untrap the focus.
-     * The value is taken when the trap is activated. Thus changing the value
-     * while a focus trap is active does not affect the behavior of that focus trap.
-     */
-    @Input() get untrapOnOutsideClick() {
-        return this._untrapOnOutsideClick;
-    }
-
-    set untrapOnOutsideClick(value: any) {
-        this._untrapOnOutsideClick = asBoolean(value);
-    }
-
-    /**
-     * Set this property to ignore the escape key. The default is to deactivate the
-     * trap when a user presses the escape key.
-     * The value is taken when the trap is activated. Thus changing the value
-     * while a focus trap is active does not affect the behavior of that focus trap.
-     */
-    @Input() get ignoreEscape() {
-        return this._ignoreEscape;
-    }
-
-    set ignoreEscape(value: any) {
-        this._ignoreEscape = asBoolean(value);
+        let focusInitial: AbstractMdcFocusInitial = null;
+        this._focusInitial.forEach(focus => focusInitial = (focusInitial == null || focusInitial.priority <= focus.priority) ? focus : focusInitial);
+        this.trap = new FocusTrapHandleImpl(this._elm, focusInitial?._elm.nativeElement, false);
+        return this.trap;
     }
 }
 

@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "chrome",
+            "request": "attach",
+            "name": "Chrome Attach",
+            "port": 9333,
+            "webRoot": "${workspaceFolder}/bundle",
+            "pathMapping": {
+                "/": "${workspaceFolder}/bundle",
+                "/base/": "${workspaceFolder}/bundle"
+            },
+            "sourceMapPathOverrides": {
+                "webpack:///./*": "${webRoot}/*"
+            }
+        },
+        {
+            "type": "chrome",
             "request": "launch",
             "name": "Site - Chrome",
             "url": "http://localhost:4200",

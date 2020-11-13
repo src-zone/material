@@ -42,7 +42,6 @@ describe('MdcElevationDirective', () => {
 
     it('should change elevation when property changes with numeric values', (() => {
         const { fixture } = setup();
-        const testComponent = fixture.debugElement.injector.get(TestComponent);
 
         verifyElevationChange(0, 0, fixture);
         verifyElevationChange(-1, 0, fixture);
@@ -53,7 +52,6 @@ describe('MdcElevationDirective', () => {
 
     it('should change elevation when property changes with string values', (() => {
         const { fixture } = setup();
-        const testComponent = fixture.debugElement.injector.get(TestComponent);
 
         verifyElevationChange('0', 0, fixture);
         verifyElevationChange('-1', 0, fixture);
@@ -64,7 +62,6 @@ describe('MdcElevationDirective', () => {
 
     it('should change elevation when property changes with invalid type values', (() => {
         const { fixture } = setup();
-        const testComponent = fixture.debugElement.injector.get(TestComponent);
 
         verifyElevationChange(true, 1, fixture);
         verifyElevationChange(false, 0, fixture);

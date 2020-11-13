@@ -1,13 +1,13 @@
-import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
+import { TestBed, fakeAsync, flush } from '@angular/core/testing';
 import { Component } from '@angular/core';
-import { MdcFabDirective, MdcFabIconDirective } from './mdc.fab.directive';
-import { booleanAttributeStyleTest, hasRipple } from '../../testutils/page.test';
+import { MdcFabDirective, MdcFabIconDirective, MdcFabLabelDirective } from './mdc.fab.directive';
+import { testStyle, hasRipple } from '../../testutils/page.test';
+import { asBoolean } from '../../utils/value.utils';
 
 describe('MdcFabDirective', () => {
     @Component({
         template: `
-          <button mdcFab [mini]="mini" [exited]="exited" [extended]="extended">
+          <button mdcFab [mini]="mini" [exited]="exited">
             <span mdcFabIcon class="material-icons">favorite_border</span>
             <span *ngIf="extended" mdcFabLabel>Like</span>
           </button>
@@ -16,12 +16,18 @@ describe('MdcFabDirective', () => {
     class TestComponent {
         mini: any = null;
         exited: any = null;
-        extended: any = null;
+        _extended = false;
+        get extended() {
+            return this._extended;
+        }
+        set extended(value: any) {
+            this._extended = asBoolean(value);
+        }
     }
 
     function setup() {
         const fixture = TestBed.configureTestingModule({
-            declarations: [MdcFabDirective, MdcFabIconDirective, TestComponent]
+            declarations: [MdcFabDirective, MdcFabLabelDirective, MdcFabIconDirective, TestComponent]
         }).createComponent(TestComponent);
         fixture.detectChanges();
         return { fixture };
@@ -42,26 +48,16 @@ describe('MdcFabDirective', () => {
 
     it('should style according to the value of the mini property', (() => {
         const { fixture } = setup();
-        testStyle(fixture, 'mini', 'mdc-fab--mini');
+        testStyle(fixture, 'mini', 'mini', 'mdc-fab--mini', MdcFabDirective, TestComponent);
     }));
 
     it('should style according to the value of the exited property', (() => {
         const { fixture } = setup();
-        testStyle(fixture, 'exited', 'mdc-fab--exited');
+        testStyle(fixture, 'exited', 'exited', 'mdc-fab--exited', MdcFabDirective, TestComponent);
     }));
 
-    it('should style according to the value of the extended property', (() => {
+    it('should set extended styling for fabs with labels', fakeAsync(() => {
         const { fixture } = setup();
-        testStyle(fixture, 'extended', 'mdc-fab--extended');
+        testStyle(fixture, 'extended', 'extended', 'mdc-fab--extended', MdcFabDirective, TestComponent);
     }));
-
-    const testStyle = (fixture: ComponentFixture<TestComponent>, property: string, style: string) => {
-        const fab = fixture.debugElement.query(By.directive(MdcFabDirective)).injector.get(MdcFabDirective);
-        const testComponent = fixture.debugElement.injector.get(TestComponent);
-        // initial the styles are not set:
-        expect(fab[property]).toBe(false);
-        expect(fab._elm.nativeElement.classList.contains(style)).toBe(false);
-        // test various ways to set the property value, and the result of having the class or not:
-        booleanAttributeStyleTest(fixture, testComponent, fab, property, property, style);
-    }
 });

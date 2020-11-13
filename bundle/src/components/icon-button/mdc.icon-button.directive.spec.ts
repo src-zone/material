@@ -1,11 +1,11 @@
-import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick, flush, ComponentFixture } from '@angular/core/testing';
 import { FormsModule, NgModel } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Component, ViewChild } from '@angular/core';
-import { MdcIconButtonIconDirective, MdcIconButtonDirective, MdcIconButtonToggleDirective, MdcFormsIconButtonDirective } from './mdc.icon-button.directive';
-import { booleanAttributeStyleTest, hasRipple } from '../../testutils/page.test';
+import { MdcIconButtonDirective, MdcIconToggleDirective, MdcIconDirective, MdcFormsIconButtonDirective } from './mdc.icon-button.directive';
+import { hasRipple } from '../../testutils/page.test';
 
-describe('mdcIconButton as action button', () => {
+describe('mdcIconButton', () => {
     @Component({
         template: `
             <button mdcIconButton class="material-icons" [disabled]="disabled" (click)="action()"></button>
@@ -55,24 +55,20 @@ describe('mdcIconButton as action button', () => {
         const iconButton = fixture.nativeElement.querySelector('button');
         const testComponent = fixture.debugElement.injector.get(TestComponent);
 
+        expect(testComponent.clickCount).toBe(0);
         iconButton.click();
         expect(testComponent.clickCount).toBe(1);
     }));
 });
 
-describe('mdcIconButton as toggle', () => {
+describe('mdcIconToggle', () => {
     @Component({
         template: `
-            <button mdcIconButton
-                class="material-icons"
-                labelOn="Remove from favorites"
-                labelOff="Add to favorites"
-                iconOn="favorite"
-                iconOff="favorite_border"
-                [disabled]="disabled"
-                [on]="favorite"
-                (onChange)="changeValue($event)"
-                (click)="action()"></button>
+            <button mdcIconToggle (onChange)="changeValue($event)" (click)="action()" [disabled]="disabled" [on]="favorite"
+                label="Add to favorites">
+                <i mdcIcon="on" class="material-icons">favorite</i>
+                <i mdcIcon class="material-icons">favorite_border</i>
+            </button>
         `
     })
     class TestComponent {
@@ -91,49 +87,23 @@ describe('mdcIconButton as toggle', () => {
 
     function setup(testComponentType: any = TestComponent) {
         const fixture = TestBed.configureTestingModule({
-            declarations: [MdcIconButtonToggleDirective, testComponentType]
+            declarations: [MdcIconToggleDirective, MdcIconDirective, testComponentType]
         }).createComponent(testComponentType);
         fixture.detectChanges();
-        return { fixture };
+        const iconToggle = fixture.debugElement.query(By.directive(MdcIconToggleDirective)).injector.get(MdcIconToggleDirective);
+        const element: HTMLButtonElement = fixture.nativeElement.querySelector('.mdc-icon-button');
+        const testComponent = fixture.debugElement.injector.get(testComponentType);
+        return { fixture, iconToggle, element, testComponent };
     }
 
     it('should render the icon toggles with icon and ripple styles', fakeAsync(() => {
-        const { fixture } = setup();
-        const iconToggle = fixture.nativeElement.querySelector('button');
-        expect(iconToggle.classList).toContain('mdc-icon-button');
-        expect(hasRipple(iconToggle)).toBe(true);
-    }));
-
-    it('should read behavioral properties from inputs', (() => {
-        const { fixture } = setup();
-        const iconToggle = fixture.debugElement.query(By.directive(MdcIconButtonToggleDirective)).injector.get(MdcIconButtonToggleDirective);
-        expect(iconToggle.iconIsClass).toBeFalsy();
-        expect(iconToggle.labelOn).toBe('Remove from favorites');
-        expect(iconToggle.labelOff).toBe('Add to favorites');
-        expect(iconToggle.iconOn).toBe('favorite');
-        expect(iconToggle.iconOff).toBe('favorite_border');
-        expect(iconToggle.disabled).toBeFalsy();
-    }));
-
-    it('should change appearance when behavioral properties are changed', (() => {
-        const { fixture } = setup();
-        const iconToggle = fixture.debugElement.query(By.directive(MdcIconButtonToggleDirective)).injector.get(MdcIconButtonToggleDirective);
-        
-        iconToggle.labelOn = 'Do not like';
-        iconToggle.labelOff = 'Like';
-        iconToggle.iconOn = 'thumb_up';
-        iconToggle.iconOff = 'thumb_down';
-        
-        fixture.detectChanges();
-        
-        expect(iconToggle._elm.nativeElement.getAttribute('aria-label')).toBe('Like');
-        expect(iconToggle._elm.nativeElement.textContent).toBe('thumb_down');
+        const { element } = setup();
+        expect(element.classList).toContain('mdc-icon-button');
+        expect(hasRipple(element)).toBe(true);
     }));
 
     it('should be styled differently when disabled', (() => {
-        const { fixture } = setup();
-        const iconToggle = fixture.debugElement.query(By.directive(MdcIconButtonToggleDirective)).injector.get(MdcIconButtonToggleDirective);
-        const testComponent = fixture.debugElement.injector.get(TestComponent);
+        const { fixture, iconToggle, testComponent } = setup();
         expect(iconToggle.disabled).toBe(false);
         testComponent.disabled = true;
         fixture.detectChanges();
@@ -141,39 +111,70 @@ describe('mdcIconButton as toggle', () => {
     }));
 
     it('should toggle state when clicked', (() => {
-        const { fixture } = setup();
-        const iconToggle = fixture.debugElement.query(By.directive(MdcIconButtonToggleDirective)).injector.get(MdcIconButtonToggleDirective);
-        const testComponent = fixture.debugElement.injector.get(TestComponent);
+        const { iconToggle, testComponent, element } = setup();
         
         expect(iconToggle.on).toBe(false); // initial value from 'favorite' property
-        expect(testComponent.favorite).toBeFalsy(); // not yet initialized, may be undefined or false
-        expect(iconToggle._elm.nativeElement.textContent).toBe('favorite_border');
-        expect(iconToggle._elm.nativeElement.getAttribute('aria-label')).toBe('Add to favorites');
-        expect(iconToggle._elm.nativeElement.getAttribute('aria-pressed')).toBe('false');
-        
-        iconToggle._elm.nativeElement.click();
-        fixture.detectChanges();
-        
-        expect(iconToggle.on).toBe(true);
-        expect(testComponent.favorite).toBe(true);
-        expect(iconToggle._elm.nativeElement.textContent).toBe('favorite');
-        expect(iconToggle._elm.nativeElement.getAttribute('aria-label')).toBe('Remove from favorites');
-        expect(iconToggle._elm.nativeElement.getAttribute('aria-pressed')).toBe('true');
-        
-        iconToggle._elm.nativeElement.click();
-        fixture.detectChanges();
+        expect(testComponent.favorite).toBeUndefined(); // not yet initialized, so undefined (coerced to false on button)
+        expect(element.classList).not.toContain('mdc-icon-button--on');
 
-        expect(iconToggle.on).toBe(false);
-        expect(testComponent.favorite).toBe(false);
-        expect(iconToggle._elm.nativeElement.textContent).toBe('favorite_border');
-        expect(iconToggle._elm.nativeElement.getAttribute('aria-label')).toBe('Add to favorites');
-        expect(iconToggle._elm.nativeElement.getAttribute('aria-pressed')).toBe('false');
+        clickAndCheck(true);
+        clickAndCheck(false);
+        clickAndCheck(true);
+
+        function clickAndCheck(expected) {
+            element.click();
+            expect(iconToggle.on).toBe(expected);
+            expect(testComponent.favorite).toBe(expected);
+            if (expected)
+                expect(element.classList).toContain('mdc-icon-button--on');
+            else
+                expect(element.classList).not.toContain('mdc-icon-button--on');
+        }
+
+        
+    }));
+
+    it('aria-pressed should reflect state of toggle', (() => {
+        const { fixture, testComponent, element } = setup();
+        
+        expect(testComponent.favorite).toBeUndefined(); // not yet initialized, so undefined (coerced to false on button)
+        expect(element.getAttribute('aria-pressed')).toBe('false');
+        element.click(); // user change
+        expect(element.getAttribute('aria-pressed')).toBe('true');
+        testComponent.favorite = false; //programmatic change
+        fixture.detectChanges();
+        expect(element.getAttribute('aria-pressed')).toBe('false');
+    }));
+
+    it('label is reflected as aria-label', (() => {
+        const { element } = setup();
+        expect(element.getAttribute('aria-label')).toBe('Add to favorites');
+    }));
+
+    it('should toggle state when clicked', (() => {
+        const { iconToggle, testComponent, element } = setup();
+        
+        expect(iconToggle.on).toBe(false); // initial value from 'favorite' property
+        expect(testComponent.favorite).toBeUndefined(); // not yet initialized, so undefined (coerced to false on button)
+        expect(element.classList).not.toContain('mdc-icon-button--on');
+
+        clickAndCheck(true);
+        clickAndCheck(false);
+        clickAndCheck(true);
+
+        function clickAndCheck(expected) {
+            element.click();
+            expect(iconToggle.on).toBe(expected);
+            expect(testComponent.favorite).toBe(expected);
+            if (expected)
+                expect(element.classList).toContain('mdc-icon-button--on');
+            else
+                expect(element.classList).not.toContain('mdc-icon-button--on');
+        }
     }));
 
     it('value changes must be emitted via onChange', (() => {
-        const { fixture } = setup();
-        const iconToggle = fixture.debugElement.query(By.directive(MdcIconButtonToggleDirective)).injector.get(MdcIconButtonToggleDirective);
-        const testComponent = fixture.debugElement.injector.get(TestComponent);
+        const { fixture, iconToggle, testComponent } = setup();
                 
         iconToggle._elm.nativeElement.click(); fixture.detectChanges();
         expect(testComponent.changes).toEqual([true]);
@@ -181,67 +182,40 @@ describe('mdcIconButton as toggle', () => {
         expect(testComponent.changes).toEqual([true, false]);
     }));
 
-    it("programmatic changes of 'on' should not trigger 'onChange' events", (() => {
-        const { fixture } = setup();
-        const iconToggle = fixture.debugElement.query(By.directive(MdcIconButtonToggleDirective)).injector.get(MdcIconButtonToggleDirective);
-        const testComponent = fixture.debugElement.injector.get(TestComponent);
+    it("programmatic value changes must be emitted via onChange", (() => {
+        const { fixture, testComponent } = setup();
 
         testComponent.favorite = true; fixture.detectChanges();
         testComponent.favorite = false; fixture.detectChanges();
         testComponent.favorite = true; fixture.detectChanges();
 
-        expect(testComponent.changes).toEqual([]);
+        expect(testComponent.changes).toEqual([true, false, true]);
     }));
 
     @Component({
         template: `
-            <button mdcIconButton
-                class="fa"
-                labelOn="Do not like"
-                labelOff="Like"
-                iconOn="fa-heart"
-                iconOff="fa-heart-o"
-                iconIsClass>
-        `
+            <button mdcIconToggle (onChange)="changeValue($event)" (click)="action()" [disabled]="disabled" [on]="favorite">
+                <i mdcIcon="on" class="fa fa-heart"></i>
+                <i mdcIcon class="fa fa-heart-o"></i>
+            </button>`
     })
     class TestIconIsClassComponent {
     }
-    it("iconIsClass property", (() => {
-        const { fixture } = setup(TestIconIsClassComponent);
-        const iconToggle = fixture.debugElement.query(By.directive(MdcIconButtonToggleDirective)).injector.get(MdcIconButtonToggleDirective);
-        
-        expect(iconToggle._elm.nativeElement.classList).toContain('fa-heart-o');
-        expect(iconToggle._elm.nativeElement.textContent.trim()).toBe('');
-
-        iconToggle.iconIsClass = true; // setting to existing value should be allowed
-        // change value:
-        expect(() => {iconToggle.iconIsClass = false; }).toThrowError(/iconIsClass property.*changed.*/);
-    }));
-
-
-    it("iconIsClass property can not be changed after initialization", (() => {
-        const { fixture } = setup();
-        const iconToggle = fixture.debugElement.query(By.directive(MdcIconButtonToggleDirective)).injector.get(MdcIconButtonToggleDirective);
-
-        // change value (default is undefined, so both true and false as value should be rejected after init):
-        expect(() => {iconToggle.iconIsClass = false; }).toThrowError(/iconIsClass property.*changed.*/);
-        expect(() => {iconToggle.iconIsClass = true; }).toThrowError(/iconIsClass property.*changed.*/);
+    it("iconIsClass property", fakeAsync(() => {
+        const { element } = setup(TestIconIsClassComponent);
+        expect(element.classList).toContain('mdc-icon-button');
+        expect(hasRipple(element)).toBe(true);
     }));
 });
 
-describe('mdcIconButton with FormsModule', () => {
+describe('mdcIconToggle with FormsModule', () => {
     @Component({
         template: `
-            <button mdcIconButton #ngModel="ngModel"
-                class="material-icons"
-                labelOn="Remove from favorites"
-                labelOff="Add to favorites"
-                iconOn="favorite"
-                iconOff="favorite_border"
-                [disabled]="disabled"
-                [ngModel]="favorite"
-                (ngModelChange)="changeValue($event)"
-                (click)="action()"></button>
+            <button mdcIconToggle #ngModel="ngModel" [ngModel]="favorite" (ngModelChange)="changeValue($event)"
+                (click)="action()" [disabled]="disabled">
+                <i mdcIcon="on" class="material-icons">favorite</i>
+                <i mdcIcon class="material-icons">favorite_border</i>
+            </button>
         `
     })
     class TestComponent {
@@ -262,16 +236,16 @@ describe('mdcIconButton with FormsModule', () => {
     function setup() {
         const fixture = TestBed.configureTestingModule({
             imports: [FormsModule],
-            declarations: [MdcIconButtonToggleDirective, MdcFormsIconButtonDirective, TestComponent]
+            declarations: [MdcIconToggleDirective, MdcIconDirective, MdcFormsIconButtonDirective, TestComponent]
         }).createComponent(TestComponent);
         fixture.detectChanges();
-        return { fixture };
+        const iconToggle = fixture.debugElement.query(By.directive(MdcIconToggleDirective)).injector.get(MdcIconToggleDirective);
+        const testComponent = fixture.debugElement.injector.get(TestComponent);
+        return { fixture, iconToggle, testComponent };
     }
 
     it('value changes must be emitted via ngModelChange', (() => {
-        const { fixture } = setup();
-        const iconToggle = fixture.debugElement.query(By.directive(MdcIconButtonToggleDirective)).injector.get(MdcIconButtonToggleDirective);
-        const testComponent = fixture.debugElement.injector.get(TestComponent);
+        const { fixture, iconToggle, testComponent } = setup();
                 
         iconToggle._elm.nativeElement.click(); fixture.detectChanges();
         expect(testComponent.changes).toEqual([true]);
@@ -280,21 +254,19 @@ describe('mdcIconButton with FormsModule', () => {
         expect(testComponent.changes).toEqual([true, false]);
     }));
 
-    it("programmatic changes of 'ngModel' should not trigger 'ngModelChange' events", (() => {
-        const { fixture } = setup();
-        const iconToggle = fixture.debugElement.query(By.directive(MdcIconButtonToggleDirective)).injector.get(MdcIconButtonToggleDirective);
-        const testComponent = fixture.debugElement.injector.get(TestComponent);
+    it("programmatic changes of 'ngModel don't trigger ngModelChange events", fakeAsync(() => {
+        const { fixture, testComponent } = setup();
 
-        testComponent.favorite = true; fixture.detectChanges();
-        testComponent.favorite = false; fixture.detectChanges();
-        testComponent.favorite = true; fixture.detectChanges();
+        testComponent.favorite = true; fixture.detectChanges(); flush();
+        testComponent.favorite = false; fixture.detectChanges(); flush();
+        testComponent.favorite = true; fixture.detectChanges(); flush();
 
         expect(testComponent.changes).toEqual([]);
     }));
 
     it("the disabled property should disable the button", fakeAsync(() => {
         const { fixture } = setup();
-        const iconToggle = fixture.debugElement.query(By.directive(MdcIconButtonToggleDirective)).injector.get(MdcIconButtonToggleDirective);
+        const iconToggle = fixture.debugElement.query(By.directive(MdcIconToggleDirective)).injector.get(MdcIconToggleDirective);
         const testComponent = fixture.debugElement.injector.get(TestComponent);
         tick();
         expect(iconToggle._elm.nativeElement.disabled).toBe(false);
@@ -304,82 +276,5 @@ describe('mdcIconButton with FormsModule', () => {
         tick();
         expect(iconToggle._elm.nativeElement.disabled).toBe(true);
         expect(testComponent.ngModel.disabled).toBe(true);
-    }));
-});
-
-describe('MdcIconButton with nested MdcIconButtonIcon', () => {
-    @Component({
-        template: `
-            <button id="icon" mdcIconButton
-                labelOn="Do not like"
-                labelOff="Like"
-                iconOn="fa-heart"
-                iconOff="fa-heart-o"
-                [disabled]="disabled"
-                [(on)]="like">
-              <i mdcIconButtonIcon class="fa"></i>
-            </button>
-        `
-    })
-    class TestComponent {
-        disabled: boolean = false;
-        like: boolean = true;
-    }
-
-    function setup() {
-        const fixture = TestBed.configureTestingModule({
-            declarations: [MdcIconButtonToggleDirective, MdcIconButtonIconDirective, TestComponent]
-        }).createComponent(TestComponent);
-        fixture.detectChanges();
-        return { fixture };
-    }
-
-    it('should render iconOn/iconOff styles on the nested element, but ripples on the button', fakeAsync(() => {
-        const { fixture } = setup();
-        const iconToggle = fixture.nativeElement.querySelector('button#icon');
-        expect(iconToggle.classList).toContain('mdc-icon-button');
-        expect(hasRipple(iconToggle)).toBe(true);
-        const icon = iconToggle.querySelector('i.fa');
-        expect(icon).toBeDefined();
-        expect(icon.classList).toContain('fa-heart');
-        expect(icon.classList).toContain('fa');
-    }));
-
-    it('should change appearance when behavioral properties are changed', (() => {
-        const { fixture } = setup();
-        const iconToggle = fixture.debugElement.query(By.directive(MdcIconButtonToggleDirective)).injector.get(MdcIconButtonToggleDirective);
-        const icon = fixture.nativeElement.querySelector('i.fa');
-        expect(icon.classList).toContain('fa-heart');
-        
-        iconToggle.labelOn = 'Open envelope';
-        iconToggle.labelOff = 'Close envelope';
-        iconToggle.iconOn = 'fa-envelope';
-        iconToggle.iconOff = 'fa-envelope-open-o';
-        
-        fixture.detectChanges();
-        
-        expect(iconToggle._elm.nativeElement.getAttribute('aria-label')).toBe('Open envelope');
-        expect(icon.classList.contains('fa-heart')).toBe(false, 'actual classes: ' + icon.classList);
-        expect(icon.classList).toContain('fa-envelope');
-        expect(icon.classList).toContain('fa');
-    }));
-
-    it('should toggle state when clicked', (() => {
-        const { fixture } = setup();
-        const iconToggle = fixture.debugElement.query(By.directive(MdcIconButtonToggleDirective)).injector.get(MdcIconButtonToggleDirective);
-        const icon = fixture.nativeElement.querySelector('i.fa');
-        
-        expect(icon.classList.contains('fa-heart')).toBe(true, icon.classList);
-        expect(icon.classList.contains('fa-heart-o')).toBe(false, icon.classList);
-        
-        icon.click(); fixture.detectChanges();
-        
-        expect(icon.classList.contains('fa-heart')).toBe(false, icon.classList);
-        expect(icon.classList.contains('fa-heart-o')).toBe(true, icon.classList);
-        
-        icon.click(); fixture.detectChanges();
-
-        expect(icon.classList.contains('fa-heart')).toBe(true, icon.classList);
-        expect(icon.classList.contains('fa-heart-o')).toBe(false, icon.classList);
     }));
 });

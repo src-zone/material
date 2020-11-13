@@ -1,20 +1,27 @@
-import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Component, DebugElement } from '@angular/core';
+import { Component } from '@angular/core';
 import { MdcChipSetDirective, MdcChipDirective, MdcChipIconDirective, CHIP_DIRECTIVES } from './mdc.chip.directive';
-import { booleanAttributeStyleTest, hasRipple } from '../../testutils/page.test';
+import { hasRipple } from '../../testutils/page.test';
 
 describe('MdcChipDirective', () => {
     @Component({
         template: `
             <div [mdcChipSet]="type" id="set">
                 <div *ngFor="let chip of chips; let i = index" mdcChip
+                        [value]="chip.startsWith('__') ? undefined : chip"
                         (interact)="interact(chip)"
                         (remove)="remove(i)"
                         (selectedChange)="valueChange(chip,$event)">
                     <i *ngIf="includeLeadingIcon" mdcChipIcon class="material-icons">event</i>
-                    <div mdcChipText>{{chip}}</div>
-                    <i *ngIf="includeTrailingIcon" class="material-icons" mdcChipIcon (interact)="trailingIconInteract(chip)">cancel</i>
+                    <span mdcChipCell>
+                        <span mdcChipPrimaryAction>
+                            <div mdcChipText>{{chip}}</div>
+                        </span>
+                    </span>
+                    <span *ngIf="includeTrailingIcon" mdcChipCell>
+                        <i *ngIf="includeTrailingIcon" class="material-icons" mdcChipIcon (interact)="trailingIconInteract(chip)">cancel</i>
+                    </span>
                 </div>
             </div>
         `
@@ -50,13 +57,14 @@ describe('MdcChipDirective', () => {
             declarations: [...CHIP_DIRECTIVES, testComponentType]
         }).createComponent(testComponentType);
         fixture.detectChanges();
-        return { fixture };
+        const testComponent = fixture.debugElement.injector.get(testComponentType);
+        const chipSetComponent = fixture.debugElement.query(By.directive(MdcChipSetDirective)).injector.get(MdcChipSetDirective);
+        const chipSet: HTMLElement = fixture.nativeElement.querySelector('#set');
+        return { fixture, testComponent, chipSetComponent, chipSet };
     }
 
     it('apply correct styles for chip and chip-set', (() => {
-        const { fixture } = setup();
-        const testComponent = fixture.debugElement.injector.get(TestComponent);
-        const chipSet: HTMLElement = fixture.nativeElement.querySelector('#set');
+        const { fixture, testComponent, chipSet } = setup();
         expect(chipSet.classList).toContain('mdc-chip-set');
         const chips = chipSet.querySelectorAll('.mdc-chip');
         expect(chips.length).toBe(3);
@@ -85,12 +93,21 @@ describe('MdcChipDirective', () => {
             expect(hasRipple(chips.item(i))).toBe(true);
     }));
 
-    it('chipset type is one of choice, filter, input, or action', (() => {
-        const { fixture } = setup();
-        const testComponent = fixture.debugElement.injector.get(TestComponent);
-        const chipSetComponent = fixture.debugElement.query(By.directive(MdcChipSetDirective)).injector.get(MdcChipSetDirective);
-        const chipSet: HTMLElement = fixture.nativeElement.querySelector('#set');
+    it('chips get values (either via binding or auto-assigned)', fakeAsync(() => {
+        const { fixture, testComponent } = setup();
+        testComponent.chips = ['one', '__two', 'three'];
+        fixture.detectChanges();
+        // for some weird reason this returns every MdcChipDirective twice, hence the construct to remove duplicates:
+        const chipComponents = fixture.debugElement.queryAll(By.directive(MdcChipDirective)).map(de => de.injector.get(MdcChipDirective))
+            .reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []);
+        expect(chipComponents.length).toBe(3);
+        expect(chipComponents[0].value).toBe('one');
+        expect(chipComponents[1].value).toMatch(/mdc-chip-.*/);
+        expect(chipComponents[2].value).toBe('three');
+    }));
 
+    it('chipset type is one of choice, filter, input, or action', (() => {
+        const { fixture, testComponent, chipSetComponent, chipSet } = setup();
         expect(chipSetComponent.mdcChipSet).toBe('action');
         expect(chipSet.getAttribute('class')).toBe('mdc-chip-set');
 
@@ -108,8 +125,7 @@ describe('MdcChipDirective', () => {
     }));
 
     it('trailing icons get a tabindex and role=button', (() => {
-        const { fixture } = setup();
-        const testComponent = fixture.debugElement.injector.get(TestComponent);
+        const { fixture, testComponent } = setup();
         testComponent.chips = ['chip'];
         testComponent.includeLeadingIcon = true;
         testComponent.includeTrailingIcon = true;
@@ -125,26 +141,23 @@ describe('MdcChipDirective', () => {
         const trailingIcon = fixture.debugElement.queryAll(By.directive(MdcChipIconDirective))[1].injector.get(MdcChipIconDirective);
         expect(trailingIcon._elm.nativeElement).toBe(icons[1]);
         trailingIcon._trailing = false;
+        fixture.detectChanges();
         expect(icons[1].tabIndex).toBe(-1);
         expect(icons[1].hasAttribute('role')).toBe(false);
     }));
 
     it('unreachable code for our implementation must throw errors', (() => {
-        const { fixture } = setup();
-        const testComponent = fixture.debugElement.injector.get(TestComponent);
+        const { fixture, testComponent, chipSetComponent } = setup();
         testComponent.chips = ['chip'];
         fixture.detectChanges();
-        const chipSetComponent = fixture.debugElement.query(By.directive(MdcChipSetDirective)).injector.get(MdcChipSetDirective);
-        expect(() => {chipSetComponent._adapter.removeChip(null); }).toThrowError();
+        expect(() => {chipSetComponent._adapter.removeChipAtIndex(null); }).toThrowError();
     }));
 
     it('click action chip triggers interaction event', (() => {
-        const { fixture } = setup();
-        const testComponent = fixture.debugElement.injector.get(TestComponent);
+        const { fixture, testComponent } = setup();
         testComponent.chips = ['chip'];
         fixture.detectChanges();
         const chip = fixture.nativeElement.querySelector('.mdc-chip');
-        const trailingIcon = fixture.nativeElement.querySelector
         
         expect(testComponent.interactions).toEqual([]);
         expect(testComponent.trailingIconInteractions).toEqual([]);
@@ -155,8 +168,7 @@ describe('MdcChipDirective', () => {
     }));
 
     it('trailing icon interactions trigger interaction and remove events', fakeAsync(() => {
-        const { fixture } = setup();
-        const testComponent = fixture.debugElement.injector.get(TestComponent);
+        const { fixture, testComponent } = setup();
         testComponent.type = 'input';
         testComponent.chips = ['chip'];
         testComponent.includeTrailingIcon = true;
@@ -179,8 +191,7 @@ describe('MdcChipDirective', () => {
     }));
 
     it('filter chips get a checkmark icon on selection', (() => {
-        const { fixture } = setup();
-        const testComponent = fixture.debugElement.injector.get(TestComponent);
+        const { fixture, testComponent } = setup();
         testComponent.type = 'filter';
         fixture.detectChanges();
         const chips = fixture.nativeElement.querySelectorAll('.mdc-chip');
@@ -201,8 +212,7 @@ describe('MdcChipDirective', () => {
     }));
 
     it('filter chips selected value changes on clicks', (() => {
-        const { fixture } = setup();
-        const testComponent = fixture.debugElement.injector.get(TestComponent);
+        const { fixture, testComponent } = setup();
         testComponent.type = 'filter';
         fixture.detectChanges();
         const chips = fixture.nativeElement.querySelectorAll('.mdc-chip');
@@ -219,8 +229,7 @@ describe('MdcChipDirective', () => {
     }));
 
     it('choice chips selected value changes on clicks and clicks of other choices', (() => {
-        const { fixture } = setup();
-        const testComponent = fixture.debugElement.injector.get(TestComponent);
+        const { fixture, testComponent } = setup();
         testComponent.type = 'choice';
         fixture.detectChanges();
         const chips = fixture.nativeElement.querySelectorAll('.mdc-chip');
@@ -236,13 +245,14 @@ describe('MdcChipDirective', () => {
         expect(testComponent.valueChanges).toEqual([{chip: 'chappie', value: false}]);
     }));
 
-    it('filter/choice chips selected state can be changed', (() => {
-        const { fixture } = setup();
-        const testComponent = fixture.debugElement.injector.get(TestComponent);
+    it('filter/choice chips selected state can be changed', fakeAsync(() => {
+        const { fixture, testComponent } = setup();
         testComponent.type = 'choice';
         fixture.detectChanges();
-        const chips = fixture.nativeElement.querySelectorAll('.mdc-chip');
-        const chipComponents = fixture.debugElement.queryAll(By.directive(MdcChipDirective)).map(de => de.injector.get(MdcChipDirective));
+        // for some weird reason this returns every MdcChipDirective twice, hence the construct to remove duplicates:
+        const chipComponents = fixture.debugElement.queryAll(By.directive(MdcChipDirective)).map(de => de.injector.get(MdcChipDirective))
+            .reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []);
+        expect(chipComponents.length).toBe(3);
 
         expect(chipComponents[0].selected).toBe(false);
         chipComponents[0].selected = true;
@@ -250,7 +260,7 @@ describe('MdcChipDirective', () => {
         testComponent.valueChanges = [];
 
         chipComponents[1].selected = true;
-        expect(testComponent.valueChanges).toEqual([{chip: 'chippie', value: false}, {chip: 'chappie', value: true}]);
+        expect(testComponent.valueChanges).toEqual(jasmine.arrayWithExactContents([{chip: 'chippie', value: false}, {chip: 'chappie', value: true}]));
         expect(chipComponents[0].selected).toBe(false);
         testComponent.valueChanges = [];
 
@@ -266,8 +276,7 @@ describe('MdcChipDirective', () => {
     }));
 
     it('filter chips hide their leading icon on selection (to make place for the checkmark)', fakeAsync(() => {
-        const { fixture } = setup();
-        const testComponent = fixture.debugElement.injector.get(TestComponent);
+        const { fixture, testComponent } = setup();
         testComponent.type = 'filter';
         testComponent.chips = ['chip'];
         testComponent.includeLeadingIcon = true;
@@ -291,22 +300,24 @@ describe('MdcChipDirective', () => {
     }));
 
     it('computeRippleBoundingRect returns correct values', fakeAsync(() => {
-        const { fixture } = setup();
-        const testComponent = fixture.debugElement.injector.get(TestComponent);
+        const { fixture, testComponent } = setup();
         testComponent.type = 'filter';
         testComponent.chips = ['chip'];
         testComponent.includeLeadingIcon = true;
         fixture.detectChanges();
         
         let chipComponent = fixture.debugElement.query(By.directive(MdcChipDirective)).injector.get(MdcChipDirective);
+        let chip = fixture.nativeElement.querySelector('div.mdc-chip');
         let rect = chipComponent['computeRippleBoundingRect']();
-        expect(rect.width).toBeGreaterThan(rect.height);
+        expect(rect.height).toBe(32);
+        expect(rect.width).toBe(chip.getBoundingClientRect().width);
 
         testComponent.includeLeadingIcon = false;
         fixture.detectChanges();
-        chipComponent = fixture.debugElement.query(By.directive(MdcChipDirective)).injector.get(MdcChipDirective);
+        let checkmark = fixture.nativeElement.querySelector('div.mdc-chip__checkmark');
         rect = chipComponent['computeRippleBoundingRect']();
-        expect(rect.width).toBe(rect.height);
+        expect(rect.height).toBe(32);
+        expect(rect.width).toBe(chip.getBoundingClientRect().width + checkmark.getBoundingClientRect().height);
     }));
 
     @Component({
@@ -319,16 +330,19 @@ describe('MdcChipDirective', () => {
                     <div *ngIf="contained">
                         <i *ngFor="let icon of beforeIcons" mdcChipIcon class="material-icons before">{{icon}}</i>
                     </div>
-                    <div *ngIf="!contained" mdcChipText>{{chip}}</div>
-                    <div *ngIf="contained">
-                        <div mdcChipText>{{chip}}</div>
-                    </div>
-                    <ng-container *ngIf="!contained">
-                        <i *ngFor="let icon of afterIcons" class="material-icons after" mdcChipIcon>{{icon}}</i>
-                    </ng-container>
-                    <div *ngIf="contained">
-                        <i *ngFor="let icon of afterIcons" mdcChipIcon class="material-icons before">{{icon}}</i>                    
-                    </div>
+                    <span mdcChipCell>
+                        <span mdcChipPrimaryAction>
+                            <div mdcChipText>{{chip}}</div>
+                        </span>
+                    </span>
+                    <span *ngFor="let icon of afterIcons" mdcChipCell>
+                        <ng-container *ngIf="!contained">
+                            <i class="material-icons after" mdcChipIcon>{{icon}}</i>
+                        </ng-container>
+                        <div *ngIf="contained">
+                            <i mdcChipIcon class="material-icons before">{{icon}}</i>
+                        </div>
+                    </span>
                 </div>
             </div>
         `
@@ -339,8 +353,7 @@ describe('MdcChipDirective', () => {
         afterIcons = [];
     }
     it('leading/trailing icons are detected properly', (() => {
-        const { fixture } = setup(TestIconsComponent);
-        const testComponent = fixture.debugElement.injector.get(TestIconsComponent);
+        const { fixture, testComponent } = setup(TestIconsComponent);
         
         let icons = fixture.nativeElement.querySelectorAll('i');
         expect(icons.length).toBe(0);
@@ -405,20 +418,136 @@ describe('MdcChipDirective', () => {
         template: `
             <div mdcChipSet>
                 <div mdcChip>
-                    <div mdcChipText>one</div>
+                    <i mdcChipIcon class="material-icons leading" tabindex="0">event</i>
+                    <span mdcChipCell>
+                        <span mdcChipPrimaryAction>
+                            <div mdcChipText>one</div>
+                        </span>
+                    </span>
+                    <span mdcChipCell>
+                        <i mdcChipIcon class="material-icons">cancel</i>
+                    </span>
                 </div>
-                <div mdcChip tabindex="-1">
-                    <div mdcChipText>two</div>
+                <div mdcChip>
+                    <i mdcChipIcon class="material-icons leading">event</i>
+                    <span mdcChipCell>
+                        <span mdcChipPrimaryAction tabindex="-1">
+                            <div mdcChipText>two</div>
+                        </span>
+                    </span>
+                    <span mdcChipCell>
+                        <i mdcChipIcon class="material-icons" tabindex="-1">cancel</i>
+                    </span>
+                </div>
+                <div mdcChip>
+                    <i mdcChipIcon class="material-icons leading">event</i>
+                    <span mdcChipCell>
+                        <span mdcChipPrimaryAction tabindex="99">
+                            <div mdcChipText>three</div>
+                        </span>
+                    </span>
+                    <span mdcChipCell>
+                        <i mdcChipIcon class="material-icons" tabindex="100">cancel</i>
+                    </span>
                 </div>
             </div>
         `
     })
     class TestTabbingComponent {
     }
-    it('chips are tabbable by default, but this can be overridden', (() => {
+    it('chips actions are tabbable by default, but this can be overridden', (() => {
         const { fixture } = setup(TestTabbingComponent);
-        let chips = fixture.nativeElement.querySelectorAll('.mdc-chip');
-        expect(chips[0].tabIndex).toBe(0);
-        expect(chips[1].tabIndex).toBe(-1);
+        let actions = fixture.nativeElement.querySelectorAll('.mdc-chip__primary-action');
+        expect(actions[0].tabIndex).toBe(0);
+        expect(actions[1].tabIndex).toBe(-1);
+        expect(actions[2].tabIndex).toBe(99);
+        let trailingIcons = fixture.nativeElement.querySelectorAll('.mdc-chip__icon--trailing');
+        expect(trailingIcons[0].tabIndex).toBe(0);
+        expect(trailingIcons[1].tabIndex).toBe(-1);
+        expect(trailingIcons[2].tabIndex).toBe(100);
+        let leadingIcons = fixture.nativeElement.querySelectorAll('.leading');
+        expect(leadingIcons[0].tabIndex).toBe(0);
+        expect(leadingIcons[1].tabIndex).toBe(-1);
+        expect(leadingIcons[2].tabIndex).toBe(-1);
+    }));
+
+    @Component({
+        template: `
+            <div mdcChipSet>
+                <div mdcChip>
+                    <i mdcChipIcon class="material-icons" role="custom-role">event</i>
+                    <span mdcChipCell>
+                        <span mdcChipPrimaryAction>
+                            <div mdcChipText>one</div>
+                        </span>
+                    </span>
+                    <span mdcChipCell>
+                        <i mdcChipIcon class="material-icons" role="custom-role">cancel</i>
+                    </span>
+                </div>
+            </div>
+        `
+    })
+    class TestIconRoleComponent {
+    }
+    it('chips icons can override their aria role', (() => {
+        const { fixture } = setup(TestIconRoleComponent);
+        let icons = fixture.nativeElement.querySelectorAll('.mdc-chip__icon');
+        expect(icons[0].getAttribute('role')).toBe('custom-role');
+        expect(icons[1].getAttribute('role')).toBe('custom-role');
+    }));
+
+    @Component({
+        template: `
+            <div [mdcChipSet]="type" id="set">
+                <div *ngFor="let chip of chips; let i = index" mdcChip="input"
+                    removable="false"
+                    (remove)="remove(i)">
+                    <span mdcChipCell>
+                        <span mdcChipPrimaryAction>
+                            <div mdcChipText>{{chip}}</div>
+                        </span>
+                    </span>
+                    <span mdcChipCell>
+                        <i class="material-icons" mdcChipIcon (interact)="trailingIconInteract(chip)">cancel</i>
+                    </span>
+                </div>
+            </div>
+        `
+    })
+    class TestNotRemobvableComponent {
+        chips = ['chippie', 'chappie', 'choppie'];
+        trailingIconInteractions = [];
+        removed = [];
+        trailingIconInteract(chip: string) {
+            this.trailingIconInteractions.push(chip);
+        }
+        resetInteractions() {
+            this.trailingIconInteractions = [];
+        }
+        remove(i: number) {
+            this.chips.splice(i, 1);
+        }
+    }
+
+    it('removable property must prevent removal', fakeAsync(() => {
+        const { fixture, testComponent } = setup(TestNotRemobvableComponent);
+        const chips = fixture.nativeElement.querySelectorAll('.mdc-chip');
+        const trailingIcons = fixture.nativeElement.querySelectorAll('.mdc-chip i:last-child');
+        // for some weird reason this returns every MdcChipDirective twice, hence the construct to remove duplicates:
+        const chipComponents = fixture.debugElement.queryAll(By.directive(MdcChipDirective)).map(de => de.injector.get(MdcChipDirective))
+            .reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []);
+        expect(testComponent.trailingIconInteractions).toEqual([]);
+        
+        trailingIcons[1].click();
+        // simulate transitionend event for exit transition of chip:
+        (<any>chipComponents[1]._foundation).handleTransitionEnd({target: chips[1], propertyName: 'opacity'});
+        tick(20); // wait for requestAnimationFrame
+        (<any>chipComponents[1]._foundation).handleTransitionEnd({target: chips[1], propertyName: 'width'});
+
+        // there was an interaction:
+        expect(testComponent.trailingIconInteractions).toEqual(['chappie']);
+        // but nothing was deleted:
+        expect(testComponent.chips).toEqual(['chippie', 'chappie', 'choppie']);
     }));
 });

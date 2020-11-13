@@ -1,13 +1,11 @@
-import { AfterContentInit, Directive, ElementRef, HostBinding, Input, OnDestroy, Renderer2, forwardRef } from '@angular/core';
-import { MDCRipple } from '@material/ripple';
+import { AfterContentInit, Directive, ElementRef, HostBinding, Input, OnDestroy, Renderer2, forwardRef, ContentChild, ContentChildren } from '@angular/core';
 import { asBoolean } from '../../utils/value.utils';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
 /**
  * Directive for the icon of a Floating Action Button
- * (<code>mdcFab</code>). The icon of a Floating Action Button is
- * optional when the <code>extended</code> property is set.
+ * (`mdcFab`).
  */
 @Directive({
     selector: '[mdcFabIcon]'
@@ -18,7 +16,7 @@ export class MdcFabIconDirective {
 
 /**
  * Directive for the label of an extended Floating Action Button
- * (<code>mdcFab</code>). The label may be placed before or after the icon.
+ * (`mdcFab`). The label may be placed before or after the icon.
  * It is also possible to only have a label for an extended Floating Action
  * Button.
  */
@@ -31,7 +29,9 @@ export class MdcFabLabelDirective {
 
 /**
  * Material design Floating Action Button. The element should embed
- * an icon element with the <code>MdcFabIconDirective</code>.
+ * an icon element with the `mdcFabIcon`, or (to make it an extended floating action button)
+ * a label with the `mdcFabLabel` directive. Extended floating actions button may (in addition
+ * to the label) also add an `mdcFabIcon` before or after the label.
  */
 @Directive({
     selector: '[mdcFab]',
@@ -39,12 +39,14 @@ export class MdcFabLabelDirective {
 })
 export class MdcFabDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-fab') _cls = true;
+    @ContentChild(MdcFabLabelDirective) private label;
+    @ContentChildren(MdcFabLabelDirective) private _labels;
     private _mini = false;
-    private _extended = false;
     private _exited = false;
 
     constructor(public _elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry) {
         super(_elm, renderer, registry);
+        this.addRippleSurface('mdc-fab__ripple');
     }
 
     ngAfterContentInit() {
@@ -68,18 +70,9 @@ export class MdcFabDirective extends AbstractMdcRipple implements AfterContentIn
         this._mini = asBoolean(val);
     }
 
-    /**
-     * When this input is defined and does not have value false, the FAB will
-     * be extended to a wider size which includes a text label. Use directive
-     * <code>mdcFabLabel</code> for the text label.
-     */
-    @HostBinding('class.mdc-fab--extended') @Input()
-    get extended() {
-        return this._extended;
-    }
-
-    set extended(val: any) {
-        this._extended = asBoolean(val);
+    /** @docs-private */
+    @HostBinding('class.mdc-fab--extended') get extended() {
+        return !!this.label;
     }
 
     /**

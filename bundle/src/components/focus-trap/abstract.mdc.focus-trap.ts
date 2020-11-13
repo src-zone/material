@@ -9,7 +9,7 @@ export interface FocusTrapHandle {
 /** @docs-private */
 export abstract class AbstractMdcFocusInitial {
     /** @docs-private */ readonly priority: number;
-    readonly _elm: ElementRef;
+    /** @docs-private */ readonly _elm: ElementRef;
 }
 
 /** @docs-private */

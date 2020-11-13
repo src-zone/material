@@ -54,8 +54,6 @@ export class MdcCardMediaDirective {
 })
 export class MdcCardMediaContentDirective {
     @HostBinding('class.mdc-card__media-content') _cls = true;
-    
-    constructor() {}
 }
 
 /**
@@ -68,8 +66,6 @@ export class MdcCardMediaContentDirective {
 })
 export class MdcCardActionButtonsDirective {
     @HostBinding('class.mdc-card__action-buttons') _cls = true;
-
-    constructor() {}
 }
 
 /**
@@ -82,8 +78,6 @@ export class MdcCardActionButtonsDirective {
 })
 export class MdcCardActionIconsDirective {
     @HostBinding('class.mdc-card__action-icons') _cls = true;
-    
-    constructor() {}
 }
 
 /**
@@ -158,11 +152,14 @@ export class MdcCardActionsDirective implements AfterContentInit {
 export class MdcCardPrimaryActionDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-card__primary-action') _cls = true;
 
-    constructor(elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry) {
+    constructor(private elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry) {
         super(elm, renderer, registry);
     }
 
     ngAfterContentInit() {
+        if (!this.elm.nativeElement.hasAttribute('tabindex'))
+            // unless overridden, make the action tabbable:
+            this.elm.nativeElement.tabIndex = 0;
         this.initRipple();
     }
   
@@ -182,8 +179,6 @@ export class MdcCardDirective {
     @HostBinding('class.mdc-card') _cls = true;
     private _outlined = false;
 
-    constructor() {}
-
     /**
      * When this input is set to a value other than false, the card will have a
      * hairline stroke instead of a shadow.
@@ -197,3 +192,13 @@ export class MdcCardDirective {
         this._outlined = asBoolean(val);
     }
 }
+
+export const CARD_DIRECTIVES = [
+    MdcCardMediaDirective,
+    MdcCardMediaContentDirective,
+    MdcCardActionButtonsDirective,
+    MdcCardActionIconsDirective,
+    MdcCardActionsDirective,
+    MdcCardPrimaryActionDirective,
+    MdcCardDirective
+];

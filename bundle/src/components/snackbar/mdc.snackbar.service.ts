@@ -1,50 +1,62 @@
-import { Injectable, Optional, Renderer2, SkipSelf } from '@angular/core';
-import { getCorrectEventName } from '@material/animation';
-import { MDCSnackbar, MDCSnackbarFoundation } from '@material/snackbar';
+import { Injectable } from '@angular/core';
+import { MDCSnackbarAdapter, MDCSnackbarFoundation, numbers } from '@material/snackbar';
+import { announce } from '@material/snackbar/util';
 import { Observable, Subject } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
-import { MdcSnackbarAdapter } from './mdc.snackbar.adapter';
+import { takeUntil } from 'rxjs/operators';
 import { MdcSnackbarMessage } from './mdc.snackbar.message';
 
-const CLASS_ACTIVE = 'mdc-snackbar--active';
-const CLASS_ALIGN_START = 'mdc-snackbar--align-start';
+const CLASS_LEADING = 'mdc-snackbar--leading';
+const CLASS_STACKED = 'mdc-snackbar--stacked';
+
 
 /**
  * This class provides information about a posted snackbar message.
  * It can also be used to subscribe to action clicks.
  */
-export class MdcSnackbarRef {
-    constructor(
-        private _action: Subject<void>,
-        private _show: Subject<void>,
-        private _hide: Subject<void>
-    ) {}
-
+export abstract class MdcSnackbarRef {
     /**
      * Subscribe to this observable to be informed when a user clicks the action
      * for the shown snackbar. Note that the observable will complete when the snackbar
      * disappears from screen, so there is no need to unsubscribe.
      */
-    action(): Observable<void> {
-        return this._action.asObservable();
-    }
+    abstract action(): Observable<void>;
 
     /**
      * Subscribe to this observable to be informed when the message is displayed.
      * Note that the observable will complete when the snackbar disappears from screen,
      * so there is no need to unsubscribe.
      */
-    afterShow(): Observable<void> {
-        return this._show.asObservable();
-    }
+    abstract afterOpened(): Observable<void>;
 
     /**
-     * Subscribe to this observable to be informed when the message disappears.
+     * Subscribe to this observable to be informed when the message has disappeared.
      * Note that the observable will complete immediately afterwards, so there is
      * no need to unsubscribe.
+     * The observed value is the `reason` string that was provided for closing the snackbar.
      */
-    afterHide(): Observable<void> {
-        return this._hide.asObservable();
+    abstract afterClosed(): Observable<string>;
+}
+
+// internal representation of the snackbar
+class MdcSnackbarInfo extends MdcSnackbarRef {
+    public _action: Subject<void> = new Subject();
+    public _opened: Subject<void> = new Subject();
+    public _closed: Subject<string> = new Subject();
+
+    constructor(public message: MdcSnackbarMessage) {
+        super();
+    }
+
+    action(): Observable<void> {
+        return this._action.asObservable();
+    }
+
+    afterOpened(): Observable<void> {
+        return this._opened.asObservable();
+    }
+
+    afterClosed(): Observable<string> {
+        return this._closed.asObservable();
     }
 }
 
@@ -55,170 +67,167 @@ export class MdcSnackbarRef {
     providedIn: 'root'
 })
 export class MdcSnackbarService {
-    private snackbar: MDCSnackbar = null;
+    private onDestroy$: Subject<any> = new Subject();
+    private closed: Subject<string> = new Subject<string>();
     private root: HTMLElement = null;
-    private isActive = false;
-    private postedMessages = 0;
-    private lastActivated = -1;
-    private lastDismissed = -1;
-    
-    private openMessage: Subject<number> = new Subject<number>();
-    private closeMessage: Subject<number> = new Subject<number>();
+    private label: HTMLElement = null;
+    private actionButton: HTMLElement = null;
+    private actionLabel: HTMLElement = null;
+    private adapter: MDCSnackbarAdapter = {
+        addClass: (name) => this.root.classList.add(name),
+        announce: () => announce(this.label, this.label),
+        notifyClosed: (reason) => this.closed.next(reason),
+        notifyClosing: () => {},
+        notifyOpened: () => this.current?._opened.next(),
+        notifyOpening: () => {},
+        removeClass: (name) => this.root.classList.remove(name)
+    };
+    private handleActionClick = (evt: MouseEvent) => {
+        try {
+            (this.queue.length > 0) && this.queue[0]._action.next();
+        } finally {
+            this.foundation.handleActionButtonClick(evt);
+        }
+    };
+    private handleKeyDown = (evt: KeyboardEvent) => this.foundation.handleKeyDown(evt);
+    private foundation: MDCSnackbarFoundation;
+    private queue: MdcSnackbarInfo[] = [];
 
-    constructor() {
-    }
+    constructor() {}
 
-    private initHtml() {
-        if (!this.snackbar) {
+    private init() {
+        if (!this.foundation) {
             this.root = document.createElement('div');
             this.root.classList.add('mdc-snackbar');
-            this.root.setAttribute('aria-live', 'assertive');
-            this.root.setAttribute('aria-atomic', 'true');
-            this.root.setAttribute('aria-hidden', 'true');
-            let snackbarText = document.createElement('div');
-            snackbarText.classList.add('mdc-snackbar__text');
-            this.root.appendChild(snackbarText);
-            let snackbarAction = document.createElement('div');
-            snackbarAction.classList.add('mdc-snackbar__action-wrapper');
-            this.root.appendChild(snackbarAction);
-            let snackbarActionButton = document.createElement('button');
-            snackbarActionButton.classList.add('mdc-snackbar__action-button');
-            snackbarActionButton.setAttribute('type', 'button');
-            snackbarAction.appendChild(snackbarActionButton);
+            let surface = document.createElement('div');
+            surface.classList.add('mdc-snackbar__surface');
+            this.root.appendChild(surface);
+            this.label = document.createElement('div');
+            this.label.setAttribute('role', 'status');
+            this.label.setAttribute('aria-live', 'polite');
+            this.label.classList.add('mdc-snackbar__label');
+            surface.appendChild(this.label);
+            let actions = document.createElement('div');
+            actions.classList.add('mdc-snackbar__actions');
+            surface.appendChild(actions);
+            this.actionButton = document.createElement('button');
+            this.actionButton.classList.add('mdc-button');
+            this.actionButton.classList.add('mdc-snackbar__action');
+            this.actionButton.setAttribute('type', 'button');
+            actions.appendChild(this.actionButton);
+            let ripple = document.createElement('div');
+            ripple.classList.add('mdc-button__ripple');
+            this.actionButton.appendChild(ripple);
+            this.actionLabel = document.createElement('span');
+            this.actionLabel.classList.add('mdc-button__label');
+            this.actionButton.appendChild(this.actionLabel);
             document.body.appendChild(this.root);
-            this.snackbar = new MDCSnackbar(this.root, this.getFoundation(this.root));
+            this.foundation = new MDCSnackbarFoundation(this.adapter);
+
+            this.actionButton.addEventListener('click', this.handleActionClick);
+            this.root.addEventListener('keydown', this.handleKeyDown);
+
+            this.closed.pipe(takeUntil(this.onDestroy$)).subscribe(reason => this.closeCurrent(reason));
         }
     }
 
-    private getFoundation(root: HTMLElement): MDCSnackbarFoundation {
-        const textEl = root.querySelector('.mdc-snackbar__text');
-        const buttonEl = <HTMLElement>root.querySelector('.mdc-snackbar__action-button');
-        const adapter: MdcSnackbarAdapter = {
-            addClass: (className) => { root.classList.add(className); },
-            removeClass: (className) => { root.classList.remove(className); },
-            setAriaHidden: () => root.setAttribute('aria-hidden', 'true'),
-            unsetAriaHidden: () => root.removeAttribute('aria-hidden'),
-            setActionAriaHidden: () => buttonEl.setAttribute('aria-hidden', 'true'),
-            unsetActionAriaHidden: () => buttonEl.removeAttribute('aria-hidden'),
-            setActionText: (text) => { buttonEl.textContent = text; },
-            setMessageText: (text) => { textEl.textContent = text; },
-            setFocus: () => buttonEl.focus(),
-            visibilityIsHidden: () => document.hidden,
-            registerCapturedBlurHandler: (handler) => buttonEl.addEventListener('blur', handler, true),
-            deregisterCapturedBlurHandler: (handler) => buttonEl.removeEventListener('blur', handler, true),
-            registerVisibilityChangeHandler: (handler) => document.addEventListener('visibilitychange', handler),
-            deregisterVisibilityChangeHandler: (handler) => document.removeEventListener('visibilitychange', handler),
-            registerCapturedInteractionHandler: (evt, handler) => document.body.addEventListener(evt, handler, true),
-            deregisterCapturedInteractionHandler: (evt, handler) => document.body.removeEventListener(evt, handler, true),
-            registerActionClickHandler: (handler) => buttonEl.addEventListener('click', handler),
-            deregisterActionClickHandler: (handler) => buttonEl.removeEventListener('click', handler),
-            registerTransitionEndHandler: (handler) => root.addEventListener(getCorrectEventName(window, 'transitionend'), handler),
-            deregisterTransitionEndHandler: (handler) => root.removeEventListener(getCorrectEventName(window, 'transitionend'), handler),
-            notifyShow: () => { this.activateNext(); },
-            notifyHide: () => { this.deactivateLast(); }
-        }
-        return new MDCSnackbarFoundation(adapter);
-    }
-
-    private activateNext() {
-        while (this.lastDismissed < this.lastActivated)
-            // since this activates a new message, all messages before will logically be closed:
-            this.closeMessage.next(++this.lastDismissed);
-        this.openMessage.next(++this.lastActivated);
-        this.isActive = true;
-    }
-
-    private deactivateLast() {
-        if (this.isActive) {
-            ++this.lastDismissed;
-            this.isActive = false;
-            this.closeMessage.next(this.lastDismissed);
+    onDestroy() {
+        this.onDestroy$.next();
+        this.onDestroy$.complete();
+        if (this.foundation) {
+            this.actionButton.removeEventListener('çlick', this.handleActionClick);
+            this.root.removeEventListener('keydown', this.handleKeyDown);
+            this.foundation.destroy();
+            this.root.parentElement.removeChild(this.root);
+            this.root = null;
+            this.label = null;
+            this.actionButton = null;
+            this.actionLabel = null;
         }
     }
 
     /**
      * Show a snackbar/toast message. If a snackbar message is already showing, the new
      * message will be queued to show after earlier message have been shown.
-     * The returned <code>MdcSnackbarRef</code> provides methods to subscribe to action clicks.
+     * The returned `MdcSnackbarRef` provides methods to subscribe to opened, closed, and 
+     * action click events.
      * 
      * @param message Queue a snackbar message to show.
      */
     show(message: MdcSnackbarMessage): MdcSnackbarRef {
-        // make sure data passes precondition checks in foundation,
-        // or our counters will not be right after snackbar.show throws exception:
         if (!message)
-            throw new Error('snackbar message called with no data');
-        if (!message.message)
-            throw new Error('snackbar message is missing the actual message text');            
+            return;
+        this.init();
+        const ref = new MdcSnackbarInfo(message);
+        this.queue.push(ref);
+        if (this.queue.length === 1) {
+            // showing needs to be triggered after snackbarRef is returned to caller,
+            // so that caller can subscribe to `afterShow` before it is triggered:
+            Promise.resolve().then(() => {
+                this.showNext();
+            });
+        }
+        return ref;
+    }
 
-        this.initHtml();
-        let messageNr = this.postedMessages++;
-        let data: any = {
-            message: message.message,
-            actionText: message.actionText,
-            multiline: message.multiline,
-            actionOnBottom: message.actionOnBottom,
-            timeout: message.timeout
-        };
+    private showNext() {
+        if (this.queue.length === 0)
+            return;
+        const info = this.queue[0];
+        this.label.textContent = info.message.message || '';
+        this.actionLabel.textContent = info.message.actionText || '';
+        if (info.message.stacked)
+            this.root.classList.add(CLASS_STACKED);
+        else
+            this.root.classList.remove(CLASS_STACKED);
+        try {
+            this.foundation.setTimeoutMs(info.message.timeout || numbers.DEFAULT_AUTO_DISMISS_TIMEOUT_MS);
+        } catch (error) {
+            console.warn(error.message);
+            this.foundation.setTimeoutMs(numbers.DEFAULT_AUTO_DISMISS_TIMEOUT_MS);
+        }
+        this.foundation.open();
+    }
 
-        // provide a means to subscribe to an action click:
-        let action = new Subject<void>();
-        let show = new Subject<void>();
-        let hide = new Subject<void>();
-        if (message.actionText)
-            data.actionHandler = function() { action.next(); };
+    private closeCurrent(reason: string) {
+        const info = this.queue.shift();
+        info._closed.next(reason);
+        info._opened.complete();
+        info._action.complete();
+        info._closed.complete();
+        if (this.queue.length > 0)
+            this.showNext();
+    }
 
-        // manage the show subscription
-        this.openMessage.asObservable().pipe(
-            filter(nr => nr === messageNr),
-            take(1)
-        ).subscribe(nr => { show.next(); });
-        // manage the hide subscription, and close complete all observables when the
-        // message is removed:
-        this.closeMessage.asObservable().pipe(
-            filter(nr => nr === messageNr),
-            take(1)
-        ).subscribe(nr => {
-            hide.next();
-            show.complete();
-            hide.complete();
-            action.complete();
-        });
-
-        // show the actual snackbar, using setTimeout to give callers
-        // a chance to subscribe to all events:
-        setTimeout(() => {this.snackbar.show(data); });
-
-        return new MdcSnackbarRef(action, show, hide);
+    private get current() {
+        return this.queue.length > 0 ? this.queue[0] : null;
     }
 
     /**
      * Set this property to true to show snackbars start-aligned instead of center-aligned. Desktop and tablet only.
      */
-    get startAligned(): boolean {
-        return this.snackbar ? this.root.classList.contains(CLASS_ALIGN_START) : false;
+    get leading(): boolean {
+        return this.foundation ? this.root.classList.contains(CLASS_LEADING) : false;
     }
 
-    set startAligned(value: boolean) {
-        this.initHtml();
+    set leading(value: boolean) {
+        this.init();
         if (value)
-            this.root.classList.add(CLASS_ALIGN_START);
+            this.root.classList.add(CLASS_LEADING);
         else
-            this.root.classList.remove(CLASS_ALIGN_START);
+            this.root.classList.remove(CLASS_LEADING);
     }
 
     /**
-     * By default the snackbar will be dimissed when the user presses the action button.
-     * If you want the snackbar to remain visible until the timeout is reached (regardless of
-     * whether the user pressed the action button or not) you can set the dismissesOnAction
-     * property to false.
+     * By default the snackbar closes when the user presses ESC, while it's focused. Set this to
+     * false to not close the snackbar when the user presses ESC.
      */
-    get dismissesOnAction(): boolean {
-        return this.snackbar ? this.snackbar.dismissesOnAction : true;
+    get closeOnEscape(): boolean {
+        return this.foundation ? this.foundation.getCloseOnEscape() : true;
     }
 
-    set dismissesOnAction(value: boolean) {
-        this.initHtml();
-        this.snackbar.dismissesOnAction = value;
+    set closeOnEscape(value: boolean) {
+        this.init();
+        this.foundation.setCloseOnEscape(!!value);
     }
 }

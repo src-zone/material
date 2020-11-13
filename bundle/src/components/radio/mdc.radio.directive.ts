@@ -1,9 +1,8 @@
-import { AfterContentInit, Component, ContentChild, Directive, ElementRef, EventEmitter, HostBinding, HostListener,
-  Input, OnDestroy, OnInit, Optional, Output, Provider, Renderer2, Self, ViewChild, ViewEncapsulation, forwardRef } from '@angular/core';
+import { AfterContentInit, Directive, ElementRef, HostBinding,
+  Input, OnDestroy, Optional, Renderer2, Self, forwardRef, ContentChildren, QueryList } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { MDCRadioFoundation } from '@material/radio';
+import { MDCRadioFoundation, MDCRadioAdapter } from '@material/radio';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
-import { MdcRadioAdapter } from './mdc.radio.adapter';
 import { AbstractMdcInput } from '../abstract/abstract.mdc.input';
 import { asBoolean } from '../../utils/value.utils';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
@@ -63,31 +62,34 @@ export class MdcRadioInputDirective extends AbstractMdcInput {
 })
 export class MdcRadioDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-radio') _cls = true;
-    @ContentChild(MdcRadioInputDirective) _input: MdcRadioInputDirective;
-    private mdcAdapter: MdcRadioAdapter = {
-        addClass: (className: string) => {
-            this.renderer.addClass(this.root.nativeElement, className);
-        },
-        removeClass: (className: string) => {
-            this.renderer.removeClass(this.root.nativeElement, className);
-        },
-        getNativeControl: () => this._input ? this._input._elm.nativeElement : null
+    @ContentChildren(MdcRadioInputDirective) _inputs: QueryList<MdcRadioInputDirective>;
+    private mdcAdapter: MDCRadioAdapter = {
+        // We can just ignore all adapter calls, since we have a HostBinding for the
+        // disabled classes, and never call foundation.setDisabled
+        addClass: () => undefined,
+        removeClass: () => undefined,
+        setNativeControlDisabled: () => undefined
     };
-    private foundation: { init: Function, destroy: Function } = new MDCRadioFoundation(this.mdcAdapter);
+    private foundation = new MDCRadioFoundation(this.mdcAdapter);
 
-    constructor(private renderer: Renderer2, private root: ElementRef, private registry: MdcEventRegistry) {
+    constructor(private renderer: Renderer2, private root: ElementRef, registry: MdcEventRegistry) {
         super(root, renderer, registry);
     }
 
     ngAfterContentInit() {
         this.addBackground();
-        this.initRipple();
+        this.addRippleSurface('mdc-radio__ripple');
+        this.initRipple(true);
         this.foundation.init();
+        this._inputs.changes.subscribe(() => {
+            this.reinitRipple();
+        });
     }
 
     ngOnDestroy() {
         this.destroyRipple();
         this.foundation.destroy();
+        this.foundation = null;
     }
 
     private addBackground() {
@@ -104,12 +106,7 @@ export class MdcRadioDirective extends AbstractMdcRipple implements AfterContent
 
     /** @docs-private */
     protected getRippleInteractionElement() {
-        return this._input ? this._input._elm : null;
-    }
-
-    /** @docs-private */
-    isRippleUnbounded() {
-        return true;
+        return this._input?._elm;
     }
 
     /** @docs-private */
@@ -120,7 +117,18 @@ export class MdcRadioDirective extends AbstractMdcRipple implements AfterContent
         return false;
     }
 
+    // instead of calling foundation.setDisabled on disabled state changes, we just
+    // bind the class to the property:
     @HostBinding('class.mdc-radio--disabled') get _disabled() {
         return this._input == null || this._input.disabled;
     }
+
+    get _input() {
+        return this._inputs && this._inputs.length > 0 ? this._inputs.first : null;
+    }
 }
+
+export const RADIO_DIRECTIVES = [
+    MdcRadioInputDirective,
+    MdcRadioDirective
+];

@@ -16,7 +16,7 @@
       "dom"
     ],
     "paths": {
-      "@blox/material": ["../../bundle"]
+      "@blox/material.replacedBy.release.during.migration": ["../../bundle"]
     },
     "typeRoots": [
       "node_modules/@types"

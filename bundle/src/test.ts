@@ -20,6 +20,8 @@ getTestBed().initTestEnvironment(
 // by including all sources here (including non spec.ts files, we'll get
 // proper 0% coverage reports for sources not included in any test):
 const testContext = (<any>require).context('.', true, /\.ts/);
+//const testContext = (<any>require).context('.', true, /\.(button|checkbox|chip|dialog|drawer|elevation|fab|focus-trap|form-field|icon-button|linear-progress|list|menu|menu-surface|radio|ripple|select|slider|switch|text-field|top-app-bar)\.directive\.spec\.ts/);
+//const testContext = (<any>require).context('.', true, /\.(focus-trap)\.directive\.spec\.ts/);
 testContext.keys().forEach(testContext);
 
 function addStyleSheet(href: string) {

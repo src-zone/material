@@ -1,56 +1,50 @@
-import {
-    ElementRef,
-    Renderer2
-} from '@angular/core';
-import { MDCRippleFoundation, util } from '@material/ripple';
-import { asBoolean, asBooleanOrNull } from '../../utils/value.utils';
-import { MdcRippleAdapter } from './mdc.ripple.adapter';
+import { ElementRef, Renderer2, HostListener } from '@angular/core';
+import { MDCRippleFoundation, MDCRippleAdapter, util } from '@material/ripple';
+import { applyPassive } from '@material/dom/events';
+import { matches } from '@material/dom/ponyfill';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
-
-// cast to correct type (string); getMatchesProperty is annotated as returning string[], but it does actually return a string:
-const matchesProperty: string = <any>util.getMatchesProperty(HTMLElement.prototype);
+import { SpecificEventListener } from '@material/base/types';
 
 /** @docs-private */
 export abstract class AbstractMdcRipple {
-    private mdcRippleAdapter: MdcRippleAdapter = {
+    private mdcRippleAdapter: MDCRippleAdapter = {
         browserSupportsCssVars: () => util.supportsCssVariables(window),
-        isUnbounded: () => this.isRippleUnbounded(),
+        isUnbounded: () => this._unbounded,
         isSurfaceActive: () => this.isRippleSurfaceActive(),
         isSurfaceDisabled: () => this.isRippleSurfaceDisabled(),
-        addClass: (className: string) => this.addClassToRipple(className),
-        removeClass: (className: string) => this.removeClassFromRipple(className),
-        containsEventTarget: (target: EventTarget) => this._rippleElm.nativeElement.contains(target),
-        registerInteractionHandler: (type: string, handler: EventListener) => {
-            this._registry.listenElm(this._renderer, type, handler, this.getRippleInteractionElement().nativeElement, util.applyPassive());
+        addClass: (className) => this.addClassToRipple(className),
+        removeClass: (className) => this.removeClassFromRipple(className),
+        containsEventTarget: (target) => this._rippleElm.nativeElement.contains(target),
+        registerInteractionHandler: (type, handler) => {
+            if (this.getRippleInteractionElement())
+                this._registry.listenElm(this._renderer, type, handler, this.getRippleInteractionElement().nativeElement, applyPassive());
         },
-        deregisterInteractionHandler: (type: string, handler: EventListener) => {
+        deregisterInteractionHandler: (type, handler) => {
             this._registry.unlisten(type, handler);
         },
-        registerDocumentInteractionHandler: (type: string, handler: EventListener) => this._registry.listenElm(this._renderer, type, handler, document),
-        deregisterDocumentInteractionHandler: (type: string, handler: EventListener) => this._registry.unlisten(type, handler),
-        registerResizeHandler: (handler: EventListener) => {
+        registerDocumentInteractionHandler: (type, handler) => this._registry.listenElm(this._renderer, type, handler, document, applyPassive()),
+        deregisterDocumentInteractionHandler: (type, handler) => this._registry.unlisten(type, handler),
+        registerResizeHandler: (handler) => {
             this._registry.listenElm(this._renderer, 'resize', handler, window);
         },
-        deregisterResizeHandler: (handler: EventListener) => {
+        deregisterResizeHandler: (handler) => {
             this._registry.unlisten('resize', handler);
         },
-        updateCssVariable: (name: string, value: string) => { this._rippleElm.nativeElement.style.setProperty(name, value); },
+        updateCssVariable: (name, value) => { this._rippleElm.nativeElement.style.setProperty(name, value); },
         computeBoundingRect: () => this.computeRippleBoundingRect(),
         getWindowPageOffset: () => ({x: window.pageXOffset, y: window.pageYOffset})
     }
-    protected _rippleFoundation: {
-        init(),
-        destroy(),
-        activate(event?: Event),
-        deactivate(event?: Event),
-        layout()
-    };
+
+    protected _rippleFoundation: MDCRippleFoundation;
+    private _unbounded = false;
+    private _rippleSurface: HTMLElement | null = null;
 
     constructor(protected _rippleElm: ElementRef, protected _renderer: Renderer2, protected _registry: MdcEventRegistry) {}
 
-    protected initRipple() {
+    protected initRipple(unbounded = false) {
         if (this._rippleFoundation)
             throw new Error('initRipple() is called multiple times');
+        this._unbounded = unbounded;
         this._rippleFoundation = new MDCRippleFoundation(this.mdcRippleAdapter);
         this._rippleFoundation.init();
     }
@@ -62,8 +56,34 @@ export abstract class AbstractMdcRipple {
         }
     }
 
+    protected reinitRipple() {
+        if (this._rippleFoundation) {
+            this.destroyRipple();
+            this.initRipple(this._unbounded);
+        }
+    }
+
     protected isRippleInitialized() {
         return this._rippleFoundation != null;
+    }
+
+    protected addRippleSurface(clazz, firstElement = false) {
+        this.destroyRippleSurface();
+        this._rippleSurface = this._renderer.createElement('div');
+        this._renderer.addClass(this._rippleSurface, clazz);
+        if (firstElement && this._rippleElm.nativeElement.children.length > 0) {
+            const firstChild = this._rippleElm.nativeElement.children.item(0);
+            this._renderer.insertBefore(this._rippleElm.nativeElement, this._rippleSurface, firstChild);
+        } else
+            this._renderer.appendChild(this._rippleElm.nativeElement, this._rippleSurface);
+        return this._rippleSurface;
+    }
+
+    protected destroyRippleSurface() {
+        if (this._rippleSurface) {
+            this._renderer.removeChild(this._rippleElm.nativeElement, this._rippleSurface);
+            this._rippleSurface = null;
+        }
     }
 
     activateRipple() {
@@ -76,30 +96,43 @@ export abstract class AbstractMdcRipple {
             this._rippleFoundation.deactivate();
     }
 
+    layout() {
+        if (this._rippleFoundation)
+            this._rippleFoundation.layout();
+    }
+
     protected getRippleInteractionElement() {
         return this._rippleElm;
     }
 
-    protected isRippleUnbounded() {
-        return false;
+    protected isRippleUnbounded(): boolean {
+        return this._unbounded;
+    }
+
+    protected setRippleUnbounded(value: boolean) {
+        if (!!value !== this._unbounded) {
+            this._unbounded = !!value;
+            // despite what the documentation seems to indicate, you can't
+            // just change the unbounded property of an already initialized
+            // ripple. The initialization registers different handlers, and won't
+            // change those registrations when you change the unbounded property.
+            // Hence we destroy and re-init the whole thing:
+            this.reinitRipple();
+        }
     }
 
     protected isRippleSurfaceActive() {
         let interactionElm = this.getRippleInteractionElement();
-        if (interactionElm == null)
-            return false;
-        return this.isActiveElement(interactionElm.nativeElement);
+        return !!interactionElm && this.isActiveElement(interactionElm.nativeElement);
     }
 
     protected isActiveElement(element: HTMLElement) {
-        return element == null ? false : element[matchesProperty](':active');
+        return element == null ? false : matches(element, ':active');
     }
 
     protected isRippleSurfaceDisabled() {
         let interactionElm = this.getRippleInteractionElement();
-        if (interactionElm == null)
-            return true;
-        return !!interactionElm.nativeElement.attributes.getNamedItem('disabled');
+        return !!interactionElm && !!interactionElm.nativeElement.attributes.getNamedItem('disabled');
     }
 
     protected addClassToRipple(name: string) {
@@ -112,5 +145,15 @@ export abstract class AbstractMdcRipple {
 
     protected computeRippleBoundingRect() {
         return this._rippleElm.nativeElement.getBoundingClientRect();
+    }
+
+    @HostListener('focusin') onFocus() {
+        if (this._rippleFoundation)
+            this._rippleFoundation.handleFocus();
+    }
+
+    @HostListener('focusout') onBlur() {
+        if (this._rippleFoundation)
+            this._rippleFoundation.handleBlur();
     }
 }

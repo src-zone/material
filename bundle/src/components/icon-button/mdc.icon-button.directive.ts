@@ -1,42 +1,20 @@
-import { AfterContentInit, Directive, ContentChild, ElementRef, EventEmitter, forwardRef, HostBinding,
+import { AfterContentInit, Directive, ElementRef, EventEmitter, forwardRef, HostBinding,
     HostListener, Input, OnDestroy, Output, Renderer2, Self } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MDCIconButtonToggleFoundation } from '@material/icon-button';
-import { MdcIconButtonToggleAdapter } from './mdc.icon-button.adapter';
-import { asBoolean, asBooleanOrNull } from '../../utils/value.utils';
+import { MDCIconButtonToggleFoundation, MDCIconButtonToggleAdapter, MDCIconButtonToggleEventDetail } from '@material/icon-button';
+import { asBoolean } from '../../utils/value.utils';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 import { AbstractMdcIcon } from './abstract.mdc.icon';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
 /**
- * Directive for an icon nested inside a <code>MdcIconButtonDirective</code>.
- * This directive is only required when the icon font for an <code>mdcIconButton</code>
- * uses CSS pseudo-elements in order to provide the icon. This is how Font Awesome, and many
- * other icon font libraries provide their icons. These pseudo elements would interfere
- * with the pseudo elements that <code>mdcIconButton</code> uses to provide a ripple
- * effect. This can be solved by having a child element in your <code>mdcIconButton</code>
- * and set this directive on it. The icon classes will then be applied to the child
- * element, and won't interfere with the icon button pseudo elements anymore.
- * 
- * For icon fonts that don't use pseudo elements (such as the Material
- * Design Icons from Google), this directive is not necessary.
- */
-@Directive({
-    selector: '[mdcIconButtonIcon]'
-})
-export class MdcIconButtonIconDirective {
-}
-
-/**
  * Directive for an icon button. Icon buttons can be used with a font icon library such as
- * <a href="https://material.io/tools/icons" target="_blank">Google Material Icons</a>, or
- * svg elements. They provide material styling and a ripple to the icon. Use it on anchor and
- * button tags. For toggling icon buttons, see <code>MdcIconButtonToggleDirective</code>.
- * When the applied icon font uses CSS pseudo elements, make the icon a child element of the
- * <code>mdcIconButton</code>, and give it the <code>mdcIconButtonIcon</code> directive.
+ * <a href="https://material.io/tools/icons" target="_blank">Google Material Icons</a>, SVG
+ * elements or images. They provide material styling and a ripple to the icon. Use it on anchor and
+ * button tags. For toggling icon buttons, see `MdcIconToggleDirective`.
  */
 @Directive({
-    selector: '[mdcIconButton]:not([iconOn])',
+    selector: 'button[mdcIconButton],a[mdcIconButton]',
     providers: [
         {provide: AbstractMdcRipple, useExisting: forwardRef(() => MdcIconButtonDirective) },
         {provide: AbstractMdcIcon, useExisting: forwardRef(() => MdcIconButtonDirective) }
@@ -44,39 +22,42 @@ export class MdcIconButtonIconDirective {
 })
 export class MdcIconButtonDirective extends AbstractMdcIcon implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-icon-button') _hostClass = true;
-    private _disabled = false;
 
     constructor(_elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry) {
         super(_elm, renderer, registry);
     }
 
     ngAfterContentInit() {
-        this.initRipple();
+        this.initRipple(true);
     }
 
     ngOnDestroy() {
         this.destroyRipple();
     }
-
-    /**
-     * To disable the icon, set this input to true.
-     */
-    @Input()
-    @HostBinding()
-    get disabled() {
-        return this._disabled;
-    }
-
-    set disabled(value: any) {
-        this._disabled = asBoolean(value);
-    }
-
-    /** @docs-private */
-    protected isRippleUnbounded() {
-        return true;
-    }
 }
 
+/**
+ * Directive for the icon to display on one of the toggle states of an `mdcIconToggle`. See
+ * `MdcIconToggleDirective` for more information.
+ */
+@Directive({
+    selector: '[mdcIcon]'
+})
+export class MdcIconDirective  {
+    @HostBinding('class.mdc-icon-button__icon') _hostClass = true;
+    @HostBinding('class.mdc-icon-button__icon--on') _on = false;
+
+    /**
+     * Set this input to false to remove the ripple effect from the surface.
+     */
+    @Input() get mdcIcon() {
+        return this._on ? 'on' : null;
+    }
+
+    set mdcIcon(value: 'on' | '') {
+        this._on = value === 'on';
+    }
+}
 
 /**
  * Directive for creating a Material Design icon toggle button: a button that toggles state, and
@@ -87,102 +68,57 @@ export class MdcIconButtonDirective extends AbstractMdcIcon implements AfterCont
  * then update the child element with the correct icon if it is toggled.
  */
 @Directive({
-    selector: '[mdcIconButton][iconOn]',
+    selector: '[mdcIconToggle]',
     providers: [
-        {provide: AbstractMdcRipple, useExisting: forwardRef(() => MdcIconButtonToggleDirective) },
-        {provide: AbstractMdcIcon, useExisting: forwardRef(() => MdcIconButtonToggleDirective) }
+        {provide: AbstractMdcRipple, useExisting: forwardRef(() => MdcIconToggleDirective) },
+        {provide: AbstractMdcIcon, useExisting: forwardRef(() => MdcIconToggleDirective) }
     ]
 })
-export class MdcIconButtonToggleDirective extends AbstractMdcIcon implements AfterContentInit {
+export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterContentInit {
     @HostBinding('class.mdc-icon-button') _hostClass = true;
-    @ContentChild(MdcIconButtonIconDirective, {read: ElementRef}) _innerIcon: ElementRef;
+    @HostBinding('attr.aria-label') @Input() label: string;
     /**
      * Event emitted when the state of the icon toggle changes (for example when a user clicks
      * the icon). 
      */
     @Output() onChange: EventEmitter<boolean> = new EventEmitter();
-    private _onChange: (value: any) => void = (value) => {};
+    private _onChange: (value: any) => void = () => {};
     private _onTouched: () => any = () => {};
-    private _initialized = false;
     private _on = false;
-    private _labelOn: string;
-    private _labelOff: string;
-    private _iconOn: string;
-    private _iconOff: string;
-    private _iconIsClass: boolean;
-    private _disabled: boolean;
-    private toggleAdapter: MdcIconButtonToggleAdapter = {
-        addClass: (className: string) => this._renderer.addClass(this.iconElm, className),
-        removeClass: (className: string) => this._renderer.removeClass(this.iconElm, className),
-        registerInteractionHandler: (type: string, handler: EventListener) => this._registry.listen(this._renderer, type, handler, this._elm),
-        deregisterInteractionHandler: (type: string, handler: EventListener) => this._registry.unlisten(type, handler),
-        setText: (text: string) => this.iconElm.textContent = text,
-        getAttr: (name: string) => {
-            if (name === 'data-toggle-on-label') return this._labelOn;
-            else if (name === 'data-toggle-off-label') return this._labelOff;
-            else if (name === 'data-toggle-on-content') return this.iconIsClass ? null : this._iconOn;
-            else if (name === 'data-toggle-off-content') return this.iconIsClass ? null : this._iconOff;
-            else if (name === 'data-toggle-on-class') return this.iconIsClass ? this._iconOn : null;
-            else if (name === 'data-toggle-off-class') return this.iconIsClass ? this._iconOff : null;           
-            return this._elm.nativeElement.getAttribute(name);
-        },
+    private _disabled = false;
+    private toggleAdapter: MDCIconButtonToggleAdapter = {
+        addClass: (className: string) => this._renderer.addClass(this._elm.nativeElement, className),
+        removeClass: (className: string) => this._renderer.removeClass(this._elm.nativeElement, className),
+        // TODO return mdc-icon-button__icon--on for on...
+        hasClass: (className: string) => this._elm.nativeElement.classList.contains(className),
         setAttr: (name: string, value: string) => this._renderer.setAttribute(this._elm.nativeElement, name, value),
-        notifyChange: (evtData: {isOn: boolean}) => {
+        notifyChange: (evtData: MDCIconButtonToggleEventDetail) => {
             this._on = evtData.isOn;
-            this.notifyChange();
+            this._onChange(this._on);
+            this.onChange.emit(this._on);
         }
     };
-    private toggleFoundation: {
-        init(),
-        destroy(),
-        isOn(): boolean,
-        toggle(isOn?: boolean)
-        refreshToggleData()
-    };
+    private toggleFoundation: MDCIconButtonToggleFoundation;
 
     constructor(_elm: ElementRef, rndr: Renderer2, registry: MdcEventRegistry) {
         super(_elm, rndr, registry);
     }
   
     ngAfterContentInit() {
-        this.initRipple();
+        this.initRipple(true);
         this.toggleFoundation = new MDCIconButtonToggleFoundation(this.toggleAdapter);
         this.toggleFoundation.init();
-        // the foundation doesn't initialize the iconOn/iconOff and labelOn/labelOff until
-        // toggle is called for the first time,
-        // also, this will ensure 'aria-pressed' and 'aria-label' attributes are initialized:
-        this.toggleFoundation.toggle(this._on);
-        this._initialized = true;
     }
   
     ngOnDestroy() {
         this.destroyRipple();
         this.toggleFoundation.destroy();
-    }
-
-    private refreshToggleData() {
-        if (this._initialized) {
-            this.toggleFoundation.refreshToggleData();
-            // refreshToggleData does not actually apply the new config to the icon:
-            this.toggleFoundation.toggle(this._on);
-        }
-    }
-
-    private get iconElm() {
-        return this._innerIcon ? this._innerIcon.nativeElement : this._elm.nativeElement;
-    }
-
-    private notifyChange() {
-        this._onChange(this._on);
-        this.onChange.emit(this._on);
+        this.toggleFoundation = null;
     }
 
     /** @docs-private */
     writeValue(obj: any) {
-        let old = this._on;
-        this._on = !!obj;
-        if (this._initialized)
-            this.toggleFoundation.toggle(this._on);
+        this.on = !!obj;
     }
 
     /** @docs-private */
@@ -200,111 +136,27 @@ export class MdcIconButtonToggleDirective extends AbstractMdcIcon implements Aft
         this._disabled = disabled;
     }
 
-    /** @docs-private */
-    protected isRippleUnbounded() {
-        return true;
-    }
-
     /**
      * The current state of the icon (true for on/pressed, false for off/unpressed).
      */
     @Input() get on() {
-        return this._on;
+        return this.toggleFoundation ? this.toggleFoundation.isOn() : this._on;
     }
 
     set on(value: any) {
-        let newValue = asBoolean(value);
-        if (newValue !== this._on) {
-            this._on = newValue;
-            if (this._initialized)
-                this.toggleFoundation.toggle(this._on);
-        }
+        const old = this.toggleFoundation ? this.toggleFoundation.isOn() : this._on;
+        this._on = asBoolean(value);
+        if (this.toggleFoundation)
+            this.toggleFoundation.toggle(this._on);
+        if (this._on !== old)
+            this.onChange.emit(this._on);
+    }
+    
+    @HostListener('click') _onClick() {
+        this.toggleFoundation?.handleClick();
     }
 
-    /**
-     * The aria-label to use for the on/pressed state of the icon.
-     */
-    @Input() get labelOn() {
-        return this._labelOn;
-    }
-
-    set labelOn(value: string) {
-        this._labelOn = value;
-        this.refreshToggleData();
-    }
-
-    /**
-     * The aria-label to use for the off/unpressed state of the icon.
-     */
-    @Input() get labelOff() {
-        return this._labelOff;
-    }
-
-    set labelOff(value: string) {
-        this._labelOff = value;
-        this.refreshToggleData();
-    }
-
-    /**
-     * The icon to use for the on/pressed state of the icon.
-     */
-    @Input() get iconOn() {
-        return this._iconOn;
-    }
-
-    set iconOn(value: string) {
-        if (value !== this._iconOn) {
-            if (this.iconIsClass)
-                // the adapter doesn't clean up old classes; this class may be set,
-                // in which case after it's changed the foundation won't be able to remove it anymore:
-                this.toggleAdapter.removeClass(this._iconOn);
-            this._iconOn = value;
-            this.refreshToggleData();
-        }
-    }
-
-    /**
-     * The icon to use for the off/unpressed state of the icon.
-     */
-    @Input() get iconOff() {
-        return this._iconOff;
-    }
-
-    set iconOff(value: string) {
-        if (value !== this._iconOff) {
-            if (this.iconIsClass)
-                // the adapter doesn't clean up old classes; this class may be set,
-                // in which case after it's changed the foundation won't be able to remove it anymore:
-                this.toggleAdapter.removeClass(this._iconOff);
-            this._iconOff = value;
-            this.refreshToggleData();
-        }
-    }
-
-    /**
-     * Some icon fonts (such as Font Awesome) use CSS class names to select the icon to show.
-     * Others, such as the Material Design Icons from Google use ligatures (allowing selection of
-     * the icon by using their textual name). When <code>iconIsClass</code> is true, the directive
-     * assumes <code>iconOn</code>, and <code>iconOff</code> represent class names. When
-     * <code>iconIsClass</code> is false, the directive assumes the use of ligatures.
-     * When iconIsClass is not set, the value depends on the availability of a nested
-     * <code>mdcIconButtonIcon</code> directive: when that exists, <code>iconOn</code> and <code>iconOff</code>
-     * are expected to be classnames, otherwise they are expected to be ligatures. This is usually
-     * the intended behaviour, so in most cases you don't need to initialize the <code>iconIsClass</code>
-     * property.
-     */
-    @Input() get iconIsClass() {
-        return this._iconIsClass == null ? this._innerIcon != null : this._iconIsClass;
-    }
-
-    set iconIsClass(value: any) {
-        let newValue = asBooleanOrNull(value);
-        if (this._initialized && this._iconIsClass !== newValue)
-            throw new Error('iconIsClass property should not be changed after the mdcIconButton is initialized');
-        this._iconIsClass = newValue;
-    }
-
-    @HostListener('(blur') _onBlur() {
+    @HostListener('blur') _onBlur() {
         this._onTouched();
     }
 
@@ -324,17 +176,17 @@ export class MdcIconButtonToggleDirective extends AbstractMdcIcon implements Aft
 
 /**
  * Directive for adding Angular Forms (<code>ControlValueAccessor</code>) behavior to an
- * <code>MdcIconButtonDirective</code>. Allows the use of the Angular Forms API with
+ * <code>MdcIconToggleDirective</code>. Allows the use of the Angular Forms API with
  * icon toggle buttons, e.g. binding to <code>[(ngModel)]</code>, form validation, etc.
  */
 @Directive({
-    selector: '[mdcIconButton][iconOn][formControlName],[mdcIconButton][iconOn][formControl],[mdcIconButton][iconOn][ngModel]',
+    selector: '[mdcIconToggle][formControlName],[mdcIconToggle][formControl],[mdcIconToggle][ngModel]',
     providers: [
         {provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MdcFormsIconButtonDirective), multi: true}
     ]
 })
 export class MdcFormsIconButtonDirective implements ControlValueAccessor {
-    constructor(@Self() private mdcIconButton: MdcIconButtonToggleDirective) {
+    constructor(@Self() private mdcIconButton: MdcIconToggleDirective) {
     }
 
     /** @docs-private */
@@ -359,5 +211,5 @@ export class MdcFormsIconButtonDirective implements ControlValueAccessor {
 }
 
 export const ICON_BUTTON_DIRECTIVES = [
-    MdcIconButtonIconDirective, MdcIconButtonDirective, MdcIconButtonToggleDirective, MdcFormsIconButtonDirective
+    MdcIconDirective, MdcIconButtonDirective, MdcIconToggleDirective, MdcFormsIconButtonDirective
 ];

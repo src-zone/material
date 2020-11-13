@@ -1,18 +1,11 @@
 import { AfterContentInit, ContentChildren, Directive, ElementRef, EventEmitter, HostBinding,
-  Input, OnDestroy, Output, QueryList, Renderer2 } from '@angular/core';
-import { MDCMenuFoundation, MDCMenu } from '@material/menu';
-import { getTransformPropertyName } from '@material/menu/util';
-import { MdcMenuAdapter } from './mdc.menu.adapter';
+  Input, OnDestroy, Output, QueryList, Renderer2, Self, HostListener, OnInit } from '@angular/core';
+import { cssClasses as listCssClasses } from '@material/list';
+import { MDCMenuFoundation, MDCMenuAdapter, cssClasses, strings, DefaultFocusState } from '@material/menu';
+import { MdcMenuSurfaceDirective } from '../menu-surface/mdc.menu-surface.directive';
 import { MdcListDirective, MdcListFunction } from '../list/mdc.list.directive';
-import { asBoolean } from '../../utils/value.utils';
-import { MdcEventRegistry } from '../../utils/mdc.event.registry';
-
-const CLASS_MENU = 'mdc-menu';
-const CLASS_MENU_OPEN = 'mdc-menu--open';
-const CLASS_TOP_LEFT = 'mdc-menu--open-from-top-left';
-const CLASS_TOP_RIGHT = 'mdc-menu--open-from-top-right';
-const CLASS_BOTTOM_LEFT = 'mdc-menu--open-from-bottom-left';
-const CLASS_BOTTOM_RIGHT = 'mdc-menu--open-from-bottom-right';
+import { Subject } from 'rxjs';
+import { takeUntil, first } from 'rxjs/operators';
 
 /**
  * Data send by the <code>pick</code> event of <code>MdcMenuDirective</code>.
@@ -28,212 +21,223 @@ export interface MdcMenuSelection {
     index: number
 }
 
-/**
- * Directive for an optional anchor to which a menu can position itself.
- * Use the <code>menuAnchor</code> input of <code>MdcMenuDirective</code>
- * to bind the menu to the anchor. The anchor must be a direct parent of the menu.
- * It will get the following styles to make the positioning work:
- * <code>position: relative; overflow: visible;</code>.
- */
-@Directive({
-    selector: '[mdcMenuAnchor]',
-    exportAs: 'mdcMenuAnchor'
-})
-export class MdcMenuAnchorDirective {
-    @HostBinding('class.mdc-menu-anchor') _cls = true;
+// attributes on list-items that we maintain ourselves, so should be ignored
+// in the adapter:
+const ANGULAR_ITEM_ATTRIBUTES = [
+    strings.ARIA_CHECKED_ATTR, strings.ARIA_DISABLED_ATTR
+];
+// classes on list-items that we maintain ourselves, so should be ignored
+// in the adapter:
+const ANGULAR_ITEM_CLASSES = [
+    listCssClasses.LIST_ITEM_DISABLED_CLASS, cssClasses.MENU_SELECTED_LIST_ITEM
+];
 
-    constructor(public _elm: ElementRef) {
-    }
-}
+enum FocusOnOpen {first = 0, last = 1, root = -1};
+let nextId = 1;
 
 /**
  * Directive for a spec aligned material design Menu.
- * This directive should wrap an <code>MdcListDirective</code>. The <code>mdcList</code>
- * contains the menu items (and possible separators).
+ * This directive should wrap an `mdcList`. The `mdcList` contains the menu items (and possible separators).
+ * 
+ * # Accessibility
+ * 
+ * * For `role` and `aria-*` attributes on the list, see documentation for `mdcList`.
+ * * The best way to open the menu by user interaction is to use the `mdcMenuTrigger` directive
+ *   on the interaction element (e.g. button). This takes care of following ARIA recommended practices
+ *   for focusing the correct element, and maintaining proper `aria-*` and `role` attributes on the
+ *   interaction element, menu, and list.
+ * * When opening the `mdcMenuSurface` programmatic, the program is responsible for all of this.
+ *   (including focusing an element of the menu or the menu itself).
+ * * The `mdcList` will be made focusable by setting a `"tabindex"="-1"` attribute.
+ * * The `mdcList` will get an `aria-orientation=vertical` attribute.
+ * * The `mdcList` will get an `aria-hidden=true` attribute when the menu surface is closed.
  */
 @Directive({
-    selector: '[mdcMenu]'
+    selector: '[mdcMenu],[mdcSelectMenu]',
+    exportAs: 'mdcMenu'
 })
-export class MdcMenuDirective implements AfterContentInit, OnDestroy {
+export class MdcMenuDirective implements AfterContentInit, OnInit, OnDestroy {
+    private onDestroy$: Subject<any> = new Subject();
+    private onListChange$: Subject<any> = new Subject();
+    /** docs-private */
+    @Output() readonly itemsChanged: EventEmitter<void> = new EventEmitter();
+    /** docs-private */
+    @Output() readonly itemValuesChanged: EventEmitter<void> = new EventEmitter();
     @HostBinding('class.mdc-menu') _cls = true;
+    private _id: string;
+    private cachedId: string;
     private _function = MdcListFunction.menu;
-    private _openMemory = false;
-    private _openFrom: 'tl' | 'tr' | 'bl' | 'br' | null = null;
-    /**
-     * Assign an (optional) <code>MdcMenuAnchorDirective</code>. If set the menu
-     * will position itself relative to this anchor element. The anchor should be
-     * a direct parent of this menu.
-     */
-    @Input() menuAnchor: MdcMenuAnchorDirective;
+    private _lastList: MdcListDirective;
+
     /**
      * Event emitted when the user selects a value. The passed object contains a value
      * (set to the <code>value</code> of the selected list item), and an index
      * (set to the index of the selected list item).
      */
     @Output() pick: EventEmitter<MdcMenuSelection> = new EventEmitter();
-    /**
-     * Event emitted when the menu is closed without any selection being made.
-     */
-    @Output() cancel: EventEmitter<void> = new EventEmitter();
-    /**
-     * Event emitted when the menu is opened or closed.
-     */
-    @Output() openChange: EventEmitter<boolean> = new EventEmitter();
-    private _lastList: MdcListDirective;
     @ContentChildren(MdcListDirective) _listQuery: QueryList<MdcListDirective>;
-    private _prevFocus: Element;
-    private mdcAdapter: MdcMenuAdapter = {
-        addClass: (className: string) => {
-            this._rndr.addClass(this._elm.nativeElement, className);
+    private mdcAdapter: MDCMenuAdapter = {
+        addClassToElementAtIndex: (index, className) => {
+            // ignore classes we maintain ourselves
+            if (!ANGULAR_ITEM_CLASSES.find(c => c === className)) {
+                const elm = this._list?.getItem(index)?._elm.nativeElement;
+                if (elm)
+                    this.rndr.addClass(elm, className);
+            }
         },
-        removeClass: (className: string) => {
-            this._rndr.removeClass(this._elm.nativeElement, className);
+        removeClassFromElementAtIndex: (index, className) => {
+            // ignore classes we maintain ourselves
+            if (!ANGULAR_ITEM_CLASSES.find(c => c === className)) {
+                const elm = this._list?.getItem(index)?._elm.nativeElement;
+                if (elm)
+                    this.rndr.addClass(elm, className);
+            }
         },
-        hasClass: (className: string) => {
-            if (CLASS_MENU === className)
-                return true;
-            if (CLASS_MENU_OPEN === className)
-                return this.open;
-            if (CLASS_TOP_LEFT === className)
-                return this._openFrom === 'tl';
-            if (CLASS_TOP_RIGHT === className)
-                return this._openFrom === 'tr';
-            if (CLASS_BOTTOM_LEFT === className)
-                return this._openFrom === 'bl';
-            if (CLASS_BOTTOM_RIGHT === className)
-                return this._openFrom === 'br';
-            return this._elm.nativeElement.classList.contains(className);
+        addAttributeToElementAtIndex: (index, attr, value) => {
+            // ignore attributes we maintain ourselves
+            if (!ANGULAR_ITEM_ATTRIBUTES.find(a => a === attr)) {
+                const elm = this._list?.getItem(index)?._elm.nativeElement;
+                if (elm)
+                    this.rndr.setAttribute(elm, attr, value);
+            }
         },
-        hasNecessaryDom: () => this._listQuery.length != 0,
-        getAttributeForEventTarget: (target: Element, attrName: string) => target.getAttribute(attrName),
-        getInnerDimensions: () => {
-            let elm = this._list._elm.nativeElement;
-            return {width: elm.offsetWidth, height: elm.offsetHeight};
+        removeAttributeFromElementAtIndex: (index, attr) => {
+            // ignore attributes we maintain ourselves
+            if (!ANGULAR_ITEM_ATTRIBUTES.find(a => a === attr)) {
+                const elm = this._list?.getItem(index)?._elm.nativeElement;
+                if (elm)
+                    this.rndr.removeAttribute(elm, attr);
+            }
         },
-        hasAnchor: () => this.menuAnchor != null,
-        getAnchorDimensions: () => {
-            if (!this.viewport)
-                return this.menuAnchor._elm.nativeElement.getBoundingClientRect();
-            let viewportRect = this.viewport.getBoundingClientRect();
-            let anchorRect = this.menuAnchor._elm.nativeElement.getBoundingClientRect();
-            return {
-                bottom: anchorRect.bottom - viewportRect.top,
-                left: anchorRect.left - viewportRect.left,
-                right: anchorRect.right - viewportRect.left,
-                top: anchorRect.top - viewportRect.top,
-                width: anchorRect.width,
-                height: anchorRect.height
-            };
+        elementContainsClass: (element, className) => element.classList.contains(className),
+        closeSurface: (skipRestoreFocus) => {
+            if (skipRestoreFocus)
+                this.surface.closeWithoutFocusRestore();
+            else
+                this.surface.open = false;
         },
-        getWindowDimensions: () => ({
-            width: this.viewport ? this.viewport.clientWidth : window.innerWidth,
-            height: this.viewport ? this.viewport.clientHeight : window.innerHeight
-        }),
-        getNumberOfItems: () => this._list._items.length,
-        registerInteractionHandler: (type: string, handler: EventListener) => {
-            this._registry.listen(this._rndr, type, handler, this._elm);
-        },
-        deregisterInteractionHandler: (type: string, handler: EventListener) => {
-            this._registry.unlisten(type, handler);
-        },
-        registerBodyClickHandler: (handler: EventListener) => {
-            this._registry.listenElm(this._rndr, 'click', handler, document.body);
-        },
-        deregisterBodyClickHandler: (handler: EventListener) => {
-            this._registry.unlisten('click', handler);
-        },
-        getIndexForEventTarget: (target: EventTarget) => this._list._items.toArray().map(i => i._elm.nativeElement).indexOf(target),
-        notifySelected: (evtData: {index: number}) => {
+        getElementIndex: (element) => this._list?._items.toArray().findIndex(i => i._elm.nativeElement === element),
+        notifySelected: (evtData) => {
             this.pick.emit({index: evtData.index, value: this._list._items.toArray()[evtData.index].value});
-            // timeout so that the correct open/close value is reported, even if MDCMenu changes it after the event:
-            window.setTimeout(() => this._onOpenClose(), 0);
         },
-        notifyCancel: () => {
-            this.cancel.emit();
-            // timeout so that the correct open/close value is reported, even if MDCMenu changes it after the event:
-            window.setTimeout(() => this._onOpenClose(), 0);
-        },
-        saveFocus: () => {
-            this._prevFocus = document.activeElement;
-        },
-        restoreFocus: () => {
-            if (this._prevFocus)
-                (<any>this._prevFocus).focus();
-        },
-        isFocused: () => document.activeElement === this._elm.nativeElement,
-        focus: () => {
-            this._elm.nativeElement.focus();
-        },
-        getFocusedItemIndex: () => this._list._items.toArray().map(i => i._elm.nativeElement).indexOf(document.activeElement),
-        focusItemAtIndex: (index: number) => {
-            this._list._items.toArray()[index]._elm.nativeElement.focus();
-        },
-        isRtl: () => getComputedStyle(this._elm.nativeElement).getPropertyValue('direction') === 'rtl',
-        setTransformOrigin: (origin: string) => {
-            this._elm.nativeElement.style[`${getTransformPropertyName(window)}-origin`] = origin;
-        },
-        setPosition: (position: {top: string | undefined, right: string | undefined, bottom: string | undefined, left: string | undefined}) => {
-            let el = this._elm.nativeElement;
-            this._rndr.setStyle(el, 'left', 'left' in position ? position.left : null);
-            this._rndr.setStyle(el, 'right', 'right' in position ? position.right : null);
-            this._rndr.setStyle(el, 'top', 'top' in position ? position.top : null);
-            this._rndr.setStyle(el, 'bottom', 'bottom' in position ? position.bottom : null);
-        },
-        setMaxHeight: (value: string) => {
-            this._elm.nativeElement.style.maxHeight = value;
-        }
+        getMenuItemCount: () => this._list?._items.length || 0,
+        focusItemAtIndex: (index) => this._list.getItem(index)?._elm.nativeElement.focus(),
+        focusListRoot: () => this._list?._elm.nativeElement.focus(),
+        getSelectedSiblingOfItemAtIndex: () => -1, // menuSelectionGroup not yet supported
+        isSelectableItemAtIndex: () => false // menuSelectionGroup not yet supported
     };
-    private foundation: {
-        open(arg?: {focusIndex?: number}),
-        close(event?: Event),
-        isOpen(): boolean
-    } = new MDCMenuFoundation(this.mdcAdapter);
-    // we need an MDCMenu for menus contained inside mdc-select:
-    public _component: MDCMenu;
+    private foundation: MDCMenuFoundation;
 
-    constructor(public _elm: ElementRef, private _rndr: Renderer2, private _registry: MdcEventRegistry) {
+    constructor(public _elm: ElementRef, private rndr: Renderer2, @Self() private surface: MdcMenuSurfaceDirective) {
+    }
+
+    ngOnInit() {
+        // Force setter to be called in case id was not specified.
+        this.id = this.id;
     }
 
     ngAfterContentInit() {
         this._lastList = this._listQuery.first;
-        if (this._lastList) {
-            this._lastList._setFunction(MdcListFunction.menu);
-            this._onOpenClose(false);
-        }
         this._listQuery.changes.subscribe(() => {
             if (this._lastList !== this._listQuery.first) {
-                this._lastList._setFunction(MdcListFunction.plain);
+                this.onListChange$.next();
+                this._lastList?._setFunction(MdcListFunction.plain);
                 this._lastList = this._listQuery.first;
-                if (this._lastList) {
-                    this._lastList._setFunction(MdcListFunction.menu);
-                    this._onOpenClose(false);
-                    if (this._component == null) {
-                        this._component = new MDCMenu(this._elm.nativeElement, this.foundation);
-                        this._component.open = this._openMemory;
-                    }
-                } else if (this._component) {
-                    this._openMemory = this._component.open;
-                    this._component.destroy();
-                    this._component = null;
-                    this.foundation = new MDCMenuFoundation(this.mdcAdapter);
-                }
+                this.destroyFoundation();
+                if (this._lastList)
+                    this.initAll();
             }
         });
+        this.surface.afterOpened.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+            this.foundation?.handleMenuSurfaceOpened();
+            // reset default focus state for programmatic opening of menu;
+            // interactive opening sets the default when the open is triggered
+            // (see openAndFocus)
+            this.foundation?.setDefaultFocusState(DefaultFocusState.NONE);
+        });
+        this.surface.openChange.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+            if (this._list)
+                this._list._hidden = !this.surface.open;
+        });
         if (this._lastList)
-            // constructing the MDCMenu also initializes the foundation:
-            this._component = new MDCMenu(this._elm.nativeElement, this.foundation);
+            this.initAll();
     }
 
     ngOnDestroy() {
-        if (this._component)
-            this._component.destroy();
+        this.onListChange$.next(); this.onListChange$.complete();
+        this.onDestroy$.next(); this.onDestroy$.complete();
+        this.destroyFoundation();
     }
 
-    private _onOpenClose(emit = true) {
+    private initAll() {
+        Promise.resolve().then(() => this._lastList._setFunction(this._function));
+        this.initFoundation();
+        this.subscribeItemActions();
+        this._lastList?.itemsChanged.pipe(takeUntil(this.onListChange$)).subscribe(() => this.itemsChanged.emit());
+        this._lastList?.itemValuesChanged.pipe(takeUntil(this.onListChange$)).subscribe(() => this.itemValuesChanged.emit());
+    }
+
+    private initFoundation() {
+        this.foundation = new MDCMenuFoundation(this.mdcAdapter);
+        this.foundation.init();
+        // suitable for programmatic opening, program can focus whatever element it wants:
+        this.foundation.setDefaultFocusState(DefaultFocusState.NONE);
         if (this._list)
-            this._list._hidden = !this.open;
-        if (emit)
-            this.openChange.emit(this.open);
+            this._list._hidden = !this.surface.open;
+    }
+
+    private destroyFoundation() {
+        if (this.foundation) {
+            this.foundation.destroy();
+            this.foundation = null;
+        }
+    }
+
+    private subscribeItemActions() {
+        this._lastList?.itemAction.pipe(takeUntil(this.onListChange$)).subscribe(data => {
+            this.foundation?.handleItemAction(this._list.getItem(data.index)._elm.nativeElement);
+        });
+    }
+
+    /** @docs-private */
+    @HostBinding()
+    @Input() get id() {
+        return this._id;
+    }
+  
+    set id(value: string) {
+        this._id = value || this._newId();
+    }
+
+    _newId(): string {
+        this.cachedId = this.cachedId || `mdc-menu-${nextId++}`;
+        return this.cachedId;
+    }
+
+    /** @docs-private */
+    get open() {
+        return this.surface.open;
+    }
+
+    /** @docs-private */
+    openAndFocus(focus: FocusOnOpen) {
+        switch (focus) {
+            case FocusOnOpen.first:
+                this.foundation?.setDefaultFocusState(DefaultFocusState.FIRST_ITEM);
+                break;
+            case FocusOnOpen.last:
+                this.foundation?.setDefaultFocusState(DefaultFocusState.LAST_ITEM);
+                break;
+            case FocusOnOpen.root:
+            default:
+                this.foundation?.setDefaultFocusState(DefaultFocusState.LIST_ROOT);
+        }
+        this.surface.open = true;
+    }
+
+    /** @docs-private */
+    doClose() {
+        this.surface.open = false;
     }
 
     set _listFunction(val: MdcListFunction) {
@@ -245,58 +249,103 @@ export class MdcMenuDirective implements AfterContentInit, OnDestroy {
     get _list(): MdcListDirective {
         return this._listQuery.first;
     }
-    
-    /**
-     * When this input is defined and does not have value false, the menu will be opened,
-     * otherwise the menu will be closed.
-     */
-    @Input() @HostBinding('class.mdc-menu--open')
-    get open() {
-        return this._component ? this.foundation.isOpen() : this._openMemory;
-    }
-    
-    set open(val: any) {
-        let newValue = asBoolean(val);
-        if (newValue !== this.open) {
-            this._openMemory = newValue;
-            if (this._component != null) {
-                if (newValue)
-                    this.foundation.open();
-                else
-                    this.foundation.close();
-            }
-            this._onOpenClose(false);
-        }
-    }
 
-    /**
-     * Set this value if you want to customize the direction from which the menu will be opened.
-     * Note that without this setting the menu will base the direction upon its position in the viewport,
-     * which is normally the right behavior. Use <code>'tl'</code> for top-left, <code>'br'</code>
-     * for bottom-right, etc.
-     */
-    @Input()
-    get openFrom(): 'tl' | 'tr' | 'bl' | 'br' | null {
-        return this._openFrom;
+    @HostListener('keydown', ['$event']) _onKeydown(event: KeyboardEvent) {
+        this.foundation?.handleKeydown(event);
     }
-
-    set openFrom(val: 'tl' | 'tr' | 'bl' | 'br' | null) {
-        if (val === 'br' || val === 'bl' || val === 'tr' || val === 'tl')
-            this._openFrom = val;
-        else
-            this._openFrom = null;
-    }
-
-    @HostBinding('class.mdc-menu--open-from-top-left') get _tl() { return this._openFrom === 'tl'; }
-    @HostBinding('class.mdc-menu--open-from-top-right') get _tr() { return this._openFrom === 'tr'; }
-    @HostBinding('class.mdc-menu--open-from-bottom-left') get _bl() { return this._openFrom === 'bl'; }
-    @HostBinding('class.mdc-menu--open-from-bottom-right') get _br() { return this._openFrom === 'br'; }
-
-    /**
-     * Assign any <code>HTMLElement</code> to this property to use as the viewport instead of
-     * the window object. The menu will choose to open the menu from the top or bottom, and
-     * from the left or right, based on the space available inside the viewport.
-     * It's normally not needed to set this, and mainly added for the demos and examples.
-     */
-    @Input() viewport: HTMLElement;
 }
+
+/**
+ * 
+ * # Accessibility
+ * 
+ * 
+ *  * * `Enter`, `Space`, and `Down Arrow` keys open the menu and place focus on the first item.
+ * * `Up Arrow` opens the menu and places focus on the last item
+ * * Click/Touch events set focus to the mdcList root element
+ * 
+ * 
+ * * Attribute `role=button` will be set if the element is not aleready a button element.
+ * * Attribute `aria-haspopup=menu` will be set if an `mdcMenu` is attached.
+ * * Attribute `aria-expanded` will be set while the attached menu is open
+ * * Attribute `aria-controls` will be set to the id of the attached menu. (And a unique id will be generated,
+ *   if none was set on the menu).
+ * * `Enter`, `Space`, and `Down-Arrow` will open the menu with the first menu item focused.
+ * * `Up-Arrow` will open the menu with the last menu item focused.
+ * * Mouse/Touch events will open the menu with the list root element focused. The list root element
+ *   will handle keyboard navigation once it receives focus.
+ */
+@Directive({
+    selector: '[mdcMenuTrigger]',
+})
+export class MdcMenuTriggerDirective {
+    @HostBinding('attr.role') _role = 'button';
+    private _mdcMenuTrigger: MdcMenuDirective = null;
+    private down = {
+        enter: false,
+        space: false
+    }
+
+    constructor(elm: ElementRef) {
+        if (elm.nativeElement.nodeName.toUpperCase() === 'BUTTON')
+            this._role = null;
+    }
+
+    /** @docs-private */
+    @HostListener('click') onClick() {
+        if (this.down.enter || this.down.space)
+            this._mdcMenuTrigger?.openAndFocus(FocusOnOpen.first);
+        else
+            this._mdcMenuTrigger?.openAndFocus(FocusOnOpen.root);
+    }
+
+    /** @docs-private */
+    @HostListener('keydown', ['$event']) onKeydown(event: KeyboardEvent) {
+        this.setDown(event, true);
+        const {key, keyCode} = event;
+        if (key === 'ArrowUp' || keyCode === 38)
+            this._mdcMenuTrigger?.openAndFocus(FocusOnOpen.last);
+        else if (key === 'ArrowDown' || keyCode === 40)
+            this._mdcMenuTrigger?.openAndFocus(FocusOnOpen.first);
+    }
+
+    /** @docs-private */
+    @HostListener('keyup', ['$event']) onKeyup(event: KeyboardEvent) {
+        this.setDown(event, false);
+    }
+
+    @HostBinding('attr.aria-haspopup') get _hasPopup() {
+        return this._mdcMenuTrigger ? 'menu' : null;
+    }
+
+    @HostBinding('attr.aria-expanded') get _expanded() {
+        return this._mdcMenuTrigger?.open ? 'true' : null;
+    }
+
+    @HostBinding('attr.aria-controls') get _ariaControls() {
+        return this._mdcMenuTrigger?.id;
+    }
+
+    @Input() get mdcMenuTrigger() {
+        return this._mdcMenuTrigger;
+    }
+
+    set mdcMenuTrigger(value: MdcMenuDirective) {
+        if (value && value.openAndFocus)
+            this._mdcMenuTrigger = value;
+        else
+            this._mdcMenuTrigger = null;
+    }
+
+    private setDown(event: KeyboardEvent, isDown) {
+        const {key, keyCode} = event;
+        if (key === 'Enter' || keyCode === 13)
+            this.down.enter = isDown;
+        else if (key === 'Space' || keyCode === 32)
+            this.down.space = isDown;
+    }
+}
+
+export const MENU_DIRECTIVES = [
+    MdcMenuDirective, MdcMenuTriggerDirective
+];

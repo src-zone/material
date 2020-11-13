@@ -126,7 +126,13 @@ module.exports = (config) => {
         logLevel: config.LOG_INFO,
         autoWatch: true,
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: ['Chrome'],
+        browsers: [isWatch ? 'ChromeDebugging' : 'Chrome'],
+        customLaunchers: isWatch ? {
+            ChromeDebugging: {
+                base: 'Chrome',
+                flags: ['--remote-debugging-port=9333']
+            }
+        } : undefined,
         singleRun: true
     });
 }

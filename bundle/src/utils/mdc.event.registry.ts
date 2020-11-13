@@ -1,4 +1,4 @@
-import { ElementRef, Injectable, Optional, Renderer2, SkipSelf } from '@angular/core';
+import { ElementRef, Injectable, Renderer2 } from '@angular/core';
 
 type UnlistenerMap = WeakMap<EventListener, Function>;
 const unlisteners: Map<string, UnlistenerMap> = new Map<string, UnlistenerMap>();
@@ -21,7 +21,7 @@ export class MdcEventRegistry {
         this.registerUnlisten(type, listener, unlistener);
     }
 
-    registerUnlisten(type: string, listener: EventListener, unlistener: Function) {
+    private registerUnlisten(type: string, listener: EventListener, unlistener: Function) {
         if (!unlisteners.has(type))
             unlisteners.set(type, new WeakMap<EventListener, Function>());
         unlisteners.get(type).set(listener, unlistener);
