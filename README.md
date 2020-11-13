@@ -18,6 +18,17 @@ It integrates [Material Components for the Web](https://github.com/material-comp
 * [Changelog](https://github.com/src-zone/material/blob/master/bundle/CHANGELOG.md)
 * [News (via twitter)](https://twitter.com/TheSourceZone)
 
+## Master branch status
+
+We're currently in the progress of upgrading to the latest version of material-components-web. This
+introduces a significant amount of breaking changes, caused by changes in material-components-web.
+Hence the status of the master branch is beta for the library code (the `bundle` directory and the `@blox/material`
+package we publish from there). The documentation website (the `site` directory) will currently not build on the
+`master` branch. We still need to update it to the latest `@blox/material` changes.
+
+The [stable_v0 branch](https://github.com/src-zone/material/tree/stable_v0) contains the branch for the latest
+non-beta builds with a working documentation website.
+
 ## Status
 
 Component            | Documentation |
