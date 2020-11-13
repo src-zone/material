@@ -136,6 +136,10 @@ export abstract class AbstractMdcTabDirective extends AbstractMdcRipple implemen
         }
     }
 
+    protected getRippleStylingElement() {
+        return this.rippleSurface;
+    }
+
     _activate(tabIndex: number, previousIndicatorClientRect?: ClientRect) {
         this._active = previousIndicatorClientRect || true;
         if (this._foundation)
