@@ -172,7 +172,7 @@ describe('mdcList', () => {
             <div mdcListGroup>
                 <h3 mdcListGroupSubHeader>Header</h3>
                 <ul mdcList>
-                    <li>
+                    <li mdcListItem>
                         <span mdcListItemGraphic></span>
                         <span mdcListItemText>
                             <span mdcListItemPrimaryText>primary</span>
@@ -193,21 +193,21 @@ describe('mdcList', () => {
     it('should render optional directives correctly', fakeAsync(() => {
         const { fixture, list, testComponent } = setup(TestOptionalDirectivesComponent);
 
-        expect(fixture.nativeElement.querySelector('div.mdc-list-group')).toBeDefined();
-        expect(fixture.nativeElement.querySelector('h3.mdc-list-group__subheader')).toBeDefined();
+        expect(fixture.nativeElement.querySelector('div.mdc-list-group')).not.toBeNull();
+        expect(fixture.nativeElement.querySelector('h3.mdc-list-group__subheader')).not.toBeNull();
         expect(list.classList).toContain('mdc-list--two-line');
-        expect(fixture.nativeElement.querySelector('li.mdc-list-item')).toBeDefined();
-        expect(fixture.nativeElement.querySelector('span.mdc-list-item__text')).toBeDefined();
-        expect(fixture.nativeElement.querySelector('span.mdc-list-item__primary-text')).toBeDefined();
-        expect(fixture.nativeElement.querySelector('span.mdc-list-item__secondary-text')).toBeDefined();
+        expect(fixture.nativeElement.querySelector('li.mdc-list-item')).not.toBeNull();
+        expect(fixture.nativeElement.querySelector('span.mdc-list-item__text')).not.toBeNull();
+        expect(fixture.nativeElement.querySelector('span.mdc-list-item__primary-text')).not.toBeNull();
+        expect(fixture.nativeElement.querySelector('span.mdc-list-item__secondary-text')).not.toBeNull();
         const itemDivider = fixture.nativeElement.querySelector('li.mdc-list-divider');
         expect(itemDivider.getAttribute('role')).toBe('separator');
         expect(itemDivider.classList).not.toContain('mdc-list-divider--inset');
         expect(itemDivider.classList).not.toContain('mdc-list-divider--padded');
         const listDivider = fixture.nativeElement.querySelector('hr.mdc-list-divider');
         expect(listDivider.getAttribute('role')).toBeNull();
-        expect(fixture.nativeElement.querySelector('span.mdc-list-item__graphic')).toBeDefined();
-        expect(fixture.nativeElement.querySelector('span.mdc-list-item__meta')).toBeDefined();
+        expect(fixture.nativeElement.querySelector('span.mdc-list-item__graphic')).not.toBeNull();
+        expect(fixture.nativeElement.querySelector('span.mdc-list-item__meta')).not.toBeNull();
 
         testComponent.inset = true;
         testComponent.padded = true;

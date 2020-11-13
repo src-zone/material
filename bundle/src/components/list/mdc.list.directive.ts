@@ -276,7 +276,7 @@ export class MdcListItemTextDirective {
     selector: '[mdcListItemPrimaryText]'
 })
 export class MdcListItemPrimaryTextDirective {
-    @HostBinding('class.mdc-list-item__text') _cls = true;
+    @HostBinding('class.mdc-list-item__primary-text') _cls = true;
 }
 
 /**
