@@ -239,9 +239,9 @@ export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
     }
 
     private removeScrollListeners() {
-        (this._viewport || window).removeEventListener('scroll', this.handleScroll);
-        (this._viewport || window).removeEventListener('touchmove', this.updateViewport);
-        window.removeEventListener('resize', this.handleResize);
+        (this._viewport || window).removeEventListener('scroll', this.handleScroll, applyPassive());
+        (this._viewport || window).removeEventListener('touchmove', this.updateViewport, applyPassive());
+        window.removeEventListener('resize', this.handleResize, applyPassive());
     }
 
     /**
