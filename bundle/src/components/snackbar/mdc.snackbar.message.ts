@@ -11,15 +11,13 @@ export interface MdcSnackbarMessage {
      */
     actionText?: string,
     /**
-     * Whether to show the snackbar with space for multiple lines of text (optional, default is false).
+     * Action buttons with long texts should be positioned below the label instead of alongside it.
+     * Set the stacked option to true to accomplish this.
      */
-    multiline?: boolean,
+    stacked?: boolean,
     /**
-     * Whether to show the action below the multiple lines of text (optional, only applies when multiline is true).
+     * The amount of time in milliseconds to show the snackbar (optional, default is 5000ms).
+     * Value must be between 4000 and 10000, or -1 to disable the timeout completely.
      */
-    actionOnBottom?: boolean,
-    /**
-     * The amount of time in milliseconds to show the snackbar (optional, default is 2750ms).
-     */
-    timeout?: number
+    timeout?: number,
 }
