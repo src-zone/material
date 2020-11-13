@@ -65,11 +65,11 @@ describe('MdcTabDirective', () => {
         expect(tab.classList).not.toContain('mdc-tab--active');
         expect(tab.getAttribute('aria-selected')).toBe('false');
         expect(tab.getAttribute('tabindex')).toBe('-1');
-        expect(fixture.nativeElement.querySelector('.mdc-tab__content')).toBeDefined();
-        expect(fixture.nativeElement.querySelector('.mdc-tab__icon')).toBeDefined();
-        expect(fixture.nativeElement.querySelector('.mdc-tab__text-label')).toBeDefined();
-        expect(fixture.nativeElement.querySelector('.mdc-tab-indicator')).toBeDefined();
-        expect(fixture.nativeElement.querySelector('.mdc-tab-indicator__content')).toBeDefined();
+        expect(fixture.nativeElement.querySelector('.mdc-tab__content').classList).toBeDefined();
+        expect(fixture.nativeElement.querySelector('.mdc-tab__icon').classList).toBeDefined();
+        expect(fixture.nativeElement.querySelector('.mdc-tab__text-label').classList).toBeDefined();
+        expect(fixture.nativeElement.querySelector('.mdc-tab-indicator').classList).toBeDefined();
+        expect(fixture.nativeElement.querySelector('.mdc-tab-indicator__content').classList).toBeDefined();
         expect(hasRipple(tab)).toBe(true, 'the ripple element should be attached');
     }));
 

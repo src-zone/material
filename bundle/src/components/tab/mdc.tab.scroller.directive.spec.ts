@@ -51,9 +51,9 @@ describe('MdcTabScrollerDirective', () => {
         const area: HTMLElement = fixture.nativeElement.querySelector('.mdc-tab-scroller__scroll-area');
         const content: HTMLElement = fixture.nativeElement.querySelector('.mdc-tab-scroller__scroll-content');
 
-        expect(scroller).toBeDefined();
-        expect(area).toBeDefined();
-        expect(content).toBeDefined();
+        expect(scroller.classList).toBeDefined();
+        expect(area.classList).toBeDefined();
+        expect(content.classList).toBeDefined();
     }));
 });
 

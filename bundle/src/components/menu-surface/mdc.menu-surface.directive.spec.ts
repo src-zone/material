@@ -44,7 +44,7 @@ describe('mdcMenuSurface', () => {
 
     it('open and close', fakeAsync(() => {
         const { fixture, anchor, surface, testComponent } = setup();
-        expect(anchor).toBeDefined();
+        expect(anchor).not.toBeNull();
         expect(surface.classList).not.toContain('mdc-menu-surface--open');
         testComponent.open = true;
         animationCycle(fixture, () => expect(testComponent.notifications).toEqual([{open: true}]));
@@ -104,7 +104,7 @@ describe('mdcMenuSurface', () => {
 
     it('hoisted positioning', fakeAsync(() => {
         const { fixture, anchor, surface, testComponent } = setup();
-        expect(anchor).toBeDefined();
+        expect(anchor).not.toBeNull();
         expect(surface.classList).not.toContain('mdc-menu-surface--open');
         testComponent.hoisted = true;
         testComponent.open = true;

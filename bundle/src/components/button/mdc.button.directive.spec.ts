@@ -36,7 +36,7 @@ describe('MdcButtonDirective', () => {
         const button = fixture.nativeElement.querySelector('button');
         const icon: HTMLElement = button.children[1];
         expect(icon.classList).toContain('mdc-button__icon');
-        expect(icon.attributes.getNamedItem('aria-hiden')).toBeDefined();
+        expect(icon.attributes.getNamedItem('aria-hidden')).not.toBeNull();
     }));
 
     @Component({

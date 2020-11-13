@@ -38,13 +38,13 @@ const noHomeTemplate = `
 
 describe('MdcTabRouterDirective', () => {
     @Component({
-        template: `<div id="search">Search</div>`
+        template: `<div id="search">Search</div><router-outlet></router-outlet>`
     })
     class SearchComponent {
     };
 
     @Component({
-      template: `<div id="searchone">Search One</div><router-outlet></router-outlet>`
+      template: `<div id="searchone">Search One</div>`
     })
     class SearchOneComponent {
     };
@@ -122,7 +122,7 @@ describe('MdcTabRouterDirective', () => {
         const { fixture } = setup(TestComponent);
         const tabs: HTMLElement[] = [...fixture.nativeElement.querySelectorAll('.mdc-tab')];
         // initial state has no tab selected, because no tab matches the home route:
-        expect(fixture.nativeElement.querySelector('#home')).toBeDefined();
+        expect(fixture.nativeElement.querySelector('#home')).not.toBeNull();
         expect(fixture.nativeElement.querySelector('#search')).toBeNull();
         expect(tabs.map(t => t.classList.contains('mdc-tab--active'))).toEqual([true, false]);
         
@@ -130,14 +130,14 @@ describe('MdcTabRouterDirective', () => {
         tabs[1].click(); tick(); fixture.detectChanges();
         expect(tabs.map(t => t.classList.contains('mdc-tab--active'))).toEqual([false, true]);
         expect(fixture.nativeElement.querySelector('#home')).toBeNull();
-        expect(fixture.nativeElement.querySelector('#search')).toBeDefined();
+        expect(fixture.nativeElement.querySelector('#search')).not.toBeNull();
     }));
 
     it('initial state when no route matches', fakeAsync(() => {
         const { fixture } = setup(NoHomeTestComponent);
         const tabs: HTMLElement[] = [...fixture.nativeElement.querySelectorAll('.mdc-tab')];
         // initial state has no tab selected, because no tab matches the home route:
-        expect(fixture.nativeElement.querySelector('#home')).toBeDefined();
+        expect(fixture.nativeElement.querySelector('#home')).not.toBeNull();
         expect(fixture.nativeElement.querySelector('#search')).toBeNull();
         expect(tabs.map(t => t.classList.contains('mdc-tab--active'))).toEqual([false]);
         
@@ -145,7 +145,7 @@ describe('MdcTabRouterDirective', () => {
         tabs[0].click(); tick(); fixture.detectChanges();
         expect(tabs.map(t => t.classList.contains('mdc-tab--active'))).toEqual([true]);
         expect(fixture.nativeElement.querySelector('#home')).toBeNull();
-        expect(fixture.nativeElement.querySelector('#search')).toBeDefined();
+        expect(fixture.nativeElement.querySelector('#search')).not.toBeNull();
     }));
 
     it('route change through router', fakeAsync(() => {
@@ -174,10 +174,10 @@ describe('MdcTabRouterDirective', () => {
         const { fixture, router } = setup(TestComponent);
         const tabs: HTMLElement[] = [...fixture.nativeElement.querySelectorAll('.mdc-tab')];
 
-        fixture.ngZone.run(() =>router.navigate(['/search', 'two']));
+        fixture.ngZone.run(() => router.navigate(['/search/two']));
         flush(); fixture.detectChanges();
-        expect(fixture.nativeElement.querySelector('#search')).toBeDefined();
-        expect(fixture.nativeElement.querySelector('#searchtwo')).toBeDefined();
+        expect(fixture.nativeElement.querySelector('#search')).not.toBeNull();
+        expect(fixture.nativeElement.querySelector('#searchtwo')).not.toBeNull();
         expect(tabs.map(t => t.classList.contains('mdc-tab--active'))).toEqual([false, true]);
     }));
 });
