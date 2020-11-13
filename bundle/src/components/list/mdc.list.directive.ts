@@ -156,7 +156,7 @@ export class MdcListItemDirective extends AbstractMdcRipple implements AfterCont
     }
 
     /**
-     * If set to a avlue other than false, the item will be disabled. This affects styling
+     * If set to a value other than false, the item will be disabled. This affects styling
      * and selactability, and may affect keyboard navigation.
      * This input is ignored for lists where the selection is controlled by embedded checkbox
      * or radio inputs. In those cases the disabled state of the input will be used instead.
