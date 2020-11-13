@@ -35,12 +35,17 @@ const globals = {
   '@material/slider': 'mdc.slider',
   '@material/switch': 'mdc.switch',
   '@material/snackbar': 'mdc.snackbar',
+  '@material/snackbar/util': 'mdc.snackbar',
   '@material/textfield': 'mdc.textfield',  // checked, not exported as mdc.textField yet
   '@material/textfield/helper-text': 'mdc.textfield',
   '@material/textfield/icon': 'mdc.textfield',
   '@material/toolbar': 'mdc.toolbar',
   '@material/top-app-bar': 'mdc.topAppBar',
-  '@material/tabs': 'mdc.tabs',
+  '@material/tab': 'mdc.tab',
+  '@material/tab-bar': 'mdc.tabBar',
+  '@material/tab-indicator': 'mdc.tabIndicator',
+  '@material/tab-scroller': 'mdc.tabScroller',
+  '@material/tab-scroller/util': 'mdc.tabScroller',
   'rxjs': 'rxjs', 
   'rxjs/operators': 'rxjs.operators',
   'tslib': 'tslib'

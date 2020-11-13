@@ -15,7 +15,7 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-bundle-dependencies-
       - run: cd bundle && npm install
-      - run: cd bundle # && npm run build
+      - run: cd bundle && npm run build
       - save_cache:
           paths:
             - bundle/node_modules
