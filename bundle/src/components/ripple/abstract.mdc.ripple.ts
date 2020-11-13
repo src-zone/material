@@ -30,7 +30,7 @@ export abstract class AbstractMdcRipple {
         deregisterResizeHandler: (handler) => {
             this._registry.unlisten('resize', handler);
         },
-        updateCssVariable: (name, value) => { this._rippleElm.nativeElement.style.setProperty(name, value); },
+        updateCssVariable: (name, value) => { this.getRippleStylingElement().nativeElement.style.setProperty(name, value); },
         computeBoundingRect: () => this.computeRippleBoundingRect(),
         getWindowPageOffset: () => ({x: window.pageXOffset, y: window.pageYOffset})
     }
@@ -101,7 +101,15 @@ export abstract class AbstractMdcRipple {
             this._rippleFoundation.layout();
     }
 
+    protected get rippleSurface() {
+        return new ElementRef(this._rippleSurface);
+    }
+
     protected getRippleInteractionElement() {
+        return this._rippleElm;
+    }
+
+    protected getRippleStylingElement() {
         return this._rippleElm;
     }
 
@@ -136,11 +144,11 @@ export abstract class AbstractMdcRipple {
     }
 
     protected addClassToRipple(name: string) {
-        this._renderer.addClass(this._rippleElm.nativeElement, name);
+        this._renderer.addClass(this.getRippleStylingElement().nativeElement, name);
     }
 
     protected removeClassFromRipple(name: string) {
-        this._renderer.removeClass(this._rippleElm.nativeElement, name);
+        this._renderer.removeClass(this.getRippleStylingElement().nativeElement, name);
     }
 
     protected computeRippleBoundingRect() {

@@ -70,7 +70,8 @@ describe('MdcTabDirective', () => {
         expect(fixture.nativeElement.querySelector('.mdc-tab__text-label').classList).toBeDefined();
         expect(fixture.nativeElement.querySelector('.mdc-tab-indicator').classList).toBeDefined();
         expect(fixture.nativeElement.querySelector('.mdc-tab-indicator__content').classList).toBeDefined();
-        expect(hasRipple(tab)).toBe(true, 'the ripple element should be attached');
+        // ripple styling is on the ripple surface element:
+        expect(hasRipple(fixture.nativeElement.querySelector('.mdc-tab__ripple'))).toBe(true, 'the ripple element should be attached');
     }));
 
     it('tab can be activated and deactivated', (() => {
