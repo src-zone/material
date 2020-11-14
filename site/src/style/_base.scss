@@ -1,0 +1,37 @@
+@use "variables";
+@use "mdc";
+@use "mixins";
+@import "~normalize.css/normalize.css";
+@import "neat";
+@import "highlight/light";
+@import "typography";
+
+body, html {
+  color: rgba(0,0,0,.87);
+  background-color: variables.$mdc-theme-background;
+}
+
+body {
+  display: flex;
+}
+blox-app {
+  display: flex;
+  flex-flow: column nowrap;
+  flex: 1 1 auto;
+  min-height: 100vh;
+  min-width: 0;
+}
+main {
+  flex: 1 1 auto;
+}
+
+.blox-container {
+  @include mixins.blox-container;
+}
+.blox-nobreak {
+  word-wrap: none;
+  white-space: nowrap;
+}
+.blox-content-last {
+  margin-bottom: 16px;
+}

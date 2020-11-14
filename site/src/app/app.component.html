@@ -1,27 +1,39 @@
-<header mdcToolbar class="blox-header" fixed [fixedAdjust]="main" flexible flexibleDefaultBehavior fixedLastrowOnly>
-  <div class="blox-container blox-material-header-logo">
+<header mdcTopAppBar="fixed" class="blox-header" dense [fixedAdjust]="main">
+  <a class="blox-material-header-logo" routerLink="/" tabindex="-1"></a>
+  <div mdcTopAppBarRow>
+    <div mdcTopAppBarSection alignStart class="blox-page-title">Blox Material</div>
   </div>
-  <div mdcToolbarRow class="blox-container">
-    <div mdcToolbarSection alignStart>
-      <a mdcToolbarTitle routerLink="/" class="blox-title-l blox-drop-ua" tabindex="-1">blox material: components for angular</a>
-      <a mdcToolbarTitle routerLink="/" class="blox-title-m blox-drop-ua" tabindex="-1">blox material: angular components</a>      
-      <a mdcToolbarTitle routerLink="/" class="blox-title-s blox-drop-ua" tabindex="-1">material components</a>
-    </div>
-  </div>
-  <div mdcToolbarRow class="blox-container">
-    <a mdcToolbarSection alignStart routerLink="/" class="blox-home-link blox-drop-ua" tabindex="-1"></a>
-  </div>  
-  <div mdcToolbarRow class="blox-container">
-    <a mdcToolbarSection alignStart routerLink="/" class="blox-home-link blox-drop-ua" tabindex="-1"></a>
-    <div mdcToolbarSection alignEnd>
+  <div mdcTopAppBarRow class="blox-container">
+    <div mdcTopAppBarSection alignStart></div>
+    <div mdcTopAppBarSection alignEnd>
       <nav mdcTabBar>
-        <a mdcTabRouter [routerLink]="['guides']">Guides</a>
-        <a mdcTabRouter [routerLink]="['components']">Components</a>
+        <div mdcTabScroller>
+          <div mdcTabScrollerArea>
+            <div mdcTabScrollerContent>
+              <a mdcTab [routerLink]="['guides']">
+                <span mdcTabContent>
+                  <span mdcTabLabel>Guides</span>
+                </span>
+                <span mdcTabIndicator>
+                  <span mdcTabIndicatorContent></span>
+                </span>
+              </a>
+              <a mdcTab [routerLink]="['components']">
+                <span mdcTabContent>
+                  <span mdcTabLabel>Components</span>
+                </span>
+                <span mdcTabIndicator>
+                  <span mdcTabIndicatorContent></span>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
       </nav>
     </div>
   </div>
 </header>
-<main mdcToolbarFixedAdjust #main="mdcFixedAdjust">
+<main #main class="blox-main">
   <div class="blox-container">
     <router-outlet></router-outlet>
   </div>

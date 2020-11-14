@@ -1,15 +1,17 @@
-// conatiner mixin for responsive page margins:
+@use "variables";
+
+// container mixin for responsive page margins:
 @mixin blox-container {
   margin: 0 auto;
-  max-width: $container-max-width;
-  width: $container-s-width;
-  @media only screen and (min-width: $media-m-min-width) {
-    width: $container-m-width;
+  max-width: variables.$container-max-width;
+  width: variables.$container-s-width;
+  @media only screen and (min-width: variables.$media-m-min-width) {
+    width: variables.$container-m-width;
   }
-  @media only screen and (min-width: $media-l-min-width) {
-    width: $container-l-width;
+  @media only screen and (min-width: variables.$media-l-min-width) {
+    width: variables.$container-l-width;
   }
-  @media only screen and (min-width: $media-xl-min-width) {
-    width: $container-xl-width;
+  @media only screen and (min-width: variables.$media-xl-min-width) {
+    width: variables.$container-xl-width;
   }
 }

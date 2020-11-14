@@ -1,0 +1,56 @@
+@use "variables";
+
+@use "@material/theme/_index.scss" as theme;
+@use "@material/animation/_index.scss" as animation;
+@use "@material/tab-indicator/_index.scss" as tab-indicator;
+@use "@material/tab/_index.scss" as tab;
+@use "@material/top-app-bar/_index.scss" as top-app-bar;
+
+$header-rows: 2;
+
+header.blox-header {
+  .mdc-tab {
+    @include tab.ink-color(text-secondary-on-dark);
+    @include tab.active-text-label-color(secondary);
+    @include tab.active-icon-color(secondary);
+    &:hover {
+      @include tab.ink-color(on-primary);
+    }
+    .mdc-tab-indicator {
+      @include tab-indicator.underline-color(secondary);
+    }
+  }
+  .blox-material-header-logo {
+    position: absolute;
+    top: 3px;
+    bottom: 0;
+    width: top-app-bar.$dense-row-height * $header-rows - 6;
+    z-index: 5; // above top-app-bar, so it's clickable
+    background-image: url(/assets/img/logos/bloxmaterial.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    transition: animation.exit-temporary(width, 175ms);
+    &:focus {outline: none;}
+    margin-left: 10px; // if percentage not supported
+    margin-left: 5%;
+    @media only screen and (max-width: variables.$media-m-min-width) {
+      width: top-app-bar.$dense-row-height * $header-rows * 0.7;
+    }
+  }
+  .mdc-top-app-bar__section--align-end {
+    flex-grow: 0;
+  }
+  .blox-page-title {
+    font-family: "Roboto Mono", monospace;
+    margin-left: calc(5% + 98px);
+    @media only screen and (max-width: variables.$media-m-min-width) {
+      margin-left: calc(5% + 72px);
+    }
+  }
+}
+
+main.blox-main {
+  &.mdc-top-app-bar--dense-fixed-adjust {
+    padding-top: top-app-bar.$dense-row-height * $header-rows;
+  }
+}
