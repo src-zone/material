@@ -6,14 +6,14 @@
         [title]="openStackblitz ? 'Edit in Stackblitz IDE' : (disableStackblitz ? 'Stackblitz not supported for this sample' : 'Preparing Stackblitz IDE')"
         [disabled]="!openStackblitz"
         >{{stackblitzIcon}}</button>
-      <button *ngIf="hasSource" mdcIconButton
-        class="material-icons"
+      <button *ngIf="hasSource" mdcIconToggle
         labelOn="Hide source code"
         labelOff="Show source code"
-        iconOn="expand_less"
-        iconOff="expand_more"
         [(on)]="showCode"
-        title="Show/hide code"></button>
+        label="Show/hide code">
+        <i mdcIcon="on" class="material-icons">expand_less</i>
+        <i mdcIcon class="material-icons">expand_more</i>
+      </button>
     </div>
   </div>
   <nav *ngIf="showCode" mdcTabBar class="blox-sample-tab-bar">
