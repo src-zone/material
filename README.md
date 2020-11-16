@@ -11,6 +11,7 @@ It integrates [Material Components for the Web](https://github.com/material-comp
 <a href="https://circleci.com/gh/src-zone/material/tree/master"><img align="right" src="https://buildstats.info/circleci/chart/src-zone/material?branch=master&showStats=false" width="231" height="71"/></a>
 
 [![npm](https://img.shields.io/npm/v/@blox/material.svg)](https://www.npmjs.com/package/@blox/material)
+[![npm](https://img.shields.io/npm/v/@blox/material/beta.svg)](https://www.npmjs.com/package/@blox/material)
 [![License](https://img.shields.io/github/license/src-zone/material.svg)](LICENSE.txt)
 [![CircleCI](https://img.shields.io/circleci/project/github/src-zone/material.svg)](https://circleci.com/gh/src-zone/material/tree/master)
 [![Codecov](https://img.shields.io/codecov/c/github/src-zone/material)](https://codecov.io/gh/src-zone/material)
