@@ -1,0 +1,66 @@
+@use "variables";
+@use "@material/theme";
+@use "@material/ripple/_index.scss" as ripple;
+@use "@material/button";
+@use "@material/list/_index.scss" as list;
+@use "@material/elevation";
+
+.blox-theme-dark {
+  background-color: variables.$mdc-theme-primary;
+  //@include mdc-theme-prop(color, text-primary-on-dark);
+  @include theme.prop(color, text-primary-on-dark);
+  .mdc-button {
+    @include button.filled-accessible(variables.$mdc-theme-primary);
+  }
+  .mdc-list {
+    @include list.item-primary-text-ink-color(text-primary-on-dark);
+  }
+  .mdc-list-item--selected, .mdc-list-item--activated {
+    @include list.item-primary-text-ink-color(text-primary-on-dark);
+    @include list.item-graphic-ink-color(text-primary-on-dark);
+  }
+  :not(.mdc-list--non-interactive) > .mdc-list-item {
+    @include ripple.states-base-color(white);
+  }
+
+  a {
+    @include theme.prop(color, text-secondary-on-dark);
+  }
+
+  @import "highlight/dark";
+}
+
+.mdc-button.blox-button-attract {
+  .blox-theme-dark & {
+    @include button.filled-accessible(variables.$mdc-theme-secondary);
+  }
+}
+
+footer.blox-footer {
+  $footer-bg-color: theme.ink-color-for-fill_(secondary, variables.$mdc-theme-background);
+  .blox-theme-dark & {
+    background: $footer-bg-color;
+    .mdc-button {
+      @include button.filled-accessible($footer-bg-color);
+    }
+  }
+}
+
+code {
+  .blox-theme-dark & {
+    background: theme.ink-color-for-fill_(secondary, variables.$mdc-theme-background);
+  }
+}
+
+header.blox-header {
+  .blox-theme-dark & {
+    @include elevation.elevation(2);
+  }
+}
+
+span.blox-inline-svg {
+  .blox-theme-dark & {
+    fill: #fff;
+    stroke: #fff;
+  }
+}

@@ -1,0 +1,69 @@
+@use "variables";
+@use "neat";
+
+$blox-img-list-grid: (
+  columns: 1,
+  gutter: 16px
+);
+$blox-img-list-grid-m: (
+  columns: 3,
+  gutter: 16px,
+  media: variables.$media-m-min-width
+);
+.blox-img-list {
+  margin: 16px auto 0 auto;
+  max-width: variables.$container-smaller-max-width;
+}
+.blox-img-list-row {
+  @include neat.grid-container($blox-img-list-grid);
+  @include neat.grid-media($blox-img-list-grid-m) {
+    @include neat.grid-container($blox-img-list-grid-m);
+  }
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  &:nth-child(odd) {
+    text-align: right;
+    @media only screen and (min-width: variables.$media-m-min-width) {
+      flex-flow: row-reverse;
+    }
+    .blox-img-list-img {
+      background-position-x: left;
+    }
+  }
+  .blox-img-list-img {
+    background-position-x: right;
+    background-position-y: center;
+    min-height: 100px;
+  }
+}
+.blox-img-list-img {
+  display: block;
+  @include neat.grid-column(1, $blox-img-list-grid);
+  @include neat.grid-media($blox-img-list-grid-m) {
+    @include neat.grid-column(1);
+    max-width: initial;
+  }
+  align-self: stretch;
+  background-size: contain;
+  background-repeat: no-repeat;
+  &.blox-bg-fast { background-image: url(../assets/img/photos/speed.jpg); } // TODO move out of assets?
+  &.blox-bg-themeable { background-image: url(../assets/img/photos/crayons.jpg); }
+  &.blox-bg-accessible { background-image: url(../assets/img/photos/mobile.jpg); }
+  &.blox-bg-agnostic { background-image: url(../assets/img/photos/bridge.jpg); }
+  &.blox-bg-404 { background-image: url(../assets/img/photos/shark.jpg); }
+}
+.blox-img-list-cap {
+  @include neat.grid-column(1, $blox-img-list-grid);
+  margin-top: -58px; // moves the caption into the image above it
+  @include neat.grid-media($blox-img-list-grid-m) {
+    @include neat.grid-column(2);
+    margin-top: 16px;  // makes blox-img-list-img a little bit taller
+  }
+}
+.blox-index-intro, .blox-index-foot {
+  text-align: center;
+  .mdc-button {
+    margin: 8px 16px;
+  }
+}

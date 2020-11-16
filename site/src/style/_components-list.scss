@@ -1,0 +1,46 @@
+@use "@material/theme";
+@use "variables";
+@use "neat";
+
+$blox-component-list-grid: (
+  columns: 1,
+  gutter: 24px
+);
+$blox-component-list-grid-l: (
+  columns: 2,
+  gutter: 24px,
+  media: variables.$media-l-min-width
+);
+
+nav.blox-component-list {
+  img {
+    width: 38px;
+    height: 38px;
+  }
+  section {
+    @include neat.grid-column(1, $blox-component-list-grid);
+    @include neat.grid-media($blox-component-list-grid-l) {
+      @include neat.grid-column(1);
+    }
+    a {
+      @include theme.prop(color, text-primary-on-light);
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+
+      .blox-component-list-item-img svg {
+        min-width: 38px;
+        height: 38px;
+        margin-right: 24px;
+        stroke: none;
+      }
+      h2, h3 {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+      .blox-theme-dark & {
+        @include theme.prop(color, text-primary-on-dark);      
+      }
+    }
+  }
+}

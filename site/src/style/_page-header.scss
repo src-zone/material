@@ -26,7 +26,7 @@ header.blox-header {
     bottom: 0;
     width: top-app-bar.$dense-row-height * $header-rows - 6;
     z-index: 5; // above top-app-bar, so it's clickable
-    background-image: url(/assets/img/logos/bloxmaterial.svg);
+    background-image: url(../assets/img/logos/bloxmaterial.svg);
     background-repeat: no-repeat;
     background-size: contain;
     transition: animation.exit-temporary(width, 175ms);

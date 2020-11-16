@@ -8,3 +8,9 @@
 );
 @use "base";
 @use "page-header";
+@use "page-footer";
+@use "home";
+@use "code-sample";
+@use "components-list";
+
+@use "themes/dark";

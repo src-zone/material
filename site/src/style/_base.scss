@@ -1,8 +1,8 @@
 @use "variables";
 @use "mdc";
+@use "@material/theme";
 @use "mixins";
 @import "~normalize.css/normalize.css";
-@import "neat";
 @import "highlight/light";
 @import "typography";
 
@@ -34,4 +34,22 @@ main {
 }
 .blox-content-last {
   margin-bottom: 16px;
+}
+
+blockquote {
+  border-left: 4px solid variables.$mdc-theme-secondary;
+  padding: 16px;
+  margin: 0 0 0 8px;
+}
+
+.weak {
+  @include theme.prop(color, text-secondary-on-background);
+  .blox-theme-dark & {
+    @include theme.prop(color, text-secondary-on-dark);
+  }
+}
+
+span.blox-inline-svg {
+  fill: #000;
+  stroke: #000;
 }
