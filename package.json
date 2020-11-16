@@ -5,12 +5,12 @@
         "commitmsg": "commitlint -e"
     },
     "devDependencies": {
-        "@commitlint/cli": "^8.3.5",
-        "conventional-changelog-angular": "^5.0.6",
-        "conventional-changelog-cli": "^2.0.31",
-        "conventional-recommended-bump": "^6.0.5",
-        "husky": "^4.2.3",
-        "shelljs": "^0.8.3",
-        "simple-git": "^1.132.0"
+        "@commitlint/cli": "^11.0.0",
+        "conventional-changelog-angular": "^5.0.12",
+        "conventional-changelog-cli": "^2.1.1",
+        "conventional-recommended-bump": "^6.0.11",
+        "husky": "^4.3.0",
+        "shelljs": "^0.8.4",
+        "simple-git": "^2.22.0"
     }
 }
