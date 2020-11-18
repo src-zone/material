@@ -8,15 +8,26 @@
         >{{stackblitzIcon}}</button>
       <button *ngIf="hasSource" mdcIconToggle
         [(on)]="showCode"
-        [label]="showCode ? 'Hide source code' : 'Show source code'">
+        [label]="showCode ? 'Hide source code' : 'Show source code'"
+        title="{{showCode ? 'Hide source code' : 'Show source code'}}">
         <i mdcIcon="on" class="material-icons">expand_less</i>
         <i mdcIcon class="material-icons">expand_more</i>
       </button>
     </div>
   </div>
   <nav *ngIf="showCode" mdcTabBar class="blox-sample-tab-bar">
-    <a *ngFor="let name of snippetNames" mdcTab (activate)="activate(name)" tabindex="0" role="link">{{name}}</a>
+    <div mdcTabScroller>
+      <div mdcTabScrollerArea>
+        <div mdcTabScrollerContent>
+          <a *ngFor="let name of snippetNames" mdcTab (activate)="activate(name)" [active]="isActive(name)" tabindex="0" role="link">
+            <span mdcTabContent><span mdcTabLabel>{{name}}</span></span>
+            <span mdcTabIndicator><span mdcTabIndicatorContent></span></span>
+          </a>
+        </div>
+      </div>
+    </div>
   </nav>
+
 </div>
 <pre *ngIf="showCode && active"><code highlightJs [source]="snippet.code[active]" [lang]="active"></code></pre>
 <ng-content select="[bloxSample]"></ng-content>

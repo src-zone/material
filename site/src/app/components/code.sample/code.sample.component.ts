@@ -8,7 +8,7 @@ import { AbstractSnippetComponent } from '../snippets/abstract.snippet.component
 })
 export class CodeSampleComponent implements AfterContentInit {
     @ContentChild(AbstractSnippetComponent) snippet;
-    snippetNames: string[] = [];
+    readonly snippetNames: string[] = [];
     active: string;
     hasSource = false;
     private _showCode = false;
@@ -91,6 +91,7 @@ export class CodeSampleComponent implements AfterContentInit {
             if (this.snippet.code['html'])
                 this.addAssets(this.snippet.code['html'], /\ssrc\s*=\s*\"(\/?assets\/[^"]+)\"/g, assets);
             if (this.snippet.code['scss'])
+                // TODO relative path?
                 this.addAssets(this.snippet.code['scss'], /url\s*\(\s*(\/?assets\/[^\)]+)\)/g, assets);
         
             for (let file in files) {

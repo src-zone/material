@@ -61,7 +61,8 @@ blox-code-sample {
   code {
     background: transparent;
   }
-  nav.mdc-tab-bar {
+  nav.mdc-tab-bar.blox-sample-tab-bar {
+    display: flex; // so it doesn't fill entire width. (inline-block should do the same, but adds a little space below somehow)
     margin: 0;
   }
   iframe {
@@ -69,4 +70,28 @@ blox-code-sample {
     height: 350px;
     border-width: 0;
   }
+}
+
+.blox-snippet {
+  margin: 0;
+  padding: 16px;
+  border-width: 0;
+}
+
+.blox-snippet-page {
+  position: relative;
+  width: 100%;
+  height: 350px;
+  overflow-y: auto;
+}
+
+// content of tabs in tab demos:
+.blox-tab-sample-content {
+  padding: 16px;
+}
+
+// paragrah content below demo toolbars:
+p.blox-demo-paragraph {
+  margin: 0px;
+  padding: 16px 0;
 }
