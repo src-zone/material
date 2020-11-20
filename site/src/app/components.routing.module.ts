@@ -4,6 +4,8 @@ import { OverviewComponent } from './overview.component';
 import {
     ButtonDirectivesComponent,
     CardDirectivesComponent,
+    CheckboxDirectivesComponent,
+    ChipsDirectivesComponent,
     // DialogDirectivesComponent,
     // DrawerDirectivesComponent,
     // ElevationDirectivesComponent,
@@ -31,6 +33,8 @@ const routes: Routes = [
     {path: '', pathMatch: 'full', component: OverviewComponent},
     {path: ButtonDirectivesComponent.DOC_HREF, component: ButtonDirectivesComponent},
     {path: CardDirectivesComponent.DOC_HREF, component: CardDirectivesComponent},
+    {path: CheckboxDirectivesComponent.DOC_HREF, component: CheckboxDirectivesComponent},
+    {path: ChipsDirectivesComponent.DOC_HREF, component: ChipsDirectivesComponent},
     // {path: DialogDirectivesComponent.DOC_HREF, component: DialogDirectivesComponent},
     // {path: DrawerDirectivesComponent.DOC_HREF, component: DrawerDirectivesComponent},
     // {path: ElevationDirectivesComponent.DOC_HREF, component: ElevationDirectivesComponent},

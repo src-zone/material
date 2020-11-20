@@ -2,8 +2,14 @@
 <div mdcChipSet="input">
   <div *ngFor="let chip of chips; let i = index" mdcChip (remove)="removeChip(i)">
     <i mdcChipIcon class="material-icons">face</i>
-    <div mdcChipText>{{chip}}</div>
-    <i class="material-icons" mdcChipIcon>cancel</i>
+    <span mdcChipCell>
+      <span mdcChipPrimaryAction>
+        <div mdcChipText>{{chip}}</div>
+      </span>
+    </span>
+    <span mdcChipCell>
+      <i mdcChipIcon class="material-icons">cancel</i>
+    </span>
   </div>
 </div>
 <form (submit)="addChip()">

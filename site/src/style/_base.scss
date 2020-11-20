@@ -2,6 +2,7 @@
 @use "mdc";
 @use "@material/theme";
 @use "@material/button";
+@use "@material/chips/_index.scss" as chips;
 @use "mixins";
 @import "~normalize.css/normalize.css";
 @import "highlight/light";
@@ -57,4 +58,11 @@ span.blox-inline-svg {
 
 .mdc-button.blox-button-attract {
   @include button.filled-accessible(variables.$mdc-theme-secondary);
+}
+
+// make selected state visible:
+.mdc-chip-set--choice, .mdc-chip-set--filter {
+ .mdc-chip--selected {
+    @include theme.prop(background-color, secondary);
+ }
 }

@@ -1,5 +1,7 @@
 import { ButtonDirectivesComponent } from './button.directives.component';
 import { CardDirectivesComponent } from './card.directives.component';
+import { CheckboxDirectivesComponent } from './checkbox.directives.component';
+import { ChipsDirectivesComponent } from './chips.directives.component';
 // import { DialogDirectivesComponent } from './dialog.directives.component';
 // import { DrawerDirectivesComponent } from './drawer.directives.component';
 // import { ElevationDirectivesComponent } from './elevation.directives.component';
@@ -22,6 +24,8 @@ import { CardDirectivesComponent } from './card.directives.component';
 
 export * from './button.directives.component';
 export * from './card.directives.component';
+export * from './checkbox.directives.component';
+export * from './chips.directives.component';
 // export * from './dialog.directives.component';
 // export * from './drawer.directives.component';
 // export * from './elevation.directives.component';
@@ -45,6 +49,8 @@ export * from './card.directives.component';
 export const MDC_DIRECTIVE_DOC_COMPONENTS = [
     ButtonDirectivesComponent,
     CardDirectivesComponent,
+    CheckboxDirectivesComponent,
+    ChipsDirectivesComponent,
     // DialogDirectivesComponent,
     // DrawerDirectivesComponent,
     // ElevationDirectivesComponent,

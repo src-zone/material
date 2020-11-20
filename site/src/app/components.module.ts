@@ -9,6 +9,8 @@ import {
 
   SnippetButtonComponent,
   SnippetCardComponent,
+  SnippetCheckboxComponent,
+  SnippetChipsComponent, SnippetChipsChoiceComponent, SnippetChipsFilterComponent, SnippetChipsInputComponent,
   // SnippetDialogComponent,
   // SnippetDrawerPermanentBelowComponent,
   // SnippetDrawerPermanentComponent,
@@ -49,6 +51,8 @@ import {
 
     SnippetButtonComponent,
     SnippetCardComponent,
+    SnippetCheckboxComponent,
+    SnippetChipsComponent, SnippetChipsChoiceComponent, SnippetChipsFilterComponent, SnippetChipsInputComponent,
     // SnippetDialogComponent,
     // SnippetDrawerPermanentBelowComponent,
     // SnippetDrawerPermanentComponent,

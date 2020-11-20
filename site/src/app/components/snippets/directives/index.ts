@@ -1,5 +1,10 @@
 export * from './snippet.button.component';
 export * from './snippet.card.component';
+export * from './snippet.checkbox.component';
+export * from './snippet.chips.component';
+export * from './snippet.chips.choice.component';
+export * from './snippet.chips.filter.component';
+export * from './snippet.chips.input.component';
 // export * from './snippet.dialog.component';
 // export * from './snippet.drawer.permanent.below.component';
 // export * from './snippet.drawer.permanent.component';
