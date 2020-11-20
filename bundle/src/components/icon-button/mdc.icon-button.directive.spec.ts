@@ -145,6 +145,14 @@ describe('mdcIconToggle', () => {
         expect(element.getAttribute('aria-label')).toBe('Add to favorites');
     }));
 
+    it('labelOn and labelOff are reflected as aria-label', (() => {
+        const { fixture, element, testComponent } = setup(TestLabelOnOffComponent);
+        expect(element.getAttribute('aria-label')).toBe('Add to favorites');
+        testComponent.favorite = true;
+        fixture.detectChanges();
+        expect(element.getAttribute('aria-label')).toBe('Remove from favorites');
+    }));
+
     it('should toggle state when clicked', (() => {
         const { iconToggle, testComponent, element } = setup();
         
@@ -200,6 +208,20 @@ describe('mdcIconToggle', () => {
         expect(element.classList).toContain('mdc-icon-button');
         expect(hasRipple(element)).toBe(true);
     }));
+
+    @Component({
+        template: `
+            <button mdcIconToggle [on]="favorite"
+                labelOff="Add to favorites"
+                labelOn="Remove from favorites">
+                <i mdcIcon="on" class="material-icons">favorite</i>
+                <i mdcIcon class="material-icons">favorite_border</i>
+            </button>
+        `
+    })
+    class TestLabelOnOffComponent {
+        favorite = false;
+    }
 });
 
 describe('mdcIconToggle with FormsModule', () => {

@@ -76,7 +76,21 @@ export class MdcIconDirective  {
 })
 export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterContentInit {
     @HostBinding('class.mdc-icon-button') _hostClass = true;
-    @HostBinding('attr.aria-label') @Input() label: string;
+    /**
+     * The aria-label to assign to the icon toggle. You can override the value for the
+     * on respectively off state by assigning to property `labelOn` or `labelOff`.
+     */
+    @Input() label: string;
+    /**
+     * The aria-label to assign to the icon toggle when it is on. If this input has no value,
+     * the aria-label will default to the value of the `label` input.
+     */
+    @Input() labelOn: string;
+    /**
+     * The aria-label to assign to the icon toggle when it is off. If this input has no value,
+     * the aria-label will default to the value of the `label` input.
+     */
+    @Input() labelOff: string;
     /**
      * Event emitted when the state of the icon toggle changes (for example when a user clicks
      * the icon). 
@@ -150,6 +164,10 @@ export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterCont
             this.toggleFoundation.toggle(this._on);
         if (this._on !== old)
             this.onChange.emit(this._on);
+    }
+
+    @HostBinding('attr.aria-label') get _label() {
+        return this._on ? (this.labelOn || this.label) : (this.labelOff || this.label);
     }
     
     @HostListener('click') _onClick() {
