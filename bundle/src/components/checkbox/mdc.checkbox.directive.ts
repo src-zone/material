@@ -219,6 +219,7 @@ export class MdcCheckboxDirective extends AbstractMdcRipple implements AfterCont
         return this._input?._elm;
     }
 
+    /** @docs-private */
     @HostListener('animationend')
     onAnimationEnd() {
         this._foundation?.handleAnimationEnd();
