@@ -1,6 +1,7 @@
 @use "variables";
 @use "mdc";
 @use "@material/theme";
+@use "@material/button";
 @use "mixins";
 @import "~normalize.css/normalize.css";
 @import "highlight/light";
@@ -52,4 +53,8 @@ blockquote {
 span.blox-inline-svg {
   fill: #000;
   stroke: #000;
+}
+
+.mdc-button.blox-button-attract {
+  @include button.filled-accessible(variables.$mdc-theme-secondary);
 }

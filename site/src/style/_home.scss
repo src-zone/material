@@ -47,7 +47,7 @@ $blox-img-list-grid-m: (
   align-self: stretch;
   background-size: contain;
   background-repeat: no-repeat;
-  &.blox-bg-fast { background-image: url(../assets/img/photos/speed.jpg); } // TODO move out of assets?
+  &.blox-bg-fast { background-image: url(../assets/img/photos/speed.jpg); }
   &.blox-bg-themeable { background-image: url(../assets/img/photos/crayons.jpg); }
   &.blox-bg-accessible { background-image: url(../assets/img/photos/mobile.jpg); }
   &.blox-bg-agnostic { background-image: url(../assets/img/photos/bridge.jpg); }
