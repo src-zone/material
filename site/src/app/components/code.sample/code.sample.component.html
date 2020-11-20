@@ -8,7 +8,7 @@
         >{{stackblitzIcon}}</button>
       <button *ngIf="hasSource" mdcIconToggle
         [(on)]="showCode"
-        [label]="showCode ? 'Hide source code' : 'Show source code'"
+        labelOn="Hide source code" labelOff="Show source code"
         title="{{showCode ? 'Hide source code' : 'Show source code'}}">
         <i mdcIcon="on" class="material-icons">expand_less</i>
         <i mdcIcon class="material-icons">expand_more</i>

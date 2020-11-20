@@ -42,9 +42,11 @@
         <button mdcButton>Bookmark</button>
       </div>
       <div mdcCardActionIcons>
-        <button mdcIconButton class="material-icons"
-          labelOn="Remove from favorites" labelOff="Add to favorites"
-          iconOn="favorite" iconOff="favorite_border"></button>
+        <button mdcIconToggle
+            labelOn="Remove from favorites" labelOff="Add to favorites">
+          <i mdcIcon="on" class="material-icons">favorite</i>
+          <i mdcIcon class="material-icons">favorite_border</i>
+        </button>
         <button mdcIconButton class="material-icons" title="Share">share</button>
         <button mdcIconButton class="material-icons" title="More options">more_vert</button>
       </div>
@@ -60,12 +62,16 @@
       </div>
     </a>
     <div mdcCardActions mdcCardActionIcons>
-      <button mdcIconButton class="material-icons"
-        labelOn="Remove from favorites" labelOff="Add to favorites"
-        iconOn="favorite" iconOff="favorite_border"></button>
-      <button mdcIconButton class="material-icons"
-        labelOn="Remove bookmark" labelOff="Add bookmark"
-        iconOn="bookmark" iconOff="bookmark_border"></button>
+      <button mdcIconToggle class="material-icons"
+        labelOn="Remove from favorites" labelOff="Add to favorites">
+        <i mdcIcon="on" class="material-icons">favorite</i>
+        <i mdcIcon class="material-icons">favorite_border</i>
+      </button>
+      <button mdcIconToggle class="material-icons"
+        labelOn="Remove bookmark" labelOff="Add bookmark">
+        <i mdcIcon="on" class="material-icons">bookmark</i>
+        <i mdcIcon class="material-icons">bookmark_border</i>
+      </button>
       <button mdcIconButton class="material-icons" title="Share">share</button>
     </div>
   </div>

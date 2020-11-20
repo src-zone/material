@@ -8,9 +8,7 @@ import {
   MDC_DIRECTIVE_DOC_COMPONENTS,
 
   SnippetButtonComponent,
-  // SnippetCardComponent,
-  // SnippetCheckboxComponent,
-  // SnippetChipsComponent, SnippetChipsChoiceComponent, SnippetChipsFilterComponent, SnippetChipsInputComponent,
+  SnippetCardComponent,
   // SnippetDialogComponent,
   // SnippetDrawerPermanentBelowComponent,
   // SnippetDrawerPermanentComponent,
