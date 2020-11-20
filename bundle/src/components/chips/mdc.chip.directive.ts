@@ -417,16 +417,17 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
         return this._foundation.getDimensions();
     }
 
-    @HostListener('click', ['$event']) @HostListener('keydown', ['$event']) _handleInteraction(event: MouseEvent | KeyboardEvent) {
+    @HostListener('click', ['$event']) _handleInteraction(event: MouseEvent) {
         this._foundation?.handleInteraction(event);
     }
 
-    @HostListener('transitionend', ['$event']) handleTransitionEnd(event: TransitionEvent) {
+    @HostListener('transitionend', ['$event']) _handleTransitionEnd(event: TransitionEvent) {
         this._foundation?.handleTransitionEnd(event);
     }
 
-    @HostListener('keydown', ['$event']) handleKeydown(event: KeyboardEvent) {
+    @HostListener('keydown', ['$event']) _handleKeydown(event: KeyboardEvent) {
         this._foundation?.handleKeydown(event);
+        this._foundation?.handleInteraction(event);
     }
 }
 
@@ -554,6 +555,8 @@ export class MdcChipSetDirective implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-chip-set--input') get _input() {
         return this._type === 'input';
     }
+
+
 }
 
 export const CHIP_DIRECTIVES = [
