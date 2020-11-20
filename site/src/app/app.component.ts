@@ -25,6 +25,9 @@ export class AppComponent implements AfterContentInit, OnDestroy {
     svgAttributes = {
         class: 'blox-inline-svg'
     };
+    // urls for the footer logo's:
+    svgTwitter = require('!file-loader!../assets/img/logos/twitter.svg').default;
+    svgGithub = require('!file-loader!../assets/img/logos/github.svg').default;
 
     constructor(
         private titleService: Title,

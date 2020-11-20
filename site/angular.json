@@ -24,7 +24,6 @@
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": [
-              "src/assets",
               {
                 "glob": "*.*",
                 "input": "src/public/",
@@ -100,7 +99,6 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": [
-              "src/assets"
             ],
             "styles": [
               "src/style/app.scss"

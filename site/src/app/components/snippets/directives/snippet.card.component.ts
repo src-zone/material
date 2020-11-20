@@ -21,6 +21,9 @@ export class SnippetCardComponent/*snip:skip*/extends AbstractSnippetComponent/*
           'html': require('!raw-loader!./snippet.card.component.html'),
           'scss': require('!raw-loader!./snippet.card.component.scss'),
           'typescript': require('!raw-loader!./snippet.card.component.ts')
+        }, {
+          '../../../../assets/img/mdc-demos/16-9.jpg': require('!file-loader!../../../../assets/img/mdc-demos/16-9.jpg').default,
+          '../../../../assets/img/mdc-demos/1-1.jpg': require('!file-loader!../../../../assets/img/mdc-demos/1-1.jpg').default
         });
     }
     //snip:endskip

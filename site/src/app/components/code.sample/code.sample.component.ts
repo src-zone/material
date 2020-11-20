@@ -92,7 +92,7 @@ export class CodeSampleComponent implements AfterContentInit {
                 this.addAssets(this.snippet.code['html'], /\ssrc\s*=\s*\"(\/?assets\/[^"]+)\"/g, assets);
             if (this.snippet.code['scss'])
                 // TODO relative path?
-                this.addAssets(this.snippet.code['scss'], /url\s*\(\s*(\/?assets\/[^\)]+)\)/g, assets);
+                this.addAssets(this.snippet.code['scss'], /url\s*\(\s*([^)]*\/?assets\/[^\)]+)\)/g, assets);
         
             for (let file in files) {
                 if (files.hasOwnProperty(file))
@@ -103,12 +103,13 @@ export class CodeSampleComponent implements AfterContentInit {
                         .replace(/\$\{mainImport\}/g, this.snippet.mainImport)
             };
             files[mainSourceName] = this.snippet.code['typescript'];
-            files[templateSourceName] = this.fixAssets(this.snippet.code['html'], 'html', assets);
+            files[templateSourceName] = this.fixAssets(this.snippet.code['html'], 'html', assets, this.snippet.cacheAssets);
             if (this.snippet.code['scss'])
                 files[styleSourceName] = this.fixAssets(
                     this.snippet.code['scss'].replace(/\@material/g, '~@material'),
                     'scss',
-                    assets).replace(/(\s*)(.*)stackblitz-skip-line(\s*:\s*)?(.*)/g, '$1// skip on stackblitz $2 $4');
+                    assets,
+                    this.snippet.cacheAssets).replace(/(\s*)(.*)stackblitz-skip-line(\s*:\s*)?(.*)/g, '$1// skip on stackblitz $2 $4');
 
             this.openStackblitz = () => {
                 this.trackViewCode('stackblitz', this.snippet.mainElement);
@@ -151,11 +152,16 @@ export class CodeSampleComponent implements AfterContentInit {
         }
     }
 
-    fixAssets(code: string, type: 'html' | 'scss', assets: string[]) {
+    fixAssets(code: string, type: 'html' | 'scss', assets: string[], cacheAssets: {[key: string]: string}) {
         for (let asset of assets) {
-            const path = asset.startsWith('/') ? asset : `/${asset}`;
-            const location = `${document.location.origin}${path}`;
-            code = code.split(asset).join(location);
+            if (cacheAssets[asset]) {
+                const location = `${document.location.origin}/${cacheAssets[asset]}`;
+                code = code.split(asset).join(location);
+            } else {
+                const path = asset.startsWith('/') ? asset : `/${asset}`;
+                const location = `${document.location.origin}${path}`;
+                code = code.split(asset).join(location);
+            }
         }
         return code;
     }
