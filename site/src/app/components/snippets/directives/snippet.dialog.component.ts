@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 //snip:skip
 import { forwardRef } from '@angular/core';
 import { AbstractSnippetComponent } from '../abstract.snippet.component';
@@ -11,7 +11,8 @@ import { AbstractSnippetComponent } from '../abstract.snippet.component';
     selector: 'blox-snippet-dialog',
     templateUrl: './snippet.dialog.component.html'
 })
-export class SnippetDialogComponent/*snip:skip*/extends AbstractSnippetComponent/*snip:endskip*/ {
+export class SnippetDialogComponent/*snip:skip*/extends AbstractSnippetComponent/*snip:endskip*/ implements OnInit {
+    items: string[] = [];
     //snip:skip
     constructor() {
         super({
@@ -20,4 +21,14 @@ export class SnippetDialogComponent/*snip:skip*/extends AbstractSnippetComponent
         });
     }
     //snip:endskip
+
+    ngOnInit() {
+        for (let i = 0; i != 40; ++i) {
+            this.items.push('Callisto');
+            this.items.push('Ganymede');
+            this.items.push('Luna');
+            this.items.push('Marimba');
+            this.items.push('Schwifty');
+        }
+    }
 }

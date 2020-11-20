@@ -4,55 +4,41 @@
   <button mdcButton outlined (click)="dialog2.open()">Open Scrollable Dialog</button>
 </div>
 
-<aside #dialog1="mdcDialog" mdcDialog mdcFocusTrap>
-  <div mdcDialogSurface>
-    <header mdcDialogHeader>
-      <h2 mdcDialogHeaderTitle>Modal Dialog</h2>
-    </header>
-    <section mdcDialogBody>
+<aside #dialog1="mdcDialog" mdcDialog>
+  <div mdcDialogContainer>
+    <div mdcDialogSurface>
+      <h2 mdcDialogTitle>Modal Dialog</h2>
+      <section mdcDialogContent>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
         Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
         Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
         Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </section>
-    <footer mdcDialogFooter>
-      <button mdcButton mdcDialogCancel>Decline</button>
-      <button mdcButton mdcDialogAccept>Accept</button>
-    </footer>
+      </section>
+      <footer mdcDialogActions>
+        <button mdcButton mdcDialogTrigger="close">Decline</button>
+        <button mdcButton mdcDialogTrigger="accept" mdcDialogDefault>Accept</button>
+      </footer>
+    </div>
   </div>
-  <div mdcDialogBackdrop></div>
+  <div mdcDialogScrim></div>
 </aside>
 
-<aside #dialog2="mdcDialog" mdcDialog mdcFocusTrap>
-  <div mdcDialogSurface>
-    <header mdcDialogHeader>
-      <h2 mdcDialogHeaderTitle>Choose a Ringtone</h2>
-    </header>
-    <section mdcDialogBody scrollable>
-      <ul mdcList>
-        <li mdcListItem>None</li>
-        <li mdcListItem>Callisto</li>
-        <li mdcListItem>Ganymede</li>
-        <li mdcListItem>Luna</li>
-        <li mdcListItem>Marimba</li>
-        <li mdcListItem>Schwifty</li>
-        <li mdcListItem>Callisto</li>
-        <li mdcListItem>Ganymede</li>
-        <li mdcListItem>Luna</li>
-        <li mdcListItem>Marimba</li>
-        <li mdcListItem>Schwifty</li>
-        <li mdcListItem>Callisto</li>
-        <li mdcListItem>Ganymede</li>
-        <li mdcListItem>Luna</li>
-        <li mdcListItem>Marimba</li>
-        <li mdcListItem>Schwifty</li>
-      </ul>
-    </section>
-    <footer mdcDialogFooter>
-      <button mdcButton mdcDialogCancel>Cancel</button>
-      <button mdcButton mdcDialogAccept>Accept</button>
-    </footer>
+<aside #dialog2="mdcDialog" mdcDialog>
+  <div mdcDialogContainer>
+    <div mdcDialogSurface>
+      <h2 mdcDialogTitle>Choose a Ringtone</h2>
+      <section mdcDialogContent class="scrollable">
+        <ul mdcList>
+          <li mdcListItem>None</li>
+          <li *ngFor="let item of items" mdcListItem>{{item}}</li>
+        </ul>
+      </section>
+      <footer mdcDialogActions>
+        <button mdcButton mdcDialogTrigger="close">Cancel</button>
+        <button mdcButton mdcDialogTrigger="accept" mdcDialogDefault>Accept</button>
+      </footer>
+    </div>
   </div>
-  <div mdcDialogBackdrop></div>
+  <div mdcDialogScrim></div>
 </aside>  
 </fieldset><div class="snippet-skip-line"></div>
