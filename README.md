@@ -20,59 +20,14 @@ It integrates [Material Components for the Web](https://github.com/material-comp
 * [Changelog](https://github.com/src-zone/material/blob/master/bundle/CHANGELOG.md)
 * [News (via twitter)](https://twitter.com/TheSourceZone)
 
-## Master branch status
-
-We're currently in the progress of upgrading to the latest version of material-components-web. This
-introduces a significant amount of breaking changes, caused by changes in material-components-web.
-Hence the status of the master branch is beta for the library code (the `bundle` directory and the `@blox/material`
-package we publish from there). The documentation website (the `site` directory) will currently not build on the
-`master` branch. We still need to update it to the latest `@blox/material` changes.
-
-The [stable_v0 branch](https://github.com/src-zone/material/tree/stable_v0) contains the branch for the latest
-non-beta builds with a working documentation website.
-
 ## Status
 
-Component            | Documentation |
--------------------- | --------- |
-button               | [docs &amp; demo](https://blox.src.zone/material/components/button) |
-card                 | [docs &amp; demo](https://blox.src.zone/material/components/card) |
-checkbox             | [docs &amp; demo](https://blox.src.zone/material/components/checkbox) |
-chips                | [docs &amp; demo](https://blox.src.zone/material/components/chips) |
-dialog               | [docs &amp; demo](https://blox.src.zone/material/components/dialog) |
-drawer               | [docs &amp; demo](https://blox.src.zone/material/components/drawer) |
-elevation            | [docs &amp; demo](https://blox.src.zone/material/components/elevation) |
-fab                  | [docs &amp; demo](https://blox.src.zone/material/components/fab) |
-form-field           | see docs &amp; demo for e.g. [radio](https://blox.src.zone/material/components/radio), and [checkbox](https://blox.src.zone/material/components/checkbox) |
-~~grid-list~~        | deprecated by the Material Components Web team |
-icon-button          | [docs &amp; demo](https://blox.src.zone/material/components/icon-button) |
-icon-toggle          | [docs &amp; demo](https://blox.src.zone/material/components/icon-toggle) |
-linear-progress      | [docs &amp; demo](https://blox.src.zone/material/components/linear-progress) |
-list                 | [docs &amp; demo](https://blox.src.zone/material/components/list) |
-menu                 | [docs &amp; demo](https://blox.src.zone/material/components/menu) |
-radio                | [docs &amp; demo](https://blox.src.zone/material/components/radio) |
-ripple               | [docs &amp; demo](https://blox.src.zone/material/components/ripple) |
-select               | [docs &amp; demo](https://blox.src.zone/material/components/select) |
-slider               | [docs &amp; demo](https://blox.src.zone/material/components/slider) |
-snackbar             | [docs &amp; demo](https://blox.src.zone/material/components/snackbar) |
-switch               | [docs &amp; demo](https://blox.src.zone/material/components/switch) |
-tabs                 | [docs &amp; demo](https://blox.src.zone/material/components/tab) |
-text-field           | [docs &amp; demo](https://blox.src.zone/material/components/text-field) |
-toolbar              | [docs &amp; demo](https://blox.src.zone/material/components/toolbar) |
-top-app-bar          | [docs &amp; demo](https://blox.src.zone/material/components/top-app-bar) |
+We're currently in the progress of upgrading to the latest version of material-components-web. This
+introduces a significant amount of breaking changes. Hence the status of the master branch is beta, and we're
+publishing beta releases from that branch.
 
-The following material-components-web packages provide styling (scss, css) only. As such they
-can be consumed directly from your Angular app, and we see no reason to wrap their functionality
-in Angular components or directives. Just use the styles and sass mixins as documented by the
-material-components-web team:
-
-Package              | Documentation |
----------------------| --------- |
-image-list           | [image-list documentation](https://github.com/material-components/material-components-web/blob/master/packages/mdc-image-list/README.md) |
-layout-grid          | [layout-grid documentation](https://github.com/material-components/material-components-web/blob/master/packages/mdc-layout-grid/README.md) |
-shape                | [shape documentation](https://github.com/material-components/material-components-web/blob/master/packages/mdc-shape/README.md) |
-theme                | [theme documentation](https://github.com/material-components/material-components-web/blob/master/packages/mdc-theme/README.md) |
-typography           | [typography documentation](https://github.com/material-components/material-components-web/blob/master/packages/mdc-typography/README.md) |
+The [stable_v0 branch](https://github.com/src-zone/material/tree/stable_v0) contains the branch for the latest
+non-beta builds.
 
 ## Building from source
 
