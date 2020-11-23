@@ -36,19 +36,18 @@ export class SnippetSnackbarComponent/*snip:skip*/extends AbstractSnippetCompone
     }
 
     show() {
-        let id = this.nextSnackbarId++;
+        this.nextSnackbarId++;
         let action = this.actionText;
         let message = this.messageText;
         let snackbarRef = this.snackbar.show({
             message: this.messageText,
             actionText: this.actionText,
-            multiline: this.multiline,
-            actionOnBottom: this.multiline && this.actionOnBottom
+            stacked: this.multiline
         });
-        snackbarRef.afterShow().subscribe(() => {
+        snackbarRef.afterOpened().subscribe(() => {
             this.currentMessage = '\'' + message + '\'';
         });
-        snackbarRef.afterHide().subscribe(() => {
+        snackbarRef.afterClosed().subscribe(() => {
             this.currentMessage = '<none>';
         });
         snackbarRef.action().subscribe(() => {

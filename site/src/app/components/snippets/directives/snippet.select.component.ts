@@ -15,8 +15,7 @@ import { AbstractSnippetComponent } from '../abstract.snippet.component';
 export class SnippetSelectComponent/*snip:skip*/extends AbstractSnippetComponent/*snip:endskip*/ {
     value: string;
     disabled = false;
-    private _box = false;
-    private _outlined = true;
+    outlined = true;
 
     //snip:skip
     constructor() {
@@ -30,25 +29,5 @@ export class SnippetSelectComponent/*snip:skip*/extends AbstractSnippetComponent
 
     clear() {
         this.value = null;
-    }
-
-    get box() {
-        return this._box;
-    }
-
-    set box(value: boolean) {
-        this._box = value;
-        if (value)
-            this._outlined = false;
-    }
-
-    get outlined() {
-        return this._outlined;
-    }
-
-    set outlined(value: boolean) {
-        this._outlined = value;
-        if (value)
-            this._box = false;
     }
 }

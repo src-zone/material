@@ -1,0 +1,20 @@
+.blox-snippet-page {
+    height: 400px;
+}
+
+// Drawer and toolbar and main-content should sit next to each other:
+.blox-demo-content {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+.blox-demo-main {
+    padding-left: 16px;
+}
+
+.mdc-drawer--modal {
+    // the default position is fixed, but in this demo we want to position the drawer
+    // inside its parent, not fixed to the viewport:
+    position: absolute;
+}

@@ -1,7 +1,9 @@
 <fieldset class="blox-snippet snippet-skip-line">
 <div mdcFormField>
   <div mdcSwitch>
-    <input mdcSwitchInput type="checkbox" [(ngModel)]="value" [disabled]="disabled"/>
+    <div mdcSwitchThumb>
+      <input mdcSwitchInput type="checkbox" [(ngModel)]="value" [disabled]="disabled"/>
+    </div>
   </div>
   <label mdcFormFieldLabel>On/off (now: {{value ? 'on' : 'off'}})</label>
 </div>

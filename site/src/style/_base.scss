@@ -66,3 +66,12 @@ span.blox-inline-svg {
     @include theme.prop(background-color, secondary);
  }
 }
+
+// don't show all sample drwawers above the scrim if we have one active modal drawer:
+.blox-main .mdc-drawer {
+  z-index: initial;
+
+  &.mdc-drawer--modal.mdc-drawer--open {
+    z-index: 6;
+  }
+}

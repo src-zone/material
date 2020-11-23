@@ -8,4 +8,8 @@
     height: 100px;
     padding: 1rem;
     cursor: pointer;
+
+    &[unbounded] {
+        overflow: visible;
+    }
 }

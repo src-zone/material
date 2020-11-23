@@ -1,0 +1,81 @@
+<fieldset class="blox-snippet snippet-skip-line">
+<div #viewport class="blox-snippet-page">
+  <aside [mdcDrawer]="drawerType" [(open)]="open">
+    <div mdcDrawerHeader *ngIf="header">
+      <h3 mdcDrawerTitle>Header Title</h3>
+      <h6 mdcDrawerSubtitle>subtitle</h6>
+    </div>
+    <div mdcDrawerContent mdcListGroup>
+      <nav mdcList>
+        <a mdcListItem href="javascript:void(0)">
+          <i mdcListItemGraphic class="material-icons" aria-hidden="true">inbox</i>Inbox
+        </a>
+        <a mdcListItem href="javascript:void(0)">
+          <i mdcListItemGraphic class="material-icons" aria-hidden="true">send</i>Sent Mail
+        </a>
+        <a mdcListItem href="javascript:void(0)">
+          <i mdcListItemGraphic class="material-icons" aria-hidden="true">drafts</i>Drafts
+        </a>
+      </nav>
+      <hr mdcListDivider>
+      <nav mdcList>
+          <a mdcListItem href="javascript:void(0)">
+            <i mdcListItemGraphic class="material-icons" aria-hidden="true">email</i>All Mail
+          </a>
+          <a mdcListItem href="javascript:void(0)">
+            <i mdcListItemGraphic class="material-icons" aria-hidden="true">delete</i>Trash
+          </a>
+      </nav>
+    </div>
+  </aside>
+  <div mdcDrawerScrim *ngIf="drawerType === 'modal'"></div>
+
+  <div class="blox-demo-content" [class.mdc-drawer-app-content]="drawerType === 'dismissible'">
+    <header mdcTopAppBar [viewport]="viewport" [fixedAdjust]="content">
+      <div mdcTopAppBarRow>
+        <section mdcTopAppBarSection alignStart>
+          <button mdcIconButton mdcTopAppBarNavIcon class="material-icons" (click)="toggleDrawer()">menu</button>
+          <span mdcTopAppBarTitle>{{drawerType | titlecase}} Drawer</span>
+        </section>
+      </div>
+    </header>
+
+    <main #content class="blox-demo-main">
+      <h1>{{drawerType | titlecase}} Drawer</h1>
+      <p>Click the menu icon above to {{open ? 'close' : 'open'}} the drawer, or use the controls below:</p>
+      <div mdcFormField>
+        <div mdcCheckbox>
+          <input mdcCheckboxInput type="checkbox" [(ngModel)]="open" [disabled]="drawerType === 'permanent'" />
+        </div>
+        <label mdcFormFieldLabel>Open drawer</label>
+      </div>
+      <br/>
+      <div mdcFormField>
+        <div mdcRadio>
+          <input mdcRadioInput type="radio" name="drawerType" value="dismissible" [(ngModel)]="drawerType" [disabled]="changeTypeDisabled" />
+        </div>
+        <label mdcFormFieldLabel>Dismissible Drawer</label>
+      </div>
+      <div mdcFormField>
+        <div mdcRadio>
+          <input mdcRadioInput type="radio" name="drawerType" value="modal" [(ngModel)]="drawerType" [disabled]="changeTypeDisabled" />
+        </div>
+        <label mdcFormFieldLabel>Modal Drawer</label>
+      </div>
+      <div mdcFormField>
+        <div mdcRadio>
+          <input mdcRadioInput type="radio" name="drawerType" value="permanent" [(ngModel)]="drawerType" [disabled]="changeTypeDisabled" />
+        </div>
+        <label mdcFormFieldLabel>Permanent Drawer</label>
+      </div>
+      <br/>
+      <div mdcFormField>
+        <div mdcCheckbox>
+          <input mdcCheckboxInput type="checkbox" [(ngModel)]="header" />
+        </div>
+        <label mdcFormFieldLabel>Add header</label>
+      </div>
+    </main>
+  </div>
+</div>
+</fieldset><div class="snippet-skip-line"></div>

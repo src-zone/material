@@ -6,37 +6,35 @@
 
 <p>Icon Toggle Buttons:</p>
 <div>
-  <button mdcIconButton id="favorite"
-    class="material-icons"
+  <button mdcIconToggle id="favorite"
     labelOn="Remove from favorites"
     labelOff="Add to favorites"
-    iconOn="favorite"
-    iconOff="favorite_border"
     [disabled]="disabled"
-    [(on)]="favorite"></button>
+    [(on)]="favorite">
+    <i mdcIcon="on" class="material-icons">favorite</i>
+    <i mdcIcon class="material-icons">favorite_border</i>
+  </button>
   <span>(Value: {{favorite}}. Uses an icon from Material Icons)</span>
 </div>
 <div>
-  <button mdcIconButton id="like"
+  <button mdcIconToggle id="like"
     labelOn="Do not like"
     labelOff="Like"
-    iconOn="fa-thumbs-up"
-    iconOff="fa-thumbs-o-up"
     [disabled]="disabled"
     [(on)]="like">
-    <i mdcIconButtonIcon class="fa"></i>
+    <i mdcIcon="on" class="fa fa-thumbs-up"></i>
+    <i mdcIcon class="fa fa-thumbs-o-up"></i>
   </button>
   <span>(Value: {{like}}. Uses an icon from Font Awesome)</span>
 </div>
 <div>
-  <button mdcIconButton id="closed"
+  <button mdcIconToggle id="closed"
     labelOn="Open envelope"
     labelOff="Close envelope"
-    iconOn="fa-envelope"
-    iconOff="fa-envelope-open-o"
     [disabled]="disabled"
     [(ngModel)]="closed">
-    <i mdcIconButtonIcon class="fa"></i>
+    <i mdcIcon="on" class="fa fa-envelope"></i>
+    <i mdcIcon class="fa fa-envelope-open-o"></i>
   </button>
   <span>(Value: {{closed}}. Used with FormModule <code>[(ngModel)]</code> binding)</span>
 </div>

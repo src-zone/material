@@ -13,6 +13,8 @@ import { AbstractSnippetComponent } from '../abstract.snippet.component';
     styleUrls: ['./snippet.list.component.scss']
 })
 export class SnippetListComponent/*snip:skip*/extends AbstractSnippetComponent/*snip:endskip*/ {
+    srcAvatar1 = require('!file-loader!../../../../assets/img/mdc-demos/animal1.svg').default;
+    srcAvatar2 = require('!file-loader!../../../../assets/img/mdc-demos/animal2.svg').default;
     startDetail = true;
     endDetail = true;
     avatar = false;

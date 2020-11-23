@@ -1,15 +1,28 @@
 <fieldset class="blox-snippet snippet-skip-line">
-<div mdcSelect [box]="box" [outlined]="outlined">
-  <select mdcSelectControl [(ngModel)]="value" [disabled]="disabled">
-    <option value="" disabled selected></option>
-    <option value="grains">Bread, Cereal, Rice, and Pasta</option>
-    <option value="vegetables" disabled>Vegetables</option>
-    <option value="fruit">Fruit</option>
-    <option value="dairy">Milk, Yogurt, and Cheese</option>
-    <option value="meat">Meat, Poultry, Fish, Dry Beans, Eggs, and Nuts</option>
-    <option value="fats">Fats, Oils, and Sweets</option>
-  </select>
-  <label mdcFloatingLabel>Pick a Food Group</label>
+
+<div mdcSelect [(ngModel)]="value" [disabled]="disabled">
+  <div mdcSelectAnchor>
+    <div mdcSelectText>{{value}}</div>
+    <span *ngIf="outlined; else notOutlined" mdcNotchedOutline>
+      <span mdcNotchedOutlineNotch>
+        <span mdcFloatingLabel>Pick a Food Group</span>
+      </span>
+    </span>
+    <ng-template #notOutlined>
+      <span mdcFloatingLabel>Pick a Food Group</span>
+    </ng-template>
+  </div>            
+  <div mdcSelectMenu>
+    <ul mdcList>
+      <!--li mdcListItem value="" disabled></li-->
+      <li mdcListItem value="grains">Bread, Cereal, Rice, and Pasta</li>
+      <li mdcListItem value="vegetables" disabled>Vegetables</li>
+      <li mdcListItem value="fruit">Fruit</li>
+      <li mdcListItem value="dairy">Milk, Yogurt, and Cheese</li>
+      <li mdcListItem value="meat">Meat, Poultry, Fish, Dry Beans, Eggs, and Nuts</li>
+      <li mdcListItem value="fats">Fats, Oils, and Sweets</li>
+    </ul>
+  </div>
 </div>
 <br/><br/>
 <div>Your choice: {{value}}</div>
@@ -20,12 +33,6 @@
     <input mdcCheckboxInput type="checkbox" [(ngModel)]="disabled"/>
   </div>
   <label mdcFormFieldLabel>Disable controls</label>
-</div>
-<div mdcFormField>
-  <div mdcCheckbox>
-    <input mdcCheckboxInput type="checkbox" [(ngModel)]="box"/>
-  </div>
-  <label mdcFormFieldLabel>Box</label>
 </div>
 <div mdcFormField>
   <div mdcCheckbox>

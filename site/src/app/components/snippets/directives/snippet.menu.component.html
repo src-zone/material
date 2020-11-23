@@ -1,18 +1,18 @@
 <fieldset class="blox-snippet snippet-skip-line">
 <div class="snippet-container" #viewport>
-  <div mdcMenuAnchor #anchor="mdcMenuAnchor" [style.top]="pTop" [style.bottom]="pBottom" [style.left]="pLeft" [style.right]="pRight">
-    <button mdcButton raised (click)="open = true">Reveal Menu</button>
-    <div mdcMenu
+  <div mdcMenuAnchor #anchor [style.top]="pTop" [style.bottom]="pBottom" [style.left]="pLeft" [style.right]="pRight">
+    <button mdcButton raised [mdcMenuTrigger]="menu">Reveal Menu</button>
+    <div mdcMenu #menu="mdcMenu"
         [(open)]="open"
         [menuAnchor]="anchor"
         (pick)="select($event.value)"
         [viewport]="viewport">
       <ul mdcList>
-        <li mdcListItem value="back">Back</li>
-        <li mdcListItem disabled value="forward">Forward</li>
-        <li mdcListItem value="reload">Reload</li>
+        <li mdcListItem value="back"><span mdcListItemText>Back</span></li>
+        <li mdcListItem disabled value="forward"><span mdcListItemText>Forward</span></li>
+        <li mdcListItem value="reload"><span mdcListItemText>Reload</span></li>
         <li mdcListDivider></li>
-        <li mdcListItem value="saveAs">Save As...</li>
+        <li mdcListItem value="saveAs"><span mdcListItemText>Save As...</span></li>
       </ul>
     </div>
   </div>

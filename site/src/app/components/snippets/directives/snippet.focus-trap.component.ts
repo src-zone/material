@@ -28,16 +28,15 @@ export class SnippetFocusTrapComponent/*snip:skip*/extends AbstractSnippetCompon
     //snip:endskip
 
     get focusTrap() {
-        return this._focusTrap !== null && this._focusTrap.active;
+        return !!this._focusTrap?.active;
     }
 
     set focusTrap(val: boolean) {
         let trapping = this.focusTrap;
         if (trapping !== !!val) {
-            if (trapping) {
+            if (trapping)
                 this._focusTrap.untrap();
-                this._focusTrap = null;
-            } else
+            else
                 this._focusTrap = this._focusTrapper.trapFocus();
         }
     }
