@@ -11,6 +11,7 @@ import { ThemeService } from './services';
 import { environment } from '../environments/environment';
 
 const messages = require('./messages.json');
+const libVersion = require(`../../package.json`).version;
 const defaultTitle = messages['default.title'];
 const defaultMetaDescription = messages['default.meta.description'];
 
@@ -20,6 +21,7 @@ const defaultMetaDescription = messages['default.meta.description'];
 })
 export class AppComponent implements AfterContentInit, OnDestroy {
     private onDestroy$: Subject<any> = new Subject();
+    version = libVersion;
     year = new Date().getFullYear();
     appliedTheme: string;
     svgAttributes = {
