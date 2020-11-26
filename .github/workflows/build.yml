@@ -1,4 +1,4 @@
-name: Build
+name: Build, Test, Preview
 
 on: [push]
 
@@ -40,6 +40,7 @@ jobs:
         run: npm run build
       - run: cd ..
       - name: Archive build artifacts
+        uses: actions/upload-artifact@v2
         with:
           name: bundlebuild
           path: |
@@ -71,6 +72,7 @@ jobs:
         run: npm run build
       - run: cd ..
       - name: Archive build artifacts
+        uses: actions/upload-artifact@v2
         with:
           name: sitebuild
           path: |
@@ -84,7 +86,8 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: sitebuild
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - name: Deploy preview site
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_BLOX_36B2F }}'
