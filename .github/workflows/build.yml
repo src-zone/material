@@ -94,5 +94,6 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_BLOX_36B2F }}'
           projectId: blox-36b2f
           entryPoint: site
+          channelId: master # documentation says this is not needed, action will create channels per branch & PR. Doesn't work for branch... (maybe for PR)?
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
