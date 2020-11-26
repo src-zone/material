@@ -1,0 +1,94 @@
+name: Build
+
+on: [push]
+
+jobs:
+  build-bundle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Use Node.js 14.15
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.15
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('bundle/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - run: cd bundle
+      - run: npm ci
+      - name: Test
+        run: npm run test || touch failure.marker
+      - run: cd ..
+      - name: Archive test results and coverage
+        uses: actions/upload-artifact@v2
+        with:
+          name: bundlecoverage
+          path: bundle/coverage
+      - name: Upload Coverage Data to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          file: ./bundle/coverage/lcof.info
+          flags: material,unittest
+          verbose: true
+      - name: Check for Test Failures
+        run: if [ -f ./bundle/failure.marker ] ; then exit 127; else exit 0; fi
+      - run: cd bundle
+      - name: Build
+        run: npm run build
+      - run: cd ..
+      - name: Archive build artifacts
+        with:
+          name: bundlebuild
+          path: |
+            - bundle/apidocs
+            - bundle/build
+            - bundle/dist
+  build-site:
+    runs-on: ubuntu-latest
+    needs: build-bundle
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Use Node.js 14.15
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.15
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('site/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Download bundle build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: bundlebuild
+      - run: cd site
+      - run: npm ci
+      - name: Build
+        run: npm run build
+      - run: cd ..
+      - name: Archive build artifacts
+        with:
+          name: sitebuild
+          path: |
+            - site/dist
+  deploy-site-preview:
+    runs-on: ubuntu-latest
+    needs: build-site
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download site build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: sitebuild
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_BLOX_36B2F }}'
+          projectId: blox-36b2f
+          entryPoint: site
+        env:
+          FIREBASE_CLI_PREVIEWS: hostingchannels
