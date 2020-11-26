@@ -20,7 +20,7 @@ jobs:
       - name: install dependencies
         run: cd bundle && npm ci
       - name: Test
-        run: cd bundle && (npm run test || touch failure.marker)
+        run: cd bundle && (npm run test:ci || touch failure.marker)
       - name: Archive test results and coverage
         uses: actions/upload-artifact@v2
         with:
