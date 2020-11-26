@@ -17,11 +17,10 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('bundle/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - run: cd bundle
-      - run: npm ci
+      - name: install dependencies
+        run: cd bundle && npm ci
       - name: Test
-        run: npm run test || touch failure.marker
-      - run: cd ..
+        run: cd bundle && (npm run test || touch failure.marker)
       - name: Archive test results and coverage
         uses: actions/upload-artifact@v2
         with:
@@ -30,15 +29,13 @@ jobs:
       - name: Upload Coverage Data to Codecov
         uses: codecov/codecov-action@v1
         with:
-          file: ./bundle/coverage/lcof.info
+          file: bundle/coverage/lcof.info
           flags: material,unittest
           verbose: true
       - name: Check for Test Failures
         run: if [ -f ./bundle/failure.marker ] ; then exit 127; else exit 0; fi
-      - run: cd bundle
       - name: Build
-        run: npm run build
-      - run: cd ..
+        run: cd bundle && npm run build
       - name: Archive build artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -66,11 +63,10 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: bundlebuild
-      - run: cd site
-      - run: npm ci
+      - name: install depenencies
+        run: cd site && npm ci
       - name: Build
-        run: npm run build
-      - run: cd ..
+        run: cd site && npm run build
       - name: Archive build artifacts
         uses: actions/upload-artifact@v2
         with:
