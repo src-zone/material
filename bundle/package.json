@@ -26,6 +26,7 @@
     "build-noclean": "npm run ngc && npm run bundle && npm run copy-types && npm run copy-metadata && npm run apidocs",
     "build": "npm run clean && npm run build-noclean",
     "test": "karma start",
+    "test:ci": "karma start",
     "test:watch": "karma start karma.conf.ts --single-run false"
   },
   "dependencies": {
