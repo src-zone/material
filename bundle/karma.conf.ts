@@ -2,6 +2,7 @@ const path = require('path');
 
 module.exports = (config) => {
     const isWatch = process.env.npm_lifecycle_script && process.env.npm_lifecycle_script.indexOf('--single-run false') !== -1;
+    const isHeadless = process.env.npm_lifecycle_event && process.env.npm_lifecycle_event.indexOf(':ci') !== -1;
     // Istanbul screws up typescript sourcemaps, so we have either sourcemaps to the typescript without coverage,
     //  or coverage but sourcemaps go to transpiled typescript:
     console.log(
@@ -11,6 +12,8 @@ module.exports = (config) => {
             'typescript sourcemaps ARE available, but coverage IS NOT recorded' :
             'typescript sourcemaps ARE NOT available, but coverage IS recorded'
         ));
+    if (isHeadless)
+        console.log('Running in Headless mode');
 
     config.set({
         basePath: '',
@@ -126,11 +129,15 @@ module.exports = (config) => {
         logLevel: config.LOG_INFO,
         autoWatch: true,
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: [isWatch ? 'ChromeDebugging' : 'Chrome'],
+        browsers: [isWatch ? 'ChromeDebugging' : (isHeadless ? 'ChromeHeadless' : 'Chrome')],
         customLaunchers: isWatch ? {
             ChromeDebugging: {
                 base: 'Chrome',
                 flags: ['--remote-debugging-port=9333']
+            },
+            ChromeHeadless: {
+                base: 'Chrome',
+                flags: ['--headless', '--disable-gpu', '--remote-debugging-port=9333']
             }
         } : undefined,
         singleRun: true
