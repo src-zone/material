@@ -14,11 +14,11 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('bundle/package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
       - name: install dependencies
-        run: cd bundle && npm ci
+        run: cd bundle && npm ci && cd ../site && npm ci
       - name: Test
         run: cd bundle && (npm run test:ci || touch failure.marker)
       - name: Archive test results and coverage
@@ -55,7 +55,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('site/package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
       - name: Download bundle build artifacts
@@ -66,7 +66,7 @@ jobs:
       - name: Log filetree
         run: find .
       - name: install depenencies
-        run: cd site && npm ci
+        run: cd bundle && npm ci && cd ../site && npm ci
       - name: Build
         run: cd site && npm run build
       - name: Archive build artifacts
