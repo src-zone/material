@@ -8,5 +8,6 @@
 /site/build/
 /site/dist/
 /site/node_modules/
+/site/.firebase/
 /.project
 /tmp

@@ -59,9 +59,9 @@ let nextId = 1;
 export class MdcMenuDirective implements AfterContentInit, OnInit, OnDestroy {
     private onDestroy$: Subject<any> = new Subject();
     private onListChange$: Subject<any> = new Subject();
-    /** docs-private */
+    /** @docs-private */
     @Output() readonly itemsChanged: EventEmitter<void> = new EventEmitter();
-    /** docs-private */
+    /** @docs-private */
     @Output() readonly itemValuesChanged: EventEmitter<void> = new EventEmitter();
     @HostBinding('class.mdc-menu') _cls = true;
     private _id: string;

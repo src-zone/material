@@ -131,6 +131,7 @@ export class MdcSnackbarService {
         }
     }
 
+    /** @docs-private */
     onDestroy() {
         this.onDestroy$.next();
         this.onDestroy$.complete();
