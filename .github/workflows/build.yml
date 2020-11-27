@@ -79,7 +79,7 @@ jobs:
           name: sitebuild
           path: |
             site/dist
-  deploy-site-preview:
+  deploy-site:
     runs-on: ubuntu-latest
     needs: build-site
     steps:
