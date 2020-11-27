@@ -63,12 +63,12 @@ jobs:
         with:
           name: bundlebuild
           path: bundle
-      - name: Log filetree
-        run: find .
       - name: install depenencies
         run: cd bundle && npm ci && cd ../site && npm ci
       - name: Build
         run: cd site && npm run build
+      - name: Create 404 page
+        run: cp site/dist/material.html site/dist/404.html
       - name: Archive build artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -85,8 +85,6 @@ jobs:
         with:
           name: sitebuild
           path: site/dist
-      - name: Log filetree
-        run: find .
       - name: Deploy preview site
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
