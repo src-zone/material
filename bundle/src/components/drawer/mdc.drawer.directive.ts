@@ -292,11 +292,37 @@ export class MdcDrawerDirective implements AfterContentInit, OnDestroy {
     }
 }
 
+/**
+ * Use this directive for marking the sibling element after a dismissible `mdcDrawer`.
+ * This will apply styling so that the open/close animations work correctly.
+ */
+@Directive({
+    selector: '[mdcDrawerAppContent]'
+})
+export class MdcDrawerAppContent {
+    @HostBinding('class.mdc-drawer-app-content') _cls = true;
+
+    /**
+     * Set this to false to disable the styling for sibbling app content of a dismissible drawer.
+     * This is typically only used when your `mdcDrawer` type is dynamic. In those cases you can
+     * disable the `mdcDrawerAppContent` when you set your drawer type to anything other than
+     * `dismissible`.
+     */
+    @Input() get mdcDrawerAppContent() {
+        return this._cls;
+    }
+
+    set mdcDrawerAppContent(value: any) {
+        this._cls = asBoolean(value);
+    }
+}
+
 export const DRAWER_DIRECTIVES = [
     MdcDrawerTitleDirective,
     MdcDrawerSubtitleDirective,
     MdcDrawerHeaderDirective,
     MdcDrawerContentDirective,
     MdcDrawerScrimDirective,
-    MdcDrawerDirective
+    MdcDrawerDirective,
+    MdcDrawerAppContent
 ];

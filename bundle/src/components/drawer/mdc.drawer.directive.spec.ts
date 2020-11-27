@@ -20,7 +20,8 @@ const templateWithDrawer = `
     </nav>
   </div>
 </aside>
-<div mdcDrawerScrim id="scrim"></div>
+<div *ngIf="type === 'modal'" mdcDrawerScrim id="scrim"></div>
+<div [mdcDrawerAppContent]="type === 'dismissible'" id="appContent">app content</div>
 `;
 
 describe('MdcDrawerDirective', () => {
@@ -51,15 +52,16 @@ describe('MdcDrawerDirective', () => {
         testComponent.type = type;
         testComponent.open = open;
         fixture.detectChanges();
-        const drawer = fixture.nativeElement.querySelector('#drawer');
+        const drawer: HTMLElement = fixture.nativeElement.querySelector('#drawer');
+        const appContent: HTMLElement = fixture.nativeElement.querySelector('#appContent');
         if (open)
             animationCycle(drawer);
         //const mdcDrawer = fixture.debugElement.query(By.directive(MdcDrawerDirective)).injector.get(MdcDrawerDirective);
-        return { fixture, testComponent, drawer };
+        return { fixture, testComponent, drawer, appContent };
     }
 
     it('dismissible: structure', fakeAsync(() => {
-        const { fixture, testComponent, drawer } = setup('dismissible');
+        const { fixture, testComponent, drawer, appContent } = setup('dismissible');
         validateDom(drawer, {
             type: 'dismissible',
             open: false
@@ -71,10 +73,11 @@ describe('MdcDrawerDirective', () => {
         validateDom(drawer, {
             type: 'dismissible'
         });
+        expect(appContent.classList).toContain('mdc-drawer-app-content');
     }));
 
     it('modal: structure', fakeAsync(() => {
-        const { fixture, testComponent, drawer } = setup('modal');
+        const { fixture, testComponent, drawer, appContent } = setup('modal');
         validateDom(drawer, {
             type: 'modal',
             open: false
@@ -86,15 +89,17 @@ describe('MdcDrawerDirective', () => {
         validateDom(drawer, {
             type: 'modal'
         });
+        expect(appContent.classList).not.toContain('mdc-drawer-app-content');
     }));
 
     it('permanent: structure', fakeAsync(() => {
-        const { fixture, drawer } = setup('permanent');
+        const { fixture, drawer, appContent } = setup('permanent');
         fixture.detectChanges();
         validateDom(drawer, {
             type: 'permanent',
             open: true
         });
+        expect(appContent.classList).not.toContain('mdc-drawer-app-content');
     }));
 
     it('close while opening is handled correctly', fakeAsync(() => {
