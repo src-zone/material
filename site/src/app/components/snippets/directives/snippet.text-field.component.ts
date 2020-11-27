@@ -12,13 +12,11 @@ import { AbstractSnippetComponent } from '../abstract.snippet.component';
   templateUrl: './snippet.text-field.component.html'
 })
 export class SnippetTextFieldComponent/*snip:skip*/extends AbstractSnippetComponent/*snip:endskip*/ {
-    private _box = true;
-    private _outlined = false;
+    outlined = false;
     rtl = false;
     disabled = false;
     required = false;
     persistent = false;
-    dense = false;
     field1: string;
     field2: string;
 
@@ -33,25 +31,5 @@ export class SnippetTextFieldComponent/*snip:skip*/extends AbstractSnippetCompon
 
     get dir() {
         return this.rtl ? "rtl" : null;
-    }
-
-    get box() {
-        return this._box;
-    }
-
-    set box(value: boolean) {
-        this._box = value;
-        if (value)
-            this._outlined = false;
-    }
-
-    get outlined() {
-        return this._outlined;
-    }
-
-    set outlined(value: boolean) {
-        this._outlined = value;
-        if (value)
-            this._box = false;
     }
 }

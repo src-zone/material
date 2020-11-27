@@ -16,7 +16,6 @@ export class SnippetTextFieldTextareaComponent/*snip:skip*/extends AbstractSnipp
     disabled = false;
     required = false;
     persistent = false;
-    dense = false;
     field1: string;
 
     //snip:skip

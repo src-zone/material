@@ -22,7 +22,7 @@ import {
     SnackbarDirectivesComponent,
     SwitchDirectivesComponent,
     TabDirectivesComponent,
-    // TextFieldDirectivesComponent,
+    TextFieldDirectivesComponent,
     // ToolbarDirectivesComponent,
     // TopAppBarDirectivesComponent,
     // UtilityDirectivesComponent
@@ -50,7 +50,7 @@ const routes: Routes = [
     {path: SnackbarDirectivesComponent.DOC_HREF, component: SnackbarDirectivesComponent},
     {path: SwitchDirectivesComponent.DOC_HREF, component: SwitchDirectivesComponent},
     {path: TabDirectivesComponent.DOC_HREF, component: TabDirectivesComponent},
-    // {path: TextFieldDirectivesComponent.DOC_HREF, component: TextFieldDirectivesComponent},
+    {path: TextFieldDirectivesComponent.DOC_HREF, component: TextFieldDirectivesComponent},
     // {path: ToolbarDirectivesComponent.DOC_HREF, component: ToolbarDirectivesComponent},
     // {path: TopAppBarDirectivesComponent.DOC_HREF, component: TopAppBarDirectivesComponent},
     // {path: UtilityDirectivesComponent.DOC_HREF, component: UtilityDirectivesComponent}

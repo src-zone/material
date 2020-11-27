@@ -1,23 +1,22 @@
 <fieldset class="blox-snippet snippet-skip-line">
 <div [dir]="dir">
   <h3>Multiline input:</h3>
-  <div mdcTextField [helperText]="input1Help" [dense]="dense">
+
+  <label mdcTextField [helperText]="input1Help">
     <textarea mdcTextFieldInput type="text" #input1="ngModel" [(ngModel)]="field1" [disabled]="disabled"
       minlength="8" [required]="required" rows="8" cols="40"></textarea>
-    <label mdcFloatingLabel>Multiline Input</label>
-  </div>
+    <span mdcNotchedOutline>
+      <span mdcNotchedOutlineNotch>
+        <span mdcFloatingLabel>Multiline Input</span>
+      </span>
+    </span>
+  </label>
   <p mdcTextFieldHelperText #input1Help="mdcHelperText" validation>
     <span *ngIf="input1.errors?.required">Input is required</span>
     <span *ngIf="input1.errors?.minlength">Input requires at least 8 characters</span>
   </p>
 
   <h3>Modify behaviour of text-field:</h3>
-  <div mdcFormField>
-    <div mdcCheckbox>
-      <input mdcCheckboxInput type="checkbox" [(ngModel)]="dense"/>
-    </div>
-    <label mdcFormFieldLabel>Dense</label>
-  </div>
   <div mdcFormField>
     <div mdcCheckbox>
       <input mdcCheckboxInput type="checkbox" [(ngModel)]="disabled"/>

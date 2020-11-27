@@ -30,7 +30,7 @@ import {
   SnippetTabIconsComponent,
   SnippetTabScrollerComponent,
   SnippetTabSimpleComponent,
-  // SnippetTextFieldComponent, SnippetTextFieldIconComponent, SnippetTextFieldTextareaComponent,
+  SnippetTextFieldComponent, SnippetTextFieldIconComponent, SnippetTextFieldTextareaComponent,
   // SnippetToolbarComponent, SnippetToolbarFlexibleComponent,
   // SnippetTopAppBarComponent
 } from './components/components';
@@ -70,7 +70,7 @@ import {
     SnippetTabIconsComponent,
     SnippetTabScrollerComponent,
     SnippetTabSimpleComponent,
-    // SnippetTextFieldComponent, SnippetTextFieldIconComponent, SnippetTextFieldTextareaComponent,
+    SnippetTextFieldComponent, SnippetTextFieldIconComponent, SnippetTextFieldTextareaComponent,
     // SnippetToolbarComponent, SnippetToolbarFlexibleComponent,
     // SnippetTopAppBarComponent
   ]
