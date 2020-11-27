@@ -14,16 +14,10 @@ import { AbstractSnippetComponent } from '../abstract.snippet.component';
 export class SnippetTabIconsComponent/*snip:skip*/extends AbstractSnippetComponent/*snip:endskip*/ {
   showText = true;
   tabs = [
-    {
-      name: 'Tab 1',
-      content: 'First tab',
-      icon: 'phone'
-    },
-    {
-      name: 'Tab Two',
-      content: 'Second tab',
-      icon: 'favorite'
-    }
+    {name: 'Tab 1', content: 'First tab', icon: 'phone'},
+    {name: 'Tab Two', content: 'Second tab', icon: 'access_time'},
+    {name: 'Tab Three', content: 'Third tab', icon: 'near_me'},
+    {name: 'Tab Four', content: 'Fourth tab', icon: 'favorite'}
   ];
   active = 0;
 

@@ -1,16 +1,27 @@
 <div class="blox-snippet snippet-skip-line">
 <div mdcFormField>
-    <div mdcCheckbox>
-        <input mdcCheckboxInput type="checkbox" [(ngModel)]="showText"/>
-    </div>
-    <label mdcFormFieldLabel>Show Text</label>
+  <div mdcCheckbox>
+    <input mdcCheckboxInput type="checkbox" [(ngModel)]="showText"/>
+  </div>
+  <label mdcFormFieldLabel>Show Text</label>
 </div>
 <hr/>
 <nav mdcTabBar>
-    <a *ngFor="let tab of tabs; let i = index" mdcTab (activate)="activate(i)" tabindex="0">
-        <i mdcTabIcon class="material-icons">{{tab.icon}}</i>
-        <span *ngIf="showText" mdcTabIconText>{{tab.name}}</span>
-    </a>
+  <div mdcTabScroller>
+    <div mdcTabScrollerArea>
+      <div mdcTabScrollerContent>
+        <a *ngFor="let tab of tabs; let i = index" mdcTab (activate)="activate(i)" tabindex="0">
+          <span mdcTabContent>
+            <span mdcTabIcon class="material-icons">{{tab.icon}}</span>
+            <span *ngIf="showText" mdcTabLabel>{{tab.name}}</span>
+          </span>
+          <span mdcTabIndicator>
+            <span mdcTabIndicatorContent></span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
 </nav>
 <div class="blox-tab-sample-content">{{tabs[active].content}}</div>
 </div><div class="snippet-skip-line"></div>
