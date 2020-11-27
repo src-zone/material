@@ -29,7 +29,7 @@
     </aside>
     <div mdcDrawerScrim *ngIf="drawerType === 'modal'"></div>
 
-    <main #content class="blox-demo-main" [class.mdc-drawer-app-content]="drawerType === 'dismissible'">
+    <main [mdcDrawerAppContent]="drawerType === 'dismissible'" #content class="blox-demo-main">
       <h1>{{drawerType | titlecase}} Drawer</h1>
       <p>Click the menu icon above to {{open ? 'close' : 'open'}} the drawer, or use the controls below:</p>
       <div mdcFormField>
