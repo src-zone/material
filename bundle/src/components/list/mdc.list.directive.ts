@@ -357,11 +357,11 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
     @ContentChildren(MdcListItemPrimaryTextDirective, {descendants: true}) _primaryTexts: QueryList<MdcListItemTextDirective>;
     @ContentChildren(MdcCheckboxDirective, {descendants: true}) _checkboxes: QueryList<MdcListItemTextDirective>;
     @ContentChildren(MdcRadioDirective, {descendants: true}) _radios: QueryList<MdcListItemTextDirective>;
-    /** docs-private */
+    /** @docs-private */
     @Output() readonly itemsChanged: EventEmitter<void> = new EventEmitter();
-    /** docs-private */
+    /** @docs-private */
     @Output() readonly itemValuesChanged: EventEmitter<void> = new EventEmitter();
-    /** docs-private */
+    /** @docs-private */
     @Output() readonly itemAction: EventEmitter<{index: number, value: string}> = new EventEmitter();
     @HostBinding('class.mdc-list--two-line') _twoLine = false;
     /**

@@ -8,7 +8,7 @@ import { MdcListItemDirective } from '../list/mdc.list.directive';
 
 /**
  * @docs-private
- * Represents the different types of drawers that are supported: permanent, persistent, and temporary.
+ * Represents the different types of drawers that are supported: permanent, dismissible, and modal.
  */
 export type MdcDrawerType = 'permanent' | 'dismissible' | 'modal';
 
@@ -280,7 +280,7 @@ export class MdcDrawerDirective implements AfterContentInit, OnDestroy {
     onDocumentClick(event: MouseEvent) {
         if (this.type === 'modal') {
             // instead of listening to click event on mdcDrawerScrim (which would require wiring between
-            // mdcDrawerScrim and mdcDrawer), we just listen to document clicks:
+            // mdcDrawerScrim and mdcDrawer), we just listen to document clicks.
             let el: Element | null = event.target as Element;
             while (el) {
                 if (el === this._elm.nativeElement)

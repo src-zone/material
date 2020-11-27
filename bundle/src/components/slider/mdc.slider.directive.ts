@@ -408,6 +408,7 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
         this._onTouched();
     }
 
+    /** @docs-private */
     asNumber(value: number | string): number {
         if (value == null)
             return <number>value;
