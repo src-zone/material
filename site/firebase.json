@@ -1,0 +1,40 @@
+{
+  "hosting": {
+    "public": "dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "cleanUrls": true,
+    "trailingSlash": false,
+    "redirects": [
+      {"source": "/", "destination": "/material", "type": 301}
+    ],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          {"key": "Strict-Transport-Security", "value": "max-age=31536000; includeSubDomains"},
+          {"key": "Referrer-Policy", "value": "same-origin"},
+          {"key": "X-Content-Type-Options", "value": "nosniff"},
+          {"key": "X-Frame-Options", "value": "SAMEORIGIN"},
+          {"key": "X-Xss-Protection", "value": "1; mode=block"},
+          {"key": "Cache-Control", "value": "max-age=3600,public,stale-while-revalidate=43200,proxy-revalidate"}
+        ]
+      },
+      {
+        "source": "404.html",
+        "headers": [
+          {"key": "Cache-Control", "value": "max-age=300,public,stale-while-revalidate=3600,proxy-revalidate"}
+        ]
+      },
+      {
+        "regex": ".*\\.[0-9a-f]{20}\\..*",
+        "headers": [
+          {"key": "Cache-Control", "value": "max-age=31536000,public,immutable"}
+        ]
+      }
+    ]
+  }
+}
