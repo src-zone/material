@@ -30,7 +30,7 @@
   </aside>
   <div mdcDrawerScrim *ngIf="drawerType === 'modal'"></div>
 
-  <div class="blox-demo-content" [class.mdc-drawer-app-content]="drawerType === 'dismissible'">
+  <div [mdcDrawerAppContent]="drawerType === 'dismissible'" class="blox-demo-content">
     <header mdcTopAppBar [viewport]="viewport" [fixedAdjust]="content">
       <div mdcTopAppBarRow>
         <section mdcTopAppBarSection alignStart>
