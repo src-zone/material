@@ -1,6 +1,19 @@
 <div class="blox-snippet snippet-skip-line">
 <nav mdcTabBar>
-  <a *ngFor="let tab of tabs; let i = index" mdcTab (activate)="activate(i)" tabindex="0">{{tab.name}}</a>
+  <div mdcTabScroller>
+    <div mdcTabScrollerArea>
+      <div mdcTabScrollerContent>
+        <a *ngFor="let tab of tabs; let i = index" mdcTab (activate)="activate(i)" tabindex="0">
+          <span mdcTabContent>
+            <span mdcTabLabel>{{tab.name}}</span>
+          </span>
+          <span mdcTabIndicator>
+            <span mdcTabIndicatorContent></span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
 </nav>
 <div class="blox-tab-sample-content">{{tabs[active].content}}</div>
 </div><div class="snippet-skip-line"></div>

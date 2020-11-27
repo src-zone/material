@@ -17,7 +17,7 @@ import { SelectDirectivesComponent } from './select.directives.component';
 import { SliderDirectivesComponent } from './slider.directives.component';
 import { SnackbarDirectivesComponent } from './snackbar.directives.component';
 import { SwitchDirectivesComponent } from './switch.directives.component';
-// tab
+import { TabDirectivesComponent } from './tab.directives.component';
 // import { TextFieldDirectivesComponent } from './text-field.directives.component';
 // import { TopAppBarDirectivesComponent } from './top-app-bar.directives.component';
 // import { UtilityDirectivesComponent } from './utility.directives.component';
@@ -41,7 +41,7 @@ export * from './select.directives.component';
 export * from './slider.directives.component';
 export * from './snackbar.directives.component';
 export * from './switch.directives.component';
-// tab
+export * from './tab.directives.component';
 // export * from './text-field.directives.component';
 // export * from './top-app-bar.directives.component';
 // export * from './utility.directives.component';
@@ -66,7 +66,7 @@ export const MDC_DIRECTIVE_DOC_COMPONENTS = [
     SliderDirectivesComponent,
     SnackbarDirectivesComponent,
     SwitchDirectivesComponent,
-    // tab
+    TabDirectivesComponent,
     // TextFieldDirectivesComponent,
     // TopAppBarDirectivesComponent,
     // UtilityDirectivesComponent

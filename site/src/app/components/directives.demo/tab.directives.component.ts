@@ -12,6 +12,6 @@ export class TabDirectivesComponent {
     apiDoc: SafeHtml;
 
     constructor(private sanitizer: DomSanitizer) {
-      this.apiDoc = this.sanitizer.bypassSecurityTrustHtml(require('!raw-loader!../../../../../bundle/apidocs/tabs.html').default);
+      this.apiDoc = this.sanitizer.bypassSecurityTrustHtml(require('!raw-loader!../../../../../bundle/apidocs/tab.html').default);
     }
 }
