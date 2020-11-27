@@ -8,6 +8,9 @@
     ],
     "cleanUrls": true,
     "trailingSlash": false,
+    "redirects": [
+      {"source": "/", "destination": "/material", "type": 301}
+    ],
     "headers": [
       {
         "source": "**",
