@@ -1,41 +1,45 @@
 <fieldset class="blox-snippet snippet-skip-line">
-<div mdcTextField [helperText]="input1Help" [box]="box" [outlined]="outlined" [dense]="dense">
+<label mdcTextField [helperText]="input1Help">
   <i mdcTextFieldIcon class="material-icons">face</i>
   <input mdcTextFieldInput type="text" #input1="ngModel" [(ngModel)]="field1" [disabled]="disabled"
     [required]="required"/>
-  <label mdcFloatingLabel>Input 1</label>
+  <span *ngIf="outlined" mdcNotchedOutline>
+    <span mdcNotchedOutlineNotch>
+      <span mdcFloatingLabel>Input 1</span>
+    </span>
+  </span>
+  <span *ngIf="!outlined" mdcFloatingLabel>Input 1</span>
+</label>
+<div mdcTextFieldHelperLine>
+  <p mdcTextFieldHelperText #input1Help="mdcHelperText" [persistent]="persistent">
+    Input with leading icon
+  </p>
 </div>
-<p mdcTextFieldHelperText #input1Help="mdcHelperText" [persistent]="persistent">
-  Input with leading icon
-</p>
-<div mdcTextField [helperText]="input2Help" [box]="box" [outlined]="outlined" [dense]="dense">
+<p></p>
+
+<label mdcTextField [helperText]="input2Help">
   <input mdcTextFieldInput type="text" #input2="ngModel" [(ngModel)]="field2" [disabled]="disabled"
-      [required]="required"/>
-  <label mdcFloatingLabel>Input 2</label>
-  <i mdcTextFieldIcon (click)="clearField2()" tabindex="0" class="material-icons">delete</i>
+    [required]="required"/>
+  <i mdcTextFieldIcon (interact)="clearField2()" class="material-icons">delete</i>
+  <span *ngIf="outlined" mdcNotchedOutline>
+    <span mdcNotchedOutlineNotch>
+      <span mdcFloatingLabel>Input 2</span>
+    </span>
+  </span>
+  <span *ngIf="!outlined" mdcFloatingLabel>Input 2</span>
+</label>
+<div mdcTextFieldHelperLine>
+  <p mdcTextFieldHelperText #input2Help="mdcHelperText" [persistent]="persistent">
+    <span>Input with trailing action icon</span>
+  </p>
 </div>
-<p mdcTextFieldHelperText #input2Help="mdcHelperText" [persistent]="persistent">
-  <span>Input with trailing action icon</span>
-</p>
 
 <p>Modify behaviour of text-fields:</p>
-<div mdcFormField>
-  <div mdcCheckbox>
-    <input mdcCheckboxInput type="checkbox" [(ngModel)]="box"/>
-  </div>
-  <label mdcFormFieldLabel>Box</label>
-</div>
 <div mdcFormField>
   <div mdcCheckbox>
     <input mdcCheckboxInput type="checkbox" [(ngModel)]="outlined"/>
   </div>
   <label mdcFormFieldLabel>Outlined</label>
-</div>
-<div mdcFormField>
-  <div mdcCheckbox>
-    <input mdcCheckboxInput type="checkbox" [(ngModel)]="dense"/>
-  </div>
-  <label mdcFormFieldLabel>Dense</label>
 </div>
 <div mdcFormField>
   <div mdcCheckbox>

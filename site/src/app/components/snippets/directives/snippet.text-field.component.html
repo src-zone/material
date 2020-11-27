@@ -1,42 +1,46 @@
 <fieldset class="blox-snippet snippet-skip-line">
 <div [dir]="dir">
-  <div mdcTextField [helperText]="input1Help" [box]="box" [outlined]="outlined" [dense]="dense">
+
+  <label mdcTextField [helperText]="input1Help">
     <input mdcTextFieldInput type="text" #input1="ngModel" [(ngModel)]="field1" [disabled]="disabled"
       [required]="required"/>
-    <label mdcFloatingLabel>Input with Helper Text</label>
+    <span *ngIf="outlined" mdcNotchedOutline>
+      <span mdcNotchedOutlineNotch>
+        <span mdcFloatingLabel>Input with Helper Text</span>
+      </span>
+    </span>
+    <span *ngIf="!outlined" mdcFloatingLabel>Input with Helper Text</span>
+  </label>
+  <div mdcTextFieldHelperLine>
+    <p mdcTextFieldHelperText #input1Help="mdcHelperText" [persistent]="persistent">
+      Help text
+    </p>
   </div>
-  <p mdcTextFieldHelperText #input1Help="mdcHelperText" [persistent]="persistent">
-    Help text
-  </p>
+  <p></p>
 
-  <div mdcTextField [helperText]="input2Help" [box]="box" [outlined]="outlined" [dense]="dense">
+  <label mdcTextField [helperText]="input2Help">
     <input mdcTextFieldInput type="text" #input2="ngModel" [(ngModel)]="field2" [disabled]="disabled"
-      minlength="8" [required]="required"/>
-    <label mdcFloatingLabel>Input with Validation</label>
+    minlength="8"  [required]="required"/>
+    <span *ngIf="outlined" mdcNotchedOutline>
+      <span mdcNotchedOutlineNotch>
+        <span mdcFloatingLabel>Input with Validation</span>
+      </span>
+    </span>
+    <span *ngIf="!outlined" mdcFloatingLabel>Input with Validation</span>
+  </label>
+  <div mdcTextFieldHelperLine>
+    <p mdcTextFieldHelperText #input2Help="mdcHelperText" validation [persistent]="persistent">
+      <span *ngIf="input2.errors?.required">Input is required</span>
+      <span *ngIf="input2.errors?.minlength">Input requires at least 8 characters</span>
+    </p>
   </div>
-  <p mdcTextFieldHelperText #input2Help="mdcHelperText" validation [persistent]="persistent">
-    <span *ngIf="input2.errors?.required">Input is required</span>
-    <span *ngIf="input2.errors?.minlength">Input requires at least 8 characters</span>
-  </p>
 
   <p>Modify behaviour of text-fields:</p>
-  <div mdcFormField>
-    <div mdcCheckbox>
-      <input mdcCheckboxInput type="checkbox" [(ngModel)]="box"/>
-    </div>
-    <label mdcFormFieldLabel>Box</label>
-  </div>
   <div mdcFormField>
     <div mdcCheckbox>
       <input mdcCheckboxInput type="checkbox" [(ngModel)]="outlined"/>
     </div>
     <label mdcFormFieldLabel>Outlined</label>
-  </div>
-  <div mdcFormField>
-    <div mdcCheckbox>
-      <input mdcCheckboxInput type="checkbox" [(ngModel)]="dense"/>
-    </div>
-    <label mdcFormFieldLabel>Dense</label>
   </div>
   <div mdcFormField>
     <div mdcCheckbox>
