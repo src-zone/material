@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: 'routed-page2',
-    template: `
+    template: `<br>
         This is Page 2!
         <br>
         <br>
