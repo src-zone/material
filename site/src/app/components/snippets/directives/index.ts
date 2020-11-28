@@ -23,6 +23,7 @@ export * from './snippet.slider.component';
 export * from './snippet.snackbar.component';
 export * from './snippet.switch.component';
 export * from './snippet.tab.icons.component';
+export * from './snippet.tab.routing.component';
 export * from './snippet.tab.scroller.component';
 export * from './snippet.tab.simple.component';
 export * from './snippet.text-field.component';
