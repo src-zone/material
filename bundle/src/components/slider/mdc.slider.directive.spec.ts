@@ -200,6 +200,24 @@ describe('MdcSliderDirective', () => {
         testValueAndRangeChanges(FormsTestComponent, true);
     }));
 
+    it('can be discrete and have markers', fakeAsync(() => {
+        const { fixture } = setup(TestComponent);
+        const testComponent = fixture.debugElement.injector.get(TestComponent);
+
+        const slider: HTMLElement = fixture.nativeElement.querySelector('.mdc-slider');
+        // dosn't have pin markers:
+        expect(slider.querySelector('div.mdc-slider__pin')).toBeNull();
+        expect(slider.querySelector('div.mdc-slider__pin-value-marker')).toBeNull();
+
+        testComponent.discrete = true;
+        testComponent.markers = true;
+        fixture.detectChanges(); tick(25);
+
+        // now must have pin markers:
+        expect(slider.querySelector('div.mdc-slider__pin')).not.toBeNull();
+        expect(slider.querySelector('div.mdc-slider__pin-value-marker')).not.toBeNull();
+    }));
+
     function testDisabling(testComponentType: any, withForms: boolean) {
         const { fixture } = setup(testComponentType, withForms);
         const testComponent = fixture.debugElement.injector.get(testComponentType);
