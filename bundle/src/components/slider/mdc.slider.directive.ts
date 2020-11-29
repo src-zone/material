@@ -4,7 +4,7 @@ import { AfterContentInit, AfterViewInit, Directive, ElementRef, EventEmitter, f
 import { DOCUMENT } from '@angular/common';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { MDCSliderFoundation, MDCSliderAdapter } from '@material/slider';
-import { applyPassive } from '@material/dom/events';
+import { events } from '@material/dom';
 import { asBoolean } from '../../utils/value.utils';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
@@ -85,9 +85,9 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
         removeAttribute: (name: string) => {this._rndr.removeAttribute(this._root.nativeElement, name); },
         computeBoundingRect: () => this._root.nativeElement.getBoundingClientRect(),
         getTabIndex: () => this._root.nativeElement.tabIndex,
-        registerInteractionHandler: (evtType, handler) => this._registry.listen(this._rndr, evtType, handler, this._root, applyPassive()),
+        registerInteractionHandler: (evtType, handler) => this._registry.listen(this._rndr, evtType, handler, this._root, events.applyPassive()),
         deregisterInteractionHandler: (evtType, handler) => this._registry.unlisten(evtType, handler),
-        registerThumbContainerInteractionHandler: (evtType, handler) => this._registry.listenElm(this._rndr, evtType, handler, this._elmThumbCntr, applyPassive()),
+        registerThumbContainerInteractionHandler: (evtType, handler) => this._registry.listenElm(this._rndr, evtType, handler, this._elmThumbCntr, events.applyPassive()),
         deregisterThumbContainerInteractionHandler: (evtType, handler) => this._registry.unlisten(evtType, handler),
         registerBodyInteractionHandler: (evtType, handler) => this._registry.listenElm(this._rndr, evtType, handler, this.document.body),
         deregisterBodyInteractionHandler: (evtType, handler) => this._registry.unlisten(evtType, handler),

@@ -2,7 +2,7 @@ import { AfterContentInit, ContentChild, ContentChildren, Directive, ElementRef,
     OnDestroy, OnInit, Optional, Output, QueryList, Renderer2, Self, Inject, HostListener, forwardRef } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { MDCDialogFoundation, MDCDialogAdapter, util, cssClasses } from '@material/dialog';
-import { matches } from '@material/dom/ponyfill'
+import { ponyfill } from '@material/dom'
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 import { MdcButtonDirective } from '../button/mdc.button.directive';
 import { AbstractMdcFocusInitial, AbstractMdcFocusTrap, FocusTrapHandle } from '../focus-trap/abstract.mdc.focus-trap';
@@ -244,7 +244,7 @@ export class MdcDialogDirective implements AfterContentInit, OnDestroy {
         removeBodyClass: (className: string) => this._rndr.removeClass(this.document.body, className),
         areButtonsStacked: () => this._footers?.first ? util.areTopsMisaligned(this._footers.first?._buttons.map(b => b._elm.nativeElement)) : false,
         clickDefaultButton: () => this._defaultActions?.first?._elm.nativeElement.click(),
-        eventTargetMatches: (target, selector) => target ? matches(target as Element, selector) : false,
+        eventTargetMatches: (target, selector) => target ? ponyfill.matches(target as Element, selector) : false,
         getActionFromEvent: (evt: Event) => {
             const action = this.closest(evt.target as Element, this._triggers.toArray());
             return action?.mdcDialogTrigger;

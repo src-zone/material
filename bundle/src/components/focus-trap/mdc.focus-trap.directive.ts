@@ -1,5 +1,5 @@
 import { ContentChildren, Directive, ElementRef, Input, OnDestroy, QueryList, forwardRef } from '@angular/core';
-import { FocusTrap } from '@material/dom/focus-trap';
+import { focusTrap } from '@material/dom';
 import { AbstractMdcFocusTrap, AbstractMdcFocusInitial, FocusTrapHandle } from './abstract.mdc.focus-trap';
 
 /**
@@ -23,14 +23,14 @@ let activeTrap: FocusTrapHandleImpl = null;
 /** @docs-private */
 class FocusTrapHandleImpl implements FocusTrapHandle {
     private _active = true;
-    private trap: FocusTrap;
+    private trap: focusTrap.FocusTrap;
 
     constructor(public _elm: ElementRef, focusElm: HTMLElement, skipFocus: boolean) {
         if (activeTrap)
             // Stacking focus tracks (i.e. changing to another focus trap, and returning
             // to the previous on deactivation) is not supported:
             throw new Error('An mdcFocusTrap is already active.');
-        this.trap = new FocusTrap(_elm.nativeElement, {
+        this.trap = new focusTrap.FocusTrap(_elm.nativeElement, {
             initialFocusEl: focusElm,
             skipInitialFocus: skipFocus
         });

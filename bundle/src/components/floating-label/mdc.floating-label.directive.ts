@@ -1,7 +1,7 @@
 import { AfterContentInit, Directive, ElementRef, forwardRef, HostBinding,
   OnDestroy, Renderer2, Input, OnInit } from '@angular/core';
 import { MDCFloatingLabelFoundation, MDCFloatingLabelAdapter } from '@material/floating-label';
-import { estimateScrollWidth } from '@material/dom/ponyfill';
+import { ponyfill } from '@material/dom';
 import { AbstractMdcLabel } from '../abstract/abstract.mdc.label';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 import { HasId } from '../abstract/mixin.mdc.hasid';
@@ -36,7 +36,7 @@ export class MdcFloatingLabelDirective extends MdcFloatingLabelDirectiveBase imp
         removeClass: (className: string) => {
             this._rndr.removeClass(this._elm.nativeElement, className);
         },
-        getWidth:() => estimateScrollWidth(this._elm.nativeElement),
+        getWidth:() => ponyfill.estimateScrollWidth(this._elm.nativeElement),
         registerInteractionHandler: (type, handler) => {
             this.registry.listen(this._rndr, type, handler, this._elm);
         },
