@@ -44,7 +44,6 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
      */
     @Output() stepValueChange: EventEmitter<number> = new EventEmitter();
     private trackCntr: HTMLElement;
-    private thumbCntr: HTMLElement;
     private _elmThumbCntr: HTMLElement;
     private _elmSliderPin: HTMLElement;
     private _elmValueMarker: HTMLElement;
@@ -183,7 +182,7 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
         // in which case we create new child elements:
         if (this.trackCntr) {
             this._rndr.removeChild(this._root.nativeElement, this.trackCntr);
-            this._rndr.removeChild(this._root.nativeElement, this.thumbCntr);
+            this._rndr.removeChild(this._root.nativeElement, this._elmThumbCntr);
         }
         this.trackCntr = this.addElement(this._root.nativeElement, 'div', ['mdc-slider__track-container']);
         this._elmTrack = this.addElement(this.trackCntr, 'div', ['mdc-slider__track']);
