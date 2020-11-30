@@ -2,7 +2,7 @@ import { AfterContentInit, ContentChildren, Directive, ElementRef, HostBinding, 
     NgZone, OnDestroy, QueryList, Renderer2 } from '@angular/core';
 import { MDCTopAppBarAdapter, MDCTopAppBarBaseFoundation,
     MDCTopAppBarFoundation, MDCFixedTopAppBarFoundation, MDCShortTopAppBarFoundation } from '@material/top-app-bar';
-import {applyPassive} from '@material/dom/events';
+import { events } from '@material/dom';
 import { asBoolean, asBooleanOrNull } from '../../utils/value.utils';
 
 /**
@@ -208,9 +208,9 @@ export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
         this.initFixedAdjust();
 
         this.zone.runOutsideAngular(() => {
-            (this._viewport || window).addEventListener('scroll', this.handleScroll, applyPassive());
-            (this._viewport || window).addEventListener('touchmove', this.updateViewport, applyPassive());
-            window.addEventListener('resize', this.handleResize, applyPassive());
+            (this._viewport || window).addEventListener('scroll', this.handleScroll, events.applyPassive());
+            (this._viewport || window).addEventListener('touchmove', this.updateViewport, events.applyPassive());
+            window.addEventListener('resize', this.handleResize, events.applyPassive());
         });
         if (this.viewport && (this._type === 'short' || this._type === 'fixed'))
             this._updateViewPort();
@@ -239,9 +239,9 @@ export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
     }
 
     private removeScrollListeners() {
-        (this._viewport || window).removeEventListener('scroll', this.handleScroll, applyPassive());
-        (this._viewport || window).removeEventListener('touchmove', this.updateViewport, applyPassive());
-        window.removeEventListener('resize', this.handleResize, applyPassive());
+        (this._viewport || window).removeEventListener('scroll', this.handleScroll, events.applyPassive());
+        (this._viewport || window).removeEventListener('touchmove', this.updateViewport, events.applyPassive());
+        window.removeEventListener('resize', this.handleResize, events.applyPassive());
     }
 
     /**

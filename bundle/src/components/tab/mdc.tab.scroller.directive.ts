@@ -1,9 +1,7 @@
 import { AfterContentInit, ContentChildren, Directive, ElementRef,
     HostBinding, OnDestroy, Renderer2, QueryList, Inject } from '@angular/core';
-import { MDCTabScrollerFoundation, MDCTabScrollerAdapter } from '@material/tab-scroller';
-import { computeHorizontalScrollbarHeight } from '@material/tab-scroller/util';
-import { applyPassive } from '@material/dom/events';
-import { matches } from '@material/dom/ponyfill'
+import { MDCTabScrollerFoundation, MDCTabScrollerAdapter, util } from '@material/tab-scroller';
+import { events, ponyfill } from '@material/dom';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -51,7 +49,7 @@ export class MdcTabScrollerDirective implements AfterContentInit, OnDestroy {
     @ContentChildren(AbstractMdcTabDirective, {descendants: true}) _tabs: QueryList<AbstractMdcTabDirective>;
     private document: Document;
     private _adapter: MDCTabScrollerAdapter = {
-        eventTargetMatchesSelector: (target, selector) => matches(target as Element, selector),
+        eventTargetMatchesSelector: (target, selector) => ponyfill.matches(target as Element, selector),
         addClass: (name) => this._rndr.addClass(this._el.nativeElement, name),
         removeClass: (name) => this._rndr.removeClass(this._el.nativeElement, name),
         addScrollAreaClass: (name) => this._rndr.addClass(this._area._el.nativeElement, name),
@@ -64,7 +62,7 @@ export class MdcTabScrollerDirective implements AfterContentInit, OnDestroy {
         getScrollAreaOffsetWidth: () => this._area._el.nativeElement.offsetWidth,
         computeScrollAreaClientRect: () => this._area._el.nativeElement.getBoundingClientRect(),
         computeScrollContentClientRect: () => this._content._el.nativeElement.getBoundingClientRect(),
-        computeHorizontalScrollbarHeight: () => computeHorizontalScrollbarHeight(this.document)
+        computeHorizontalScrollbarHeight: () => util.computeHorizontalScrollbarHeight(this.document)
     };
     _foundation: MDCTabScrollerFoundation = null;
 
@@ -94,11 +92,11 @@ export class MdcTabScrollerDirective implements AfterContentInit, OnDestroy {
         this._foundation.init();
         // manual registration of event listeners, because we need applyPassive, which is not (yet)
         // supported by angular bindings:
-        this.registry.listen(this._rndr, 'wheel', this._handleInteraction, this._area._el, applyPassive());
-        this.registry.listen(this._rndr, 'touchstart', this._handleInteraction, this._area._el, applyPassive());
-        this.registry.listen(this._rndr, 'pointerdown', this._handleInteraction, this._area._el, applyPassive());
-        this.registry.listen(this._rndr, 'mousedown', this._handleInteraction, this._area._el, applyPassive());
-        this.registry.listen(this._rndr, 'keydown', this._handleInteraction, this._area._el, applyPassive());
+        this.registry.listen(this._rndr, 'wheel', this._handleInteraction, this._area._el, events.applyPassive());
+        this.registry.listen(this._rndr, 'touchstart', this._handleInteraction, this._area._el, events.applyPassive());
+        this.registry.listen(this._rndr, 'pointerdown', this._handleInteraction, this._area._el, events.applyPassive());
+        this.registry.listen(this._rndr, 'mousedown', this._handleInteraction, this._area._el, events.applyPassive());
+        this.registry.listen(this._rndr, 'keydown', this._handleInteraction, this._area._el, events.applyPassive());
         this.registry.listen(this._rndr, 'transitionend', this._handleTransitionEnd, this._content._el);
     }
 

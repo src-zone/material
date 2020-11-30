@@ -3,8 +3,8 @@ import { AfterContentInit, ContentChildren, Directive, ElementRef, forwardRef, H
 import { NgControl } from '@angular/forms';
 import { MDCTextFieldFoundation, MDCTextFieldAdapter } from '@material/textfield';
 import { MDCLineRippleFoundation, MDCLineRippleAdapter } from '@material/line-ripple';
-import { MDCTextFieldHelperTextFoundation, MDCTextFieldHelperTextAdapter } from '@material/textfield/helper-text';
-import { MDCTextFieldIconFoundation, MDCTextFieldIconAdapter } from '@material/textfield/icon';
+import { MDCTextFieldHelperTextFoundation, MDCTextFieldHelperTextAdapter } from '@material/textfield';
+import { MDCTextFieldIconFoundation, MDCTextFieldIconAdapter } from '@material/textfield';
 import { MdcFloatingLabelDirective } from '../floating-label/mdc.floating-label.directive';
 import { AbstractMdcInput } from '../abstract/abstract.mdc.input';
 import { asBoolean, asNumberOrNull } from '../../utils/value.utils';
@@ -547,6 +547,7 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
         });
     }
 
+    /** @docs-private */
     protected getRippleInteractionElement() {
         return this._input?._elm;
     }
@@ -584,13 +585,13 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
     }
 
     /** @docs-private */
-    @HostBinding('class.mdc-text-field--outlined') @Input()
+    @HostBinding('class.mdc-text-field--outlined')
     get outlined() {
         return !!this._outline;
     }
 
     /** @docs-private */
-    @HostBinding('class.mdc-text-field--no-label') @Input()
+    @HostBinding('class.mdc-text-field--no-label')
     get noLabel() {
         return !this._floatingLabel;
     }

@@ -1,9 +1,8 @@
 import { ElementRef, Renderer2, HostListener } from '@angular/core';
 import { MDCRippleFoundation, MDCRippleAdapter, util } from '@material/ripple';
-import { applyPassive } from '@material/dom/events';
-import { matches } from '@material/dom/ponyfill';
+import { events } from '@material/dom';
+import { ponyfill } from '@material/dom';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
-import { SpecificEventListener } from '@material/base/types';
 
 /** @docs-private */
 export abstract class AbstractMdcRipple {
@@ -17,12 +16,12 @@ export abstract class AbstractMdcRipple {
         containsEventTarget: (target) => this._rippleElm.nativeElement.contains(target),
         registerInteractionHandler: (type, handler) => {
             if (this.getRippleInteractionElement())
-                this._registry.listenElm(this._renderer, type, handler, this.getRippleInteractionElement().nativeElement, applyPassive());
+                this._registry.listenElm(this._renderer, type, handler, this.getRippleInteractionElement().nativeElement, events.applyPassive());
         },
         deregisterInteractionHandler: (type, handler) => {
             this._registry.unlisten(type, handler);
         },
-        registerDocumentInteractionHandler: (type, handler) => this._registry.listenElm(this._renderer, type, handler, document, applyPassive()),
+        registerDocumentInteractionHandler: (type, handler) => this._registry.listenElm(this._renderer, type, handler, document, events.applyPassive()),
         deregisterDocumentInteractionHandler: (type, handler) => this._registry.unlisten(type, handler),
         registerResizeHandler: (handler) => {
             this._registry.listenElm(this._renderer, 'resize', handler, window);
@@ -135,7 +134,7 @@ export abstract class AbstractMdcRipple {
     }
 
     protected isActiveElement(element: HTMLElement) {
-        return element == null ? false : matches(element, ':active');
+        return element == null ? false : ponyfill.matches(element, ':active');
     }
 
     protected isRippleSurfaceDisabled() {
