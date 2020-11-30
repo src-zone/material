@@ -29,5 +29,5 @@
   </nav>
 
 </div>
-<pre *ngIf="showCode && active"><code highlightJs [source]="snippet.code[active]" [lang]="active"></code></pre>
+<pre *ngIf="showCode && active"><code highlightJs [source]="snippet.code[active]" [lang]="language(active)"></code></pre>
 <ng-content select="[bloxSample]"></ng-content>

@@ -49,7 +49,8 @@ const routes: Routes = [
     {path: SliderDirectivesComponent.DOC_HREF, component: SliderDirectivesComponent},
     {path: SnackbarDirectivesComponent.DOC_HREF, component: SnackbarDirectivesComponent},
     {path: SwitchDirectivesComponent.DOC_HREF, component: SwitchDirectivesComponent},
-    {path: TabDirectivesComponent.DOC_HREF, component: TabDirectivesComponent},
+    {path: TabDirectivesComponent.DOC_HREF, component: TabDirectivesComponent, loadChildren: () =>
+        import(/* webpackChunkName: "rtabs" */'./components/snippets/directives/snippet.tab.routing.module').then(m => m.AppModule)},
     {path: TextFieldDirectivesComponent.DOC_HREF, component: TextFieldDirectivesComponent},
     // {path: ToolbarDirectivesComponent.DOC_HREF, component: ToolbarDirectivesComponent},
     // {path: TopAppBarDirectivesComponent.DOC_HREF, component: TopAppBarDirectivesComponent},

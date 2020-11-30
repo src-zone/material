@@ -60,6 +60,13 @@ export class CodeSampleComponent implements AfterContentInit {
             return this.openStackblitz ? 'edit' : 'hourglass_empty'
     }
 
+    language(source) {
+        const extension = source.substring(source.lastIndexOf('.') + 1);
+        if (extension === 'ts')
+            return 'typescript';
+        return extension;
+    }
+
     stackblitz() {
         if (this.openStackblitz)
             this.openStackblitz();
@@ -80,9 +87,14 @@ export class CodeSampleComponent implements AfterContentInit {
                 'src/polyfills.ts': require('raw-loader!../../../stackblitz.template/src/polyfills.ts.template').default,
                 'src/main.ts': require('raw-loader!../../../stackblitz.template/src/main.ts.template').default,
                 'src/styles.scss': require('raw-loader!../../../stackblitz.template/src/styles.scss.template').default,
-                'src/index.html': require('raw-loader!../../../stackblitz.template/src/index.html.template').default,
-                'src/app/app.module.ts': require('raw-loader!../../../stackblitz.template/src/app/app.module.ts.template').default
-            };
+                'src/index.html': require('raw-loader!../../../stackblitz.template/src/index.html.template').default
+            };            
+            for (let name in this.snippet.code) {
+                if (this.snippet.code.hasOwnProperty(name) && name.indexOf('.') !== -1)
+                    files[`src/app/${name}`] = this.snippet.code[name];
+            }
+            if (!files['src/app/app.module.ts'])
+                files['src/app/app.module.ts'] = require('raw-loader!../../../stackblitz.template/src/app/app.module.ts.template').default;
             const appTitle = this.elm.nativeElement.querySelector('h3').textContent;
             const mainSourceName = 'src/app/' + this.snippet.mainImport + '.ts';
             const templateSourceName = 'src/app/' + this.snippet.mainImport + '.html';
