@@ -18,6 +18,10 @@ header.blox-header {
   }
   .mdc-icon-button {@include icon-button.ink-color(variables.$mdc-theme-secondary);}
 
+  .mdc-top-app-bar__row.blox-header-icon-actions {
+    z-index: 2; // without this the theme-switcher menu-surface will appear under the second row (the menu tabs)
+  }
+
   .blox-material-header-logo {
     z-index: 8; // above header so entire logo is clickable
     position: absolute;
