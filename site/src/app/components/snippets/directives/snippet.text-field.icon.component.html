@@ -2,7 +2,7 @@
 <label mdcTextField [helperText]="input1Help">
   <i mdcTextFieldIcon class="material-icons">face</i>
   <input mdcTextFieldInput type="text" #input1="ngModel" [(ngModel)]="field1" [disabled]="disabled"
-    [required]="required"/>
+    [required]="required" autocomplete="off"/>
   <span *ngIf="outlined" mdcNotchedOutline>
     <span mdcNotchedOutlineNotch>
       <span mdcFloatingLabel>Input 1</span>
@@ -19,7 +19,7 @@
 
 <label mdcTextField [helperText]="input2Help">
   <input mdcTextFieldInput type="text" #input2="ngModel" [(ngModel)]="field2" [disabled]="disabled"
-    [required]="required"/>
+    [required]="required" autocomplete="off"/>
   <i mdcTextFieldIcon (interact)="clearField2()" class="material-icons">delete</i>
   <span *ngIf="outlined" mdcNotchedOutline>
     <span mdcNotchedOutlineNotch>
