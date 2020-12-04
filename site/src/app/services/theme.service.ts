@@ -27,7 +27,13 @@ export class ThemeService {
                 this._themes.dark.css = href;
             }
         });
-        this._theme.next('dark');
+        Promise.resolve().then(() => {
+            const savedTheme = localStorage?.getItem('theme');
+            if (savedTheme && this._themes[savedTheme]?.css && savedTheme !== 'dark')
+                this.theme = savedTheme;
+            else
+                this._theme.next('dark');
+        });
     }
 
     get themes(): string[] {
@@ -39,8 +45,11 @@ export class ThemeService {
     }
 
     set theme(theme: string) {
-        this._link.setAttribute('href', this._themes[theme].css);
-        this._theme.next(theme);
+        if (this._link.getAttribute('href') !== this._themes[theme].css) {
+            this._link.setAttribute('href', this._themes[theme].css);
+            this._theme.next(theme);
+            localStorage && localStorage.setItem('theme', theme);
+        }
     }
 
     get theme$(): Observable<string> {

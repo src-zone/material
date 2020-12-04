@@ -15,8 +15,11 @@
   }
 
   table {
-    @include card.outline(card.$outline-color);
-    @include card.shape-radius(2px);
+    // some trickery to get a border with a radius, while also
+    // using border-callapse:
+    border-radius: 4px;
+    border-style: hidden;
+    box-shadow: 0 0 0 1px card.$outline-color; // this draws the border
     border-collapse: collapse;
     border-spacing: 0;
     margin: 0 0 32px 0;
@@ -30,9 +33,11 @@
       text-align: left;
     }
 
-    td {
-      @include card.outline(card.$outline-color);
+    tr.blox-docs-properties-row:not(:last-child) {
+      border-bottom: 1px solid card.$outline-color;
+    }
 
+    td {
       font-weight: 400;
       padding: 8px 16px;
 
@@ -78,9 +83,6 @@
         .blox-docs-input-marker, .blox-docs-property-name, .blox-docs-property-type {
           display: inline;
         }
-      }
-      tr {
-        @include card.outline(card.$outline-color);
       }
     }
   }
