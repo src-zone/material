@@ -1,7 +1,8 @@
+@use "sass:map";
 @use "app.scss" with (
   $top-bar-fill-color: #212121
 );
-
+@use "variables";
 @use "@material/checkbox/_index.scss" as checkbox;
 @use "@material/icon-button/_index.scss" as icon-button;
 @use "@material/tab-indicator/_index.scss" as tab-indicator;
@@ -19,6 +20,9 @@
   .mdc-tab-indicator {
     @include tab-indicator.underline-color(secondary);
   }
+}
+.mdc-button.blox-button-attract {
+  font-weight: map.get(variables.$mdc-font-weight-original-values, medium);
 }
 
 @import "highlight/dark";

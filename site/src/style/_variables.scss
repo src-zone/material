@@ -20,13 +20,21 @@ $mdc-on-primary: #000 !default;
 $mdc-on-secondary: #000 !default;
 $mdc-on-surface: #fff !default;
 
+$mdc-font-weight-original-values: (
+  thin: 100,
+  light: 300,
+  regular: 400,
+  medium: 500,
+  bold: 700,
+  black: 900
+) !default;
 $mdc-font-weight-values: (
   thin: 100,      // mdc default: 100
   light: 200,     // mdc default: 300
   regular: 300,   // mdc default: 400
   medium: 400,    // mdc default: 500
   bold: 600,      // mdc default: 700
-  black: 800,     // mdc default: 900
+  black: 800      // mdc default: 900
 ) !default;
 
 $text-on-background: rgba(255,255,255,.87) !default;
