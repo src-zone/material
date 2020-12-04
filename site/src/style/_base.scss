@@ -56,7 +56,7 @@ span.blox-inline-svg {
   @include button.filled-accessible(variables.$mdc-theme-secondary);
 }
 
-// don't show all sample drwawers above the scrim if we have one active modal drawer:
+// don't show all sample drawers above the scrim if we have one active modal drawer:
 .blox-main .mdc-drawer {
   z-index: initial;
 
