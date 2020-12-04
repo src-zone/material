@@ -9,7 +9,8 @@
         <div mdcRadio>
           <input mdcRadioInput type="radio" name="theme" [value]="key" [checked]="key === theme"/>
         </div>
-        <span mdcListItemText>{{getName(key)}}</span>
+        <span mdcListItemText>{{getName(key)}}</span>&nbsp;&nbsp;
+        <i mdcListItemMeta [innerHTML]="svg" class="blox-theme-thumb-svg theme-thumb-{{key}}"></i>
       </li>
     </ul>
   </div>

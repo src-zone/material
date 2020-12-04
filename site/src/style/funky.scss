@@ -1,11 +1,15 @@
+@use "sass:map";
+@use "theme-colors";
+$theme: map.get(theme-colors.$colors, funky);
 @use "app.scss" with (
-  $mdc-theme-primary: #e8009a,
-  $mdc-theme-secondary:  #00e871,
-  $mdc-theme-background: #f5f5f5,
+  $mdc-theme-primary: map.get($theme, primary),
+  $mdc-theme-secondary: map.get($theme, secondary),
+  $mdc-theme-background: map.get($theme, surface),
+  $mdc-on-primary: map.get($theme, on-primary),
+  $mdc-on-secondary: map.get($theme, on-secondary),
+  $mdc-on-surface: map.get($theme, on-surface),
+  $toned-bg-color: map.get($theme, footer-surface),
   $mdc-theme-error: #b00020,
-  $mdc-on-primary: #fff,
-  $mdc-on-secondary: #000,
-  $mdc-on-surface: #000,
   $mdc-font-weight-values: (
     thin: 100,
     light: 300,
@@ -15,7 +19,6 @@
     black: 900,
   ),
   $text-on-background: rgba(0, 0, 0, .87),
-  $toned-bg-color: #e8e8e8,
   $top-bar-elevation: false,
   $bg-fast: url(../assets/img/clipart/rocket.png),
   $bg-themeable: url(../assets/img/clipart/theming.png),

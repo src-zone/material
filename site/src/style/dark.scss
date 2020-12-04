@@ -1,6 +1,15 @@
 @use "sass:map";
+@use "theme-colors";
+$theme: map.get(theme-colors.$colors, dark);
 @use "app.scss" with (
-  $top-bar-fill-color: #212121
+  $top-bar-fill-color: map.get($theme, surface),
+  $mdc-theme-primary: map.get($theme, primary),
+  $mdc-theme-secondary: map.get($theme, secondary),
+  $mdc-theme-background: map.get($theme, surface),
+  $mdc-on-primary: map.get($theme, on-primary),
+  $mdc-on-secondary: map.get($theme, on-secondary),
+  $mdc-on-surface: map.get($theme, on-surface),
+  $toned-bg-color: map.get($theme, footer-surface)
 );
 @use "variables";
 @use "@material/checkbox/_index.scss" as checkbox;

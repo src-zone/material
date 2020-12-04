@@ -1,0 +1,21 @@
+@use "theme-colors";
+@use "sass:map";
+@use "sass:color";
+
+.blox-theme-thumb-svg {
+  width: 24px;
+  @each $theme in map.keys(theme-colors.$colors) {
+    &.theme-thumb-#{$theme} {
+      $map: map.get(theme-colors.$colors, $theme);
+      .th-footer-d { fill: color.adjust(map.get($map, footer-surface), $lightness: -5%); }
+      .th-footer-l { fill: color.adjust(map.get($map, footer-surface), $lightness: +5%); }
+      .th-secondary-d { fill: color.adjust(map.get($map, secondary), $lightness: -5%); }
+      .th-secondary-l { fill: color.adjust(map.get($map, secondary), $lightness: +5%); }
+      .th-primary-d { fill: color.adjust(map.get($map, primary), $lightness: -5%); }
+      .th-primary-l { fill: color.adjust(map.get($map, primary), $lightness: +5%); }
+      .th-surface-d { fill: color.adjust(map.get($map, surface), $lightness: -5%); }
+      .th-surface-l { fill: color.adjust(map.get($map, surface), $lightness: +5%); }
+      .th-on-surface { fill: map.get($map, on-surface); }
+    }
+  }
+}
