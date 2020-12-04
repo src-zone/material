@@ -26,6 +26,10 @@ main {
   flex: 1 1 auto;
 }
 
+a {
+  @include theme.prop(color, variables.$mdc-on-surface);
+}
+
 .blox-container {
   @include mixins.blox-container;
 }

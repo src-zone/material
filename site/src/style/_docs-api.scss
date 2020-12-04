@@ -3,10 +3,10 @@
 
 .blox-docs-api {
   .blox-docs-class-selector-name {
-    font-family: "Roboto Mono", monospace;
+    font-family: variables.$code-font-family;
   }
   .blox-docs-method-name-cell {
-    font-family: "Roboto Mono", monospace;
+    font-family: variables.$code-font-family;
   }
 
   code.blox-docs-method-returns-type,
@@ -38,7 +38,7 @@
 
       &.blox-docs-properties-name-cell, &.blox-docs-method-parameter-cell, &.blox-docs-method-returns-type-cell {
         font-size: 14px;
-        font-family: "Roboto Mono", monospace;
+        font-family: variables.$code-font-family;
         .blox-docs-property-name, .blox-docs-method-parameter-name {
           margin: 0;
           font-weight: 600;
