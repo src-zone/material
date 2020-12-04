@@ -16,7 +16,7 @@ header.blox-header {
   @if variables.$top-bar-fill-color {
     @include top-app-bar.fill-color-accessible(variables.$top-bar-fill-color);
   }
-  .mdc-icon-button {@include icon-button.ink-color(variables.$mdc-theme-secondary);}
+  .mdc-icon-button {@include icon-button.ink-color(variables.$top-bar-button-color);}
 
   .mdc-top-app-bar__row.blox-header-icon-actions {
     z-index: 2; // without this the theme-switcher menu-surface will appear under the second row (the menu tabs)

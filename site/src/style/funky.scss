@@ -20,6 +20,7 @@ $theme: map.get(theme-colors.$colors, funky);
   ),
   $text-on-background: rgba(0, 0, 0, .87),
   $top-bar-elevation: false,
+  $top-bar-button-color: #00e871, // same color as logo, not a theme color
   $bg-fast: url(../assets/img/clipart/rocket.png),
   $bg-themeable: url(../assets/img/clipart/theming.png),
   $bg-responsive: url(../assets/img/clipart/webdesign.png),
