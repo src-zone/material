@@ -10,7 +10,8 @@
   $surface: variables.$mdc-theme-background,
   $on-primary: variables.$mdc-on-primary,
   $on-secondary: variables.$mdc-on-secondary,
-  $on-surface: variables.$mdc-on-surface
+  $on-surface: variables.$mdc-on-surface,
+  $error: variables.$mdc-theme-error
 );
 @use "@material/typography" with (
   $font-weight-values: variables.$mdc-font-weight-values,
