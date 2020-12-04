@@ -14,7 +14,7 @@ import { AbstractSnippetComponent } from '../abstract.snippet.component';
 })
 export class SnippetCardComponent/*snip:skip*/extends AbstractSnippetComponent/*snip:endskip*/ {
     rtl = false;
-    outlined = false;
+    outlined = true;
     //snip:skip
     constructor() {
         super({

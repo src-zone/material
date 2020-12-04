@@ -1,7 +1,5 @@
-@use "@material/theme";
-@use "@material/typography";
-@use "@material/rtl";
-@use "@material/card";
+@use "@material/rtl";  // snippet-skip-line (@use not supported by stackblitz)
+@use "@material/card"; // snippet-skip-line (@use not supported by stackblitz)
 
 .custom-card-container {
     display: flex;
@@ -17,25 +15,21 @@
     .custom-card__primary {
         padding: 1rem;
         h2 {
-            @include typography.typography('headline6');
             margin: 0;
         }
         h3 {
-            @include typography.typography('subtitle2');
-            @include theme.prop(color, text-secondary-on-background);
+            opacity: 0.54;
             margin: 0;
         }
     }
 
     .custom-card__secondary {
-        @include typography.typography('body2');
-        @include theme.prop(color, text-secondary-on-background);
+        opacity: 0.54;
         padding: 0 1rem 8px;
     }
 
     .custom-card-group-heading {
-        @include typography.typography('subtitle2');
-        @include theme.prop(color, text-secondary-on-light);
+        opacity: 0.54;
         padding: 8px 16px;
     }
 
@@ -45,12 +39,10 @@
         color: inherit;
 
         h2 {
-            @include typography.typography('headline5');
             margin: 0 0 4px 0;                
         }
         p {
-            @include typography.typography('body2');
-            @include theme.prop(color, text-secondary-on-light);
+            opacity: 0.54;
             margin: 0;
         }
     }
@@ -66,33 +58,34 @@
             h2 {
                 padding: 8px 16px;
                 margin: 0;
-                @include typography.typography('subtitle1');
                 background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.5) 100%);
-                color: white;
             }
         }
     }
 
     &.custom-card-music {
-        @include card.shape-radius(24px 4px, true);
+        @include card.shape-radius(24px 4px, true); // snippet-skip-line
 
         .custom-card-music-row {
             display: flex;
             border-top-left-radius: inherit;
+            //snip:skip
             @include rtl.rtl {
                 border-top-left-radius: 0;
                 border-top-right-radius: inherit;
             }
+            //snip:endskip
         }
 
         [mdcCardMedia] {
             width: 110px;
             border-top-left-radius: inherit;
-          
+            //snip:skip
             @include rtl.rtl {
               border-top-left-radius: 0;
               border-top-right-radius: inherit;
             }
+            //snip:endskip
         }
 
         .custom-card-music-info {
@@ -101,17 +94,7 @@
             padding: 8px 16px;
 
             h2 {
-                @include typography.typography('headline5');
                 margin: 0;
-            }
-
-            .custom-card-music-artist {
-                @include typography.typography('body2');
-            }
-
-
-            .custom-card-music-year {
-                @include typography.typography('body2');
             }
         }
     }
