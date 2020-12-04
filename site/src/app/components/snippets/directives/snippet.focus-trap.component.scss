@@ -1,10 +1,9 @@
 .blox-focus-trap {
-    margin: 32px;
     padding: 32px;
 
     &.blox-focus-trap-active {
         position: fixed;
-        z-index: 7;
+        z-index: 10;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
@@ -17,7 +16,7 @@
     &.blox-focus-trap-active {
         display: initial;
         position: fixed;
-        z-index: 6;
+        z-index: 9;
         top: 0;
         left: 0;
         width: 100%;
