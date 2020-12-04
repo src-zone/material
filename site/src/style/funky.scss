@@ -1,0 +1,41 @@
+@use "app.scss" with (
+  $mdc-theme-primary: #e8009a,
+  $mdc-theme-secondary:  #00e871,
+  $mdc-theme-background: #fff,
+  $mdc-on-primary: #fff,
+  $mdc-on-secondary: #000,
+  $mdc-on-surface: #000,
+  $mdc-font-weight-values: (
+    thin: 100,
+    light: 300,
+    regular: 400,
+    medium: 500,
+    bold: 700,
+    black: 900,
+  ),
+  $text-on-background: rgba(0, 0, 0, .87),
+  $toned-bg-color: #f5f5f5,
+  $top-bar-elevation: false,
+  $bg-fast: url(../assets/img/clipart/rocket.png),
+  $bg-themeable: url(../assets/img/clipart/theming.png),
+  $bg-responsive: url(../assets/img/clipart/webdesign.png),
+  $bg-agnostic: url(../assets/img/clipart/agnostic.png),
+  $bg-shark: url(../assets/img/clipart/shark.png)
+);
+@use "variables";
+@use "@material/tab-indicator/_index.scss" as tab-indicator;
+@use "@material/tab/_index.scss" as tab;
+
+header.blox-header .mdc-tab {
+  @include tab.ink-color(#ebebeb);
+  @include tab.active-text-label-color(variables.$mdc-on-primary);
+  @include tab.active-icon-color(variables.$mdc-on-secondary);
+  &:hover {
+    @include tab.ink-color(on-primary);
+  }
+  .mdc-tab-indicator {
+     @include tab-indicator.underline-color(variables.$mdc-on-primary);
+  }
+}
+
+@import "highlight/light";

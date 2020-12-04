@@ -2,23 +2,14 @@
 
 @use "@material/theme/_index.scss" as theme;
 @use "@material/animation/_index.scss" as animation;
-@use "@material/tab-indicator/_index.scss" as tab-indicator;
-@use "@material/tab/_index.scss" as tab;
 @use "@material/top-app-bar/_index.scss" as top-app-bar;
+@use "@material/elevation";
 
 $header-rows: 2;
 
 header.blox-header {
-  .mdc-tab {
-    @include tab.ink-color(text-secondary-on-dark);
-    @include tab.active-text-label-color(secondary);
-    @include tab.active-icon-color(secondary);
-    &:hover {
-      @include tab.ink-color(on-primary);
-    }
-    .mdc-tab-indicator {
-      @include tab-indicator.underline-color(secondary);
-    }
+  @if variables.$top-bar-elevation {
+    @include elevation.elevation(variables.$top-bar-elevation);
   }
   .blox-material-header-logo {
     position: absolute;

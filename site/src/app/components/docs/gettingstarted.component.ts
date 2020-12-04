@@ -1,5 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ThemeService } from '../../services';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'blox-gettingstarted',
@@ -8,15 +7,4 @@ import { ThemeService } from '../../services';
 export class GettingstartedComponent {
     static DOC_TYPE = 'guides';
     static DOC_HREF = 'gettingStarted';
-
-    constructor(private theme: ThemeService) {
-    }
-
-    ngOnInit() {
-        this.theme.setTheme('blox-theme-dark');
-    }
-
-    ngOnDestroy() {
-        this.theme.setTheme(null);
-    }
 }

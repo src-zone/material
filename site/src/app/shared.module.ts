@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@blox/material';
 import {
   CodeSampleComponent,
-  HighlightjsDirective
+  HighlightjsDirective,
+  ThemeSwitcherComponent
 } from './components/shared';
 
 @NgModule({
@@ -14,6 +15,7 @@ import {
   declarations: [
     CodeSampleComponent,
     HighlightjsDirective,
+    ThemeSwitcherComponent
   ],
   exports: [
     CommonModule,
@@ -21,6 +23,7 @@ import {
 
     CodeSampleComponent,
     HighlightjsDirective,
+    ThemeSwitcherComponent
   ]
 })
 export class SharedModule {}

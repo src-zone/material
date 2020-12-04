@@ -5,11 +5,10 @@
 @use "@material/chips/_index.scss" as chips;
 @use "mixins";
 @import "~normalize.css/normalize.css";
-@import "highlight/light";
 @import "typography";
 
 body, html {
-  color: rgba(0,0,0,.87);
+  color: variables.$text-on-background;
   background-color: variables.$mdc-theme-background;
 }
 
@@ -46,25 +45,15 @@ blockquote {
 
 .weak {
   @include theme.prop(color, text-secondary-on-background);
-  .blox-theme-dark & {
-    @include theme.prop(color, text-secondary-on-dark);
-  }
 }
 
 span.blox-inline-svg {
-  fill: #000;
-  stroke: #000;
+  fill: variables.$text-on-background;
+  stroke: variables.$text-on-background;
 }
 
 .mdc-button.blox-button-attract {
   @include button.filled-accessible(variables.$mdc-theme-secondary);
-}
-
-// make selected state visible:
-.mdc-chip-set--choice, .mdc-chip-set--filter {
- .mdc-chip--selected {
-    @include theme.prop(background-color, secondary);
- }
 }
 
 // don't show all sample drwawers above the scrim if we have one active modal drawer:

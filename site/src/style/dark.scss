@@ -1,0 +1,21 @@
+@use "app.scss";
+
+@use "@material/checkbox/_index.scss" as checkbox;
+@use "@material/tab-indicator/_index.scss" as tab-indicator;
+@use "@material/tab/_index.scss" as tab;
+
+@include checkbox.ink-color(#000);
+
+.mdc-tab {
+  @include tab.ink-color(text-secondary-on-background);
+  @include tab.active-text-label-color(secondary);
+  @include tab.active-icon-color(secondary);
+  &:hover {
+    @include tab.ink-color(on-primary);
+  }
+  .mdc-tab-indicator {
+    @include tab-indicator.underline-color(secondary);
+  }
+}
+
+@import "highlight/dark";

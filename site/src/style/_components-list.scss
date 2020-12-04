@@ -1,4 +1,5 @@
 @use "@material/theme";
+@use "@material/ripple/_index.scss" as ripple;
 @use "variables";
 @use "neat";
 
@@ -23,7 +24,7 @@ nav.blox-component-list {
       @include neat.grid-column(1);
     }
     a {
-      @include theme.prop(color, text-primary-on-light);
+      @include theme.prop(color, text-primary-on-background);
       display: flex;
       align-items: center;
       text-decoration: none;
@@ -32,14 +33,12 @@ nav.blox-component-list {
         min-width: 38px;
         height: 38px;
         margin-right: 24px;
+        fill: variables.$text-on-background;
         stroke: none;
       }
       h2, h3 {
         margin-top: 0;
         margin-bottom: 0;
-      }
-      .blox-theme-dark & {
-        @include theme.prop(color, text-primary-on-dark);      
       }
     }
   }
