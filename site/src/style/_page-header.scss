@@ -19,6 +19,7 @@ header.blox-header {
   .mdc-icon-button {@include icon-button.ink-color(variables.$mdc-theme-secondary);}
 
   .blox-material-header-logo {
+    z-index: 8; // above header so entire logo is clickable
     position: absolute;
     top: 3px;
     bottom: 0;
