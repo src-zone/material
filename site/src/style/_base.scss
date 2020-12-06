@@ -21,9 +21,11 @@ blox-app {
   flex: 1 1 auto;
   min-height: 100vh;
   min-width: 0;
+  width: 100%; // IE needs explicit width for flex-basis auto to work
 }
 main {
   flex: 1 1 auto;
+  width: 100%; // IE needs explicit width for flex-basis auto to work
 }
 
 a {
