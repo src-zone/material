@@ -4,7 +4,7 @@
 
   <label mdcTextField [helperText]="input1Help">
     <textarea mdcTextFieldInput type="text" #input1="ngModel" [(ngModel)]="field1" [disabled]="disabled"
-      minlength="8" [required]="required" rows="8" cols="40"></textarea>
+      minlength="8" [required]="required" rows="8" cols="40" autocomplete="off"></textarea>
     <span mdcNotchedOutline>
       <span mdcNotchedOutlineNotch>
         <span mdcFloatingLabel>Multiline Input</span>

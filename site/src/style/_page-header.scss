@@ -2,30 +2,32 @@
 
 @use "@material/theme/_index.scss" as theme;
 @use "@material/animation/_index.scss" as animation;
-@use "@material/tab-indicator/_index.scss" as tab-indicator;
-@use "@material/tab/_index.scss" as tab;
 @use "@material/top-app-bar/_index.scss" as top-app-bar;
+@use "@material/icon-button/_index.scss" as icon-button;
+@use "@material/elevation";
 
 $header-rows: 2;
 
 header.blox-header {
-  .mdc-tab {
-    @include tab.ink-color(text-secondary-on-dark);
-    @include tab.active-text-label-color(secondary);
-    @include tab.active-icon-color(secondary);
-    &:hover {
-      @include tab.ink-color(on-primary);
-    }
-    .mdc-tab-indicator {
-      @include tab-indicator.underline-color(secondary);
-    }
+  z-index: 7; // should be above headers from demo's, drawers, etc.
+  @if variables.$top-bar-elevation {
+    @include elevation.elevation(variables.$top-bar-elevation);
   }
+  @if variables.$top-bar-fill-color {
+    @include top-app-bar.fill-color-accessible(variables.$top-bar-fill-color);
+  }
+  .mdc-icon-button {@include icon-button.ink-color(variables.$top-bar-button-color);}
+
+  .mdc-top-app-bar__row.blox-header-icon-actions {
+    z-index: 2; // without this the theme-switcher menu-surface will appear under the second row (the menu tabs)
+  }
+
   .blox-material-header-logo {
+    z-index: 8; // above header so entire logo is clickable
     position: absolute;
     top: 3px;
     bottom: 0;
     width: top-app-bar.$dense-row-height * $header-rows - 6;
-    z-index: 5; // above top-app-bar, so it's clickable
     background-image: url(../assets/img/logos/bloxmaterial.svg);
     background-repeat: no-repeat;
     background-size: contain;
@@ -41,7 +43,7 @@ header.blox-header {
     flex-grow: 0;
   }
   .blox-page-title {
-    font-family: "Roboto Mono", monospace;
+    font-family: variables.$code-font-family;
     margin-left: calc(5% + 98px);
     @media only screen and (max-width: variables.$media-m-min-width) {
       margin-left: calc(5% + 72px);

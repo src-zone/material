@@ -15,7 +15,7 @@
     <li mdcListItem>
       <i *ngIf="startDetail" mdcListItemGraphic class="material-icons">data_usage</i>
       <span mdcListItemText>Data Usage</span>
-      <a *ngIf="endDetail" href="javascript:void(0)" mdcListItemMeta class="material-icons">show_chart</a>
+      <i *ngIf="endDetail" mdcListItemMeta class="material-icons">show_chart</i>
     </li>
     <li mdcListDivider [inset]="startDetail"></li>
   </ul>
@@ -25,13 +25,13 @@
       <i *ngIf="startDetail && !avatar" mdcListItemGraphic class="material-icons">insert_drive_file</i>
       <img *ngIf="avatar" mdcListItemGraphic [src]="srcAvatar1">
       <span mdcListItemText>Photos</span>
-      <a *ngIf="endDetail" href="javascript:void(0)" mdcListItemMeta class="material-icons">star</a>
+      <i *ngIf="endDetail" mdcListItemMeta class="material-icons">star</i>
     </li>
     <li mdcListItem>
       <i *ngIf="startDetail && !avatar" mdcListItemGraphic class="material-icons">insert_drive_file</i>
       <img *ngIf="avatar" mdcListItemGraphic [src]="srcAvatar2">
       <span mdcListItemText>Movies</span>
-      <a *ngIf="endDetail" href="javascript:void(0)" mdcListItemMeta class="material-icons">star</a>
+      <i *ngIf="endDetail" mdcListItemMeta class="material-icons">star</i>
     </li>
   </ul>  
 </div>

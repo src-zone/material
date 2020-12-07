@@ -1,12 +1,12 @@
 @use "variables";
+@use "@material/card";
 
 .blox-docs-api {
   .blox-docs-class-selector-name {
-    font-family: "Roboto Mono", monospace;
-    background-color: rgba(0, 0, 0, 0.05);
+    font-family: variables.$code-font-family;
   }
   .blox-docs-method-name-cell {
-    font-family: "Roboto Mono", monospace;
+    font-family: variables.$code-font-family;
   }
 
   code.blox-docs-method-returns-type,
@@ -15,30 +15,35 @@
   }
 
   table {
-    color: rgba(0,0,0,.87);
+    // some trickery to get a border with a radius, while also
+    // using border-callapse:
+    border-radius: 4px;
+    border-style: hidden;
+    box-shadow: 0 0 0 1px card.$outline-color; // this draws the border
     border-collapse: collapse;
-    border-radius: 2px;
     border-spacing: 0;
     margin: 0 0 32px 0;
     width: 100%;
-    box-shadow: 0 2px 2px rgba(0,0,0,.24), 0 0 2px rgba(0,0,0,.12);
 
     th {
-      background: #f5f5f5;
+      background: variables.$toned-bg-color;
       font-weight: 400;
       max-width: 100px;
       padding: 8px 16px;
       text-align: left;
     }
 
+    tr.blox-docs-properties-row:not(:last-child) {
+      border-bottom: 1px solid card.$outline-color;
+    }
+
     td {
-      border: 1px solid rgba(0,0,0,.03);
       font-weight: 400;
       padding: 8px 16px;
 
       &.blox-docs-properties-name-cell, &.blox-docs-method-parameter-cell, &.blox-docs-method-returns-type-cell {
         font-size: 14px;
-        font-family: "Roboto Mono", monospace;
+        font-family: variables.$code-font-family;
         .blox-docs-property-name, .blox-docs-method-parameter-name {
           margin: 0;
           font-weight: 600;
@@ -55,10 +60,10 @@
       display: block;
     }
     thead {
-      background: #f5f5f5;
+      background: variables.$toned-bg-color;
     }
     tr[data-caption] {
-      background: #f5f5f5;
+      background: variables.$toned-bg-color;
       padding: 8px 16px;
       font-weight: 400;
       th {
@@ -78,9 +83,6 @@
         .blox-docs-input-marker, .blox-docs-property-name, .blox-docs-property-type {
           display: inline;
         }
-      }
-      tr {
-        border: 1px solid rgba(0,0,0,.03);        
       }
     }
   }

@@ -1,0 +1,37 @@
+@use "sass:map";
+@use "theme-colors";
+$theme: map.get(theme-colors.$colors, dark);
+@use "app.scss" with (
+  $top-bar-fill-color: map.get($theme, surface),
+  $mdc-theme-primary: map.get($theme, primary),
+  $mdc-theme-secondary: map.get($theme, secondary),
+  $mdc-theme-background: map.get($theme, surface),
+  $mdc-on-primary: map.get($theme, on-primary),
+  $mdc-on-secondary: map.get($theme, on-secondary),
+  $mdc-on-surface: map.get($theme, on-surface),
+  $toned-bg-color: map.get($theme, footer-surface)
+);
+@use "variables";
+@use "@material/checkbox/_index.scss" as checkbox;
+@use "@material/icon-button/_index.scss" as icon-button;
+@use "@material/tab-indicator/_index.scss" as tab-indicator;
+@use "@material/tab/_index.scss" as tab;
+
+@include checkbox.ink-color(#000);
+.mdc-icon-button { @include icon-button.disabled-ink-color(text-disabled-on-dark); }
+.mdc-tab {
+  @include tab.ink-color(text-secondary-on-background);
+  @include tab.active-text-label-color(secondary);
+  @include tab.active-icon-color(secondary);
+  &:hover {
+    @include tab.ink-color(on-surface);
+  }
+  .mdc-tab-indicator {
+    @include tab-indicator.underline-color(secondary);
+  }
+}
+.mdc-button.blox-button-attract {
+  font-weight: map.get(variables.$mdc-font-weight-original-values, medium);
+}
+
+@import "highlight/dark";

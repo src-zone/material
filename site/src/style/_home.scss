@@ -47,11 +47,12 @@ $blox-img-list-grid-m: (
   align-self: stretch;
   background-size: contain;
   background-repeat: no-repeat;
-  &.blox-bg-fast { background-image: url(../assets/img/photos/speed.jpg); }
-  &.blox-bg-themeable { background-image: url(../assets/img/photos/crayons.jpg); }
-  &.blox-bg-accessible { background-image: url(../assets/img/photos/mobile.jpg); }
-  &.blox-bg-agnostic { background-image: url(../assets/img/photos/bridge.jpg); }
-  &.blox-bg-404 { background-image: url(../assets/img/photos/shark.jpg); }
+
+  &.blox-bg-fast { @if variables.$bg-fast {background-image: variables.$bg-fast}}
+  &.blox-bg-themeable { @if variables.$bg-themeable {background-image: variables.$bg-themeable}}
+  &.blox-bg-accessible { @if variables.$bg-responsive {background-image: variables.$bg-responsive}}
+  &.blox-bg-agnostic { @if variables.$bg-agnostic {background-image: variables.$bg-agnostic}}
+  &.blox-bg-404 { @if variables.$bg-shark  {background-image: variables.$bg-shark}}
 }
 .blox-img-list-cap {
   @include neat.grid-column(1, $blox-img-list-grid);

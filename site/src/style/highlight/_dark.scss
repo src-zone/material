@@ -7,11 +7,12 @@ padding: 0.5em;
 background: #333;
 color: white;
 }
-  
-.hljs-name,
-.hljs-strong {
-font-weight: bold;
-}
+
+// removed bold from original
+//.hljs-name,
+//.hljs-strong {
+//font-weight: bold;
+//}
 
 .hljs-code,
 .hljs-emphasis {
@@ -37,6 +38,7 @@ color: #a2fca2;
 .hljs-type,
 .hljs-title,
 .hljs-section,
+.hljs-attr, // added .hljs-attr to original
 .hljs-attribute,
 .hljs-quote,
 .hljs-built_in,

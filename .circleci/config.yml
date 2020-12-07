@@ -62,30 +62,6 @@ jobs:
       - run:
           name: Publish Blox Material
           command: cd bundle && npm publish --tag beta
-  build-site:
-    <<: *defaults
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - restore_cache:
-          keys:
-          - v1-site-dependencies-{{ checksum "site/package-lock.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-site-dependencies-
-      - run: cd site && npm install
-      - run: cd site && npm run build // disable building site until upgraded to bundle
-      - save_cache:
-          paths:
-            - site/node_modules
-          key: v1-site-dependencies-{{ checksum "site/package-lock.json" }}
-      - persist_to_workspace: 
-          root: .
-          paths:
-            - site/node_modules
-            - site/dist
-      - store_artifacts:
-          path: site/dist
 
 workflows:
   version: 2
@@ -109,9 +85,3 @@ workflows:
               only: /^v[0-9]+(\.[0-9]+)*([-].*)?$/
             branches:
               ignore: /.*/
-      - build-site:
-          requires:
-            - build-bundle
-          filters:
-            tags:
-              only: /^v[0-9]+(\.[0-9]+)*([-].*)?$/

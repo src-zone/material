@@ -1,16 +1,54 @@
-$media-s-min-width: 0;
-$media-m-min-width: 601px;
-$media-l-min-width: 993px;
-$media-xl-min-width: 1200px;
+@use "sass:string";
 
-$container-s-width: 90%;
-$container-m-width: 85%;
-$container-l-width: 70%;
-$container-xl-width: 70%;
-$container-max-width: 1280px;
+$media-s-min-width: 0 !default;
+$media-m-min-width: 601px !default;
+$media-l-min-width: 993px !default;
+$media-xl-min-width: 1200px !default;
 
-$container-smaller-max-width: 896px;
+$container-s-width: 90% !default;
+$container-m-width: 85% !default;
+$container-l-width: 70% !default;
+$container-xl-width: 70% !default;
+$container-max-width: 1280px !default;
 
-$mdc-theme-primary: #212121;
-$mdc-theme-secondary: #00e871;
-$mdc-theme-background: #fff;
+$container-smaller-max-width: 896px !default;
+
+$mdc-theme-primary: #62c8f3 !default;
+$mdc-theme-secondary: #00e871 !default;
+$mdc-theme-background: #212121 !default;
+$mdc-on-primary: #000 !default;
+$mdc-on-secondary: #000 !default;
+$mdc-on-surface: #fff !default;
+$mdc-theme-error: #cf6679 !default;
+
+$mdc-font-weight-original-values: (
+  thin: 100,
+  light: 300,
+  regular: 400,
+  medium: 500,
+  bold: 700,
+  black: 900
+) !default;
+$mdc-font-weight-values: (
+  thin: 100,      // mdc default: 100
+  light: 200,     // mdc default: 300
+  regular: 300,   // mdc default: 400
+  medium: 400,    // mdc default: 500
+  bold: 600,      // mdc default: 700
+  black: 800      // mdc default: 900
+) !default;
+
+$text-on-background: rgba(255,255,255,.87) !default;
+$toned-bg-color: #1a1a1a !default;
+
+$top-bar-elevation: 2 !default;
+$top-bar-fill-color: false !default;
+$top-bar-button-color: $mdc-theme-secondary !default;
+
+$bg-fast: url(../assets/img/photos/speed.jpg) !default;
+$bg-themeable: url(../assets/img/photos/crayons.jpg) !default;
+$bg-responsive: url(../assets/img/photos/mobile.jpg) !default;
+$bg-agnostic: url(../assets/img/photos/bridge.jpg) !default;
+$bg-shark: url(../assets/img/photos/shark.jpg) !default;
+
+$code-font-family: string.unquote('Roboto Mono, monospace') !default;

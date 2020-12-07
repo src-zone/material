@@ -23,7 +23,7 @@ export class AppComponent implements AfterContentInit, OnDestroy {
     private onDestroy$: Subject<any> = new Subject();
     version = libVersion;
     year = new Date().getFullYear();
-    appliedTheme: string;
+    appliedStyle: string;
     svgAttributes = {
         class: 'blox-inline-svg'
     };
@@ -62,13 +62,13 @@ export class AppComponent implements AfterContentInit, OnDestroy {
 
     ngAfterContentInit() {
         this.trackInteractions();
-        this.theme.theme$.pipe(takeUntil(this.onDestroy$)).subscribe((theme) => {
-            if (this.appliedTheme !== theme) {
-                if (theme)
-                    this.renderer.addClass(this.elm.nativeElement, theme);
-                if (this.appliedTheme)
-                    this.renderer.removeClass(this.elm.nativeElement, this.appliedTheme);
-                this.appliedTheme = theme;
+        this.theme.themeStyle$.pipe(takeUntil(this.onDestroy$)).subscribe((style) => {
+            if (this.appliedStyle !== style) {
+                if (style)
+                    this.renderer.addClass(this.elm.nativeElement, style);
+                if (this.appliedStyle)
+                    this.renderer.removeClass(this.elm.nativeElement, this.appliedStyle);
+                this.appliedStyle = style;
             }
         });
     }

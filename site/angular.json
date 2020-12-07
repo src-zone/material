@@ -23,6 +23,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
+            "extractCss": true,
             "assets": [
               {
                 "glob": "*.*",
@@ -31,7 +32,16 @@
               }
             ],
             "styles": [
-              "src/style/app.scss"
+              {
+                "input": "src/style/dark.scss",
+                "inject": true,
+                "bundleName": "dark"
+              },
+              {
+                "input": "src/style/funky.scss",
+                "inject": false,
+                "bundleName": "funky"
+              }
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
@@ -101,7 +111,16 @@
             "assets": [
             ],
             "styles": [
-              "src/style/app.scss"
+              {
+                "input": "src/style/dark.scss",
+                "inject": true,
+                "bundleName": "dark"
+              },
+              {
+                "input": "src/style/funky.scss",
+                "inject": false,
+                "bundleName": "funky"
+              }
             ],
             "scripts": []
           }

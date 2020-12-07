@@ -1,11 +1,11 @@
 <fieldset class="blox-snippet snippet-skip-line">
 <form #form="ngForm">
   <div mdcTextField style="width: 100%">
-    <input mdcTextFieldInput [(ngModel)]="messageText" name="messageText" required />
+    <input mdcTextFieldInput [(ngModel)]="messageText" name="messageText" required autocomplete="off" />
     <label mdcFloatingLabel>Message Text</label>
   </div>
   <div mdcTextField>
-    <input mdcTextFieldInput [(ngModel)]="actionText" name="actionText" />
+    <input mdcTextFieldInput [(ngModel)]="actionText" name="actionText" autocomplete="off" />
     <label mdcFloatingLabel>Action Text</label>
   </div>
   <div mdcFormField>

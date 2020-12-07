@@ -1,0 +1,29 @@
+@charset "UTF-8";
+
+@use "sass:map";
+@forward "variables";
+@use "variables";
+@use "@material/theme" with (
+  $primary: variables.$mdc-theme-primary,
+  $secondary: variables.$mdc-theme-secondary,
+  $background: variables.$mdc-theme-background,
+  $surface: variables.$mdc-theme-background,
+  $on-primary: variables.$mdc-on-primary,
+  $on-secondary: variables.$mdc-on-secondary,
+  $on-surface: variables.$mdc-on-surface,
+  $error: variables.$mdc-theme-error
+);
+@use "@material/typography" with (
+  $font-weight-values: variables.$mdc-font-weight-values,
+  // mdc makes smaller headlines bolder than larger ones, undo that:
+  $styles-headline6: (font-weight: map.get(variables.$mdc-font-weight-values, regular))
+);
+
+@use "base";
+@use "page-header";
+@use "page-footer";
+@use "home";
+@use "code-sample";
+@use "components-list";
+@use "docs-api";
+@use "theme-switcher.scss";

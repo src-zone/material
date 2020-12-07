@@ -1,14 +1,15 @@
 @use "variables";
 @use "@material/typography";
+@use "@material/button";
 
 footer.blox-footer {
-  $footer-bg-color: mdc-theme-ink-color-for-fill_(secondary, variables.$mdc-theme-background);
   @include typography.typography(caption);
   text-align: center;
-  background: #fafafa;
+  background: variables.$toned-bg-color;
   padding-top: 12px;
   
   .mdc-button {
+    @include button.filled-accessible(variables.$toned-bg-color);
     margin: 8px 16px;
     font-weight: 400;
   }

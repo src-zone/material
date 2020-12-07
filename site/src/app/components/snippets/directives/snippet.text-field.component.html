@@ -3,7 +3,7 @@
 
   <label mdcTextField [helperText]="input1Help">
     <input mdcTextFieldInput type="text" #input1="ngModel" [(ngModel)]="field1" [disabled]="disabled"
-      [required]="required"/>
+      [required]="required" autocomplete="off"/>
     <span *ngIf="outlined" mdcNotchedOutline>
       <span mdcNotchedOutlineNotch>
         <span mdcFloatingLabel>Input with Helper Text</span>
@@ -20,7 +20,7 @@
 
   <label mdcTextField [helperText]="input2Help">
     <input mdcTextFieldInput type="text" #input2="ngModel" [(ngModel)]="field2" [disabled]="disabled"
-    minlength="8"  [required]="required"/>
+    minlength="8"  [required]="required" autocomplete="off"/>
     <span *ngIf="outlined" mdcNotchedOutline>
       <span mdcNotchedOutlineNotch>
         <span mdcFloatingLabel>Input with Validation</span>
