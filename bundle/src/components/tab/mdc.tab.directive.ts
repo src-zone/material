@@ -62,6 +62,7 @@ export class MdcTabContentDirective {
     constructor(public _root: ElementRef) {}
 }
 
+@Directive()
 export abstract class AbstractMdcTabDirective extends AbstractMdcRipple implements OnDestroy, AfterContentInit {
     @HostBinding('class.mdc-tab') _hostClass = true;
     private onDestroy$: Subject<any> = new Subject();

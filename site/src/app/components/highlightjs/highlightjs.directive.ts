@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, ElementRef, HostBinding, Injectable, Input, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, Injectable, Input, SimpleChanges } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 
 @Injectable({
@@ -7,7 +7,7 @@ import { Observable, ReplaySubject } from 'rxjs';
 export class HighlightjsService {
     highlight(code: string, lang: string): Observable<string> {
         let result = new ReplaySubject<string>(1);
-        import(/* webpackChunkName: "hljs" */'highlight.js/lib/highlight').then(mod => {
+        import(/* webpackChunkName: "hljs" */'highlight.js/lib/core').then(mod => {
             const hljs = mod.default;
             const langTs = require('highlight.js/lib/languages/typescript');
             const langHtml = require('highlight.js/lib/languages/xml');
