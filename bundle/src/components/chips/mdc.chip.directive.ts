@@ -135,7 +135,7 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
     private initialized = false;
     private selectedMem = false;
     private removableMem = true;
-    private _uniqueValue: string | null = null;
+    private _uniqueValue: string;
     private _value: string | null = null;
     /**
      * Event emitted for user interaction with the chip.
@@ -378,11 +378,11 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
      * The value the chip represents. The value must be unique for the `mdcChipSet`. If you do not provide a value
      * a unique value will be computed automatically.
      */
-    @Input() get value(): string | null {
+    @Input() get value(): string {
         return this._value ? this._value : this._uniqueValue;
     }
 
-    set value(val: string | null) {
+    set value(val: string) {
         this._value = val;
     }
 
@@ -534,13 +534,13 @@ export class MdcChipSetDirective implements AfterContentInit, OnDestroy {
         this.destroySubscriptions();
         this._subscriptions = [];
         this._chips!.forEach(chip => {
-            this._subscriptions!.push(chip.interact.subscribe(() => this._foundation!.handleChipInteraction({chipId: chip.value || null})));
+            this._subscriptions!.push(chip.interact.subscribe(() => this._foundation!.handleChipInteraction({chipId: chip.value})));
             this._subscriptions!.push(chip._selectedForChipSet.subscribe((selected: boolean) =>
-                this._foundation!.handleChipSelection({chipId: chip.value || null, selected, shouldIgnore: false})));
+                this._foundation!.handleChipSelection({chipId: chip.value, selected, shouldIgnore: false})));
             this._subscriptions!.push(chip._notifyRemoval.subscribe(({removedAnnouncement}: {removedAnnouncement: string | null}) =>
-                this._foundation!.handleChipRemoval({chipId: chip.value || null, removedAnnouncement})));
+                this._foundation!.handleChipRemoval({chipId: chip.value, removedAnnouncement})));
             this._subscriptions!.push(chip.navigation.subscribe(({key, source}: {key: string, source: EventSource}) =>
-                this._foundation!.handleChipNavigation({chipId: chip.value || null, key, source})));
+                this._foundation!.handleChipNavigation({chipId: chip.value, key, source})));
         });
     }
 
