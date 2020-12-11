@@ -26,7 +26,8 @@
     "build": "npm run clean && npm run build-noclean",
     "test": "karma start",
     "test:ci": "karma start",
-    "test:watch": "karma start karma.conf.ts --single-run false"
+    "test:watch": "karma start karma.conf.ts --single-run false",
+    "postinstall": "ngcc"
   },
   "dependencies": {
     "material-components-web": "^5.1.0"
