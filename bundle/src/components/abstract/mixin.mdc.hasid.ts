@@ -1,9 +1,10 @@
-import { HostBinding, Input } from '@angular/core';
+import { Directive, HostBinding, Input } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 
 let nextId = 1;
 
 /** @docs-private */
+@Directive()
 export class HasId {
     private _id: string;
     private cachedId: string;

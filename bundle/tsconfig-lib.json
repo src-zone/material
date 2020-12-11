@@ -13,7 +13,6 @@
     "flatModuleOutFile": "material.js",
     "flatModuleId": "@blox/material",
     "generateCodeForLibraries": true,
-    "preserveWhitespaces": false,
-    "enableIvy": false
+    "preserveWhitespaces": false
   }
 }

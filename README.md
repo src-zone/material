@@ -17,6 +17,7 @@ It integrates [Material Components for the Web](https://github.com/material-comp
 [![Codecov](https://img.shields.io/codecov/c/github/src-zone/material)](https://codecov.io/gh/src-zone/material)
 [![Documentation](https://img.shields.io/badge/demo-website-lightgrey.svg)](https://blox.src.zone/material)
 * [Documention, Demo & Examples](https://blox.src.zone/material)
+* [Documention, Demo & Examples for the beta release channel](https://material.src.zone/)
 * [Changelog](https://github.com/src-zone/material/blob/master/bundle/CHANGELOG.md)
 * [News (via twitter)](https://twitter.com/TheSourceZone)
 
@@ -28,6 +29,8 @@ publishing beta releases from that branch.
 
 The [stable_v0 branch](https://github.com/src-zone/material/tree/stable_v0) contains the branch for the latest
 non-beta builds.
+
+The documentation site for the beta release is here: [https://material.src.zone](https://material.src.zone)
 
 ## Building from source
 

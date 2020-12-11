@@ -1,10 +1,11 @@
-import { ElementRef, Renderer2, HostListener } from '@angular/core';
+import { ElementRef, Renderer2, HostListener, Directive } from '@angular/core';
 import { MDCRippleFoundation, MDCRippleAdapter, util } from '@material/ripple';
 import { events } from '@material/dom';
 import { ponyfill } from '@material/dom';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 
 /** @docs-private */
+@Directive()
 export abstract class AbstractMdcRipple {
     private mdcRippleAdapter: MDCRippleAdapter = {
         browserSupportsCssVars: () => util.supportsCssVariables(window),

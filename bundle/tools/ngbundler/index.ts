@@ -1,5 +1,5 @@
 import { rollup, InputOptions, OutputOptions } from 'rollup';
-const resolve = require('@rollup/plugin-node-resolve');
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 const sourcemaps = require('rollup-plugin-sourcemaps');
 
 const globals = {
@@ -47,7 +47,7 @@ const globals = {
 const inputOptions: InputOptions = {
     input: 'build/material.js',
     plugins: [
-        resolve({jail: '/src', modulesOnly: true}),
+        nodeResolve({jail: '/src', modulesOnly: true}),
         sourcemaps()        
     ],
     onwarn: function(warning) {

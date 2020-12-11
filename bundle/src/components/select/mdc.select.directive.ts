@@ -17,6 +17,7 @@ import { applyMixins } from '../../utils/mixins';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { asBoolean } from '../../utils/value.utils';
 
+@Directive()
 class MdcSelectTextDirectiveBase {}
 interface MdcSelectTextDirectiveBase extends HasId {}
 applyMixins(MdcSelectTextDirectiveBase, [HasId]);
