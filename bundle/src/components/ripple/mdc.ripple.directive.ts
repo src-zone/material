@@ -16,9 +16,9 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 export class MdcRippleDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
     private _initialized = false;
     private _on = false;
-    private _disabled: boolean = null;
+    private _disabled: boolean | null = null;
     private _surface: boolean | 'primary' | 'accent' = false;
-    private _dim = null;
+    private _dim: number | null = null;
 
     constructor(public _elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry) {
         super(_elm, renderer, registry);
@@ -100,7 +100,7 @@ export class MdcRippleDirective extends AbstractMdcRipple implements AfterConten
         return this._dim;
     }
 
-    set dimension(value: string | number) {
+    set dimension(value: number | null) { // TODO can be a string
         this._dim = value == null ? null : +value;
         this.layout();
     }

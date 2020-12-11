@@ -50,10 +50,10 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
      * closing animation has completed, and the menu is not visible anymore.
      */
     @Output() afterClosed: EventEmitter<boolean> = new EventEmitter();
-    private _prevFocus: Element;
+    private _prevFocus: Element | null = null;
     private _hoisted = false;
     private _fixed = false;
-    private _handleBodyClick = (event) => this.handleBodyClick(event);
+    private _handleBodyClick = (event: MouseEvent) => this.handleBodyClick(event);
 
     private mdcAdapter: MDCMenuSurfaceAdapter = {
         addClass: (className: string) => this.rndr.addClass(this._elm.nativeElement, className),
@@ -110,7 +110,7 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
             `${util.getTransformPropertyName(window)}-origin`, origin),
         saveFocus: () => this._prevFocus = this.document.activeElement,
         restoreFocus: () => this._elm.nativeElement.contains(this.document.activeElement) && this._prevFocus
-            && this._prevFocus['focus'] && this._prevFocus['focus'](),
+            && (this._prevFocus as any)['focus'] && (this._prevFocus as any)['focus'](),
         notifyClose: () => {
             this.afterClosed.emit();
             this.document.removeEventListener('click', this._handleBodyClick);
@@ -121,7 +121,7 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
         }
     };
     /** @docs-private */
-    private foundation: MDCMenuSurfaceFoundation;
+    private foundation: MDCMenuSurfaceFoundation | null = null;
     private document: Document;
 
     constructor(private _elm: ElementRef, private rndr: Renderer2, @Inject(DOCUMENT) doc: any) {
@@ -141,7 +141,7 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
     ngOnDestroy() {
         // when we're destroying a closing surface, the event listener may not be removed yet:
         document.removeEventListener('click', this._handleBodyClick);
-        this.foundation.destroy();
+        this.foundation?.destroy();
         this.foundation = null;
     }
 
@@ -213,7 +213,7 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
     }
 
     /** @docs-private */
-    setFoundationAnchorCorner(corner) {
+    setFoundationAnchorCorner(corner: Corner) {
         this.foundation?.setAnchorCorner(corner);
     }
 
@@ -287,12 +287,12 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
 })
 export class MdcMenuAnchorDirective implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-menu-surface--anchor') _cls = true;
-    @ContentChildren(MdcMenuSurfaceDirective) private surfaces: QueryList<MdcMenuSurfaceDirective>;
+    @ContentChildren(MdcMenuSurfaceDirective) private surfaces?: QueryList<MdcMenuSurfaceDirective>;
 
     constructor(public _elm: ElementRef) {}
 
     ngAfterContentInit() {
-        this.surfaces.changes.subscribe(_ => {
+        this.surfaces!.changes.subscribe(_ => {
             this.setSurfaces(this);
         });
         this.setSurfaces(this);
@@ -302,8 +302,8 @@ export class MdcMenuAnchorDirective implements AfterContentInit, OnDestroy {
         this.setSurfaces(null);
     }
 
-    private setSurfaces(anchor: MdcMenuAnchorDirective) {
-        this.surfaces.toArray().forEach(surface => {
+    private setSurfaces(anchor: MdcMenuAnchorDirective | null) {
+        this.surfaces?.toArray().forEach(surface => {
             surface._parentAnchor = anchor;
         });
     }

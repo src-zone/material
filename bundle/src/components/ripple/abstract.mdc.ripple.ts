@@ -17,7 +17,7 @@ export abstract class AbstractMdcRipple {
         containsEventTarget: (target) => this._rippleElm.nativeElement.contains(target),
         registerInteractionHandler: (type, handler) => {
             if (this.getRippleInteractionElement())
-                this._registry.listenElm(this._renderer, type, handler, this.getRippleInteractionElement().nativeElement, events.applyPassive());
+                this._registry.listenElm(this._renderer, type, handler, this.getRippleInteractionElement()!.nativeElement, events.applyPassive());
         },
         deregisterInteractionHandler: (type, handler) => {
             this._registry.unlisten(type, handler);
@@ -35,7 +35,7 @@ export abstract class AbstractMdcRipple {
         getWindowPageOffset: () => ({x: window.pageXOffset, y: window.pageYOffset})
     }
 
-    protected _rippleFoundation: MDCRippleFoundation;
+    protected _rippleFoundation: MDCRippleFoundation | null = null;
     private _unbounded = false;
     private _rippleSurface: HTMLElement | null = null;
 
@@ -67,7 +67,7 @@ export abstract class AbstractMdcRipple {
         return this._rippleFoundation != null;
     }
 
-    protected addRippleSurface(clazz, firstElement = false) {
+    protected addRippleSurface(clazz: string, firstElement = false) {
         this.destroyRippleSurface();
         this._rippleSurface = this._renderer.createElement('div');
         this._renderer.addClass(this._rippleSurface, clazz);
@@ -105,7 +105,7 @@ export abstract class AbstractMdcRipple {
         return new ElementRef(this._rippleSurface);
     }
 
-    protected getRippleInteractionElement() {
+    protected getRippleInteractionElement(): ElementRef | undefined {
         return this._rippleElm;
     }
 

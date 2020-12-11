@@ -68,8 +68,8 @@ export abstract class AbstractMdcTabDirective extends AbstractMdcRipple implemen
     private onDestroy$: Subject<any> = new Subject();
     protected _active: ClientRect | boolean = false;
     @HostBinding('attr.role') _role = 'tab';
-    @ContentChildren(MdcTabContentDirective) _contents: QueryList<MdcTabContentDirective>;
-    @ContentChildren(MdcTabIndicatorDirective, {descendants: true}) _indicators: QueryList<MdcTabIndicatorDirective>;
+    @ContentChildren(MdcTabContentDirective) _contents?: QueryList<MdcTabContentDirective>;
+    @ContentChildren(MdcTabIndicatorDirective, {descendants: true}) _indicators?: QueryList<MdcTabIndicatorDirective>;
     /**
      * Event called when the tab is activated.
      */
@@ -85,11 +85,11 @@ export abstract class AbstractMdcTabDirective extends AbstractMdcRipple implemen
         notifyInteracted: () => this.activationRequest.next(true),
         getOffsetLeft: () => this._root.nativeElement.offsetLeft,
         getOffsetWidth: () => this._root.nativeElement.offsetWidth,
-        getContentOffsetLeft: () => this._content._root.nativeElement.offsetLeft,
-        getContentOffsetWidth: () => this._content._root.nativeElement.offsetWidth,
+        getContentOffsetLeft: () => this._content!._root.nativeElement.offsetLeft,
+        getContentOffsetWidth: () => this._content!._root.nativeElement.offsetWidth,
         focus: () => this._root.nativeElement.focus()
     };
-    _foundation: MDCTabFoundation;
+    _foundation: MDCTabFoundation | null = null;
 
     constructor(protected _rndr: Renderer2, public _root: ElementRef, protected _registry: MdcEventRegistry) {
         super(_root, _rndr, _registry);
@@ -105,8 +105,8 @@ export abstract class AbstractMdcTabDirective extends AbstractMdcRipple implemen
                 this.initFoundation();
         };
         initializer();
-        this._contents.changes.pipe(takeUntil(this.onDestroy$)).subscribe(initializer);
-        this._indicators.changes.pipe(takeUntil(this.onDestroy$)).subscribe(initializer);
+        this._contents!.changes.pipe(takeUntil(this.onDestroy$)).subscribe(initializer);
+        this._indicators!.changes.pipe(takeUntil(this.onDestroy$)).subscribe(initializer);
     }
 
     ngOnDestroy() {
@@ -119,7 +119,7 @@ export abstract class AbstractMdcTabDirective extends AbstractMdcRipple implemen
     private destroyFoundation() {
         let destroy = this._foundation != null;
         if (destroy)
-            this._foundation.destroy();
+            this._foundation!.destroy();
         this._foundation = null;
         return destroy;
     }
@@ -128,7 +128,7 @@ export abstract class AbstractMdcTabDirective extends AbstractMdcRipple implemen
         this._foundation = new MDCTabFoundation(this._adapter);
         this._foundation.init();
         if (this._active) {
-            let clientRect = typeof this._active === 'boolean' ? null : this._active;
+            let clientRect = typeof this._active === 'boolean' ? undefined : this._active;
             this._foundation.activate(clientRect);
         } else {
             // foundation doesn't initialize these attributes:

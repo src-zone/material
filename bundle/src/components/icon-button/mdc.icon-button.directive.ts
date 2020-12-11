@@ -51,7 +51,7 @@ export class MdcIconDirective  {
      * Set this input to false to remove the ripple effect from the surface.
      */
     @Input() get mdcIcon() {
-        return this._on ? 'on' : null;
+        return this._on ? 'on' : '';
     }
 
     set mdcIcon(value: 'on' | '') {
@@ -80,17 +80,17 @@ export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterCont
      * The aria-label to assign to the icon toggle. You can override the value for the
      * on respectively off state by assigning to property `labelOn` or `labelOff`.
      */
-    @Input() label: string;
+    @Input() label: string | null = null;
     /**
      * The aria-label to assign to the icon toggle when it is on. If this input has no value,
      * the aria-label will default to the value of the `label` input.
      */
-    @Input() labelOn: string;
+    @Input() labelOn: string | null = null;
     /**
      * The aria-label to assign to the icon toggle when it is off. If this input has no value,
      * the aria-label will default to the value of the `label` input.
      */
-    @Input() labelOff: string;
+    @Input() labelOff: string | null = null;
     /**
      * Event emitted when the state of the icon toggle changes (for example when a user clicks
      * the icon). 
@@ -112,7 +112,7 @@ export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterCont
             this.onChange.emit(this._on);
         }
     };
-    private toggleFoundation: MDCIconButtonToggleFoundation;
+    private toggleFoundation: MDCIconButtonToggleFoundation | null = null;
 
     constructor(_elm: ElementRef, rndr: Renderer2, registry: MdcEventRegistry) {
         super(_elm, rndr, registry);
@@ -126,7 +126,7 @@ export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterCont
   
     ngOnDestroy() {
         this.destroyRipple();
-        this.toggleFoundation.destroy();
+        this.toggleFoundation?.destroy();
         this.toggleFoundation = null;
     }
 

@@ -1,5 +1,9 @@
 {
   "extends": "./tsconfig-base.json",
+  "compilerOptions": {
+    "target": "es5",
+    "emitDecoratorMetadata": true
+  },
   "include": [
     "node_modules/@types",
     "src/**/*.ts",

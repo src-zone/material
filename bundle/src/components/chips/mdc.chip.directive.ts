@@ -33,9 +33,9 @@ export class MdcChipIconDirective {
      */
     @Output() interact: EventEmitter<void> = new EventEmitter();
     @HostBinding('class.mdc-chip__icon--trailing') _trailing = false;
-    private __tabindex: number;
-    private __role: string;
-    _chip: MdcChipDirective;
+    private __tabindex: number | null = null;
+    private __role: string | null = null;
+    _chip: MdcChipDirective | null = null;
 
     constructor(public _elm: ElementRef, private _rndr: Renderer2, public _cdRef: ChangeDetectorRef) {
         this.__role = _elm.nativeElement.getAttribute('role');
@@ -58,7 +58,12 @@ export class MdcChipIconDirective {
         return this._trailing ? 'button' : null;
     }
 
-    @HostListener('click', ['$event']) @HostListener('keydown', ['$event']) _handleInteraction(event) {
+    @HostListener('click', ['$event']) _handleClick(event: MouseEvent) {
+        if (this._chip && this._trailing)
+            this._chip._foundation?.handleTrailingIconInteraction(event);
+    }
+
+    @HostListener('keydown', ['$event']) _handleInteraction(event: KeyboardEvent) {
         if (this._chip && this._trailing)
             this._chip._foundation?.handleTrailingIconInteraction(event);
     }
@@ -86,7 +91,7 @@ export class MdcChipTextDirective {
 })
 export class MdcChipPrimaryActionDirective {
     @HostBinding('class.mdc-chip__primary-action') _cls = true;
-    private __tabindex: number = null;
+    private __tabindex: number | null = null;
     __role: string = 'button';
 
     constructor(public _elm: ElementRef) {
@@ -130,8 +135,8 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
     private initialized = false;
     private selectedMem = false;
     private removableMem = true;
-    private _uniqueValue: string;
-    private _value: string | null;
+    private _uniqueValue: string | null = null;
+    private _value: string | null = null;
     /**
      * Event emitted for user interaction with the chip.
      */
@@ -155,14 +160,14 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
     // Like selectedChange, but only the events that should go to the chipset (i.e. not including the ones initiated by the chipset)
     @Output() _selectedForChipSet: EventEmitter<boolean> = new EventEmitter();
     @Output() _notifyRemoval: EventEmitter<{removedAnnouncement: string | null}> = new EventEmitter();
-    _set: MdcChipSetDirective;
-    private _checkmark: HTMLElement;
-    private _leadingIcon: MdcChipIconDirective;
-    private _trailingIcon: MdcChipIconDirective;
-    @ContentChildren(MdcChipIconDirective, {descendants: true}) _icons: QueryList<MdcChipIconDirective>;
-    @ContentChildren(MdcChipTextDirective, {descendants: true}) _texts: QueryList<MdcChipTextDirective>;
-    @ContentChildren(MdcChipPrimaryActionDirective, {descendants: true}) _primaryActions: QueryList<MdcChipPrimaryActionDirective>;
-    @ContentChildren(MdcChipCellDirective) _chipCells: QueryList<MdcChipCellDirective>;
+    _set: MdcChipSetDirective | null = null;
+    private _checkmark: HTMLElement | null = null;
+    private _leadingIcon: MdcChipIconDirective | null = null;
+    private _trailingIcon: MdcChipIconDirective | null = null;
+    @ContentChildren(MdcChipIconDirective, {descendants: true}) _icons?: QueryList<MdcChipIconDirective>;
+    @ContentChildren(MdcChipTextDirective, {descendants: true}) _texts?: QueryList<MdcChipTextDirective>;
+    @ContentChildren(MdcChipPrimaryActionDirective, {descendants: true}) _primaryActions?: QueryList<MdcChipPrimaryActionDirective>;
+    @ContentChildren(MdcChipCellDirective) _chipCells?: QueryList<MdcChipCellDirective>;
     private _adapter: MDCChipAdapter = {
         addClass: (className: string) => {
             const hasClass = this._elm.nativeElement.classList.contains(className);
@@ -190,14 +195,14 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
             if (!chipSetShouldIgnore)
                 this._selectedForChipSet.emit(selected);
         },
-        notifyTrailingIconInteraction: () => this._trailingIcon.interact.emit(),
+        notifyTrailingIconInteraction: () => this._trailingIcon!.interact.emit(),
         notifyRemoval: (removedAnnouncement: string | null) => this._notifyRemoval.emit({removedAnnouncement}),
         notifyNavigation: (key: string, source: EventSource) => this.navigation.emit({key, source: <number>source}),
         getComputedStyleValue: (propertyName: string) => getComputedStyle(this._elm.nativeElement).getPropertyValue(propertyName),
         setStyleProperty: (style: string, value: string) => this._renderer.setStyle(this._elm.nativeElement, style, value),
         hasLeadingIcon: () => !!this._leadingIcon,
         getRootBoundingClientRect: () => this._elm.nativeElement.getBoundingClientRect(),
-        getCheckmarkBoundingClientRect: () => this._checkmark?.getBoundingClientRect(),
+        getCheckmarkBoundingClientRect: () => this._checkmark?.getBoundingClientRect() || null,
         setPrimaryActionAttr: (attr: string, value: string) => this._primaryAction && this._renderer.setAttribute(this._primaryAction._elm.nativeElement, attr, value),
         focusPrimaryAction: () => this._primaryAction?._elm.nativeElement.focus(),
         hasTrailingAction: () => !!this._trailingIcon,
@@ -215,10 +220,10 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
     ngAfterContentInit() {
         this.initActions();
         this.initIcons();
-        this._icons.changes.subscribe(() => this._reInit());
-        this._texts.changes.subscribe(() => this._reInit());
-        this._primaryActions.changes.subscribe(() => this._reInit());
-        this._chipCells.changes.subscribe(() => this._reInit());
+        this._icons!.changes.subscribe(() => this._reInit());
+        this._texts!.changes.subscribe(() => this._reInit());
+        this._primaryActions!.changes.subscribe(() => this._reInit());
+        this._chipCells!.changes.subscribe(() => this._reInit());
         this.addRippleSurface('mdc-chip__ripple');
         this.initCheckMark();
         this.initRipple();
@@ -259,7 +264,7 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
                 role = 'radio';
             else if (this._set._type === 'filter')
                 role = 'checkbox';
-            this._primaryActions.forEach(action => {
+            this._primaryActions!.forEach(action => {
                 action.__role = role;
             });
         }
@@ -271,7 +276,7 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
         if (newLeading !== this._leadingIcon || newTrailing !== this._trailingIcon) {
             this._leadingIcon = newLeading;
             this._trailingIcon = newTrailing;
-            this._icons.forEach(icon => {
+            this._icons!.forEach(icon => {
                 icon._chip = this;
                 let leading = icon === this._leadingIcon;
                 let trailing = icon === this._trailingIcon;
@@ -286,19 +291,19 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
     }
 
     private get _text() {
-        return this._texts.first;
+        return this._texts?.first;
     }
 
     private get _primaryAction() {
-        return this._primaryActions.first;
+        return this._primaryActions?.first;
     }
 
     private get _chipCell() {
-        return this._chipCells.first;
+        return this._chipCells?.first;
     }
 
     private computeLeadingIcon() {
-        if (this._icons.length > 0) {
+        if (this._icons && this._icons.length > 0) {
             let icon = this._icons.first;
             let prev = this.previousElement(icon._elm.nativeElement);
             let last = icon._elm.nativeElement;
@@ -319,9 +324,9 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
         return null;
     }
 
-    private computeTrailingIcon(leading: MdcChipIconDirective) {
-        if (this._icons.length > 0) {
-            let icon = this._icons.last;
+    private computeTrailingIcon(leading: MdcChipIconDirective | null) {
+        if (this._icons!.length > 0) {
+            let icon = this._icons!.last;
             if (icon === leading)
                 return null;
             // if not the leading icon, it must be the trailing icon:
@@ -364,7 +369,7 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
 
     private removeCheckMark() {
         if (this._checkmark) {
-            this._checkmark.parentElement.removeChild(this._checkmark);
+            this._checkmark.parentElement!.removeChild(this._checkmark);
             this._checkmark = null;
         }
     }
@@ -373,11 +378,11 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
      * The value the chip represents. The value must be unique for the `mdcChipSet`. If you do not provide a value
      * a unique value will be computed automatically.
      */
-    @Input() get value(): string {
+    @Input() get value(): string | null {
         return this._value ? this._value : this._uniqueValue;
     }
 
-    set value(val: string) {
+    set value(val: string | null) {
         this._value = val;
     }
 
@@ -440,14 +445,14 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
 export class MdcChipSetDirective implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-chip-set') _cls = true;
     @HostBinding('attr.role') _role = 'grid';
-    @ContentChildren(MdcChipDirective, {descendants: true}) _chips: QueryList<MdcChipDirective>;
-    private _subscriptions: Subscription[];
+    @ContentChildren(MdcChipDirective, {descendants: true}) _chips?: QueryList<MdcChipDirective>;
+    private _subscriptions: Subscription[] = [];
     private _initialized = false;
     _type: 'choice' | 'filter' | 'input' | 'action' = 'action';
     _adapter: MDCChipSetAdapter = {
         hasClass: (className: string) => this._elm.nativeElement.classList.contains(className),
         removeChipAtIndex: (index: number) => {
-            this.chip(index).remove.emit();
+            this.chip(index)!.remove.emit();
         },
         selectChipAtIndex: (index: number, selected: boolean, shouldNotifyClients: boolean) => {
             this.chip(index)?._foundation.setSelectedFromChipSet(selected, shouldNotifyClients);
@@ -457,26 +462,26 @@ export class MdcChipSetDirective implements AfterContentInit, OnDestroy {
         focusChipTrailingActionAtIndex: (index) => this.chip(index)?._foundation.focusTrailingAction(),
         removeFocusFromChipAtIndex: (index) => this.chip(index)?._foundation.removeFocus(),
         isRTL: () => getComputedStyle(this._elm.nativeElement).getPropertyValue('direction') === 'rtl',
-        getChipListCount: () => this._chips.length,
+        getChipListCount: () => this._chips!.length,
         announceMessage: (message: string) => announce(message)
     };
-    _foundation = new MDCChipSetFoundation(this._adapter);
+    _foundation: MDCChipSetFoundation | null = new MDCChipSetFoundation(this._adapter);
 
     constructor(private _elm: ElementRef) {}
 
     ngAfterContentInit() {
-        this._chips.changes.subscribe(() => {
+        this._chips!.changes.subscribe(() => {
             this.initSubscriptions();
             this.initChips();
         });
         this.initSubscriptions();
         this.initChips();
-        this._foundation.init();
+        this._foundation!.init();
         this._initialized = true;
     }
 
     ngOnDestroy() {
-        this._foundation.destroy();
+        this._foundation?.destroy();
         this._foundation = null;
         this.destroySubscriptions();
         this._initialized = false;
@@ -503,7 +508,7 @@ export class MdcChipSetDirective implements AfterContentInit, OnDestroy {
     }
 
     private initChips(force = false) {
-        this._chips.forEach(chip => {
+        this._chips!.forEach(chip => {
             if (force || chip._set !== this) {        
                 chip._set = this;
                 chip._reInit();
@@ -513,35 +518,34 @@ export class MdcChipSetDirective implements AfterContentInit, OnDestroy {
 
     private destroySubscriptions() {
         try {
-            if (this._subscriptions)
-                this._subscriptions.forEach(sub => sub.unsubscribe());
+            this._subscriptions.forEach(sub => sub.unsubscribe());
         } finally {
-            this._subscriptions = null;
+            this._subscriptions = [];
         }
     }
 
     private initSubscriptions() {
         this.destroySubscriptions();
         this._subscriptions = [];
-        this._chips.forEach(chip => {
-            this._subscriptions.push(chip.interact.subscribe(() => this._foundation.handleChipInteraction({chipId: chip.value})));
-            this._subscriptions.push(chip._selectedForChipSet.subscribe((selected) =>
-                this._foundation.handleChipSelection({chipId: chip.value, selected, shouldIgnore: false})));
-            this._subscriptions.push(chip._notifyRemoval.subscribe(({removedAnnouncement}) =>
-                this._foundation.handleChipRemoval({chipId: chip.value, removedAnnouncement})));
-            this._subscriptions.push(chip.navigation.subscribe(({key, source}) =>
-                this._foundation.handleChipNavigation({chipId: chip.value, key, source})));
+        this._chips!.forEach(chip => {
+            this._subscriptions!.push(chip.interact.subscribe(() => this._foundation!.handleChipInteraction({chipId: chip.value || null})));
+            this._subscriptions!.push(chip._selectedForChipSet.subscribe((selected: boolean) =>
+                this._foundation!.handleChipSelection({chipId: chip.value || null, selected, shouldIgnore: false})));
+            this._subscriptions!.push(chip._notifyRemoval.subscribe(({removedAnnouncement}: {removedAnnouncement: string | null}) =>
+                this._foundation!.handleChipRemoval({chipId: chip.value || null, removedAnnouncement})));
+            this._subscriptions!.push(chip.navigation.subscribe(({key, source}: {key: string, source: EventSource}) =>
+                this._foundation!.handleChipNavigation({chipId: chip.value || null, key, source})));
         });
     }
 
     private chip(index: number) {
-        if (index < 0 || index >= this._chips.length)
+        if (index < 0 || index >= this._chips!.length)
             return null;
-        return this._chips.toArray()[index];
+        return this._chips!.toArray()[index];
     }
 
     private findChipIndex(chipValue: any): number {
-        return this._chips.toArray().findIndex(chip => chip.value === chipValue);
+        return this._chips!.toArray().findIndex(chip => chip.value === chipValue);
     }
 
     @HostBinding('class.mdc-chip-set--choice') get _choice() {

@@ -26,15 +26,15 @@ export class MdcNotchedOutlineNotchDirective {
 })
 export class MdcNotchedOutlineDirective implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-notched-outline') _cls = true;
-    @ContentChildren(MdcNotchedOutlineNotchDirective) _notches: QueryList<MdcNotchedOutlineNotchDirective>;
+    @ContentChildren(MdcNotchedOutlineNotchDirective) _notches?: QueryList<MdcNotchedOutlineNotchDirective>;
     private notchWidth: number | null = null;
     private mdcAdapter: MDCNotchedOutlineAdapter = {
         addClass: (name) => this.rndr.addClass(this.root.nativeElement, name),
         removeClass: (name) => this.rndr.removeClass(this.root.nativeElement, name),
-        setNotchWidthProperty: (width) => this.rndr.setStyle(this.notch._elm.nativeElement, 'width', `${width}px`),
-        removeNotchWidthProperty: () => this.rndr.removeStyle(this.notch._elm.nativeElement, 'width')
+        setNotchWidthProperty: (width) => this.rndr.setStyle(this.notch!._elm.nativeElement, 'width', `${width}px`),
+        removeNotchWidthProperty: () => this.rndr.removeStyle(this.notch!._elm.nativeElement, 'width')
     };
-    private foundation: MDCNotchedOutlineFoundation;
+    private foundation: MDCNotchedOutlineFoundation | null = null;
 
     constructor(private rndr: Renderer2, private root: ElementRef) {
         this.addSurround('mdc-notched-outline__leading')
@@ -44,9 +44,9 @@ export class MdcNotchedOutlineDirective implements AfterContentInit, OnDestroy {
         this.addSurround('mdc-notched-outline__trailing');
         if (this.notch)
             this.initFoundation();
-        this._notches.changes.subscribe(() => {
+        this._notches!.changes.subscribe(() => {
             this.destroyFoundation();
-            if (this._notches.length > 0)
+            if (this._notches!.length > 0)
                 this.initFoundation();
         });
     }
@@ -71,7 +71,7 @@ export class MdcNotchedOutlineDirective implements AfterContentInit, OnDestroy {
         }
     }
 
-    private addSurround(clazz) {
+    private addSurround(clazz: string) {
         let surround = this.rndr.createElement('span');
         this.rndr.addClass(surround,clazz);
         this.rndr.appendChild(this.root.nativeElement, surround);

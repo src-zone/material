@@ -16,37 +16,37 @@ export class MdcTabBarDirective implements AfterContentInit, OnDestroy {
     @HostBinding('attr.role') _role = 'tablist';
     private onDestroy$: Subject<any> = new Subject();
     private onTabsChange$: Subject<any> = new Subject();
-    @ContentChildren(MdcTabScrollerDirective) _scrollers: QueryList<MdcTabScrollerDirective>;
+    @ContentChildren(MdcTabScrollerDirective) _scrollers?: QueryList<MdcTabScrollerDirective>;
     /**
      * Event emitted when the active tab changes.
      */
     @Output() tabChange: EventEmitter<MdcTabChange> = new EventEmitter();
     private _adapter: MDCTabBarAdapter = {
-        scrollTo: (scrollX) => this._scroller._foundation.scrollTo(scrollX),
-        incrementScroll: (scrollXIncrement) => this._scroller._foundation.incrementScroll(scrollXIncrement),
-        getScrollPosition: () => this._scroller._foundation.getScrollPosition(),
-        getScrollContentWidth: () => this._scroller._getScrollContentWidth(),
+        scrollTo: (scrollX) => this._scroller!._foundation!.scrollTo(scrollX),
+        incrementScroll: (scrollXIncrement) => this._scroller!._foundation!.incrementScroll(scrollXIncrement),
+        getScrollPosition: () => this._scroller!._foundation!.getScrollPosition(),
+        getScrollContentWidth: () => this._scroller!._getScrollContentWidth(),
         getOffsetWidth: () => (this._el.nativeElement as HTMLElement).offsetWidth,
         isRTL: () => getComputedStyle(this._el.nativeElement).getPropertyValue('direction') === 'rtl',
-        setActiveTab: (index) => this._foundation.activateTab(index),
-        activateTabAtIndex: (index, clientRect) => this._tabs.toArray()[index]._activate(index, clientRect),
-        deactivateTabAtIndex: (index) => this._tabs.toArray()[index]._deactivate(),
-        focusTabAtIndex: (index) => this._tabs.toArray()[index]._focus(),
-        getTabIndicatorClientRectAtIndex: (index) => this._tabs.toArray()[index]._computeIndicatorClientRect(),
-        getTabDimensionsAtIndex: (index) => this._tabs.toArray()[index]._computeDimensions(),
-        getPreviousActiveTabIndex: () => this._tabs.toArray().findIndex(e => e.isActive()),
-        getFocusedTabIndex: () => this._tabs.map(t => t._root.nativeElement).indexOf(document.activeElement),
+        setActiveTab: (index) => this._foundation!.activateTab(index),
+        activateTabAtIndex: (index, clientRect) => this._tabs!.toArray()[index]._activate(index, clientRect),
+        deactivateTabAtIndex: (index) => this._tabs!.toArray()[index]._deactivate(),
+        focusTabAtIndex: (index) => this._tabs!.toArray()[index]._focus(),
+        getTabIndicatorClientRectAtIndex: (index) => this._tabs!.toArray()[index]._computeIndicatorClientRect()!,
+        getTabDimensionsAtIndex: (index) => this._tabs!.toArray()[index]._computeDimensions()!,
+        getPreviousActiveTabIndex: () => this._tabs!.toArray().findIndex(e => e.isActive()),
+        getFocusedTabIndex: () => this._tabs!.map(t => t._root.nativeElement).indexOf(document.activeElement),
         getIndexOfTabById: () => -1, // we're not using the id's, and nothing should call getIndexOfTabById
-        getTabListLength: () => this._tabs.length,
-        notifyTabActivated: (tabIndex) => this.tabChange.emit({tab: this._tabs.toArray()[tabIndex], tabIndex})
+        getTabListLength: () => this._tabs!.length,
+        notifyTabActivated: (tabIndex) => this.tabChange.emit({tab: this._tabs!.toArray()[tabIndex], tabIndex})
     };
-    private _subscriptions: Subscription[];
-    private _foundation: MDCTabBarFoundation = null;
+    private _subscriptions: Subscription[] = [];
+    private _foundation: MDCTabBarFoundation | null = null;
 
     constructor(public _el: ElementRef) {}
 
     ngAfterContentInit() {
-        let scrollersObservable$ = this._scrollers.changes.pipe(takeUntil(this.onDestroy$));
+        let scrollersObservable$ = this._scrollers!.changes.pipe(takeUntil(this.onDestroy$));
         const tabChangeInit = () => {
             if (this._tabs) {
                 this._tabs.changes.pipe(
@@ -89,7 +89,7 @@ export class MdcTabBarDirective implements AfterContentInit, OnDestroy {
         this._unlistenTabSelected();
         let destroy = this._foundation != null;
         if (destroy) {
-            this._foundation.destroy();
+            this._foundation!.destroy();
         }
         this._foundation = null;
         return destroy;
@@ -98,8 +98,8 @@ export class MdcTabBarDirective implements AfterContentInit, OnDestroy {
     private _listenTabSelected() {
         this._unlistenTabSelected();
         this._subscriptions = new Array<Subscription>();
-        this._tabs.forEach(tab => {
-            this._subscriptions.push(tab.activationRequest$.subscribe(activated => {
+        this._tabs?.forEach(tab => {
+            this._subscriptions!.push(tab.activationRequest$.subscribe(activated => {
                 if (activated)
                     this._setActive(tab);
             }));
@@ -107,18 +107,17 @@ export class MdcTabBarDirective implements AfterContentInit, OnDestroy {
     }
 
     private _unlistenTabSelected() {
-        if (this._subscriptions) {
-            this._subscriptions.forEach(sub => sub.unsubscribe());
-            this._subscriptions = null;
-        }
+        this._subscriptions.forEach(sub => sub.unsubscribe());
+        this._subscriptions = [];
     }
 
     private _setActive(tab: AbstractMdcTabDirective) {
-        if (this._foundation) {
+        if (this._foundation && this._tabs) {
             let index = this._tabs.toArray().indexOf(tab);
             // This is what foundation.handleTabInteraction would do, but more accessible, without
             // the need for assigned tabIds:
-            this._adapter.setActiveTab(index);
+            if (index >= 0)
+                this._adapter.setActiveTab(index);
         }
     }
 
