@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, HostListener, ViewChild } from '@angular/core';
 import { MdcFocusTrapDirective, FocusTrapHandle } from '@blox/material';
 //snip:skip
 import { forwardRef } from '@angular/core';
@@ -39,5 +39,12 @@ export class SnippetFocusTrapComponent/*snip:skip*/extends AbstractSnippetCompon
             else
                 this._focusTrap = this._focusTrapper.trapFocus();
         }
+    }
+
+    @HostListener('document:keydown', ['$event']) onKeydown(event: KeyboardEvent) {
+        // when the ESC key is pressed, we'll release the focus trap:
+        const key = event.key || event.keyCode;
+        if (this.focusTrap && (key === 'Escape' || key === 'Esc' || key === 27))
+            this.focusTrap = false;
     }
 }

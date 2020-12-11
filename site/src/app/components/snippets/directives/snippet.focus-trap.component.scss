@@ -14,7 +14,7 @@
     display: none;
 
     &.blox-focus-trap-active {
-        display: initial;
+        display: block; // (IE 11 doesn't support initial)
         position: fixed;
         z-index: 9;
         top: 0;
