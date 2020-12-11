@@ -136,9 +136,11 @@ export class MdcCardActionsDirective implements AfterContentInit {
         return this._fullBleed;
     }
 
-    set fullBleed(val: any) {
+    set fullBleed(val: boolean) {
         this._fullBleed = asBoolean(val);
     }
+
+    static ngAcceptInputType_fullBleed: boolean | '';
 }
 
 /**
@@ -188,9 +190,11 @@ export class MdcCardDirective {
         return this._outlined;
     }
 
-    set outlined(val: any) {
+    set outlined(val: boolean) {
         this._outlined = asBoolean(val);
     }
+
+    static ngAcceptInputType_outlined: boolean | '';
 }
 
 export const CARD_DIRECTIVES = [

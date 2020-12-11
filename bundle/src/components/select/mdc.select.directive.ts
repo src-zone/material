@@ -485,10 +485,12 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
         return this._disabled;
     }
 
-    set disabled(value: any) {
+    set disabled(value: boolean) {
         this._disabled = asBoolean(value);
         this.foundation?.setDisabled(this._disabled);
     }
+
+    static ngAcceptInputType_disabled: boolean | '';
 
     /**
      * To make the select a required input, set this input to a value other then false.
@@ -498,10 +500,12 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
         return this._required;
     }
 
-    set required(value: any) {
+    set required(value: boolean) {
         this._required = asBoolean(value);
         this.foundation?.setRequired(this._required);
     }
+
+    static ngAcceptInputType_required: boolean | '';
 
     /** @docs-private */
     @HostBinding('class.mdc-select--outlined') get outlined() {

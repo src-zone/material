@@ -33,12 +33,14 @@ export class MdcFormFieldInputDirective extends AbstractMdcInput {
 
     @HostBinding()
     @Input() get disabled() {
-        return this._cntr ? this._cntr.disabled : this._disabled;
+        return this._cntr ? !!this._cntr.disabled : this._disabled;
     }
 
-    set disabled(value: any) {
+    set disabled(value: boolean) {
         this._disabled = asBoolean(value);
     }
+
+    static ngAcceptInputType_disabled: boolean | '';
 }
 
 @Directive({
@@ -106,9 +108,11 @@ export class MdcFormFieldDirective implements AfterContentInit, OnDestroy {
         return this._alignEnd;
     }
 
-    set alignEnd(val: any) {
+    set alignEnd(val: boolean) {
         this._alignEnd = asBoolean(val);
     }
+
+    static ngAcceptInputType_alignEnd: boolean | '';
 }
 
 export const FORM_FIELD_DIRECTIVES = [

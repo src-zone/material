@@ -225,6 +225,8 @@ export class MdcTabDirective extends AbstractMdcTabDirective {
     set active(value: boolean) {
         this.triggerActivation(asBoolean(value));
     }
+
+    static ngAcceptInputType_active: boolean | '';
 }
 
 export const TAB_DIRECTIVES = [MdcTabIconDirective, MdcTabLabelDirective, MdcTabContentDirective, MdcTabDirective];

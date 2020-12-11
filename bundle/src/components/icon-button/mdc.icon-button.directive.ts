@@ -157,7 +157,7 @@ export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterCont
         return this.toggleFoundation ? this.toggleFoundation.isOn() : this._on;
     }
 
-    set on(value: any) {
+    set on(value: boolean) {
         const old = this.toggleFoundation ? this.toggleFoundation.isOn() : this._on;
         this._on = asBoolean(value);
         if (this.toggleFoundation)
@@ -165,6 +165,8 @@ export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterCont
         if (this._on !== old)
             this.onChange.emit(this._on);
     }
+
+    static ngAcceptInputType_on: boolean | '';
 
     @HostBinding('attr.aria-label') get _label() {
         return this._on ? (this.labelOn || this.label) : (this.labelOff || this.label);
@@ -187,9 +189,11 @@ export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterCont
         return this._disabled;
     }
 
-    set disabled(value: any) {
+    set disabled(value: boolean) {
         this._disabled = asBoolean(value);
     }
+
+    static ngAcceptInputType_disabled: boolean | '';
 }
 
 /**

@@ -220,15 +220,17 @@ export class MdcDrawerDirective implements AfterContentInit, OnDestroy {
         }
     }
 
+    static ngAcceptInputType_mdcDrawer: 'permanent' | 'dismissible' | 'modal' | '';
+
     /**
      * Input to open (assign value <code>true</code>) or close (assign value <code>false</code>)
      * the drawer.
      */
     @Input() get open() {
-        return this._open;
+        return !!this._open;
     }
 
-    set open(value: any) {
+    set open(value: boolean) {
         let newValue = asBoolean(value);
         if (newValue !== this._open) {
             if (this.foundation) {
@@ -237,6 +239,8 @@ export class MdcDrawerDirective implements AfterContentInit, OnDestroy {
                 this.openChange.emit(newValue);
         }
     }
+
+    static ngAcceptInputType_open: boolean | '';
 
     private fixOpenClose(open: boolean) {
         // the foundation ignores calls to open/close while an opening/closing animation is running.
@@ -312,9 +316,11 @@ export class MdcDrawerAppContent {
         return this._cls;
     }
 
-    set mdcDrawerAppContent(value: any) {
+    set mdcDrawerAppContent(value: boolean) {
         this._cls = asBoolean(value);
     }
+
+    static ngAcceptInputType_mdcDrawerAppContent: boolean | '';
 }
 
 export const DRAWER_DIRECTIVES = [

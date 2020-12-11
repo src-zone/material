@@ -61,7 +61,7 @@ export class MdcRippleDirective extends AbstractMdcRipple implements AfterConten
         return this._on;
     }
 
-    set mdcRipple(value: any) {
+    set mdcRipple(value: boolean) {
         const newValue = asBoolean(value);
         if (newValue !== this._on) {
             this._on = newValue;
@@ -74,6 +74,8 @@ export class MdcRippleDirective extends AbstractMdcRipple implements AfterConten
         }
     }
 
+    static ngAcceptInputType_mdcRipple: boolean | '';
+
     /**
      * When this input has a value other than false, the ripple is unbounded.
      * Surfaces for bounded ripples should have <code>overflow</code> set to hidden,
@@ -83,9 +85,11 @@ export class MdcRippleDirective extends AbstractMdcRipple implements AfterConten
         return this.isRippleUnbounded();
     }
 
-    set unbounded(value: any) {
+    set unbounded(value: boolean) {
         this.setRippleUnbounded(asBoolean(value));
     }
+
+    static ngAcceptInputType_unbounded: boolean | '';
 
     @HostBinding('attr.data-mdc-ripple-is-unbounded') get _attrUnbounded() {
         return this.unbounded ? "" : null;
@@ -100,10 +104,12 @@ export class MdcRippleDirective extends AbstractMdcRipple implements AfterConten
         return this._dim;
     }
 
-    set dimension(value: number | null) { // TODO can be a string
+    set dimension(value: number | null) {
         this._dim = value == null ? null : +value;
         this.layout();
     }
+
+    static ngAcceptInputType_dimension: string | number | null;
 
     /**
      * This input can be used to programmatically enable/disable the ripple.
@@ -116,9 +122,11 @@ export class MdcRippleDirective extends AbstractMdcRipple implements AfterConten
         return this._disabled;
     }
 
-    set disabled(value: any) {
+    set disabled(value: boolean | null) {
         this._disabled = asBooleanOrNull(value);
     }
+
+    static ngAcceptInputType_boolean: boolean | null | '';
 
     /**
      * When this input has a value other than false, the ripple element will get the
@@ -141,6 +149,8 @@ export class MdcRippleDirective extends AbstractMdcRipple implements AfterConten
         else
             this._surface = asBoolean(value);
     }
+
+    static ngAcceptInputType_surface: boolean | 'primary' | 'accent' | '';
 
     @HostBinding('class.mdc-ripple-surface--primary') get _surfacePrimary() {
         return this._surface === 'primary';

@@ -53,10 +53,10 @@ export class MdcSwitchInputDirective extends AbstractMdcInput implements OnInit,
     /** @docs-private */
     @HostBinding()
     @Input() get disabled() {
-        return this._cntr ? this._cntr.disabled : this._disabled;
+        return this._cntr ? !!this._cntr.disabled : this._disabled;
     }
 
-    set disabled(value: any) {
+    set disabled(value: boolean) {
         const newVal = asBoolean(value);
         if (newVal != this._disabled) {
             this._disabled = asBoolean(newVal);
@@ -64,15 +64,19 @@ export class MdcSwitchInputDirective extends AbstractMdcInput implements OnInit,
         }
     }
 
+    static ngAcceptInputType_disabled: boolean | '';
+
     /** @docs-private */
     @HostBinding()
-    @Input() get checked(): any {
+    @Input() get checked(): boolean {
         return this._checked;
     }
 
-    set checked(value: any) {
+    set checked(value: boolean) {
         this.updateValue(value, false);
     }
+
+    static ngAcceptInputType_checked: boolean | '';
 
     @HostListener('change', ['$event']) _onChange(event: Event) {
         // update checked value, but not via this.checked, so we bypass events being sent to:

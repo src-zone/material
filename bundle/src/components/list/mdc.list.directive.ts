@@ -41,9 +41,11 @@ export class MdcListDividerDirective {
         return this._inset;
     }
 
-    set inset(val: any) {
+    set inset(val: boolean) {
         this._inset = asBoolean(val);
     }
+
+    static ngAcceptInputType_inset: boolean | '';
 
     /**
      * When this input is defined and does not have value false, the divider leaves
@@ -54,9 +56,11 @@ export class MdcListDividerDirective {
         return this._padded;
     }
 
-    set padded(val: any) {
+    set padded(val: boolean) {
         this._padded = asBoolean(val);
     }
+
+    static ngAcceptInputType_padded: boolean | '';
 }
 
 /**
@@ -170,9 +174,11 @@ export class MdcListItemDirective extends AbstractMdcRipple implements AfterCont
         return this._disabled;
     }
 
-    set disabled(val: any) {
+    set disabled(val: boolean) {
         this._disabled = asBoolean(val);
     }
+
+    static ngAcceptInputType_disabled: boolean | '';
 
     /**
      * Assign this field with a value that should be reflected in the `value` property of
@@ -426,7 +432,7 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
         isRootFocused: () => document.activeElement === this._elm.nativeElement,
         listItemAtIndexHasClass: (index, className) => {
             if (className === cssClasses.LIST_ITEM_DISABLED_CLASS)
-                return this.getItem(index)?.disabled;
+                return !!this.getItem(index)?.disabled;
             return !!this.getItem(index)?._elm.nativeElement.classList.contains(className);
         },
         setCheckedCheckboxOrRadioAtIndex: (index, isChecked) => {
@@ -625,9 +631,11 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
         return this._dense;
     }
     
-    set dense(val: any) {
+    set dense(val: boolean) {
         this._dense = asBoolean(val);
     }
+
+    static ngAcceptInputType_dense: boolean | '';
 
     /**
      * When set to `single` or 'active', the list will act as a single-selection-list.
@@ -650,12 +658,17 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
     
     set selectionMode(val: 'single' | 'active' | null) {
         if (val !== this._selectionMode) {
-            this._selectionMode = val;
+            if (val === 'single' || val === 'active')
+                this._selectionMode = val;
+            else
+                this.selectionMode = null;
             this.updateItems();
             this.foundation?.setSingleSelection(this._role === 'listbox');
             this.foundation?.setSelectedIndex(this.getSelection());
         }
     }
+
+    static ngAcceptInputType_selectionMode: 'single' | 'active' | '' | null;
 
     /**
      * When this input is defined and does not have value false, the list will be made
@@ -667,13 +680,15 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
         return this._nonInteractive;
     }
     
-    set nonInteractive(val: any) {
+    set nonInteractive(val: boolean) {
         let newValue = asBoolean(val);
         if (newValue !== this._nonInteractive) {
             this._nonInteractive = newValue;
             this.updateItems();
         }
     }
+
+    static ngAcceptInputType_nonInteractive: boolean | '';
 
     /**
      * When this input is defined and does not have value false, focus will wrap from last to
@@ -684,10 +699,12 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
         return this._wrapFocus;
     }
 
-    set wrapFocus(val: any) {
+    set wrapFocus(val: boolean) {
         this._wrapFocus = asBoolean(val);
         this.foundation?.setWrapFocus(this._wrapFocus);
     }
+
+    static ngAcceptInputType_wrapFocus: boolean | '';
 
     /**
      * When this input is defined and does not have value false, elements with directive <code>mdcListItemGraphic</code>
@@ -698,9 +715,11 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
         return this._avatar;
     }
 
-    set avatarList(val: any) {
+    set avatarList(val: boolean) {
         this._avatar = asBoolean(val);
     }
+
+    static ngAcceptInputType_avatarList: boolean | '';
 
     @HostListener('focusin', ['$event']) _onFocusIn(event: FocusEvent) {
         if (this.foundation && !this._nonInteractive) {

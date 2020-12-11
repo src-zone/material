@@ -317,9 +317,11 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
         return this._discrete;
     }
     
-    set discrete(value: any) {
+    set discrete(value: boolean) {
         this._discrete = asBoolean(value);
     }
+
+    static ngAcceptInputType_discrete: boolean | '';
 
     /**
      * Property to enable/disable the display of track markers. Display markers
@@ -331,9 +333,11 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
         return this._markers;
     }
 
-    set markers(value: any) {
+    set markers(value: boolean) {
         this._markers = asBoolean(value);
     }
+
+    static ngAcceptInputType_markers: boolean | '';
 
     /**
      * The current value of the slider.
@@ -343,9 +347,11 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
         return this._value;
     }
 
-    set value(value: string | number) {
+    set value(value: number) {
         this._value = this.asNumber(value)!;
     }
+
+    static ngAcceptInputType_value: string | number;
 
     /**
      * The minumum allowed value of the slider.
@@ -355,9 +361,11 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
         return this._min;
     }
 
-    set minValue(value: string | number) {
+    set minValue(value: number) {
         this._min = this.asNumber(value)!;
     }
+
+    static ngAcceptInputType_minValue: string | number;
 
     /**
      * The maximum allowed value of the slider.
@@ -367,9 +375,11 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
         return this._max;
     }
 
-    set maxValue(value: string | number) {
+    set maxValue(value: number) {
         this._max = this.asNumber(value)!;
     }
+
+    static ngAcceptInputType_maxValue: string | number;
 
     /**
      * Set the step value (or set to 0 for no step value).
@@ -386,9 +396,11 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
         return this._step;
     }
 
-    set stepValue(value: string | number) {
+    set stepValue(value: number) {
         this._step = this.asNumber(value)!;
     }
+
+    static ngAcceptInputType_stepValue: string | number;
 
     /**
      * A property to disable the slider.
@@ -398,9 +410,11 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
         return this._disabled;
     }
 
-    set disabled(value: any) {
+    set disabled(value: boolean) {
         this._disabled = asBoolean(value);
     }
+
+    static ngAcceptInputType_disabled: boolean | '';
 
     /** @docs-private */
     @HostListener('blur') _onBlur() {
