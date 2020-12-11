@@ -136,6 +136,7 @@ export abstract class AbstractMdcTabDirective extends AbstractMdcRipple implemen
         }
     }
 
+    /** @docs-private */
     protected getRippleStylingElement() {
         return this.rippleSurface;
     }
