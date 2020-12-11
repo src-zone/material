@@ -39,8 +39,7 @@ export class MdcFabLabelDirective {
 })
 export class MdcFabDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-fab') _cls = true;
-    @ContentChild(MdcFabLabelDirective) private label;
-    @ContentChildren(MdcFabLabelDirective) private _labels;
+    @ContentChild(MdcFabLabelDirective) private label?: MdcFabLabelDirective;
     private _mini = false;
     private _exited = false;
 

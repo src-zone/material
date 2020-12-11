@@ -22,7 +22,7 @@ import { takeUntil, debounceTime } from 'rxjs/operators';
 })
 export class MdcListDividerDirective {
     @HostBinding('class.mdc-list-divider') _cls = true;
-    @HostBinding('attr.role') _role = 'separator';
+    @HostBinding('attr.role') _role: string | null = 'separator';
     @HostBinding('attr.disabled') _disabled = false;
     private _inset = false;
     private _padded = false;
@@ -102,9 +102,9 @@ export class MdcListDividerDirective {
 })
 export class MdcListItemDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-list-item') _cls = true;
-    @HostBinding('attr.role') public _role = null;
-    @ContentChildren(MdcRadioDirective, {descendants: true}) _radios: QueryList<MdcRadioDirective>;
-    @ContentChildren(MdcCheckboxDirective, {descendants: true}) _checkBoxes: QueryList<MdcCheckboxDirective>;
+    @HostBinding('attr.role') public _role: string | null = null;
+    @ContentChildren(MdcRadioDirective, {descendants: true}) _radios?: QueryList<MdcRadioDirective>;
+    @ContentChildren(MdcCheckboxDirective, {descendants: true}) _checkBoxes?: QueryList<MdcCheckboxDirective>;
     _ariaActive: 'current' | 'selected' | 'checked' | null = null;
     private _initialized = false;
     private _interactive = true;
@@ -112,7 +112,7 @@ export class MdcListItemDirective extends AbstractMdcRipple implements AfterCont
     private _active = false;
     /** @docs-private (called valueChanged instead of valueChange so that library consumers cannot by accident use
      * this for two-way binding) */
-    @Output() readonly valueChanged: EventEmitter<string> = new EventEmitter();
+    @Output() readonly valueChanged: EventEmitter<string | null> = new EventEmitter();
     /**
      * Event emitted for user action on the list item, including keyboard and mouse actions.
      * This will not emit when the `mdcList` has `nonInteractive` set.
@@ -127,7 +127,7 @@ export class MdcListItemDirective extends AbstractMdcRipple implements AfterCont
      * will be either `single` or `active`).
      */
     @Output() readonly activeChange: EventEmitter<boolean> = new EventEmitter<boolean>();
-    private _value: string;
+    private _value: string | null = null;
 
     constructor(public _elm: ElementRef, rndr: Renderer2, registry: MdcEventRegistry) {
         super(_elm, rndr, registry)
@@ -184,7 +184,7 @@ export class MdcListItemDirective extends AbstractMdcRipple implements AfterCont
         return this._value;
     }
 
-    set value(newValue: string) {
+    set value(newValue: string | null) {
         if (this._value !== newValue) {
             this._value = newValue;
             this.valueChanged.emit(newValue);
@@ -243,11 +243,11 @@ export class MdcListItemDirective extends AbstractMdcRipple implements AfterCont
     }
 
     _getRadio() {
-        return this._radios.first;
+        return this._radios?.first;
     }
 
     _getCheckbox() {
-        return this._checkBoxes.first;
+        return this._checkBoxes?.first;
     }
 
     _getInput() {
@@ -353,27 +353,27 @@ const ANGULAR_ITEM_CLASSES = [
 export class MdcListDirective implements AfterContentInit, OnDestroy {
     private onDestroy$: Subject<any> = new Subject();
     @HostBinding('class.mdc-list') _cls = true;
-    @ContentChildren(MdcListItemDirective) _items: QueryList<MdcListItemDirective>;
-    @ContentChildren(MdcListItemPrimaryTextDirective, {descendants: true}) _primaryTexts: QueryList<MdcListItemTextDirective>;
-    @ContentChildren(MdcCheckboxDirective, {descendants: true}) _checkboxes: QueryList<MdcListItemTextDirective>;
-    @ContentChildren(MdcRadioDirective, {descendants: true}) _radios: QueryList<MdcListItemTextDirective>;
+    @ContentChildren(MdcListItemDirective) _items?: QueryList<MdcListItemDirective>;
+    @ContentChildren(MdcListItemPrimaryTextDirective, {descendants: true}) _primaryTexts?: QueryList<MdcListItemTextDirective>;
+    @ContentChildren(MdcCheckboxDirective, {descendants: true}) _checkboxes?: QueryList<MdcListItemTextDirective>;
+    @ContentChildren(MdcRadioDirective, {descendants: true}) _radios?: QueryList<MdcListItemTextDirective>;
     /** @docs-private */
     @Output() readonly itemsChanged: EventEmitter<void> = new EventEmitter();
     /** @docs-private */
     @Output() readonly itemValuesChanged: EventEmitter<void> = new EventEmitter();
     /** @docs-private */
-    @Output() readonly itemAction: EventEmitter<{index: number, value: string}> = new EventEmitter();
+    @Output() readonly itemAction: EventEmitter<{index: number, value: string | null}> = new EventEmitter();
     @HostBinding('class.mdc-list--two-line') _twoLine = false;
     /**
      * Label announcing the purpose of the list. Should be set for lists that embed checkbox inputs
      * for activation/selection. The label is reflected in the `aria-label` attribute value.
      */
-    @HostBinding('attr.aria-label') @Input() label: string;
+    @HostBinding('attr.aria-label') @Input() label: string | null = null;
     /**
      * Link to the id of an element that announces the purpose of the list. This will be set automatically
      * to the id of the `mdcFloatingLabel` when the list is part of an `mdcSelect`.
      */
-    @HostBinding('attr.aria-labelledBy') @Input() labelledBy: string;
+    @HostBinding('attr.aria-labelledBy') @Input() labelledBy: string | null = null;
     private _function: MdcListFunction = MdcListFunction.plain;
     _hidden = false;
     private _dense = false;
@@ -387,8 +387,8 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
                 return this.getItem(index)?._ariaCurrent;
             return this.getItem(index)?._elm.nativeElement.getAttribute(attr);
         },
-        getListItemCount: () => this._items.length,
-        getFocusedElementIndex: () => this._items.toArray().findIndex(i => i._elm.nativeElement === document.activeElement!),
+        getListItemCount: () => this._items!.length,
+        getFocusedElementIndex: () => this._items!.toArray().findIndex(i => i._elm.nativeElement === document.activeElement!),
         setAttributeForElementIndex: (index, attribute, value) => {
             // ignore attributes we maintain ourselves
             if (!ANGULAR_ITEM_ATTRIBUTES.find(a => a === attribute)) {
@@ -444,7 +444,7 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
         },
         notifyAction: (index) => {
             const item = this.getItem(index);
-            if (!item?.disabled) {
+            if (item && !item?.disabled) {
                 item.action.emit();
                 this.itemAction.emit({index, value: item.value});
             }
@@ -454,21 +454,21 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
         },
     };
     /** @docs-private */
-    foundation: MDCListFoundation;
+    foundation?: MDCListFoundation | null;
     
     constructor(public _elm: ElementRef, private rndr: Renderer2) {
     }
 
     ngAfterContentInit() {
         merge(
-            this._checkboxes.changes,
-            this._radios.changes
+            this._checkboxes!.changes,
+            this._radios!.changes
         ).pipe(takeUntil(this.onDestroy$)).subscribe(() => {
             this.updateItems();
             this.updateLayout();
             this.updateFoundationSelections();
         });
-        this._items.changes.subscribe(() => {
+        this._items!.changes.subscribe(() => {
             // when number of items changes, we have to reinitialize the foundation, because
             // the focusused item index that the foundation keeps may be invalidated:
             this.destroyFoundation();
@@ -476,16 +476,16 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
             this.initFoundation();
             this.itemsChanged.emit();
             this.itemValuesChanged.emit();
-            merge(this._items.map(item => item.valueChanged.asObservable())).pipe(
+            merge(this._items!.map(item => item.valueChanged.asObservable())).pipe(
                 takeUntil(this.itemsChanged),
                 debounceTime(1)
             ).subscribe(() => {
                 this.itemValuesChanged.emit();
             });
         });
-        this._primaryTexts.changes.subscribe(_ => this._twoLine = this._primaryTexts.length > 0);
+        this._primaryTexts!.changes.subscribe(_ => this._twoLine = this._primaryTexts!.length > 0);
         this.updateItems();
-        this._twoLine = this._primaryTexts.length > 0;
+        this._twoLine = this._primaryTexts!.length > 0;
         this.initFoundation();
     }
 
@@ -498,15 +498,15 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
         this.foundation = new MDCListFoundation(this.mdcAdapter);
         this.foundation.init();
         this.updateLayout();
-        const focus = this.getListItemIndex({target: document.activeElement});
+        const focus = this.getListItemIndex({target: document.activeElement as EventTarget});
         if (focus !== -1) // only way to restore focus when a list item already had focus:
-            this.foundation['focusedItemIndex_'] = focus;
+            (<any>this.foundation)['focusedItemIndex_'] = focus;
         this.updateFoundationSelections();
         this.foundation.setWrapFocus(this._wrapFocus);
     }
 
     private destroyFoundation() {
-        this.foundation.destroy();
+        this.foundation?.destroy();
         this.foundation = null;
     }
 
@@ -516,12 +516,13 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
             'listbox': 'option',
             'group': 'checkbox',
             'radiogroup': 'radio'
-        }[this._role] || null;
+        }[this._role!] || null;
         let ariaActive = {
+            'menu': null,
             'listbox': this._selectionMode === 'active' ? 'current' : 'selected',
             'group': 'checked',
             'radiogroup': 'checked'
-        }[this._role] || null;
+        }[this._role!] || null;
         if (this._items) {
             const firstTabbable = this._nonInteractive ? null :
                 this._items.find(item => item._elm.nativeElement.tabIndex === 0) ||
@@ -529,7 +530,7 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
                 this._items.first;
             this._items.forEach(item => {
                 item._role = itemRole;
-                item._ariaActive = ariaActive;
+                item._ariaActive = <any>ariaActive;
                 item._setInteractive(!this._nonInteractive);
                 if (this._nonInteractive)
                     // not focusable if not interactive:
@@ -550,13 +551,13 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
 
     private updateItemSelections() {
         if (!this._nonInteractive && this._role === 'listbox') {
-            const active = this.foundation.getSelectedIndex();
+            const active = this.foundation!.getSelectedIndex();
             // first deactivate, then activate
-            this._items.toArray().forEach((item, idx) => {
+            this._items!.toArray().forEach((item, idx) => {
                 if (idx !== active)
                     item.active = false;
             });
-            this._items.toArray().forEach((item, idx) => {
+            this._items!.toArray().forEach((item, idx) => {
                 if (idx === active)
                     item.active = true;
             });
@@ -565,16 +566,16 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
 
     private getSelection(): number | number[] {
         if (this._role === 'listbox' || this._role === 'radiogroup' || this._role === 'menu')
-            return this._items.toArray().findIndex(i => i.active);
+            return this._items!.toArray().findIndex(i => i.active);
         if (this._role === 'group')
-            return this._items.toArray().map((v, i) => v.active ? i : null).filter(i => i != null);
+            return <number[]>this._items!.toArray().map((v, i) => v.active ? i : null).filter(i => i != null);
         return -1;
     }
 
     /** @docs-private */
     getSelectedItem() {
         if (this._role === 'listbox' || this._role === 'radiogroup' || this._role === 'menu')
-            return this._items.find(i => i.active);
+            return this._items!.find(i => i.active);
         return null;
     }
 
@@ -585,9 +586,9 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
             return 'listbox';
         if (this._selectionMode === 'single' || this._selectionMode === 'active')
             return 'listbox';
-        if (this._checkboxes.length > 0)
+        if (this._checkboxes && this._checkboxes.length > 0)
             return 'group';
-        if (this._radios.length > 0)
+        if (this._radios && this._radios.length > 0)
             return 'radiogroup';
         return null;
     }
@@ -704,7 +705,7 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
     @HostListener('focusin', ['$event']) _onFocusIn(event: FocusEvent) {
         if (this.foundation && !this._nonInteractive) {
             this.foundation.setSelectedIndex(this.getSelection());
-            const index = this.getListItemIndex(event);
+            const index = this.getListItemIndex(event as {target: EventTarget});
             this.foundation.handleFocusIn(event, index);
         }
     }
@@ -712,7 +713,7 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
     @HostListener('focusout', ['$event']) _onFocusOut(event: FocusEvent) {
         if (this.foundation && !this._nonInteractive) {
             this.foundation.setSelectedIndex(this.getSelection());
-            const index = this.getListItemIndex(event);
+            const index = this.getListItemIndex(event as {target: EventTarget});
             this.foundation.handleFocusOut(event, index);
         }
     }
@@ -720,7 +721,7 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
     @HostListener('keydown', ['$event']) _onKeydown(event: KeyboardEvent) {
         if (this.foundation && !this._nonInteractive) {
             this.foundation.setSelectedIndex(this.getSelection());
-            const index = this.getListItemIndex(event);
+            const index = this.getListItemIndex(event as {target: EventTarget});
             const onRoot = this.getItem(index)?._elm.nativeElement === event.target;
             this.foundation.handleKeydown(event, onRoot, index);
             this.updateItemSelections();
@@ -730,10 +731,10 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
     @HostListener('click', ['$event']) _onClick(event: MouseEvent) {
         if (this.foundation && !this._nonInteractive) {
             this.foundation.setSelectedIndex(this.getSelection());
-            const index = this.getListItemIndex(event);
+            const index = this.getListItemIndex(event as {target: EventTarget});
             // only toggle radio/checkbox input if it's not already toggled from the event:
-            const inputElement = this.getItem(index)?._getCheckbox()?._input._elm.nativeElement ||
-                this.getItem(index)?._getRadio()?._input._elm.nativeElement;
+            const inputElement = this.getItem(index)?._getCheckbox()?._input!._elm.nativeElement ||
+                this.getItem(index)?._getRadio()?._input!._elm.nativeElement;
             const toggleInput = event.target !== inputElement;
             this.foundation.handleClick(index, toggleInput);
             this.updateItemSelections();
@@ -742,8 +743,8 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
 
     /** @docs-private */
     getItem(index: number): MdcListItemDirective | null {
-        if (index >= 0 && index < this._items.length)
-            return this._items.toArray()[index];
+        if (index >= 0 && index < this._items!.length)
+            return this._items!.toArray()[index];
         return null;
     }
 
@@ -754,12 +755,12 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
 
     /** @docs-private */
     getItemByElement(element: Element): MdcListItemDirective | null {
-        return this._items?.find(i => i._elm.nativeElement === element);
+        return this._items?.find(i => i._elm.nativeElement === element) || null;
     }
 
     private getListItemIndex(evt: {target: EventTarget}) {
-        let eventTarget = evt.target as Element;
-        const itemElements = this._items.map(item => <Element>item._elm.nativeElement);
+        let eventTarget: Element | null = evt.target as Element;
+        const itemElements = this._items!.map(item => <Element>item._elm.nativeElement);
         while (eventTarget && eventTarget !== this._elm.nativeElement) {
             const index = itemElements.findIndex(e => e === eventTarget);
             if (index !== -1)

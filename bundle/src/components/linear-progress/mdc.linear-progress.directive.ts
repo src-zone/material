@@ -25,13 +25,13 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
     private _progress = 0;
     private _buffer = 1;
     private _closed = false;
-    private _elmBuffer: HTMLElement;
-    private _elmPrimaryBar: HTMLElement;
+    private _elmBuffer: HTMLElement | null = null;
+    private _elmPrimaryBar: HTMLElement | null = null;
     /**
      * Label indicationg how the progress bar should be announced to the user.
      * Determines the ària-label` attribute value.
      */
-    @HostBinding('attr.aria-label') @Input() label: string;
+    @HostBinding('attr.aria-label') @Input() label: string | null = null;
 
     private mdcAdapter: MDCLinearProgressAdapter = {
         addClass: (className: string) => {
@@ -58,7 +58,7 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
         removeAttribute: (name) => this._rndr.removeAttribute(this._root.nativeElement, name),
         setAttribute: (name, value) => this._rndr.setAttribute(this._root.nativeElement, name, value)
     };
-    private foundation: MDCLinearProgressFoundation;
+    private foundation: MDCLinearProgressFoundation | null = null;
 
     constructor(private _rndr: Renderer2, private _root: ElementRef) {
     }
@@ -74,7 +74,7 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.foundation.destroy();
+        this.foundation?.destroy();
         this._elmPrimaryBar = null;
         this._elmBuffer = null;
     }
@@ -83,7 +83,7 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
         this.addElement(this._root.nativeElement, 'div', ['mdc-linear-progress__buffering-dots']);
         this._elmBuffer = this.addElement(this._root.nativeElement, 'div', ['mdc-linear-progress__buffer']);
         this._elmPrimaryBar = this.addElement(this._root.nativeElement, 'div', ['mdc-linear-progress__bar', 'mdc-linear-progress__primary-bar']);
-        this.addElement(this._elmPrimaryBar, 'span', ['mdc-linear-progress__bar-inner']);
+        this.addElement(this._elmPrimaryBar!, 'span', ['mdc-linear-progress__bar-inner']);
         const secondaryBar = this.addElement(this._root.nativeElement, 'div', ['mdc-linear-progress__bar', 'mdc-linear-progress__secondary-bar']);
         this.addElement(secondaryBar, 'span', ['mdc-linear-progress__bar-inner']);
     }

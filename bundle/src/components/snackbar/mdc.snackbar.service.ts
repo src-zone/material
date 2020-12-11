@@ -69,28 +69,28 @@ class MdcSnackbarInfo extends MdcSnackbarRef {
 export class MdcSnackbarService {
     private onDestroy$: Subject<any> = new Subject();
     private closed: Subject<string> = new Subject<string>();
-    private root: HTMLElement = null;
-    private label: HTMLElement = null;
-    private actionButton: HTMLElement = null;
-    private actionLabel: HTMLElement = null;
+    private root: HTMLElement | null = null;
+    private label: HTMLElement | null = null;
+    private actionButton: HTMLElement | null = null;
+    private actionLabel: HTMLElement | null = null;
     private adapter: MDCSnackbarAdapter = {
-        addClass: (name) => this.root.classList.add(name),
-        announce: () => announce(this.label, this.label),
+        addClass: (name) => this.root!.classList.add(name),
+        announce: () => announce(this.label!, this.label!),
         notifyClosed: (reason) => this.closed.next(reason),
         notifyClosing: () => {},
         notifyOpened: () => this.current?._opened.next(),
         notifyOpening: () => {},
-        removeClass: (name) => this.root.classList.remove(name)
+        removeClass: (name) => this.root!.classList.remove(name)
     };
     private handleActionClick = (evt: MouseEvent) => {
         try {
             (this.queue.length > 0) && this.queue[0]._action.next();
         } finally {
-            this.foundation.handleActionButtonClick(evt);
+            this.foundation!.handleActionButtonClick(evt);
         }
     };
-    private handleKeyDown = (evt: KeyboardEvent) => this.foundation.handleKeyDown(evt);
-    private foundation: MDCSnackbarFoundation;
+    private handleKeyDown = (evt: KeyboardEvent) => this.foundation!.handleKeyDown(evt);
+    private foundation: MDCSnackbarFoundation | null = null;
     private queue: MdcSnackbarInfo[] = [];
 
     constructor() {}
@@ -136,10 +136,10 @@ export class MdcSnackbarService {
         this.onDestroy$.next();
         this.onDestroy$.complete();
         if (this.foundation) {
-            this.actionButton.removeEventListener('çlick', this.handleActionClick);
-            this.root.removeEventListener('keydown', this.handleKeyDown);
+            this.actionButton!.removeEventListener('click', this.handleActionClick);
+            this.root!.removeEventListener('keydown', this.handleKeyDown);
             this.foundation.destroy();
-            this.root.parentElement.removeChild(this.root);
+            this.root!.parentElement!.removeChild(this.root!);
             this.root = null;
             this.label = null;
             this.actionButton = null;
@@ -157,7 +157,7 @@ export class MdcSnackbarService {
      */
     show(message: MdcSnackbarMessage): MdcSnackbarRef {
         if (!message)
-            return;
+            throw new Error('message parameter is not set in call to MdcSnackbarService.show');
         this.init();
         const ref = new MdcSnackbarInfo(message);
         this.queue.push(ref);
@@ -175,27 +175,27 @@ export class MdcSnackbarService {
         if (this.queue.length === 0)
             return;
         const info = this.queue[0];
-        this.label.textContent = info.message.message || '';
-        this.actionLabel.textContent = info.message.actionText || '';
+        this.label!.textContent = info.message.message || '';
+        this.actionLabel!.textContent = info.message.actionText || '';
         if (info.message.stacked)
-            this.root.classList.add(CLASS_STACKED);
+            this.root!.classList.add(CLASS_STACKED);
         else
-            this.root.classList.remove(CLASS_STACKED);
+            this.root!.classList.remove(CLASS_STACKED);
         try {
-            this.foundation.setTimeoutMs(info.message.timeout || numbers.DEFAULT_AUTO_DISMISS_TIMEOUT_MS);
+            this.foundation!.setTimeoutMs(info.message.timeout || numbers.DEFAULT_AUTO_DISMISS_TIMEOUT_MS);
         } catch (error) {
             console.warn(error.message);
-            this.foundation.setTimeoutMs(numbers.DEFAULT_AUTO_DISMISS_TIMEOUT_MS);
+            this.foundation!.setTimeoutMs(numbers.DEFAULT_AUTO_DISMISS_TIMEOUT_MS);
         }
-        this.foundation.open();
+        this.foundation!.open();
     }
 
     private closeCurrent(reason: string) {
         const info = this.queue.shift();
-        info._closed.next(reason);
-        info._opened.complete();
-        info._action.complete();
-        info._closed.complete();
+        info!._closed.next(reason);
+        info!._opened.complete();
+        info!._action.complete();
+        info!._closed.complete();
         if (this.queue.length > 0)
             this.showNext();
     }
@@ -208,15 +208,15 @@ export class MdcSnackbarService {
      * Set this property to true to show snackbars start-aligned instead of center-aligned. Desktop and tablet only.
      */
     get leading(): boolean {
-        return this.foundation ? this.root.classList.contains(CLASS_LEADING) : false;
+        return this.foundation ? this.root!.classList.contains(CLASS_LEADING) : false;
     }
 
     set leading(value: boolean) {
         this.init();
         if (value)
-            this.root.classList.add(CLASS_LEADING);
+            this.root!.classList.add(CLASS_LEADING);
         else
-            this.root.classList.remove(CLASS_LEADING);
+            this.root!.classList.remove(CLASS_LEADING);
     }
 
     /**
@@ -229,6 +229,6 @@ export class MdcSnackbarService {
 
     set closeOnEscape(value: boolean) {
         this.init();
-        this.foundation.setCloseOnEscape(!!value);
+        this.foundation!.setCloseOnEscape(!!value);
     }
 }

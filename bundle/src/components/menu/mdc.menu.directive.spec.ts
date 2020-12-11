@@ -116,7 +116,7 @@ describe('mdcMenu', () => {
         validateCloseBy(fixture, () => listElement(fixture, 1).click());
         expect(document.activeElement).toBe(before);
         expect(testComponent.notifications).toEqual([
-            {pick: {index: 1, value: undefined}}
+            {pick: {index: 1, value: null}}
         ]);
     }));
 

@@ -18,20 +18,20 @@ export class MdcFocusInitialDirective extends AbstractMdcFocusInitial {
     }
 }
 
-let activeTrap: FocusTrapHandleImpl = null;
+let activeTrap: FocusTrapHandleImpl | null = null;
 
 /** @docs-private */
 class FocusTrapHandleImpl implements FocusTrapHandle {
     private _active = true;
-    private trap: focusTrap.FocusTrap;
+    private trap: focusTrap.FocusTrap | null = null;
 
-    constructor(public _elm: ElementRef, focusElm: HTMLElement, skipFocus: boolean) {
+    constructor(public _elm: ElementRef, focusElm: HTMLElement | null, skipFocus: boolean) {
         if (activeTrap)
             // Stacking focus tracks (i.e. changing to another focus trap, and returning
             // to the previous on deactivation) is not supported:
             throw new Error('An mdcFocusTrap is already active.');
         this.trap = new focusTrap.FocusTrap(_elm.nativeElement, {
-            initialFocusEl: focusElm,
+            initialFocusEl: focusElm || undefined,
             skipInitialFocus: skipFocus
         });
         this.trap.trapFocus();
@@ -42,7 +42,7 @@ class FocusTrapHandleImpl implements FocusTrapHandle {
         this._active = false;
         if (activeTrap === this) {
             activeTrap = null;
-            this.trap.releaseFocus();
+            this.trap!.releaseFocus();
         }
     }
 
@@ -69,8 +69,8 @@ class FocusTrapHandleImpl implements FocusTrapHandle {
     providers: [{provide: AbstractMdcFocusTrap, useExisting: forwardRef(() => MdcFocusTrapDirective) }]
 })
 export class MdcFocusTrapDirective extends AbstractMdcFocusTrap implements OnDestroy {
-    @ContentChildren(AbstractMdcFocusInitial, {descendants: true}) _focusInitial: QueryList<AbstractMdcFocusInitial>;
-    private trap: FocusTrapHandle = null;
+    @ContentChildren(AbstractMdcFocusInitial, {descendants: true}) _focusInitials?: QueryList<AbstractMdcFocusInitial>;
+    private trap: FocusTrapHandle | null = null;
     
     constructor(private _elm: ElementRef) {
         super();
@@ -85,9 +85,9 @@ export class MdcFocusTrapDirective extends AbstractMdcFocusTrap implements OnDes
 
     /** @docs-private */
     trapFocus(): FocusTrapHandle {
-        let focusInitial: AbstractMdcFocusInitial = null;
-        this._focusInitial.forEach(focus => focusInitial = (focusInitial == null || focusInitial.priority <= focus.priority) ? focus : focusInitial);
-        this.trap = new FocusTrapHandleImpl(this._elm, focusInitial?._elm.nativeElement, false);
+        let focusInitial: AbstractMdcFocusInitial | null = null;
+        this._focusInitials!.forEach(focus => focusInitial = (focusInitial == null || focusInitial.priority! <= focus.priority!) ? focus : focusInitial);
+        this.trap = new FocusTrapHandleImpl(this._elm, (<any>focusInitial)?._elm.nativeElement, false);
         return this.trap;
     }
 }

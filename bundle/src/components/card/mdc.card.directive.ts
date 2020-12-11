@@ -91,8 +91,8 @@ export class MdcCardActionIconsDirective {
 })
 export class MdcCardActionsDirective implements AfterContentInit {
     @HostBinding('class.mdc-card__actions') _cls = true;
-    @ContentChildren(MdcButtonDirective, {descendants: true}) _buttons: QueryList<MdcButtonDirective>;
-    @ContentChildren(AbstractMdcIcon, {descendants: true}) _icons: QueryList<AbstractMdcIcon>;
+    @ContentChildren(MdcButtonDirective, {descendants: true}) _buttons?: QueryList<MdcButtonDirective>;
+    @ContentChildren(AbstractMdcIcon, {descendants: true}) _icons?: QueryList<AbstractMdcIcon>;
     private _initialized = false;
     private _fullBleed = false;
 
@@ -102,17 +102,17 @@ export class MdcCardActionsDirective implements AfterContentInit {
         this._initialized = true;
         this._initButtons();
         this._initIcons();
-        this._buttons.changes.subscribe(() => {
+        this._buttons!.changes.subscribe(() => {
             this._initButtons();
         });
-        this._icons.changes.subscribe(() => {
+        this._icons!.changes.subscribe(() => {
             this._initIcons();
         })
     }
 
     private _initButtons() {
         if (this._initialized)
-            this._buttons.forEach(btn => {
+            this._buttons!.forEach(btn => {
                 this.renderer.addClass(btn._elm.nativeElement, 'mdc-card__action');
                 this.renderer.addClass(btn._elm.nativeElement, 'mdc-card__action--button');
             });
@@ -120,7 +120,7 @@ export class MdcCardActionsDirective implements AfterContentInit {
 
     private _initIcons() {
         if (this._initialized)
-            this._icons.forEach(icon => {
+            this._icons!.forEach(icon => {
                 this.renderer.addClass(icon._elm.nativeElement, 'mdc-card__action');
                 this.renderer.addClass(icon._elm.nativeElement, 'mdc-card__action--icon');
             });

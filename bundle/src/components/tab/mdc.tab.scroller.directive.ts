@@ -44,27 +44,27 @@ export class MdcTabScrollerAreaDirective {
 export class MdcTabScrollerDirective implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-tab-scroller') _hostClass = true;
     private onDestroy$: Subject<any> = new Subject();
-    @ContentChildren(MdcTabScrollerAreaDirective) _areas: QueryList<MdcTabScrollerAreaDirective>;
-    @ContentChildren(MdcTabScrollerContentDirective, {descendants: true}) _contents: QueryList<MdcTabScrollerContentDirective>;
-    @ContentChildren(AbstractMdcTabDirective, {descendants: true}) _tabs: QueryList<AbstractMdcTabDirective>;
+    @ContentChildren(MdcTabScrollerAreaDirective) _areas?: QueryList<MdcTabScrollerAreaDirective>;
+    @ContentChildren(MdcTabScrollerContentDirective, {descendants: true}) _contents?: QueryList<MdcTabScrollerContentDirective>;
+    @ContentChildren(AbstractMdcTabDirective, {descendants: true}) _tabs?: QueryList<AbstractMdcTabDirective>;
     private document: Document;
     private _adapter: MDCTabScrollerAdapter = {
         eventTargetMatchesSelector: (target, selector) => ponyfill.matches(target as Element, selector),
         addClass: (name) => this._rndr.addClass(this._el.nativeElement, name),
         removeClass: (name) => this._rndr.removeClass(this._el.nativeElement, name),
-        addScrollAreaClass: (name) => this._rndr.addClass(this._area._el.nativeElement, name),
-        setScrollAreaStyleProperty: (name, value) => this._rndr.setStyle(this._area._el.nativeElement, name, value),
-        setScrollContentStyleProperty: (name, value) => this._rndr.setStyle(this._content._el.nativeElement, name, value),
-        getScrollContentStyleValue: (name) => getComputedStyle(this._content._el.nativeElement).getPropertyValue(name),
-        setScrollAreaScrollLeft: (scrollX) => this._area._el.nativeElement.scrollLeft = scrollX,
-        getScrollAreaScrollLeft: () => this._area._el.nativeElement.scrollLeft,
-        getScrollContentOffsetWidth: () => this._content._el.nativeElement.offsetWidth,
-        getScrollAreaOffsetWidth: () => this._area._el.nativeElement.offsetWidth,
-        computeScrollAreaClientRect: () => this._area._el.nativeElement.getBoundingClientRect(),
-        computeScrollContentClientRect: () => this._content._el.nativeElement.getBoundingClientRect(),
+        addScrollAreaClass: (name) => this._rndr.addClass(this._area!._el.nativeElement, name),
+        setScrollAreaStyleProperty: (name, value) => this._rndr.setStyle(this._area!._el.nativeElement, name, value),
+        setScrollContentStyleProperty: (name, value) => this._rndr.setStyle(this._content!._el.nativeElement, name, value),
+        getScrollContentStyleValue: (name) => getComputedStyle(this._content!._el.nativeElement).getPropertyValue(name),
+        setScrollAreaScrollLeft: (scrollX) => this._area!._el.nativeElement.scrollLeft = scrollX,
+        getScrollAreaScrollLeft: () => this._area!._el.nativeElement.scrollLeft,
+        getScrollContentOffsetWidth: () => this._content!._el.nativeElement.offsetWidth,
+        getScrollAreaOffsetWidth: () => this._area!._el.nativeElement.offsetWidth,
+        computeScrollAreaClientRect: () => this._area!._el.nativeElement.getBoundingClientRect(),
+        computeScrollContentClientRect: () => this._content!._el.nativeElement.getBoundingClientRect(),
         computeHorizontalScrollbarHeight: () => util.computeHorizontalScrollbarHeight(this.document)
     };
-    _foundation: MDCTabScrollerFoundation = null;
+    _foundation: MDCTabScrollerFoundation | null = null;
 
     constructor(private _rndr: Renderer2, private _el: ElementRef, private registry: MdcEventRegistry, @Inject(DOCUMENT) doc: any) {
         this.document = doc as Document; // work around ngc issue https://github.com/angular/angular/issues/20351
@@ -77,8 +77,8 @@ export class MdcTabScrollerDirective implements AfterContentInit, OnDestroy {
                 this.initFoundation();
         };
         initializer();
-        this._contents.changes.pipe(takeUntil(this.onDestroy$)).subscribe(initializer);
-        this._areas.changes.pipe(takeUntil(this.onDestroy$)).subscribe(initializer);
+        this._contents!.changes.pipe(takeUntil(this.onDestroy$)).subscribe(initializer);
+        this._areas!.changes.pipe(takeUntil(this.onDestroy$)).subscribe(initializer);
     }
 
     ngOnDestroy() {
@@ -92,12 +92,12 @@ export class MdcTabScrollerDirective implements AfterContentInit, OnDestroy {
         this._foundation.init();
         // manual registration of event listeners, because we need applyPassive, which is not (yet)
         // supported by angular bindings:
-        this.registry.listen(this._rndr, 'wheel', this._handleInteraction, this._area._el, events.applyPassive());
-        this.registry.listen(this._rndr, 'touchstart', this._handleInteraction, this._area._el, events.applyPassive());
-        this.registry.listen(this._rndr, 'pointerdown', this._handleInteraction, this._area._el, events.applyPassive());
-        this.registry.listen(this._rndr, 'mousedown', this._handleInteraction, this._area._el, events.applyPassive());
-        this.registry.listen(this._rndr, 'keydown', this._handleInteraction, this._area._el, events.applyPassive());
-        this.registry.listen(this._rndr, 'transitionend', this._handleTransitionEnd, this._content._el);
+        this.registry.listen(this._rndr, 'wheel', this._handleInteraction, this._area!._el, events.applyPassive());
+        this.registry.listen(this._rndr, 'touchstart', this._handleInteraction, this._area!._el, events.applyPassive());
+        this.registry.listen(this._rndr, 'pointerdown', this._handleInteraction, this._area!._el, events.applyPassive());
+        this.registry.listen(this._rndr, 'mousedown', this._handleInteraction, this._area!._el, events.applyPassive());
+        this.registry.listen(this._rndr, 'keydown', this._handleInteraction, this._area!._el, events.applyPassive());
+        this.registry.listen(this._rndr, 'transitionend', this._handleTransitionEnd, this._content!._el);
     }
 
     private destroyFoundation() {
@@ -109,14 +109,14 @@ export class MdcTabScrollerDirective implements AfterContentInit, OnDestroy {
             this.registry.unlisten('mousedown', this._handleInteraction);
             this.registry.unlisten('keydown', this._handleInteraction);
             this.registry.unlisten('transitionend', this._handleTransitionEnd);
-            this._foundation.destroy();
+            this._foundation!.destroy();
         }
         this._foundation = null;
         return destroy;
     }
 
-    private _handleInteraction = () => this._foundation.handleInteraction();
-    private _handleTransitionEnd = (evt: Event) => this._foundation.handleTransitionEnd(evt);
+    private _handleInteraction = () => this._foundation!.handleInteraction();
+    private _handleTransitionEnd = (evt: Event) => this._foundation!.handleTransitionEnd(evt);
 
     _getScrollContentWidth() {
         return this._adapter.getScrollContentOffsetWidth();

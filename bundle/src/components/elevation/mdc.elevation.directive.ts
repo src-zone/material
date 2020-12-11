@@ -8,8 +8,8 @@ import { asBoolean } from '../../utils/value.utils';
     selector: '[mdcElevation]'
 })
 export class MdcElevationDirective {
-    private _z: number = null;
-    private _transition;
+    private _z: number | null = null;
+    private _transition: boolean | null = null;
 
     constructor(private rndr: Renderer2, private _elm: ElementRef) {
     }
@@ -22,7 +22,7 @@ export class MdcElevationDirective {
         return this._z;
     }
 
-    set mdcElevation(value: string | number) {
+    set mdcElevation(value: string | number | null) {
         let newValue = (value == null || value === '') ? 1 : +value;
         if (newValue < 0)
             newValue = 0;

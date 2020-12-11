@@ -1,7 +1,8 @@
 {
   "extends": "./tsconfig-base.json",
   "compilerOptions": {
-    "outDir": "build"
+    "outDir": "build",
+    "strict": true
   },
   "files": [
     "src/material.module.ts"
@@ -13,6 +14,9 @@
     "flatModuleOutFile": "material.js",
     "flatModuleId": "@blox/material",
     "generateCodeForLibraries": true,
-    "preserveWhitespaces": false
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true,
+    "fullTemplateTypeCheck": true
   }
 }

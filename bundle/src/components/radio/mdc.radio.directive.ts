@@ -16,7 +16,7 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 })
 export class MdcRadioInputDirective extends AbstractMdcInput {
     @HostBinding('class.mdc-radio__native-control') _cls = true;
-    private _id: string;
+    private _id: string | null = null;
     private _disabled = false;
 
     constructor(public _elm: ElementRef, @Optional() @Self() public _cntr: NgControl) {
@@ -29,7 +29,7 @@ export class MdcRadioInputDirective extends AbstractMdcInput {
         return this._id;
     }
   
-    set id(value: string) {
+    set id(value: string | null) {
         this._id = value;
     }
 
@@ -62,7 +62,7 @@ export class MdcRadioInputDirective extends AbstractMdcInput {
 })
 export class MdcRadioDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-radio') _cls = true;
-    @ContentChildren(MdcRadioInputDirective) _inputs: QueryList<MdcRadioInputDirective>;
+    @ContentChildren(MdcRadioInputDirective) _inputs?: QueryList<MdcRadioInputDirective>;
     private mdcAdapter: MDCRadioAdapter = {
         // We can just ignore all adapter calls, since we have a HostBinding for the
         // disabled classes, and never call foundation.setDisabled
@@ -70,7 +70,7 @@ export class MdcRadioDirective extends AbstractMdcRipple implements AfterContent
         removeClass: () => undefined,
         setNativeControlDisabled: () => undefined
     };
-    private foundation = new MDCRadioFoundation(this.mdcAdapter);
+    private foundation: MDCRadioFoundation | null = new MDCRadioFoundation(this.mdcAdapter);
 
     constructor(private renderer: Renderer2, private root: ElementRef, registry: MdcEventRegistry) {
         super(root, renderer, registry);
@@ -80,15 +80,15 @@ export class MdcRadioDirective extends AbstractMdcRipple implements AfterContent
         this.addBackground();
         this.addRippleSurface('mdc-radio__ripple');
         this.initRipple(true);
-        this.foundation.init();
-        this._inputs.changes.subscribe(() => {
+        this.foundation!.init();
+        this._inputs!.changes.subscribe(() => {
             this.reinitRipple();
         });
     }
 
     ngOnDestroy() {
         this.destroyRipple();
-        this.foundation.destroy();
+        this.foundation?.destroy();
         this.foundation = null;
     }
 

@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "es2015",
+    "target": "es2015",
+    "module": "es2020",
     "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
+    "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
     "sourceMap": true,
     "noEmitHelpers": true,
@@ -11,7 +11,7 @@
     "skipLibCheck": true,
     "declaration": true,
     "lib": [
-      "es2015",
+      "es2018",
       "dom"
     ],
     "typeRoots": [
