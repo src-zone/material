@@ -391,11 +391,11 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
      * not selected. Making a choice chip selected, will make all other chips in that set
      * not selected.
      */
-    @Input() get selected(): any {
+    @Input() get selected(): boolean {
         return this.initialized ? this._foundation.isSelected() : this.selectedMem;
     }
 
-    set selected(val: any) {
+    set selected(val: boolean) {
         let value = asBoolean(val);
         this.selectedMem = value;
         if (this.initialized && value !== this._foundation.isSelected())
@@ -404,11 +404,13 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
         // initialization
     }
 
-    @Input() get removable(): any {
+    static ngAcceptInputType_selected: boolean | '';
+
+    @Input() get removable(): boolean {
         return this.initialized ? this._foundation.getShouldRemoveOnTrailingIconClick() : this.removableMem;
     }
 
-    set removable(val: any) {
+    set removable(val: boolean) {
         let value = asBoolean(val);
         this.removableMem = value;
         if (this.initialized && value !== this._foundation.getShouldRemoveOnTrailingIconClick())
@@ -416,6 +418,8 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
         // when not initialized the removable change will be set on the foundation after
         // initialization
     }
+
+    static ngAcceptInputType_removable: boolean | '';
 
     /** @docs-private */
     protected computeRippleBoundingRect() {
@@ -496,7 +500,7 @@ export class MdcChipSetDirective implements AfterContentInit, OnDestroy {
         return this._type;
     }
 
-    set mdcChipSet(value: any) {
+    set mdcChipSet(value: 'choice' | 'filter' | 'input' | 'action') {
         if (value !== this._type) {
             if (value === 'choice' || value === 'filter' || value ==='input')
                 this._type = value;
@@ -506,6 +510,8 @@ export class MdcChipSetDirective implements AfterContentInit, OnDestroy {
                 this.initChips(true);
         }
     }
+
+    static ngAcceptInputType_mdcChipSet: 'choice' | 'filter' | 'input' | 'action' | '';
 
     private initChips(force = false) {
         this._chips!.forEach(chip => {

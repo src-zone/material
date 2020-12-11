@@ -76,7 +76,7 @@ export class MdcScrollbarResizeDirective implements OnDestroy {
         return this._scrollbarResize;
     }
 
-    set mdcScrollbarResize(val: any) {
+    set mdcScrollbarResize(val: boolean) {
         let newValue = asBoolean(val);
         if (newValue !== this._scrollbarResize) {
             this._scrollbarResize = newValue;
@@ -90,4 +90,6 @@ export class MdcScrollbarResizeDirective implements OnDestroy {
             }
         }
     }
+
+    static ngAcceptInputType_mdcScrollbarResize: boolean | '';
 }

@@ -26,9 +26,11 @@ export class MdcTabIndicatorContentDirective {
         return this._type;
     }
 
-    set mdcTabIndicatorContent(value: any) {
+    set mdcTabIndicatorContent(value: 'underline' | 'icon') {
         this._type = value === 'icon' ? value : 'underline'
     }
+
+    static ngAcceptInputType_mdcTabIndicatorContent: 'underline' | 'icon' | '';
 
     @HostBinding('class.mdc-tab-indicator__content--underline') get _underline() {
         return this._type === 'underline';
@@ -113,14 +115,16 @@ export class MdcTabIndicatorDirective implements AfterContentInit, OnDestroy {
         return this._type;
     }
 
-    set mdcTabIndicator(value: any) {
-        let newValue = value === 'fade' ? value : 'slide'
+    set mdcTabIndicator(value: 'slide' | 'fade') {
+        let newValue: 'slide' | 'fade' = value === 'fade' ? value : 'slide'
         if (newValue !== this._type) {
             this._type = newValue;
             if (this.destroyFoundation())
                 this.initFoundation();
         }
     }
+
+    static ngAcceptInputType_mdcTabIndicator: 'slide' | 'fade' | '';
 
     /** @docs-private */
     activate(previousIndicatorClientRect: ClientRect | undefined) {

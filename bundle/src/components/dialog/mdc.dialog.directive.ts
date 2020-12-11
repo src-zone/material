@@ -111,7 +111,7 @@ export class MdcDialogTriggerDirective {
      * interacts with this element. (When set to an empty string the button/element will not be wired
      * to close the dialog).
      */
-    @Input() readonly mdcDialogTrigger: string | null = null;
+    @Input() mdcDialogTrigger: string | null = null;
 }
 
 /**

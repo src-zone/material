@@ -55,10 +55,10 @@ export class MdcCheckboxInputDirective extends AbstractMdcInput implements OnIni
     /** @docs-private */
     @HostBinding()
     @Input() get disabled() {
-        return this._cntr ? this._cntr.disabled : this._disabled;
+        return this._cntr ? !!this._cntr.disabled : this._disabled;
     }
 
-    set disabled(value: any) {
+    set disabled(value: boolean) {
         const newVal = asBoolean(value);
         if (newVal != this._disabled) {
             this._disabled = asBoolean(newVal);
@@ -66,15 +66,19 @@ export class MdcCheckboxInputDirective extends AbstractMdcInput implements OnIni
         }
     }
 
+    static ngAcceptInputType_disabled: boolean | '';
+
     /** @docs-private */
     @HostBinding()
-    @Input() get checked(): any {
+    @Input() get checked(): boolean {
         return this._checked;
     }
 
-    set checked(value: any) {
+    set checked(value: boolean) {
         this.updateValue(value, false);
     }
+
+    static ngAcceptInputType_checked: boolean | '';
 
     private updateValue(value: any, fromControl: boolean) {
         // When the 'checked' property is the source of the change, we want to coerce boolean
@@ -98,13 +102,15 @@ export class MdcCheckboxInputDirective extends AbstractMdcInput implements OnIni
         return this._indeterminate;
     }
 
-    set indeterminate(value: any) {
+    set indeterminate(value: boolean) {
         const newVal = asBoolean(value);
         if (newVal !== this._indeterminate) {
             this._indeterminate = newVal;
             Promise.resolve().then(() => this._indeterminateChange.emit(newVal));
         }
     }
+
+    static ngAcceptInputType_indeterminate: boolean | '';
 
     // We listen to click-event instead of change-event, because IE doesn't fire the
     // change-event when an indeterminate checkbox is clicked. There's no need to

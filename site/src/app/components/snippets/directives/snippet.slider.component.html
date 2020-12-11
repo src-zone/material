@@ -7,19 +7,19 @@
 </div>
 <p>Customize slider:</p>
 <div mdcTextField>
-  <input mdcTextFieldInput [ngModel]="value" (blur)="value = $event.target.value" required autocomplete="off"/>
+  <input mdcTextFieldInput [ngModel]="value" (blur)="value = $any($event.target).value" required autocomplete="off"/>
   <label mdcFloatingLabel>Current Value</label>
 </div>
 <div mdcTextField>
-  <input mdcTextFieldInput [ngModel]="min" (blur)="min = $event.target.value" required autocomplete="off"/>
+  <input mdcTextFieldInput [ngModel]="min" (blur)="min = $any($event.target).value" required autocomplete="off"/>
   <label mdcFloatingLabel>Min Value</label>
 </div>
 <div mdcTextField>
-  <input mdcTextFieldInput [ngModel]="max" (blur)="max = $event.target.value" required autocomplete="off"/>
+  <input mdcTextFieldInput [ngModel]="max" (blur)="max = $any($event.target).value" required autocomplete="off"/>
   <label mdcFloatingLabel>Max Value</label>
 </div>
 <div mdcTextField>
-  <input mdcTextFieldInput [ngModel]="step" (blur)="step = $event.target.value" required autocomplete="off"/>
+  <input mdcTextFieldInput [ngModel]="step" (blur)="step = $any($event.target).value" required autocomplete="off"/>
   <label mdcFloatingLabel>Step</label>
 </div>
 <div mdcFormField>

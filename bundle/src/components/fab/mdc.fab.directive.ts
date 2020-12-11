@@ -65,9 +65,11 @@ export class MdcFabDirective extends AbstractMdcRipple implements AfterContentIn
         return this._mini;
     }
 
-    set mini(val: any) {
+    set mini(val: boolean) {
         this._mini = asBoolean(val);
     }
+
+    static ngAcceptInputType_mini: boolean | '';
 
     /** @docs-private */
     @HostBinding('class.mdc-fab--extended') get extended() {
@@ -83,9 +85,11 @@ export class MdcFabDirective extends AbstractMdcRipple implements AfterContentIn
         return this._exited;
     }
 
-    set exited(val: any) {
+    set exited(val: boolean) {
         this._exited = asBoolean(val);
     }
+
+    static ngAcceptInputType_exited: boolean | '';
 }
 
 export const FAB_DIRECTIVES = [

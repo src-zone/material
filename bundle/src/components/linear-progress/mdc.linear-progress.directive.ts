@@ -107,7 +107,7 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
         return this._indeterminate;
     }
     
-    set indeterminate(value: any) {
+    set indeterminate(value: boolean) {
         let newValue = asBoolean(value);
         if (newValue !== this._indeterminate) {
             this._indeterminate = newValue;
@@ -121,6 +121,8 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
         }
     }
 
+    static ngAcceptInputType_indeterminate: boolean | '';
+
     /**
      * Reverses the direction of the linear progress indicator.
      */
@@ -129,10 +131,12 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
         return this._reverse;
     }
 
-    set reversed(value: any) {
+    set reversed(value: boolean) {
         this._reverse = asBoolean(value);
         this.foundation?.setReverse(this._reverse);
     }
+
+    static ngAcceptInputType_reversed: boolean | '';
 
     /**
      * Set the progress, the value should be between [0, 1].
@@ -142,10 +146,12 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
         return this._progress;
     }
 
-    set progressValue(value: number | string) {
+    set progressValue(value: number) {
         this._progress = +value;
         this.foundation?.setProgress(this._progress);
     }
+
+    static ngAcceptInputType_progressValue: number | string;
 
     /**
      * Set the buffer progress, the value should be between [0, 1].
@@ -155,10 +161,12 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
         return this._buffer;
     }
 
-    set bufferValue(value: number | string) {
+    set bufferValue(value: number) {
         this._buffer = +value;
         this.foundation?.setBuffer(this._buffer);
     }
+
+    static ngAcceptInputType_bufferValue: number | string;
 
     /**
      * When set to true this closes (animates away) the progress bar,
@@ -169,7 +177,7 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
         return this._closed;
     }
 
-    set closed(value: any) {
+    set closed(value: boolean) {
         let newValue = asBoolean(value);
         if (newValue !== this._closed) {
             this._closed = newValue;
@@ -179,6 +187,8 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
                 this.foundation?.open();
         }
     }
+
+    static ngAcceptInputType_closed: boolean | '';
 }
 
 export const LINEAR_PROGRESS_DIRECTIVES = [

@@ -14,7 +14,7 @@ import { AbstractSnippetComponent } from '../abstract.snippet.component';
 })
 export class SnippetDrawerComponent/*snip:skip*/extends AbstractSnippetComponent/*snip:endskip*/ {
     open = false;
-    drawerType = 'dismissible';
+    drawerType: 'dismissible' | 'permanent' | 'modal' = 'dismissible';
     header = true;
     //snip:skip
     constructor() {

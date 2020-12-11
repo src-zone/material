@@ -154,7 +154,7 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
         return this._open;
     }
     
-    set open(val: any) {
+    set open(val: boolean) {
         let newValue = asBoolean(val);
         if (newValue !== this._open) {
             this._open = newValue;
@@ -165,6 +165,8 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
             this.openChange.emit(newValue);
         }
     }
+
+    static ngAcceptInputType_open: boolean | '';
 
     /** @docs-private */
     closeWithoutFocusRestore() {
@@ -227,13 +229,15 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
         return this._hoisted;
     }
 
-    set hoisted(val: any) {
+    set hoisted(val: boolean) {
         let newValue = asBoolean(val);
         if (newValue !== this._hoisted) {
             this._hoisted = newValue;
             this.foundation?.setIsHoisted(newValue);
         }
     }
+
+    static ngAcceptInputType_hoisted: boolean | '';
 
     /**
      * Set to a value other then false use fixed positioning, so that the menu stays in the
@@ -245,13 +249,15 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
         return this._fixed;
     }
 
-    set fixed(val: any) {
+    set fixed(val: boolean) {
         let newValue = asBoolean(val);
         if (newValue !== this._fixed) {
             this._fixed = newValue;
             this.foundation?.setFixedPosition(newValue);
         }
     }
+
+    static ngAcceptInputType_fixed: boolean | '';
 
     // listened after notifyOpen, listening stopped after notifyClose
     /** @docs-private */

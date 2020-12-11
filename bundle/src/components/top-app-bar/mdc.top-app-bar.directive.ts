@@ -42,9 +42,11 @@ export class MdcTopAppBarSectionDirective {
         return this._alignStart;
     }
 
-    set alignStart(val: any) {
+    set alignStart(val: boolean) {
         this._alignStart = asBoolean(val);
     }
+
+    static ngAcceptInputType_alignStart: boolean | '';
 
     /**
      * Make the section align to the end of the toolbar row (default alignment is to the
@@ -54,9 +56,11 @@ export class MdcTopAppBarSectionDirective {
         return this._alignEnd;
     }
 
-    set alignEnd(val: any) {
+    set alignEnd(val: boolean) {
         this._alignEnd = asBoolean(val);
     }
+
+    static ngAcceptInputType_alignEnd: boolean | '';
 }
 
 /**
@@ -265,6 +269,8 @@ export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
         }
     }
 
+    static ngAcceptInputType_mdcTopAppBar: 'short' | 'fixed' | 'default' | '';
+
     /**
      * If set to a value other than false, the top-app-bar will be styled as a taller
      * bar.
@@ -273,13 +279,15 @@ export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
         return this._prominent;
     }
 
-    set prominent(val: any) {
+    set prominent(val: boolean) {
         let newValue = asBoolean(val);
         if (newValue !== this._prominent) {
             this._prominent = asBoolean(val);
             this.initFixedAdjust();
         }
     }
+
+    static ngAcceptInputType_prominent: boolean | '';
 
     /**
      * If set to a value other than false, the top-app-bar will be styled a bit more
@@ -289,13 +297,15 @@ export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
         return this._dense;
     }
 
-    set dense(val: any) {
+    set dense(val: boolean) {
         let newValue = asBoolean(val);
         if (newValue !== this._dense) {
             this._dense = asBoolean(val);
             this.initFixedAdjust();
         }
     }
+
+    static ngAcceptInputType_dense: boolean | '';
     
     /**
      * Set this property to true or false to force the collapsed/uncollapsed state of a short
@@ -310,9 +320,11 @@ export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
         return this._collapsedOverride == null ? !!this._collapsedState : this._collapsedOverride;
     }
 
-    set collapsed(val: any) {
+    set collapsed(val: boolean) {
         this._collapsedOverride = asBooleanOrNull(val);
     }
+
+    static ngAcceptInputType_collapsed: boolean | '';
 
     /**
      * Top-app-bars are positioned over the rest of their viewport. This means that

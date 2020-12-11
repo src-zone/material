@@ -75,12 +75,14 @@ export class MdcTextFieldInputDirective extends AbstractMdcInput implements OnIn
      */
     @HostBinding()
     @Input() get disabled() {
-        return this._cntr ? this._cntr.disabled : this._disabled;
+        return this._cntr ? !!this._cntr.disabled : this._disabled;
     }
 
-    set disabled(value: any) {
+    set disabled(value: boolean) {
         this._disabled = asBoolean(value);
     }
+
+    static ngAcceptInputType_disabled: boolean | '';
 
     /** @docs-private */
     @Input() get type() {
@@ -205,6 +207,8 @@ export class MdcTextFieldIconDirective implements AfterContentInit, OnDestroy {
         this._tabIndex = asNumberOrNull(value);
     }
 
+    static ngAcceptInputType_tabindex: string | number | null;
+
     /**
      * The `role` attribute for icons defaults to `null` (no role set) for icons without
      * subscriptions to the `interact` output, and to `button` for icons that have an `interact`
@@ -287,6 +291,8 @@ export class MdcTextFieldHelperTextDirective implements AfterContentInit, OnDest
             this._foundation.setValidation(this._validation);
     }
 
+    static ngAcceptInputType_validation: boolean | '';
+
     /**
      * If set to a value other than false, the helper text is always visible.
      * Otherwise the helper text will only be shown when the input has focus
@@ -297,6 +303,8 @@ export class MdcTextFieldHelperTextDirective implements AfterContentInit, OnDest
         if (this._foundation)
             this._foundation.setPersistent(this._persistent);
     }
+
+    static ngAcceptInputType_persistent: boolean | '';
 }
 
 /**
@@ -579,6 +587,8 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
             this.foundation?.setValid(this._valid);
         }
     }
+
+    static ngAcceptInputType_valid: boolean | '';
 
     @HostBinding('class.mdc-text-field--textarea') get _textArea(): boolean {
         return this._input!._isTextarea();

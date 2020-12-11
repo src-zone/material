@@ -72,9 +72,11 @@ export class MdcButtonDirective extends AbstractMdcRipple implements AfterConten
         return this._raised;
     }
 
-    set raised(val: any) {
+    set raised(val: boolean) {
         this._raised = asBoolean(val);
     }
+
+    static ngAcceptInputType_raised: boolean | '';
 
     /**
      * When this input is defined and does not have value false, the button will be styled 
@@ -85,9 +87,11 @@ export class MdcButtonDirective extends AbstractMdcRipple implements AfterConten
         return this._outlined;
     }
 
-    set outlined(val: any) {
+    set outlined(val: boolean) {
         this._outlined = asBoolean(val);
     }
+
+    static ngAcceptInputType_outlined: boolean | '';
 
     /**
      * Set this property to a non false value for a contained button
@@ -98,9 +102,11 @@ export class MdcButtonDirective extends AbstractMdcRipple implements AfterConten
         return this._unelevated;
     }
 
-    set unelevated(val: any) {
+    set unelevated(val: boolean) {
         this._unelevated = asBoolean(val);
     }
+
+    static ngAcceptInputType_unelevated: boolean | '';
 }
 
 export const BUTTON_DIRECTIVES = [
