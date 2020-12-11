@@ -72,7 +72,7 @@ jobs:
       - name: Build
         run: cd site && npm run build
       - name: Create 404 page
-        run: cp site/dist/material.html site/dist/404.html
+        run: cp site/dist/index.html site/dist/404.html
       - name: Archive build artifacts
         uses: actions/upload-artifact@v2
         with:
