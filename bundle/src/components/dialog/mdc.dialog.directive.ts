@@ -9,6 +9,7 @@ import { AbstractMdcFocusInitial, AbstractMdcFocusTrap, FocusTrapHandle } from '
 import { HasId } from '../abstract/mixin.mdc.hasid';
 import { applyMixins } from '../../utils/mixins';
 
+@Directive()
 class MdcDialogTitleDirectiveBase {}
 interface MdcDialogTitleDirectiveBase extends HasId {}
 applyMixins(MdcDialogTitleDirectiveBase, [HasId]);
@@ -30,6 +31,7 @@ export class MdcDialogTitleDirective extends MdcDialogTitleDirectiveBase impleme
     }
 }
 
+@Directive()
 class MdcDialogContentDirectiveBase {}
 interface MdcDialogContentDirectiveBase extends HasId {}
 applyMixins(MdcDialogContentDirectiveBase, [HasId]);

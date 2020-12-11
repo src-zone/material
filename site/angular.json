@@ -23,7 +23,6 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
-            "extractCss": true,
             "assets": [
               {
                 "glob": "*.*",
@@ -45,9 +44,9 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                  "node_modules",
-                  "node_modules/bourbon/core",
-                  "node_modules/bourbon-neat/core"
+                "node_modules",
+                "node_modules/bourbon/core",
+                "node_modules/bourbon-neat/core"
               ]
             },
             "scripts": []
@@ -63,7 +62,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": true,
-              "extractCss": true,
               "namedChunks": true,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -108,8 +106,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": [
-            ],
+            "assets": [],
             "styles": [
               {
                 "input": "src/style/dark.scss",

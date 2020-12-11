@@ -7,6 +7,7 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 import { HasId } from '../abstract/mixin.mdc.hasid';
 import { applyMixins } from '../../utils/mixins';
 
+@Directive()
 class MdcFloatingLabelDirectiveBase {}
 interface MdcFloatingLabelDirectiveBase extends HasId {}
 applyMixins(MdcFloatingLabelDirectiveBase, [HasId]);
