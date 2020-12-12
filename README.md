@@ -1,4 +1,4 @@
-<a href="https://blox.src.zone/material"><img align="right" src="https://blox.src.zone/assets/bloxmaterial.03ecfe4fa0147a781487749dc1cc4580.svg" width="100" height="100"/></a>
+<a href="https://material.src.zone"><img align="right" src="https://material.src.zone/css/bloxmaterial.4b1fe3a46fecc6299b03.svg" width="100" height="100"/></a>
 
 Blox Material makes it possible to create beautiful Angular apps with modular and customizable UI components,
 designed according to the [Material Design Guidelines](https://material.io/design/guidelines-overview/).
@@ -15,9 +15,9 @@ It integrates [Material Components for the Web](https://github.com/material-comp
 [![License](https://img.shields.io/github/license/src-zone/material.svg)](LICENSE.txt)
 [![CircleCI](https://img.shields.io/circleci/project/github/src-zone/material.svg)](https://circleci.com/gh/src-zone/material/tree/master)
 [![Codecov](https://img.shields.io/codecov/c/github/src-zone/material)](https://codecov.io/gh/src-zone/material)
-[![Documentation](https://img.shields.io/badge/demo-website-lightgrey.svg)](https://blox.src.zone/material)
-* [Documention, Demo & Examples](https://blox.src.zone/material)
-* [Documention, Demo & Examples for the beta release channel](https://material.src.zone/)
+[![Documentation](https://img.shields.io/badge/demo-website-lightgrey.svg)](https://material.src.zone/)
+* [Documention, Demo & Examples (for the beta releases)](https://material.src.zone/)
+* [Documention, Demo & Examples (for v0.x)](https://v0.material.src.zone/material)
 * [Changelog](https://github.com/src-zone/material/blob/master/bundle/CHANGELOG.md)
 * [News (via twitter)](https://twitter.com/TheSourceZone)
 
