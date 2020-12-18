@@ -3,10 +3,10 @@ name: Build, Test, Preview
 on:
   push:
     branches:
-      master
+      - master
     tags:
-      v[0-9]+.[0-9]+.[0-9]+
-      v[0-9]+.[0-9]+.[0-9]+-*
+      - v[0-9]+.[0-9]+.[0-9]+
+      - v[0-9]+.[0-9]+.[0-9]+-*
       # note: not a regular expression! matches e.g. v1.0.12 or v2.1.0-beta.2
   pull_request:
 
@@ -54,7 +54,7 @@ jobs:
   publish-bundle:
     runs-on: ubuntu-latest
     needs: build-bundle
-#    if: github.event_name == 'push' && contains(github.ref, 'refs/tags/v')
+    if: github.event_name == 'push' && contains(github.ref, 'refs/tags/v')
     steps:
       - uses: actions/checkout@v2
       - name: Set up Use Node.js 14.15
