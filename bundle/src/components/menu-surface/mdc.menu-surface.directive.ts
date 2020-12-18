@@ -24,7 +24,7 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
      * will position itself relative to this anchor element. Assigning this property is not needed
      * if you wrap your surface inside an `mdcMenuAnchor`.
      */
-    @Input() readonly menuAnchor: MdcMenuAnchorDirective | Element | null = null;
+    @Input() menuAnchor: MdcMenuAnchorDirective | Element | null = null;
     /**
      * Assign any `HTMLElement` to this property to use as the viewport instead of
      * the window object. The menu will choose to open from the top or bottom, and
@@ -33,7 +33,7 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
      * You should probably not use this property. We only use it to keep the documentation
      * snippets on our demo website contained in their window.
      */
-    @Input() readonly viewport: HTMLElement | null = null;
+    @Input() viewport: HTMLElement | null = null;
     /**
      * Event emitted when the menu is opened or closed. (When this event is triggered, the
      * surface is starting to open/close, but the animation may not have fully completed
