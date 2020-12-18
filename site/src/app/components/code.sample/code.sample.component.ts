@@ -84,6 +84,7 @@ export class CodeSampleComponent implements AfterContentInit {
             const focusTrapVersion = packageJson['dependencies']['focus-trap'];
             const files = {
                 'angular.json': require('raw-loader!../../../stackblitz.template/angular.json.template').default,
+                'tsconfig.json': require('raw-loader!../../../stackblitz.template/tsconfig.json.template').default,
                 'src/polyfills.ts': require('raw-loader!../../../stackblitz.template/src/polyfills.ts.template').default,
                 'src/main.ts': require('raw-loader!../../../stackblitz.template/src/main.ts.template').default,
                 'src/styles.scss': require('raw-loader!../../../stackblitz.template/src/styles.scss.template').default,
