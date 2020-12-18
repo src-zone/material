@@ -47,21 +47,21 @@ jobs:
       - run:
           name: Check for Test Failures
           command: if [ -f bundle/failure.marker ] ; then exit 127; else exit 0; fi
-  publish-bundle:
-    <<: *defaults
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - run:
-          name: Add README to bundle
-          command: cp README.md bundle/README.md
-      - run:
-          name: Authenticate with NPM
-          command: cd bundle && echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-      - run:
-          name: Publish Blox Material
-          command: cd bundle && npm publish --tag beta
+  # publish-bundle:
+  #   <<: *defaults
+  #   steps:
+  #     - checkout
+  #     - attach_workspace:
+  #         at: .
+  #     - run:
+  #         name: Add README to bundle
+  #         command: cp README.md bundle/README.md
+  #     - run:
+  #         name: Authenticate with NPM
+  #         command: cd bundle && echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+  #     - run:
+  #         name: Publish Blox Material
+  #         command: cd bundle && npm publish --tag beta
 
 workflows:
   version: 2
@@ -77,11 +77,11 @@ workflows:
           filters:
             tags:
               only: /.*/
-      - publish-bundle:
-          requires:
-            - test-bundle
-          filters:
-            tags:
-              only: /^v[0-9]+(\.[0-9]+)*([-].*)?$/
-            branches:
-              ignore: /.*/
+      # - publish-bundle:
+      #     requires:
+      #       - test-bundle
+      #     filters:
+      #       tags:
+      #         only: /^v[0-9]+(\.[0-9]+)*([-].*)?$/
+      #       branches:
+      #         ignore: /.*/
