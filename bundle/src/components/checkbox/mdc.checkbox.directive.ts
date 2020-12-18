@@ -135,7 +135,7 @@ export class MdcCheckboxInputDirective extends AbstractMdcInput implements OnIni
  *
  * This directive can be used together with an <code>mdcFormField</code> to
  * easily position checkboxes and their labels, see
- * <a href="/material/components/form-field">mdcFormField</a>.
+ * <a href="/components/form-field">mdcFormField</a>.
  */
 @Directive({
     selector: '[mdcCheckbox]'

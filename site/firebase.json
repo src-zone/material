@@ -27,7 +27,7 @@
         ]
       },
       {
-        "regex": ".*\\.[0-9a-f]{18,}\\..*",
+        "regex": ".*[.\\][0-9a-f]{18,}\\..*",
         "headers": [
           {"key": "Cache-Control", "value": "max-age=31536000,public,immutable"}
         ]
