@@ -23,11 +23,10 @@
     "copy-types": "cpy \"**/*.d.ts\" ../dist --cwd=build --parents",
     "apidocs": "ts-node --project tools/dgeni/tsconfig.json tools/dgeni/index.ts",
     "build-noclean": "npm run ngc && npm run bundle && npm run copy-types && npm run apidocs",
-    "build": "npm run clean && npm run build-noclean",
+    "build": "ngcc && npm run clean && npm run build-noclean",
     "test": "karma start",
     "test:ci": "karma start",
-    "test:watch": "karma start karma.conf.ts --single-run false",
-    "postinstall": "ngcc"
+    "test:watch": "karma start karma.conf.ts --single-run false"
   },
   "dependencies": {
     "material-components-web": "^5.1.0"
