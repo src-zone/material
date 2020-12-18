@@ -20,7 +20,7 @@ export class MdcTabBarDirective implements AfterContentInit, OnDestroy {
     /**
      * Event emitted when the active tab changes.
      */
-    @Output() tabChange: EventEmitter<MdcTabChange> = new EventEmitter();
+    @Output() readonly tabChange: EventEmitter<MdcTabChange> = new EventEmitter();
     private _adapter: MDCTabBarAdapter = {
         scrollTo: (scrollX) => this._scroller!._foundation!.scrollTo(scrollX),
         incrementScroll: (scrollXIncrement) => this._scroller!._foundation!.incrementScroll(scrollXIncrement),

@@ -27,22 +27,22 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
      * Event emitted when the value changes. The value may change because of user input,
      * or as a side affect of setting new min, max, or step values.
      */
-    @Output() valueChange: EventEmitter<number> = new EventEmitter();
+    @Output() readonly valueChange: EventEmitter<number> = new EventEmitter();
     /**
      * Event emitted when the min range value changes. This may happen as a side effect
      * of setting a new max value (when the new max is smaller than the old min).
      */
-    @Output() minValueChange: EventEmitter<number> = new EventEmitter();
+    @Output() readonly minValueChange: EventEmitter<number> = new EventEmitter();
     /**
      * Event emitted when the max range value changes. This may happen as a side effect
      * of setting a new min value (when the new min is larger than the old max).
      */
-    @Output() maxValueChange: EventEmitter<number> = new EventEmitter();
+    @Output() readonly maxValueChange: EventEmitter<number> = new EventEmitter();
     /**
      * Event emitted when the step value changes. This may happen as a side effect
      * of making the slider discrete.
      */
-    @Output() stepValueChange: EventEmitter<number> = new EventEmitter();
+    @Output() readonly stepValueChange: EventEmitter<number> = new EventEmitter();
     private trackCntr: HTMLElement | null = null;
     private _elmThumbCntr: HTMLElement | null = null;
     private _elmSliderPin: HTMLElement | null = null;
