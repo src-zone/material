@@ -73,12 +73,12 @@ export class MdcDrawerScrimDirective {
 })
 export class MdcDrawerDirective implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-drawer') _cls = true;
-    @ContentChildren(MdcListItemDirective, {descendants: true}) _items: QueryList<MdcListItemDirective>;
+    @ContentChildren(MdcListItemDirective, {descendants: true}) _items?: QueryList<MdcListItemDirective>;
     private _onDocumentClick = (event: MouseEvent) => this.onDocumentClick(event);
-    private focusTrapHandle: FocusTrapHandle;
+    private focusTrapHandle: FocusTrapHandle | null = null;
     private type: MdcDrawerType = 'permanent';
-    private previousFocus: Element | HTMLOrSVGElement | null;
-    private _open: boolean;
+    private previousFocus: Element | HTMLOrSVGElement | null = null;
+    private _open: boolean | null = null;
     private document: Document;
     private mdcAdapter: MDCDrawerAdapter = {
         addClass: (className) =>  this._rndr.addClass(this._elm.nativeElement, className),
@@ -92,7 +92,7 @@ export class MdcDrawerDirective implements AfterContentInit, OnDestroy {
                 prev.focus();
         },
         focusActiveNavigationItem: () => {
-            const active = this._items.find(item => item.active);
+            const active = this._items!.find(item => item.active);
             active?._elm.nativeElement.focus();
         },
         notifyClose: () => {
@@ -109,7 +109,7 @@ export class MdcDrawerDirective implements AfterContentInit, OnDestroy {
         trapFocus: () => this.trapFocus(),
         releaseFocus: () => this.untrapFocus()
     };
-    private foundation: MDCDismissibleDrawerFoundation; // MDCModalDrawerFoundation extends MDCDismissibleDrawerFoundation
+    private foundation: MDCDismissibleDrawerFoundation | null = null; // MDCModalDrawerFoundation extends MDCDismissibleDrawerFoundation
     /**
      * Event emitted when the drawer is opened or closed. The event value will be
      * <code>true</code> when the drawer is opened, and <code>false</code> when the
@@ -151,7 +151,7 @@ export class MdcDrawerDirective implements AfterContentInit, OnDestroy {
 
     private initDrawer() {
         this.destroyDrawer();
-        let newFoundation: MDCDismissibleDrawerFoundation = null;
+        let newFoundation: MDCDismissibleDrawerFoundation | null = null;
         const thiz = this;
         if (this.type === 'dismissible')
             newFoundation = new class extends MDCDismissibleDrawerFoundation{
@@ -220,15 +220,17 @@ export class MdcDrawerDirective implements AfterContentInit, OnDestroy {
         }
     }
 
+    static ngAcceptInputType_mdcDrawer: 'permanent' | 'dismissible' | 'modal' | '';
+
     /**
      * Input to open (assign value <code>true</code>) or close (assign value <code>false</code>)
      * the drawer.
      */
     @Input() get open() {
-        return this._open;
+        return !!this._open;
     }
 
-    set open(value: any) {
+    set open(value: boolean) {
         let newValue = asBoolean(value);
         if (newValue !== this._open) {
             if (this.foundation) {
@@ -238,6 +240,8 @@ export class MdcDrawerDirective implements AfterContentInit, OnDestroy {
         }
     }
 
+    static ngAcceptInputType_open: boolean | '';
+
     private fixOpenClose(open: boolean) {
         // the foundation ignores calls to open/close while an opening/closing animation is running.
         // so when the animation ends, we're just going to try again
@@ -246,9 +250,9 @@ export class MdcDrawerDirective implements AfterContentInit, OnDestroy {
         Promise.resolve().then(() => {
             if (this._open !== open) {
                 if (this._open)
-                    this.foundation.open();
+                    this.foundation!.open();
                 else
-                    this.foundation.close();
+                    this.foundation!.close();
             }
         });
     }
@@ -312,9 +316,11 @@ export class MdcDrawerAppContent {
         return this._cls;
     }
 
-    set mdcDrawerAppContent(value: any) {
+    set mdcDrawerAppContent(value: boolean) {
         this._cls = asBoolean(value);
     }
+
+    static ngAcceptInputType_mdcDrawerAppContent: boolean | '';
 }
 
 export const DRAWER_DIRECTIVES = [

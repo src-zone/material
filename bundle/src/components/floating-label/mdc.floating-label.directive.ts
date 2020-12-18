@@ -1,5 +1,5 @@
 import { AfterContentInit, Directive, ElementRef, forwardRef, HostBinding,
-  OnDestroy, Renderer2, Input, OnInit } from '@angular/core';
+  OnDestroy, Renderer2, OnInit } from '@angular/core';
 import { MDCFloatingLabelFoundation, MDCFloatingLabelAdapter } from '@material/floating-label';
 import { ponyfill } from '@material/dom';
 import { AbstractMdcLabel } from '../abstract/abstract.mdc.label';

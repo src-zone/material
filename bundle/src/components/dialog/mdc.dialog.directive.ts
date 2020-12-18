@@ -68,20 +68,20 @@ export class MdcDialogContentDirective extends MdcDialogContentDirectiveBase imp
 })
 export class MdcDialogActionsDirective implements AfterContentInit {
     @HostBinding('class.mdc-dialog__actions') _cls = true;
-    @ContentChildren(MdcButtonDirective, {descendants: true}) _buttons: QueryList<MdcButtonDirective>;
+    @ContentChildren(MdcButtonDirective, {descendants: true}) _buttons?: QueryList<MdcButtonDirective>;
 
     constructor(private _rndr: Renderer2) {
     }
 
     ngAfterContentInit() {
         this.initButtons();
-        this._buttons.changes.subscribe(() => {
+        this._buttons!.changes.subscribe(() => {
             this.initButtons();
         });
     }
 
     private initButtons() {
-        this._buttons.forEach(btn => {
+        this._buttons!.forEach(btn => {
             this._rndr.addClass(btn._elm.nativeElement, 'mdc-dialog__button');
         });
     }
@@ -111,7 +111,7 @@ export class MdcDialogTriggerDirective {
      * interacts with this element. (When set to an empty string the button/element will not be wired
      * to close the dialog).
      */
-    @Input() readonly mdcDialogTrigger: string;
+    @Input() mdcDialogTrigger: string | null = null;
 }
 
 /**
@@ -152,20 +152,20 @@ export class MdcDialogSurfaceDirective {
     @HostBinding('class.mdc-dialog__surface') _cls = true;
     @HostBinding('attr.role') _role = 'alertdialog';
     @HostBinding('attr.aria-modal') _modal = 'true';
-    @HostBinding('attr.aria-labelledby') _labelledBy = null;
-    @HostBinding('attr.aria-describedby') _describedBy = null;
-    @ContentChildren(MdcDialogTitleDirective) _titles: QueryList<MdcDialogTitleDirective>;
-    @ContentChildren(MdcDialogContentDirective) _contents: QueryList<MdcDialogContentDirective>;
+    @HostBinding('attr.aria-labelledby') _labelledBy: string | null = null;
+    @HostBinding('attr.aria-describedby') _describedBy: string | null = null;
+    @ContentChildren(MdcDialogTitleDirective) _titles?: QueryList<MdcDialogTitleDirective>;
+    @ContentChildren(MdcDialogContentDirective) _contents?: QueryList<MdcDialogContentDirective>;
 
     ngAfterContentInit() {
-        this._titles.changes.subscribe(() => this.setAriaLabels());
-        this._contents.changes.subscribe(() => this.setAriaLabels());
+        this._titles!.changes.subscribe(() => this.setAriaLabels());
+        this._contents!.changes.subscribe(() => this.setAriaLabels());
         this.setAriaLabels();
     }
 
     private setAriaLabels() {
-        this._labelledBy = this._titles?.first?.id;
-        this._describedBy = this._contents?.first?.id;
+        this._labelledBy = this._titles!.first?.id;
+        this._describedBy = this._contents!.first?.id;
     }
 }
 
@@ -204,11 +204,11 @@ export class MdcDialogScrimDirective {
 })
 export class MdcDialogDirective implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-dialog') _cls = true;
-    @ContentChild(MdcDialogSurfaceDirective) _surface: MdcDialogSurfaceDirective;
-    @ContentChildren(MdcDialogTriggerDirective, {descendants: true}) _triggers: QueryList<MdcDialogTriggerDirective>;
-    @ContentChildren(MdcDialogContentDirective, {descendants: true}) _contents: QueryList<MdcDialogContentDirective>;
-    @ContentChildren(MdcDialogActionsDirective, {descendants: true}) _footers: QueryList<MdcDialogActionsDirective>;
-    @ContentChildren(MdcDialogDefaultDirective, {descendants: true}) _defaultActions: QueryList<MdcDialogDefaultDirective>;
+    @ContentChild(MdcDialogSurfaceDirective) _surface: MdcDialogSurfaceDirective | null = null;
+    @ContentChildren(MdcDialogTriggerDirective, {descendants: true}) _triggers?: QueryList<MdcDialogTriggerDirective>;
+    @ContentChildren(MdcDialogContentDirective, {descendants: true}) _contents?: QueryList<MdcDialogContentDirective>;
+    @ContentChildren(MdcDialogActionsDirective, {descendants: true}) _footers?: QueryList<MdcDialogActionsDirective>;
+    @ContentChildren(MdcDialogDefaultDirective, {descendants: true}) _defaultActions?: QueryList<MdcDialogDefaultDirective>;
     /**
      * Event emitted when the user accepts the dialog, e.g. by pressing enter or clicking the button
      * with `mdcDialogTrigger="accept"`.
@@ -237,19 +237,19 @@ export class MdcDialogDirective implements AfterContentInit, OnDestroy {
      * `mdcDialogTrigger` for more information.
      */
     @Output() closed: EventEmitter<{action: string}> = new EventEmitter();
-    private _onDocumentKeydown = (event) => this.onDocumentKeydown(event);
-    private focusTrapHandle: FocusTrapHandle;
+    private _onDocumentKeydown = (event: KeyboardEvent) => this.onDocumentKeydown(event);
+    private focusTrapHandle: FocusTrapHandle | null = null;
     private mdcAdapter: MDCDialogAdapter = {
         addClass: (className: string) => this._rndr.addClass(this._elm.nativeElement, className),
         removeClass: (className: string) => this._rndr.removeClass(this._elm.nativeElement, className),
         addBodyClass: (className: string) => this._rndr.addClass(this.document.body, className),
         removeBodyClass: (className: string) => this._rndr.removeClass(this.document.body, className),
-        areButtonsStacked: () => this._footers?.first ? util.areTopsMisaligned(this._footers.first?._buttons.map(b => b._elm.nativeElement)) : false,
+        areButtonsStacked: () => this._footers?.first ? util.areTopsMisaligned(this._footers.first?._buttons!.map(b => b._elm.nativeElement)) : false,
         clickDefaultButton: () => this._defaultActions?.first?._elm.nativeElement.click(),
         eventTargetMatches: (target, selector) => target ? ponyfill.matches(target as Element, selector) : false,
         getActionFromEvent: (evt: Event) => {
-            const action = this.closest(evt.target as Element, this._triggers.toArray());
-            return action?.mdcDialogTrigger;
+            const action = this.closest(evt.target as Element, this._triggers!.toArray());
+            return action?.mdcDialogTrigger || null;
         },
         getInitialFocusEl: () => null, // ignored in our implementation. mdcFocusTrap determines this by itself
         hasClass: (className) => {
@@ -282,7 +282,7 @@ export class MdcDialogDirective implements AfterContentInit, OnDestroy {
         reverseButtons: () => undefined,
         trapFocus: () => this.trapFocus()
     };
-    private foundation: MDCDialogFoundation;
+    private foundation: MDCDialogFoundation | null = null;
     private document: Document;
 
     constructor(private _elm: ElementRef, private _rndr: Renderer2, private _registry: MdcEventRegistry,
@@ -298,8 +298,8 @@ export class MdcDialogDirective implements AfterContentInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.document.removeEventListener('click', this._onDocumentKeydown);
-        this.foundation.destroy();
+        this.document.removeEventListener('keydown', this._onDocumentKeydown);
+        this.foundation?.destroy();
         this.foundation = null;
     }
 
@@ -307,7 +307,7 @@ export class MdcDialogDirective implements AfterContentInit, OnDestroy {
      * Call this method to open the dialog.
      */
     open() {
-        this.foundation.open();
+        this.foundation!.open();
     }
 
     /**
@@ -315,7 +315,7 @@ export class MdcDialogDirective implements AfterContentInit, OnDestroy {
      * (and trigger the `accept` event), or `close` to indicate dismissal (and trigger the `cancel` event).
      */
     close(action = 'close') {
-        this.foundation.close(action);
+        this.foundation!.close(action);
     }
 
     /**
@@ -323,7 +323,7 @@ export class MdcDialogDirective implements AfterContentInit, OnDestroy {
      * should be scrollable)
      */
     layout() {
-        this.foundation.layout();
+        this.foundation!.layout();
     }
 
     private trapFocus() {
@@ -355,7 +355,7 @@ export class MdcDialogDirective implements AfterContentInit, OnDestroy {
     }
 
     private get _content() {
-        return this._contents.first;
+        return this._contents!.first;
     }
 
     private closest(elm: Element, choices: MdcDialogTriggerDirective[]) {

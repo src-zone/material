@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostBinding, Input, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, HostBinding, Input, OnInit, Renderer2 } from '@angular/core';
 import { asBoolean } from '../../utils/value.utils';
 
 /**
@@ -8,8 +8,8 @@ import { asBoolean } from '../../utils/value.utils';
     selector: '[mdcElevation]'
 })
 export class MdcElevationDirective {
-    private _z: number = null;
-    private _transition;
+    private _z: number | null = null;
+    private _transition: boolean = false;
 
     constructor(private rndr: Renderer2, private _elm: ElementRef) {
     }
@@ -19,11 +19,11 @@ export class MdcElevationDirective {
      * When set to 0, the element will not be elevated! The default value is 1.
      */
     @Input() get mdcElevation() {
-        return this._z;
+        return this._z == null ? 1 : this._z;
     }
 
-    set mdcElevation(value: string | number) {
-        let newValue = (value == null || value === '') ? 1 : +value;
+    set mdcElevation(value: number) {
+        let newValue = (value == null || <any>value === '') ? 1 : +value;
         if (newValue < 0)
             newValue = 0;
         if (newValue > 24)
@@ -38,6 +38,8 @@ export class MdcElevationDirective {
         this._z = newValue;
     }
 
+    static ngAcceptInputType_mdcElevation: string | number;
+
     /**
      * When this input is defined and does not have value false, changes of the elevation
      * will be animated.
@@ -47,7 +49,9 @@ export class MdcElevationDirective {
         return this._transition;
     }
 
-    set animateTransition(value: any) {
+    set animateTransition(value: boolean) {
         this._transition = asBoolean(value);
     }
+
+    static ngAcceptInputType_animateTransition: boolean | '';
 }

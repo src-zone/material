@@ -32,7 +32,7 @@ const ANGULAR_ITEM_CLASSES = [
     listCssClasses.LIST_ITEM_DISABLED_CLASS, cssClasses.MENU_SELECTED_LIST_ITEM
 ];
 
-enum FocusOnOpen {first = 0, last = 1, root = -1};
+export enum FocusOnOpen {first = 0, last = 1, root = -1};
 let nextId = 1;
 
 /**
@@ -64,10 +64,10 @@ export class MdcMenuDirective implements AfterContentInit, OnInit, OnDestroy {
     /** @docs-private */
     @Output() readonly itemValuesChanged: EventEmitter<void> = new EventEmitter();
     @HostBinding('class.mdc-menu') _cls = true;
-    private _id: string;
-    private cachedId: string;
+    private _id: string | null = null;
+    private cachedId: string | null = null;
     private _function = MdcListFunction.menu;
-    private _lastList: MdcListDirective;
+    private _lastList: MdcListDirective | null= null;
 
     /**
      * Event emitted when the user selects a value. The passed object contains a value
@@ -75,7 +75,7 @@ export class MdcMenuDirective implements AfterContentInit, OnInit, OnDestroy {
      * (set to the index of the selected list item).
      */
     @Output() pick: EventEmitter<MdcMenuSelection> = new EventEmitter();
-    @ContentChildren(MdcListDirective) _listQuery: QueryList<MdcListDirective>;
+    @ContentChildren(MdcListDirective) _listQuery?: QueryList<MdcListDirective>;
     private mdcAdapter: MDCMenuAdapter = {
         addClassToElementAtIndex: (index, className) => {
             // ignore classes we maintain ourselves
@@ -116,17 +116,17 @@ export class MdcMenuDirective implements AfterContentInit, OnInit, OnDestroy {
             else
                 this.surface.open = false;
         },
-        getElementIndex: (element) => this._list?._items.toArray().findIndex(i => i._elm.nativeElement === element),
+        getElementIndex: (element) => this._list?._items!.toArray().findIndex(i => i._elm.nativeElement === element),
         notifySelected: (evtData) => {
-            this.pick.emit({index: evtData.index, value: this._list._items.toArray()[evtData.index].value});
+            this.pick.emit({index: evtData.index, value: this._list._items!.toArray()[evtData.index].value});
         },
-        getMenuItemCount: () => this._list?._items.length || 0,
+        getMenuItemCount: () => this._list?._items!.length || 0,
         focusItemAtIndex: (index) => this._list.getItem(index)?._elm.nativeElement.focus(),
         focusListRoot: () => this._list?._elm.nativeElement.focus(),
         getSelectedSiblingOfItemAtIndex: () => -1, // menuSelectionGroup not yet supported
         isSelectableItemAtIndex: () => false // menuSelectionGroup not yet supported
     };
-    private foundation: MDCMenuFoundation;
+    private foundation: MDCMenuFoundation | null = null;
 
     constructor(public _elm: ElementRef, private rndr: Renderer2, @Self() private surface: MdcMenuSurfaceDirective) {
     }
@@ -137,12 +137,12 @@ export class MdcMenuDirective implements AfterContentInit, OnInit, OnDestroy {
     }
 
     ngAfterContentInit() {
-        this._lastList = this._listQuery.first;
-        this._listQuery.changes.subscribe(() => {
-            if (this._lastList !== this._listQuery.first) {
+        this._lastList = this._listQuery!.first;
+        this._listQuery!.changes.subscribe(() => {
+            if (this._lastList !== this._listQuery!.first) {
                 this.onListChange$.next();
                 this._lastList?._setFunction(MdcListFunction.plain);
-                this._lastList = this._listQuery.first;
+                this._lastList = this._listQuery!.first;
                 this.destroyFoundation();
                 if (this._lastList)
                     this.initAll();
@@ -170,7 +170,7 @@ export class MdcMenuDirective implements AfterContentInit, OnInit, OnDestroy {
     }
 
     private initAll() {
-        Promise.resolve().then(() => this._lastList._setFunction(this._function));
+        Promise.resolve().then(() => this._lastList!._setFunction(this._function));
         this.initFoundation();
         this.subscribeItemActions();
         this._lastList?.itemsChanged.pipe(takeUntil(this.onListChange$)).subscribe(() => this.itemsChanged.emit());
@@ -195,7 +195,7 @@ export class MdcMenuDirective implements AfterContentInit, OnInit, OnDestroy {
 
     private subscribeItemActions() {
         this._lastList?.itemAction.pipe(takeUntil(this.onListChange$)).subscribe(data => {
-            this.foundation?.handleItemAction(this._list.getItem(data.index)._elm.nativeElement);
+            this.foundation?.handleItemAction(this._list.getItem(data.index)!._elm.nativeElement);
         });
     }
 
@@ -205,7 +205,7 @@ export class MdcMenuDirective implements AfterContentInit, OnInit, OnDestroy {
         return this._id;
     }
   
-    set id(value: string) {
+    set id(value: string | null) {
         this._id = value || this._newId();
     }
 
@@ -247,7 +247,7 @@ export class MdcMenuDirective implements AfterContentInit, OnInit, OnDestroy {
     }
 
     get _list(): MdcListDirective {
-        return this._listQuery.first;
+        return this._listQuery!.first;
     }
 
     @HostListener('keydown', ['$event']) _onKeydown(event: KeyboardEvent) {
@@ -279,8 +279,8 @@ export class MdcMenuDirective implements AfterContentInit, OnInit, OnDestroy {
     selector: '[mdcMenuTrigger]',
 })
 export class MdcMenuTriggerDirective {
-    @HostBinding('attr.role') _role = 'button';
-    private _mdcMenuTrigger: MdcMenuDirective = null;
+    @HostBinding('attr.role') _role: string | null = 'button';
+    private _mdcMenuTrigger: MdcMenuDirective | null = null;
     private down = {
         enter: false,
         space: false
@@ -330,14 +330,14 @@ export class MdcMenuTriggerDirective {
         return this._mdcMenuTrigger;
     }
 
-    set mdcMenuTrigger(value: MdcMenuDirective) {
+    set mdcMenuTrigger(value: MdcMenuDirective | null) {
         if (value && value.openAndFocus)
             this._mdcMenuTrigger = value;
         else
             this._mdcMenuTrigger = null;
     }
 
-    private setDown(event: KeyboardEvent, isDown) {
+    private setDown(event: KeyboardEvent, isDown: boolean) {
         const {key, keyCode} = event;
         if (key === 'Enter' || keyCode === 13)
             this.down.enter = isDown;

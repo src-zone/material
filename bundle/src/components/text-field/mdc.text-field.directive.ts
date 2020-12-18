@@ -28,11 +28,11 @@ export class MdcTextFieldInputDirective extends AbstractMdcInput implements OnIn
     @HostBinding('attr.aria-labelledby') _labeledBy: string | null = null;
     @Output() readonly _valueChange: EventEmitter<string | null> = new EventEmitter<string | null>();
     private onDestroy$: Subject<any> = new Subject();
-    private _id: string;
+    private _id: string | null = null;
     private _type = 'text';
     private _value = '';
     private _disabled = false;
-    private cachedId: string;
+    private cachedId: string | null = null;
 
     constructor(public _elm: ElementRef, private renderer: Renderer2, @Optional() @Self() public _cntr: NgControl) {
         super();
@@ -42,7 +42,7 @@ export class MdcTextFieldInputDirective extends AbstractMdcInput implements OnIn
         // Force setter to be called in case id was not specified.
         this.id = this.id;
         
-        this._cntr?.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+        this._cntr?.valueChanges!.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
             // (using the value of the elemnt, because the value of the control might be of another type,
             // e.g. the ngModel for type=number inputs is a number)
             this.updateValue(this._elm.nativeElement.value, true);
@@ -66,7 +66,7 @@ export class MdcTextFieldInputDirective extends AbstractMdcInput implements OnIn
         return this._id;
     }
   
-    set id(value: string) {
+    set id(value: string | null) {
         this._id = value || this._newId();
     }
 
@@ -75,12 +75,14 @@ export class MdcTextFieldInputDirective extends AbstractMdcInput implements OnIn
      */
     @HostBinding()
     @Input() get disabled() {
-        return this._cntr ? this._cntr.disabled : this._disabled;
+        return this._cntr ? !!this._cntr.disabled : this._disabled;
     }
 
-    set disabled(value: any) {
+    set disabled(value: boolean) {
         this._disabled = asBoolean(value);
     }
+
+    static ngAcceptInputType_disabled: boolean | '';
 
     /** @docs-private */
     @Input() get type() {
@@ -117,7 +119,7 @@ export class MdcTextFieldInputDirective extends AbstractMdcInput implements OnIn
             this._valueChange.emit(this._elm.nativeElement.value);
         }
         if (!fromControl && this._cntr && newVal !== this._cntr.value) {
-            this._cntr.control.setValue(newVal); // TODO how to convert to the type of value the controlpects?
+            this._cntr.control!.setValue(newVal); // TODO how to convert to the type of value the controlpects?
         }
     }
 
@@ -128,7 +130,7 @@ export class MdcTextFieldInputDirective extends AbstractMdcInput implements OnIn
 
     /** @docs-private */
     get valid(): boolean {
-        return this._cntr ? this._cntr.valid : (this._elm.nativeElement as HTMLInputElement).validity.valid;
+        return this._cntr ? !!this._cntr.valid : (this._elm.nativeElement as HTMLInputElement).validity.valid;
     }
 
     _isBadInput() {
@@ -164,8 +166,8 @@ export class MdcTextFieldIconDirective implements AfterContentInit, OnDestroy {
     @Output() readonly interact: EventEmitter<void> = new EventEmitter();
     @HostBinding('class.mdc-text-field__icon--leading') _leading = false;
     @HostBinding('class.mdc-text-field__icon--trailing') _trailing = false;
-    private _tabIndex: number | null;
-    private _role: string | null;
+    private _tabIndex: number | null = null;
+    private _role: string | null = null;
     
     _mdcAdapter: MDCTextFieldIconAdapter = {
         getAttr: (name: string) => this._el.nativeElement.getAttribute(name),
@@ -176,17 +178,17 @@ export class MdcTextFieldIconDirective implements AfterContentInit, OnDestroy {
         deregisterInteractionHandler: (evtType, handler) => this._reg.unlisten(evtType, handler),
         notifyIconAction: () => this.interact.emit()
     };
-    _foundation = new MDCTextFieldIconFoundation(this._mdcAdapter);
+    _foundation: MDCTextFieldIconFoundation | null = new MDCTextFieldIconFoundation(this._mdcAdapter);
 
     constructor(private _rndr: Renderer2, public _el: ElementRef, private _reg: MdcEventRegistry) {
     }
 
     ngAfterContentInit() {
-        this._foundation.init();
+        this._foundation!.init();
     }
 
     ngOnDestroy() {
-        this._foundation.destroy();
+        this._foundation?.destroy();
         this._foundation = null;
     }
 
@@ -204,6 +206,8 @@ export class MdcTextFieldIconDirective implements AfterContentInit, OnDestroy {
     set tabindex(value) {
         this._tabIndex = asNumberOrNull(value);
     }
+
+    static ngAcceptInputType_tabindex: string | number | null;
 
     /**
      * The `role` attribute for icons defaults to `null` (no role set) for icons without
@@ -261,7 +265,7 @@ export class MdcTextFieldHelperTextDirective implements AfterContentInit, OnDest
             throw new Error("MdcTextFieldHelperTextAdapter.setContent not supported");
         }
     };
-    _foundation: MDCTextFieldHelperTextFoundation;
+    _foundation: MDCTextFieldHelperTextFoundation | null = null;
 
     constructor(private _rndr: Renderer2, public _elm: ElementRef) {
     }
@@ -273,7 +277,7 @@ export class MdcTextFieldHelperTextDirective implements AfterContentInit, OnDest
     }
 
     ngOnDestroy() {
-        this._foundation.destroy();
+        this._foundation?.destroy();
         this._foundation = null;
     }
 
@@ -287,6 +291,8 @@ export class MdcTextFieldHelperTextDirective implements AfterContentInit, OnDest
             this._foundation.setValidation(this._validation);
     }
 
+    static ngAcceptInputType_validation: boolean | '';
+
     /**
      * If set to a value other than false, the helper text is always visible.
      * Otherwise the helper text will only be shown when the input has focus
@@ -297,6 +303,8 @@ export class MdcTextFieldHelperTextDirective implements AfterContentInit, OnDest
         if (this._foundation)
             this._foundation.setPersistent(this._persistent);
     }
+
+    static ngAcceptInputType_persistent: boolean | '';
 }
 
 /**
@@ -326,21 +334,21 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
     private onInputChange$: Subject<any> = new Subject();
     private onHelperTextChange$: Subject<any> = new Subject();
     @HostBinding('class.mdc-text-field') _cls = true;
-    @ContentChildren(MdcTextFieldIconDirective) _icons: QueryList<MdcTextFieldIconDirective>;
-    @ContentChildren(MdcTextFieldInputDirective) _inputs: QueryList<MdcTextFieldInputDirective>;
-    @ContentChildren(MdcFloatingLabelDirective, {descendants: true}) _floatingLabels: QueryList<MdcFloatingLabelDirective>;
-    @ContentChildren(MdcNotchedOutlineDirective) _outlines: QueryList<MdcNotchedOutlineDirective>;
-    private _leadingIcon: MdcTextFieldIconDirective;
-    private _trailingIcon: MdcTextFieldIconDirective;
-    private _helperText: MdcTextFieldHelperTextDirective;
-    private _bottomLineElm: HTMLElement = null;
-    private _valid: boolean = null;
+    @ContentChildren(MdcTextFieldIconDirective) _icons?: QueryList<MdcTextFieldIconDirective>;
+    @ContentChildren(MdcTextFieldInputDirective) _inputs?: QueryList<MdcTextFieldInputDirective>;
+    @ContentChildren(MdcFloatingLabelDirective, {descendants: true}) _floatingLabels?: QueryList<MdcFloatingLabelDirective>;
+    @ContentChildren(MdcNotchedOutlineDirective) _outlines?: QueryList<MdcNotchedOutlineDirective>;
+    private _leadingIcon: MdcTextFieldIconDirective | null = null;
+    private _trailingIcon: MdcTextFieldIconDirective | null = null;
+    private _helperText: MdcTextFieldHelperTextDirective | null = null;
+    private _bottomLineElm: HTMLElement | null = null;
+    private _valid: boolean | null = null;
     private mdcLineRippleAdapter: MDCLineRippleAdapter = {
         addClass: (className: string) => this.renderer.addClass(this._bottomLineElm, className),
         removeClass: (className: string) => this.renderer.removeClass(this._bottomLineElm, className),
-        hasClass: (className) => this._bottomLineElm.classList.contains(className),
+        hasClass: (className) => this._bottomLineElm!.classList.contains(className),
         setStyle: (name: string, value: string) => this.renderer.setStyle(this._bottomLineElm, name, value),
-        registerEventHandler: (evtType, handler) => this.registry.listenElm(this.renderer, evtType, handler, this._bottomLineElm),
+        registerEventHandler: (evtType, handler) => this.registry.listenElm(this.renderer, evtType, handler, this._bottomLineElm!),
         deregisterEventHandler: (evtType, handler) => this.registry.unlisten(evtType, handler)
     };
     private mdcAdapter: MDCTextFieldAdapter = {
@@ -356,22 +364,22 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
         registerInputInteractionHandler: (evtType, handler) => this._input && this.registry.listen(this.renderer, evtType, handler, this._input._elm),
         deregisterInputInteractionHandler: (evtType, handler) => this.registry.unlisten(evtType, handler),
         registerValidationAttributeChangeHandler: (handler: (arg: Array<any>) => void) => {
-            const getAttributesList = (mutationsList) => mutationsList
-                .map(mutation => mutation.attributeName)
-                .filter(attrName => attrName);
+            const getAttributesList = (mutationsList: any) => mutationsList
+                .map((mutation: any) => mutation.attributeName)
+                .filter((attrName: string) => attrName);
             const observer = new MutationObserver((mutationsList) => handler(getAttributesList(mutationsList)));
-            observer.observe(this._input._elm.nativeElement, {attributes: true});
+            observer.observe(this._input!._elm.nativeElement, {attributes: true});
             return observer;
         },
         deregisterValidationAttributeChangeHandler: (observer: MutationObserver) => observer.disconnect(),
         getNativeInput: () => ({
-            value: this._input.value,
-            disabled: this._input.disabled,
-            maxLength: this._input._elm.nativeElement.maxLength,
-            type: this._input.type,
+            value: this._input!.value,
+            disabled: this._input!.disabled,
+            maxLength: this._input!._elm.nativeElement.maxLength,
+            type: this._input!.type,
             validity: {
-                valid: this._valid == null ? this._input.valid : !!this._valid,
-                badInput: this._input._isBadInput()
+                valid: this._valid == null ? this._input!.valid : !!this._valid,
+                badInput: this._input!._isBadInput()
             }
         }),
         isFocused: () => !!this._input && document.activeElement === this._input._elm.nativeElement,
@@ -386,8 +394,8 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
         notchOutline: (labelWidth: number) => this._outline?.open(labelWidth),
         closeOutline: () => this._outline?.close()
     };
-    private bottomLineFoundation: MDCLineRippleFoundation;
-    private foundation: MDCTextFieldFoundation;
+    private bottomLineFoundation: MDCLineRippleFoundation | null = null;
+    private foundation: MDCTextFieldFoundation | null = null;
 
     constructor(private renderer: Renderer2, private root: ElementRef, private registry: MdcEventRegistry) {
         super(root, renderer, registry);
@@ -395,10 +403,10 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
 
     ngAfterContentInit() {        
         merge(
-            this._floatingLabels.changes,
-            this._icons.changes,
-            this._inputs.changes,
-            this._outlines.changes,
+            this._floatingLabels!.changes,
+            this._icons!.changes,
+            this._inputs!.changes,
+            this._outlines!.changes,
             this.onHelperTextChange$
         ).pipe(
             takeUntil(this.onDestroy$),
@@ -425,9 +433,9 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
         this.attachLabelToInput();
         this.initIcons();
         this.foundation = new MDCTextFieldFoundation(this.mdcAdapter, {
-            helperText: this.helperText ? this.helperText._foundation : undefined,
-            leadingIcon: this._leadingIcon ? this._leadingIcon._foundation : undefined,
-            trailingIcon: this._trailingIcon ? this._trailingIcon._foundation : undefined
+            helperText: this.helperText?._foundation ? this.helperText._foundation : undefined,
+            leadingIcon: this._leadingIcon?._foundation ? this._leadingIcon._foundation : undefined,
+            trailingIcon: this._trailingIcon?._foundation ? this._trailingIcon._foundation : undefined
         });
         this.foundation.init();
         this.subscribeInputChanges();
@@ -437,7 +445,7 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
         this.destroyRippleSurface();
         this.destroyRipple();
         this.destroyLineRipple();
-        this.foundation.destroy();
+        this.foundation?.destroy();
         this.foundation = null;
     }
 
@@ -459,7 +467,7 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
 
     private destroyLineRipple() {
         if (this._bottomLineElm) {
-            this.bottomLineFoundation.destroy();
+            this.bottomLineFoundation?.destroy();
             this.bottomLineFoundation = null;
             this.renderer.removeChild(this.root.nativeElement, this._bottomLineElm);
             this._bottomLineElm = null;
@@ -470,22 +478,22 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
         if (this._outline) {
             // the outline may not be valid after re-initialisation, recompute outline when all
             // style/structural changes have been employed:
-            setTimeout(() => {this.foundation.notchOutline(this.foundation.shouldFloat); }, 0);
+            setTimeout(() => {this.foundation?.notchOutline(this.foundation.shouldFloat); }, 0);
         }
     }
 
     private initIcons() {
         this._leadingIcon = this.computeLeadingIcon();
         this._trailingIcon = this.computeTrailingIcon(this._leadingIcon);
-        this._icons.forEach(icon => {
+        this._icons!.forEach(icon => {
             icon._leading = icon === this._leadingIcon;
             icon._trailing = icon === this._trailingIcon;
         });
     }
 
     private computeLeadingIcon() {
-        if (this._icons.length > 0) {
-            let icon = this._icons.first;
+        if (this._icons!.length > 0) {
+            let icon = this._icons!.first;
             let prev = this.previousElement(icon._el.nativeElement);
             let last = icon._el.nativeElement;
             while (true) {
@@ -505,9 +513,9 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
         return null;
     }
 
-    private computeTrailingIcon(leading: MdcTextFieldIconDirective) {
-        if (this._icons.length > 0) {
-            let icon = this._icons.last;
+    private computeTrailingIcon(leading: MdcTextFieldIconDirective | null) {
+        if (this._icons!.length > 0) {
+            let icon = this._icons!.last;
             if (icon === leading)
                 return null;
             // if not the leading icon, it must be the trailing icon:
@@ -529,13 +537,13 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
         // otherwise the floatingLabel gets a 'for' attribute, attaching it to the input:
         let first = true;
         const needLabeledBy = this.root.nativeElement.nodeName.toLowerCase() === 'label' || !this._floatingLabel?.isLabelElement();
-        this._inputs.forEach(input => {
-            input._labeledBy = (first && needLabeledBy) ? this._floatingLabel?.id : null;
+        this._inputs!.forEach(input => {
+            input._labeledBy = (first && needLabeledBy) ? this._floatingLabel?.id || null : null;
             first = false;
         });
         first = true;
-        this._floatingLabels.forEach(label => {
-            label.for = (first && !needLabeledBy && this._floatingLabel?.isLabelElement()) ? this._input?.id : null;
+        this._floatingLabels?.forEach(label => {
+            label.for = (first && !needLabeledBy && this._floatingLabel?.isLabelElement()) ? this._input?.id || null : null;
             first = false;
         });
     }
@@ -543,13 +551,13 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
     private subscribeInputChanges() {
         this.onInputChange$.next();
         this._input?._valueChange.asObservable().pipe(takeUntil(this.onInputChange$)).subscribe((value) => {
-            this.foundation.setValue(value);
+            this.foundation?.setValue(value!); // value can be null, but null should be accepted by foundation
         });
     }
 
     /** @docs-private */
     protected getRippleInteractionElement() {
-        return this._input?._elm;
+        return this._input!._elm;
     }
 
     /**
@@ -570,18 +578,20 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
     @Input() set valid(value: boolean) {
         if (value == null) {
             this._valid = null; // reset to null, validity now managed by the input control.
-            this.foundation.setUseNativeValidation(true);
+            this.foundation?.setUseNativeValidation(true);
             // foundation doesn't change style when we switch to native validation;
             // trigger possible new style:
-            this.foundation['styleValidity_'](this.mdcAdapter.getNativeInput().validity.valid);
+            this.foundation && (<any>this.foundation)['styleValidity_'](this.mdcAdapter.getNativeInput()?.validity.valid);
         } else if (value !== this._valid) {
             this._valid = asBoolean(value);
-            this.foundation.setValid(this._valid);
+            this.foundation?.setValid(this._valid);
         }
     }
 
+    static ngAcceptInputType_valid: boolean | '';
+
     @HostBinding('class.mdc-text-field--textarea') get _textArea(): boolean {
-        return this._input._isTextarea();
+        return this._input!._isTextarea();
     }
 
     /** @docs-private */
@@ -609,11 +619,11 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
      * input to add a helper-text or validation message to the text-field. See the examples for hints
      * on how to do this.
      */
-    @Input() get helperText(): MdcTextFieldHelperTextDirective {
+    @Input() get helperText(): MdcTextFieldHelperTextDirective | null {
         return this._helperText;
     }
 
-    set helperText(helperText: MdcTextFieldHelperTextDirective) {
+    set helperText(helperText: MdcTextFieldHelperTextDirective | null) {
         this._helperText = helperText;
         this.onHelperTextChange$.next();
     }

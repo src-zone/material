@@ -15,7 +15,7 @@ let nextId = 1;
     providers: [{provide: AbstractMdcInput, useExisting: forwardRef(() => MdcFormFieldInputDirective) }]
 })
 export class MdcFormFieldInputDirective extends AbstractMdcInput {
-    private _id: string;
+    private _id: string | null = null;
     private _disabled = false;
 
     constructor(public _elm: ElementRef, @Optional() @Self() public _cntr: NgControl) {
@@ -27,18 +27,20 @@ export class MdcFormFieldInputDirective extends AbstractMdcInput {
         return this._id;
     }
   
-    set id(value: string) {
+    set id(value: string | null) {
         this._id = value;
     }
 
     @HostBinding()
     @Input() get disabled() {
-        return this._cntr ? this._cntr.disabled : this._disabled;
+        return this._cntr ? !!this._cntr.disabled : this._disabled;
     }
 
-    set disabled(value: any) {
+    set disabled(value: boolean) {
         this._disabled = asBoolean(value);
     }
+
+    static ngAcceptInputType_disabled: boolean | '';
 }
 
 @Directive({
@@ -46,7 +48,7 @@ export class MdcFormFieldInputDirective extends AbstractMdcInput {
     providers: [{provide: AbstractMdcLabel, useExisting: forwardRef(() => MdcFormFieldLabelDirective) }]
 })
 export class MdcFormFieldLabelDirective extends AbstractMdcLabel {
-    @HostBinding() @Input() for: string;
+    @HostBinding() @Input() for: string | null = null;
 
     constructor(public _elm: ElementRef) {
         super();
@@ -59,9 +61,9 @@ export class MdcFormFieldLabelDirective extends AbstractMdcLabel {
 export class MdcFormFieldDirective implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-form-field') _cls = true;
     private _alignEnd = false;
-    @ContentChild(AbstractMdcRipple) rippleChild: AbstractMdcRipple;
-    @ContentChild(AbstractMdcInput) mdcInput: AbstractMdcInput;
-    @ContentChild(AbstractMdcLabel) mdcLabel: AbstractMdcLabel;
+    @ContentChild(AbstractMdcRipple) rippleChild?: AbstractMdcRipple;
+    @ContentChild(AbstractMdcInput) mdcInput?: AbstractMdcInput;
+    @ContentChild(AbstractMdcLabel) mdcLabel?: AbstractMdcLabel;
 
     private mdcAdapter: MDCFormFieldAdapter = {
         registerInteractionHandler: (type, handler) => {
@@ -79,7 +81,7 @@ export class MdcFormFieldDirective implements AfterContentInit, OnDestroy {
                 this.rippleChild.deactivateRipple();
         }
     };
-    private foundation: MDCFormFieldFoundation;
+    private foundation: MDCFormFieldFoundation | null = null;
 
     constructor(private renderer: Renderer2, private root: ElementRef, private registry: MdcEventRegistry) {
     }
@@ -98,7 +100,7 @@ export class MdcFormFieldDirective implements AfterContentInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.foundation.destroy();
+        this.foundation?.destroy();
         this.foundation = null;
     }
 
@@ -106,9 +108,11 @@ export class MdcFormFieldDirective implements AfterContentInit, OnDestroy {
         return this._alignEnd;
     }
 
-    set alignEnd(val: any) {
+    set alignEnd(val: boolean) {
         this._alignEnd = asBoolean(val);
     }
+
+    static ngAcceptInputType_alignEnd: boolean | '';
 }
 
 export const FORM_FIELD_DIRECTIVES = [

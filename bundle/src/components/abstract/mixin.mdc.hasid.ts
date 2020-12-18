@@ -6,9 +6,10 @@ let nextId = 1;
 /** @docs-private */
 @Directive()
 export class HasId {
-    private _id: string;
-    private cachedId: string;
-    private _idChange: Subject<string>;
+    private _id: string | null = null;
+    private cachedId: string | null = null;
+    private _idChange: Subject<string> = new Subject<string>();
+    // TODO: member assignments above are never executed...
 
     initId() {
         // Force setter to be called in case id was not specified.
@@ -25,7 +26,7 @@ export class HasId {
         return this._id;
     }
   
-    set id(value: string) {
+    set id(value: string | null) {
         this._id = value || this._newId();
         if (this._idChange)
             this._idChange.next();

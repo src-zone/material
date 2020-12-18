@@ -63,8 +63,8 @@ describe('MdcTopAppBarDirective', () => {
         expect(fixture.nativeElement.querySelector('main').className).toBe('mdc-top-app-bar--fixed-adjust');
 
         const bar = fixture.debugElement.query(By.directive(MdcTopAppBarDirective)).injector.get(MdcTopAppBarDirective);
-        expect(bar.viewport).toBeUndefined();
-        expect(bar.fixedAdjust).toBeDefined();
+        expect(bar.viewport).toBeNull()
+        expect(bar.fixedAdjust).toBe(fixture.nativeElement.querySelector('main'));
         expect(bar.mdcTopAppBar).toBe('default');
     }));
 

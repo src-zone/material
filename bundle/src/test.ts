@@ -28,5 +28,5 @@ function addStyleSheet(href: string) {
     let link = document.createElement('link');
     link.setAttribute('rel', 'stylesheet');
     link.setAttribute('href', href);
-    document.querySelector('head').appendChild(link);
+    document.querySelector('head')!.appendChild(link);
 }

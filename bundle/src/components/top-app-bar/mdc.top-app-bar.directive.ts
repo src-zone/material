@@ -42,9 +42,11 @@ export class MdcTopAppBarSectionDirective {
         return this._alignStart;
     }
 
-    set alignStart(val: any) {
+    set alignStart(val: boolean) {
         this._alignStart = asBoolean(val);
     }
+
+    static ngAcceptInputType_alignStart: boolean | '';
 
     /**
      * Make the section align to the end of the toolbar row (default alignment is to the
@@ -54,9 +56,11 @@ export class MdcTopAppBarSectionDirective {
         return this._alignEnd;
     }
 
-    set alignEnd(val: any) {
+    set alignEnd(val: boolean) {
         this._alignEnd = asBoolean(val);
     }
+
+    static ngAcceptInputType_alignEnd: boolean | '';
 }
 
 /**
@@ -105,7 +109,7 @@ export class MdcTopAppBarActionDirective {
      * A label for the action item. The value will be applied to both the
      * <code>aria-label</code>, and <code>alt</code> attribute of the item.
      */
-    @Input() @HostBinding('attr.aria-label') @HostBinding('attr.alt') label: string;
+    @Input() @HostBinding('attr.aria-label') @HostBinding('attr.alt') label: string | null = null;
 
     constructor(public _elm: ElementRef) {
     }
@@ -120,7 +124,7 @@ export class MdcTopAppBarActionDirective {
 })
 export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-top-app-bar') _hostClass = true;
-    @ContentChildren(MdcTopAppBarActionDirective, {descendants: true}) _actionItems: QueryList<MdcTopAppBarActionDirective>;
+    @ContentChildren(MdcTopAppBarActionDirective, {descendants: true}) _actionItems?: QueryList<MdcTopAppBarActionDirective>;
     private handleScroll = () => {
         if (this.viewport && (this._type === 'short' || this._type === 'fixed'))
             this._updateViewPort();
@@ -135,13 +139,13 @@ export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
         if (this.viewport && (this._type === 'short' || this._type === 'fixed'))
             this._updateViewPort();
     }
-    private _viewport: HTMLElement;
-    private _fixedAdjust: HTMLElement;
+    private _viewport: HTMLElement | null = null;
+    private _fixedAdjust: HTMLElement | null = null;
     private _type: 'short' | 'fixed' | 'default' = 'default';
     private _prominent = false;
     private _dense = false;
-    private _collapsedOverride: boolean;
-    private _collapsedState: boolean;
+    private _collapsedOverride: boolean | null = null;
+    private _collapsedState: boolean | null = null;
 
     private mdcAdapter: MDCTopAppBarAdapter = {
         hasClass: (className: string) => {
@@ -171,9 +175,9 @@ export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
         getTopAppBarHeight: () => this._elm.nativeElement.clientHeight,
         notifyNavigationIconClicked: () => {}, // not a special event in our implementation
         getViewportScrollY: () => this._viewport ? this._viewport.scrollTop : window.pageYOffset,
-        getTotalActionItems: () => this._actionItems.length
+        getTotalActionItems: () => this._actionItems!.length
     };
-    private foundation: MDCTopAppBarBaseFoundation;
+    private foundation: MDCTopAppBarBaseFoundation | null = null;
     
     constructor(private _rndr: Renderer2, private _elm: ElementRef, private zone: NgZone) {
     }
@@ -184,7 +188,7 @@ export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
 
     ngOnDestroy() {
         this.removeScrollListeners();
-        this.foundation.destroy();
+        this.foundation?.destroy();
         this.foundation = null;
     }
 
@@ -265,6 +269,8 @@ export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
         }
     }
 
+    static ngAcceptInputType_mdcTopAppBar: 'short' | 'fixed' | 'default' | '';
+
     /**
      * If set to a value other than false, the top-app-bar will be styled as a taller
      * bar.
@@ -273,13 +279,15 @@ export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
         return this._prominent;
     }
 
-    set prominent(val: any) {
+    set prominent(val: boolean) {
         let newValue = asBoolean(val);
         if (newValue !== this._prominent) {
             this._prominent = asBoolean(val);
             this.initFixedAdjust();
         }
     }
+
+    static ngAcceptInputType_prominent: boolean | '';
 
     /**
      * If set to a value other than false, the top-app-bar will be styled a bit more
@@ -289,13 +297,15 @@ export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
         return this._dense;
     }
 
-    set dense(val: any) {
+    set dense(val: boolean) {
         let newValue = asBoolean(val);
         if (newValue !== this._dense) {
             this._dense = asBoolean(val);
             this.initFixedAdjust();
         }
     }
+
+    static ngAcceptInputType_dense: boolean | '';
     
     /**
      * Set this property to true or false to force the collapsed/uncollapsed state of a short
@@ -310,9 +320,11 @@ export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
         return this._collapsedOverride == null ? !!this._collapsedState : this._collapsedOverride;
     }
 
-    set collapsed(val: any) {
+    set collapsed(val: boolean) {
         this._collapsedOverride = asBooleanOrNull(val);
     }
+
+    static ngAcceptInputType_collapsed: boolean | '';
 
     /**
      * Top-app-bars are positioned over the rest of their viewport. This means that
@@ -326,7 +338,7 @@ export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
         return this._fixedAdjust;
     }
 
-    set fixedAdjust(el: HTMLElement) {
+    set fixedAdjust(el: HTMLElement | null) {
         if (this._fixedAdjust !== el) {
             this._fixedAdjust = el;
             this.initFixedAdjust();
@@ -347,7 +359,7 @@ export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
         return this._viewport;
     }
 
-    set viewport(elm: HTMLElement) {
+    set viewport(elm: HTMLElement | null) {
         if (this._viewport !== elm) {
             this.removeScrollListeners();
             this._viewport = elm;
@@ -357,12 +369,12 @@ export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
     }
 
     @HostBinding('class.mdc-top-app-bar--short-has-action-item') get _hasActionItems() {
-        return this._type === 'short' && this._actionItems.length > 0;
+        return this._type === 'short' && this._actionItems!.length > 0;
     }
 
     _updateViewPort = () => {
         // simulate 'fixed' relative to view position of parent:
-        this._elm.nativeElement.style.top = this._viewport.scrollTop + 'px';
+        this._elm.nativeElement.style.top = this._viewport!.scrollTop + 'px';
     }
 
     @HostBinding('class.mdc-top-app-bar--fixed') get _fixed() {

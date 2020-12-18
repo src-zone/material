@@ -26,9 +26,11 @@ export class MdcTabIndicatorContentDirective {
         return this._type;
     }
 
-    set mdcTabIndicatorContent(value: any) {
+    set mdcTabIndicatorContent(value: 'underline' | 'icon') {
         this._type = value === 'icon' ? value : 'underline'
     }
+
+    static ngAcceptInputType_mdcTabIndicatorContent: 'underline' | 'icon' | '';
 
     @HostBinding('class.mdc-tab-indicator__content--underline') get _underline() {
         return this._type === 'underline';
@@ -49,7 +51,7 @@ export class MdcTabIndicatorContentDirective {
 export class MdcTabIndicatorDirective implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-tab-indicator') _hostClass = true;
     private onDestroy$: Subject<any> = new Subject();
-    @ContentChildren(MdcTabIndicatorContentDirective) _contents: QueryList<MdcTabIndicatorContentDirective>;
+    @ContentChildren(MdcTabIndicatorContentDirective) _contents?: QueryList<MdcTabIndicatorContentDirective>;
     _type: 'slide' | 'fade' = 'slide';
     private active: ClientRect | boolean = false;
     
@@ -60,10 +62,10 @@ export class MdcTabIndicatorDirective implements AfterContentInit, OnDestroy {
         removeClass: (className) => {
             this.rndr.removeClass(this.root.nativeElement, className);
         },
-        computeContentClientRect: () => this._content._root.nativeElement.getBoundingClientRect(),
-        setContentStyleProperty: (name, value) => this.rndr.setStyle(this._content._root.nativeElement, name, value)
+        computeContentClientRect: () => this._content!._root.nativeElement.getBoundingClientRect(),
+        setContentStyleProperty: (name, value) => this.rndr.setStyle(this._content!._root.nativeElement, name, value)
     };
-    private foundation: MDCTabIndicatorFoundation = null;
+    private foundation: MDCTabIndicatorFoundation | null = null;
 
     constructor(private rndr: Renderer2, private root: ElementRef) {}
 
@@ -71,7 +73,7 @@ export class MdcTabIndicatorDirective implements AfterContentInit, OnDestroy {
         if (this._content) {
             this.initFoundation();
         }
-        this._contents.changes.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+        this._contents!.changes.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
             this.destroyFoundation();
             if (this._content)
                 this.initFoundation();
@@ -86,7 +88,7 @@ export class MdcTabIndicatorDirective implements AfterContentInit, OnDestroy {
     private destroyFoundation() {
         let destroy = this.foundation != null;
         if (destroy) {
-            this.foundation.destroy();
+            this.foundation!.destroy();
             this.mdcAdapter.removeClass('mdc-tab-indicator--active');
         }
         this.foundation = null;
@@ -99,7 +101,7 @@ export class MdcTabIndicatorDirective implements AfterContentInit, OnDestroy {
             new MDCSlidingTabIndicatorFoundation(this.mdcAdapter);
         this.foundation.init();
         if (this.active) {
-            let clientRect = typeof this.active === 'boolean' ? null : this.active;
+            let clientRect = typeof this.active === 'boolean' ? undefined : this.active;
             this.foundation.activate(clientRect);
         }
     }
@@ -113,8 +115,8 @@ export class MdcTabIndicatorDirective implements AfterContentInit, OnDestroy {
         return this._type;
     }
 
-    set mdcTabIndicator(value: any) {
-        let newValue = value === 'fade' ? value : 'slide'
+    set mdcTabIndicator(value: 'slide' | 'fade') {
+        let newValue: 'slide' | 'fade' = value === 'fade' ? value : 'slide'
         if (newValue !== this._type) {
             this._type = newValue;
             if (this.destroyFoundation())
@@ -122,8 +124,10 @@ export class MdcTabIndicatorDirective implements AfterContentInit, OnDestroy {
         }
     }
 
+    static ngAcceptInputType_mdcTabIndicator: 'slide' | 'fade' | '';
+
     /** @docs-private */
-    activate(previousIndicatorClientRect: ClientRect) {
+    activate(previousIndicatorClientRect: ClientRect | undefined) {
         this.active = previousIndicatorClientRect || true;
         if (this.foundation)
             this.foundation.activate(previousIndicatorClientRect);

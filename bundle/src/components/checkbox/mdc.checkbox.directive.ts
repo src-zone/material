@@ -19,7 +19,7 @@ import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 export class MdcCheckboxInputDirective extends AbstractMdcInput implements OnInit, OnDestroy {
     @HostBinding('class.mdc-checkbox__native-control') _cls = true;
     private onDestroy$: Subject<any> = new Subject();
-    private _id: string;
+    private _id: string | null = null;
     private _disabled = false;
     private _checked = false;
     private _indeterminate = false;
@@ -32,7 +32,7 @@ export class MdcCheckboxInputDirective extends AbstractMdcInput implements OnIni
     }
 
     ngOnInit() {
-        this._cntr?.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe((value) => {
+        this._cntr?.valueChanges!.pipe(takeUntil(this.onDestroy$)).subscribe((value) => {
             this.updateValue(value, true);
         });
     }
@@ -48,17 +48,17 @@ export class MdcCheckboxInputDirective extends AbstractMdcInput implements OnIni
         return this._id;
     }
   
-    set id(value: string) {
+    set id(value: string | null) {
         this._id = value;
     }
 
     /** @docs-private */
     @HostBinding()
     @Input() get disabled() {
-        return this._cntr ? this._cntr.disabled : this._disabled;
+        return this._cntr ? !!this._cntr.disabled : this._disabled;
     }
 
-    set disabled(value: any) {
+    set disabled(value: boolean) {
         const newVal = asBoolean(value);
         if (newVal != this._disabled) {
             this._disabled = asBoolean(newVal);
@@ -66,15 +66,19 @@ export class MdcCheckboxInputDirective extends AbstractMdcInput implements OnIni
         }
     }
 
+    static ngAcceptInputType_disabled: boolean | '';
+
     /** @docs-private */
     @HostBinding()
-    @Input() get checked(): any {
+    @Input() get checked(): boolean {
         return this._checked;
     }
 
-    set checked(value: any) {
+    set checked(value: boolean) {
         this.updateValue(value, false);
     }
+
+    static ngAcceptInputType_checked: boolean | '';
 
     private updateValue(value: any, fromControl: boolean) {
         // When the 'checked' property is the source of the change, we want to coerce boolean
@@ -88,7 +92,7 @@ export class MdcCheckboxInputDirective extends AbstractMdcInput implements OnIni
             this._checkedChange.emit(newVal);
         }
         if (!fromControl && this._cntr && newVal !== this._cntr.value) {
-            this._cntr.control.setValue(newVal);
+            this._cntr.control!.setValue(newVal);
         }
     }
 
@@ -98,13 +102,15 @@ export class MdcCheckboxInputDirective extends AbstractMdcInput implements OnIni
         return this._indeterminate;
     }
 
-    set indeterminate(value: any) {
+    set indeterminate(value: boolean) {
         const newVal = asBoolean(value);
         if (newVal !== this._indeterminate) {
             this._indeterminate = newVal;
             Promise.resolve().then(() => this._indeterminateChange.emit(newVal));
         }
     }
+
+    static ngAcceptInputType_indeterminate: boolean | '';
 
     // We listen to click-event instead of change-event, because IE doesn't fire the
     // change-event when an indeterminate checkbox is clicked. There's no need to
@@ -138,20 +144,20 @@ export class MdcCheckboxDirective extends AbstractMdcRipple implements AfterCont
     @HostBinding('class.mdc-checkbox') _cls = true;
     private onDestroy$: Subject<any> = new Subject();
     private onInputChange$: Subject<any> = new Subject();
-    @ContentChildren(MdcCheckboxInputDirective) _inputs: QueryList<MdcCheckboxInputDirective>;
+    @ContentChildren(MdcCheckboxInputDirective) _inputs?: QueryList<MdcCheckboxInputDirective>;
     private mdcAdapter: MDCCheckboxAdapter = {
         addClass: (className: string) => this._renderer.addClass(this.root.nativeElement, className),
         removeClass: (className: string) => this._renderer.removeClass(this.root.nativeElement, className),
-        setNativeControlAttr: (attr: string, value: string) => this._renderer.setAttribute(this._input._elm.nativeElement, attr, value),
-        removeNativeControlAttr: (attr: string) => this._renderer.removeAttribute(this._input._elm.nativeElement, attr),
+        setNativeControlAttr: (attr: string, value: string) => this._renderer.setAttribute(this._input!._elm.nativeElement, attr, value),
+        removeNativeControlAttr: (attr: string) => this._renderer.removeAttribute(this._input!._elm.nativeElement, attr),
         forceLayout: () => this.root.nativeElement.offsetWidth, // force layout
         isAttachedToDOM: () => !!this._input,
         hasNativeControl: () => !!this._input,
-        isChecked: () => this._input._elm.nativeElement.checked,
-        isIndeterminate: () => this._input._elm.nativeElement.indeterminate,
-        setNativeControlDisabled: (disabled: boolean) => this._input.disabled = disabled
+        isChecked: () => this._input!._elm.nativeElement.checked,
+        isIndeterminate: () => this._input!._elm.nativeElement.indeterminate,
+        setNativeControlDisabled: (disabled: boolean) => this._input!.disabled = disabled
     };
-    _foundation: MDCCheckboxFoundation = null;
+    _foundation: MDCCheckboxFoundation | null = null;
 
     constructor(renderer: Renderer2, private root: ElementRef, registry: MdcEventRegistry) {
         super(root, renderer, registry);
@@ -165,7 +171,7 @@ export class MdcCheckboxDirective extends AbstractMdcRipple implements AfterCont
             this._foundation = new MDCCheckboxFoundation(this.mdcAdapter);
             this._foundation.init();
         }
-        this._inputs.changes.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+        this._inputs!.changes.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
             this.reinitRipple();
             if (this._foundation)
                 this._foundation.destroy();

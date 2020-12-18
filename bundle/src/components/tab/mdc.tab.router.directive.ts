@@ -18,9 +18,9 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
     providers: [{provide: AbstractMdcTabDirective, useExisting: forwardRef(() => MdcTabRouterDirective) }]
 })
 export class MdcTabRouterDirective extends AbstractMdcTabDirective {
-    @ContentChildren(RouterLink, {descendants: true}) _links: QueryList<RouterLink>;
-    @ContentChildren(RouterLinkWithHref, {descendants: true}) _linksWithHrefs: QueryList<RouterLinkWithHref>;
-    private routerActive: RouterActiveDetector;
+    @ContentChildren(RouterLink, {descendants: true}) _links?: QueryList<RouterLink>;
+    @ContentChildren(RouterLinkWithHref, {descendants: true}) _linksWithHrefs?: QueryList<RouterLinkWithHref>;
+    private routerActive: RouterActiveDetector | null = null;
 
     constructor(rndr: Renderer2, root: ElementRef, registry: MdcEventRegistry, private router: Router,
         @Optional() private link?: RouterLink, @Optional() private linkWithHref?: RouterLinkWithHref) {
@@ -28,21 +28,20 @@ export class MdcTabRouterDirective extends AbstractMdcTabDirective {
     }
 
     ngOnDestroy() {
-        this.routerActive.destroy();
+        this.routerActive?.destroy();
         this.routerActive = null;
         super.ngOnDestroy();
     }
 
     ngAfterContentInit(): void {
         super.ngAfterContentInit();
-        this.routerActive = new RouterActiveDetector(this, this._links, this._linksWithHrefs, this.router,
+        this.routerActive = new RouterActiveDetector(this, this._links!, this._linksWithHrefs!, this.router,
             this.link, this.linkWithHref);
         this.routerActive.init();
     }
 
     ngOnChanges(): void {
-        if (this.routerActive)
-            this.routerActive.update();
+        this.routerActive?.update();
     }
 
     /** @docs-private */

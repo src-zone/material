@@ -25,13 +25,13 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
     private _progress = 0;
     private _buffer = 1;
     private _closed = false;
-    private _elmBuffer: HTMLElement;
-    private _elmPrimaryBar: HTMLElement;
+    private _elmBuffer: HTMLElement | null = null;
+    private _elmPrimaryBar: HTMLElement | null = null;
     /**
      * Label indicationg how the progress bar should be announced to the user.
      * Determines the ària-label` attribute value.
      */
-    @HostBinding('attr.aria-label') @Input() label: string;
+    @HostBinding('attr.aria-label') @Input() label: string | null = null;
 
     private mdcAdapter: MDCLinearProgressAdapter = {
         addClass: (className: string) => {
@@ -58,7 +58,7 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
         removeAttribute: (name) => this._rndr.removeAttribute(this._root.nativeElement, name),
         setAttribute: (name, value) => this._rndr.setAttribute(this._root.nativeElement, name, value)
     };
-    private foundation: MDCLinearProgressFoundation;
+    private foundation: MDCLinearProgressFoundation | null = null;
 
     constructor(private _rndr: Renderer2, private _root: ElementRef) {
     }
@@ -74,7 +74,7 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.foundation.destroy();
+        this.foundation?.destroy();
         this._elmPrimaryBar = null;
         this._elmBuffer = null;
     }
@@ -83,7 +83,7 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
         this.addElement(this._root.nativeElement, 'div', ['mdc-linear-progress__buffering-dots']);
         this._elmBuffer = this.addElement(this._root.nativeElement, 'div', ['mdc-linear-progress__buffer']);
         this._elmPrimaryBar = this.addElement(this._root.nativeElement, 'div', ['mdc-linear-progress__bar', 'mdc-linear-progress__primary-bar']);
-        this.addElement(this._elmPrimaryBar, 'span', ['mdc-linear-progress__bar-inner']);
+        this.addElement(this._elmPrimaryBar!, 'span', ['mdc-linear-progress__bar-inner']);
         const secondaryBar = this.addElement(this._root.nativeElement, 'div', ['mdc-linear-progress__bar', 'mdc-linear-progress__secondary-bar']);
         this.addElement(secondaryBar, 'span', ['mdc-linear-progress__bar-inner']);
     }
@@ -107,7 +107,7 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
         return this._indeterminate;
     }
     
-    set indeterminate(value: any) {
+    set indeterminate(value: boolean) {
         let newValue = asBoolean(value);
         if (newValue !== this._indeterminate) {
             this._indeterminate = newValue;
@@ -121,6 +121,8 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
         }
     }
 
+    static ngAcceptInputType_indeterminate: boolean | '';
+
     /**
      * Reverses the direction of the linear progress indicator.
      */
@@ -129,10 +131,12 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
         return this._reverse;
     }
 
-    set reversed(value: any) {
+    set reversed(value: boolean) {
         this._reverse = asBoolean(value);
         this.foundation?.setReverse(this._reverse);
     }
+
+    static ngAcceptInputType_reversed: boolean | '';
 
     /**
      * Set the progress, the value should be between [0, 1].
@@ -142,10 +146,12 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
         return this._progress;
     }
 
-    set progressValue(value: number | string) {
+    set progressValue(value: number) {
         this._progress = +value;
         this.foundation?.setProgress(this._progress);
     }
+
+    static ngAcceptInputType_progressValue: number | string;
 
     /**
      * Set the buffer progress, the value should be between [0, 1].
@@ -155,10 +161,12 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
         return this._buffer;
     }
 
-    set bufferValue(value: number | string) {
+    set bufferValue(value: number) {
         this._buffer = +value;
         this.foundation?.setBuffer(this._buffer);
     }
+
+    static ngAcceptInputType_bufferValue: number | string;
 
     /**
      * When set to true this closes (animates away) the progress bar,
@@ -169,7 +177,7 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
         return this._closed;
     }
 
-    set closed(value: any) {
+    set closed(value: boolean) {
         let newValue = asBoolean(value);
         if (newValue !== this._closed) {
             this._closed = newValue;
@@ -179,6 +187,8 @@ export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
                 this.foundation?.open();
         }
     }
+
+    static ngAcceptInputType_closed: boolean | '';
 }
 
 export const LINEAR_PROGRESS_DIRECTIVES = [

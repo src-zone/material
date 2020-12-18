@@ -1,7 +1,7 @@
 import { Directive, Input, OnDestroy } from '@angular/core';
 import { asBoolean } from '../../utils/value.utils';
 
-let scrollbarResizeListenerId: string;
+let scrollbarResizeListenerId: string | null = null;
 let scrollbarResizeDirectives = 0;
 
 function initScrollbarResizeListener() {
@@ -14,7 +14,7 @@ function initScrollbarResizeListener() {
     // make the iframe contentWindow listen to resize events (they will be triggered when the container adds or removes a
     // vertical scrollbar, since it changes the width):
     iframe.onload = function() {
-      iframe.contentWindow.addEventListener('resize', function() {
+      iframe.contentWindow!.addEventListener('resize', function() {
         try {
           let evt = new UIEvent('resize', {view: window, cancelable: false, bubbles: true});
           window.dispatchEvent(evt);
@@ -29,7 +29,7 @@ function destroyScrollbarResizeListener() {
     if (scrollbarResizeListenerId != null) {
         let iframe = document.getElementById(scrollbarResizeListenerId);
         if (iframe)
-            iframe.parentElement.removeChild(iframe);
+            iframe.parentElement!.removeChild(iframe);
         scrollbarResizeListenerId = null;
     }
 }
@@ -76,7 +76,7 @@ export class MdcScrollbarResizeDirective implements OnDestroy {
         return this._scrollbarResize;
     }
 
-    set mdcScrollbarResize(val: any) {
+    set mdcScrollbarResize(val: boolean) {
         let newValue = asBoolean(val);
         if (newValue !== this._scrollbarResize) {
             this._scrollbarResize = newValue;
@@ -90,4 +90,6 @@ export class MdcScrollbarResizeDirective implements OnDestroy {
             }
         }
     }
+
+    static ngAcceptInputType_mdcScrollbarResize: boolean | '';
 }

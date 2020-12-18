@@ -46,7 +46,7 @@ export class MdcSelectTextDirective extends MdcSelectTextDirectiveBase implement
     @HostBinding('class.mdc-select__selected-text') _cls = true;
     @HostBinding('attr.role') _role = 'button';
     @HostBinding('attr.aria-haspopup') _haspop = 'listbox';
-    @HostBinding('attr.aria-labelledby') _labelledBy: string = null;
+    @HostBinding('attr.aria-labelledby') _labelledBy: string | null = null;
 
     constructor(public _elm: ElementRef, @Host() @SkipSelf() @Inject(forwardRef(() => MdcSelectDirective)) private select: MdcSelectDirective) {
         super();
@@ -68,7 +68,7 @@ export class MdcSelectTextDirective extends MdcSelectTextDirectiveBase implement
         this.select.foundation?.handleKeydown(event);
     }
 
-    @HostListener('click', ['$event']) _onClick(event) {
+    @HostListener('click', ['$event']) _onClick(event: MouseEvent | TouchEvent) {
         this.select.foundation?.handleClick(this.getNormalizedXCoordinate(event));
     }
 
@@ -91,18 +91,18 @@ export class MdcSelectAnchorDirective extends AbstractMdcRipple implements After
     private onDestroy$: Subject<any> = new Subject();
     private onLabelsChange$: Subject<any> = new Subject();
     @HostBinding('class.mdc-select__anchor') _cls = true;
-    @ContentChildren(MdcFloatingLabelDirective, {descendants: true}) _floatingLabels: QueryList<MdcFloatingLabelDirective>;
-    @ContentChildren(MdcNotchedOutlineDirective) _outlines: QueryList<MdcNotchedOutlineDirective>;
-    @ContentChildren(MdcSelectTextDirective) _texts: QueryList<MdcSelectTextDirective>;
-    private _bottomLineElm: HTMLElement = null;
+    @ContentChildren(MdcFloatingLabelDirective, {descendants: true}) _floatingLabels?: QueryList<MdcFloatingLabelDirective>;
+    @ContentChildren(MdcNotchedOutlineDirective) _outlines?: QueryList<MdcNotchedOutlineDirective>;
+    @ContentChildren(MdcSelectTextDirective) _texts?: QueryList<MdcSelectTextDirective>;
+    private _bottomLineElm: HTMLElement | null = null;
     /** @docs-private */
-    bottomLineFoundation: MDCLineRippleFoundation;
+    bottomLineFoundation: MDCLineRippleFoundation | null = null;
     private mdcLineRippleAdapter: MDCLineRippleAdapter = {
         addClass: (className) => this.rndr.addClass(this._bottomLineElm, className),
         removeClass: (className) => this.rndr.removeClass(this._bottomLineElm, className),
-        hasClass: (className) => this._bottomLineElm.classList.contains(className),
+        hasClass: (className) => this._bottomLineElm!.classList.contains(className),
         setStyle: (name, value) => this.rndr.setStyle(this._bottomLineElm, name, value),
-        registerEventHandler: (evtType, handler) => this._registry.listenElm(this.rndr, evtType, handler, this._bottomLineElm),
+        registerEventHandler: (evtType, handler) => this._registry.listenElm(this.rndr, evtType, handler, this._bottomLineElm!),
         deregisterEventHandler: (evtType, handler) => this._registry.unlisten(evtType, handler)
     };
     
@@ -113,15 +113,15 @@ export class MdcSelectAnchorDirective extends AbstractMdcRipple implements After
 
     ngAfterContentInit() {
         merge(
-            this._floatingLabels.changes,
-            this._outlines.changes
+            this._floatingLabels!.changes,
+            this._outlines!.changes
         ).pipe(
             takeUntil(this.onDestroy$),
             debounceTime(1)
         ).subscribe(() => {
             this.reconstructComponent();
         });
-        merge(this._floatingLabels.changes, this._texts.changes).pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+        merge(this._floatingLabels!.changes, this._texts!.changes).pipe(takeUntil(this.onDestroy$)).subscribe(() => {
             this.onLabelsChange$.next();
             this._label?.idChange().pipe(takeUntil(this.onLabelsChange$)).subscribe(() => {
                 this.computeLabelledBy();
@@ -181,7 +181,7 @@ export class MdcSelectAnchorDirective extends AbstractMdcRipple implements After
 
     private destroyLineRipple() {
         if (this._bottomLineElm) {
-            this.bottomLineFoundation.destroy();
+            this.bottomLineFoundation!.destroy();
             this.bottomLineFoundation = null;
             this.rndr.removeChild(this._elm.nativeElement, this._bottomLineElm);
             this._bottomLineElm = null;
@@ -198,7 +198,7 @@ export class MdcSelectAnchorDirective extends AbstractMdcRipple implements After
             ids.push(textId);
         if (this._text)
             this._text._labelledBy = ids.join(' ');
-        this.select.setListLabelledBy(labelId); // the list should only use the id of the label
+        this.select.setListLabelledBy(labelId || null); // the list should only use the id of the label
     }
 
     get _outline() {
@@ -257,20 +257,20 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
     private onItemsChange$: Subject<any> = new Subject();
     private _onChange: (value: any) => void = () => {};
     private _onTouched: () => any = () => {};
-    private _lastMenu: MdcSelectMenuDirective;
-    private _value: string;
-    private _valueSource: ValueSource = null;
+    private _lastMenu: MdcSelectMenuDirective | null = null;
+    private _value: string | null = null;
+    private _valueSource: ValueSource | null = null;
     private _disabled = false;
     private _required = false;
-    private _listLabelledBy: string = null;
+    private _listLabelledBy: string | null = null;
     /**
      * emits the value of the item when the selected item changes
      */
-    @Output() readonly valueChange: EventEmitter<string> = new EventEmitter();
-    @ContentChildren(MdcSelectAnchorDirective) _anchors: QueryList<MdcSelectAnchorDirective>;
-    @ContentChildren(MdcSelectMenuDirective) _menus: QueryList<MdcSelectMenuDirective>;
-    @ContentChildren(MdcListDirective, {descendants: true}) _lists: QueryList<MdcListDirective>;
-    @ContentChildren(MdcSelectTextDirective, {descendants: true}) _texts: QueryList<MdcSelectTextDirective>;
+    @Output() readonly valueChange: EventEmitter<string | null> = new EventEmitter();
+    @ContentChildren(MdcSelectAnchorDirective) _anchors?: QueryList<MdcSelectAnchorDirective>;
+    @ContentChildren(MdcSelectMenuDirective) _menus?: QueryList<MdcSelectMenuDirective>;
+    @ContentChildren(MdcListDirective, {descendants: true}) _lists?: QueryList<MdcListDirective>;
+    @ContentChildren(MdcSelectTextDirective, {descendants: true}) _texts?: QueryList<MdcSelectTextDirective>;
     private mdcAdapter: MDCSelectAdapter = {
         addClass: (className) =>  this.rndr.addClass(this.elm.nativeElement, className),
         removeClass: (className) => this.rndr.removeClass(this.elm.nativeElement, className),
@@ -280,22 +280,22 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
         getSelectedMenuItem: () => this.getSelectedItem()?._elm.nativeElement,
         hasLabel: () => !!this.label,
         floatLabel: (shouldFloat) => this.label?.float(shouldFloat),
-        getLabelWidth: () =>  this.label?.getWidth(),
+        getLabelWidth: () =>  this.label?.getWidth() || 0,
         hasOutline: () => !!this.anchor?._outline,
-        notchOutline: (labelWidth) => this.anchor?._outline.open(labelWidth),
-        closeOutline: () => this.anchor?._outline.close(),
+        notchOutline: (labelWidth) => this.anchor?._outline!.open(labelWidth),
+        closeOutline: () => this.anchor?._outline!.close(),
         setRippleCenter: (normalizedX) => this.anchor?.bottomLineFoundation?.setRippleCenter(normalizedX),
         notifyChange: (value) => this.updateValue(value, ValueSource.foundation),
         // setSelectedText does nothing, library consumer should set the text; gives them more freedom to e.g. also use markup:
         setSelectedText: () => undefined,
-        isSelectedTextFocused: () => document.activeElement && document.activeElement === this.text?._elm.nativeElement,
+        isSelectedTextFocused: () => !!(document.activeElement && document.activeElement === this.text?._elm.nativeElement),
         getSelectedTextAttr: (attr) => this.text?._elm.nativeElement.getAttribute(attr),
         setSelectedTextAttr: (attr, value) => this.text ? this.rndr.setAttribute(this.text._elm.nativeElement, attr, value) : undefined,
-        openMenu: () => this.menu.openAndFocus(null),
-        closeMenu: () => this.menu.doClose(),
-        getAnchorElement: () => this.anchor._elm.nativeElement,
-        setMenuAnchorElement: (anchorEl) => this.surface.menuAnchor = anchorEl,
-        setMenuAnchorCorner: (anchorCorner) => this.surface.setFoundationAnchorCorner(anchorCorner),
+        openMenu: () => this.menu!.openAndFocus(<any>null),
+        closeMenu: () => this.menu!.doClose(),
+        getAnchorElement: () => this.anchor!._elm.nativeElement,
+        setMenuAnchorElement: (anchorEl) => this.surface!.menuAnchor = anchorEl,
+        setMenuAnchorCorner: (anchorCorner) => this.surface!.setFoundationAnchorCorner(anchorCorner),
         setMenuWrapFocus: () => undefined, // foundation always sets this to false, which is the default anyway - skip
         setAttributeAtIndex: (index, name, value) => {
             if (name != strings.ARIA_SELECTED_ATTR) {
@@ -317,12 +317,12 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
                 item.focus();
         },
         getMenuItemCount: () => this.menu?._list?.getItems().length || 0,
-        getMenuItemValues: () => this.menu?._list?.getItems().map(item => item.value || ''),
+        getMenuItemValues: () => this.menu?._list?.getItems().map(item => item.value || '') || [],
         // foundation uses this to 'setSelectedText', but that's ignored in our implementation (see remark on setSelectedText):
         getMenuItemTextAtIndex: () => '',
         getMenuItemAttr: (menuItem, attr) => {
             if (attr === strings.VALUE_ATTR)
-                return this.menu?._list?.getItemByElement(menuItem)?.value;
+                return this.menu?._list?.getItemByElement(menuItem)?.value || null;
             return menuItem.getAttribute(attr);
         },
         addClassAtIndex: (index, className) => {
@@ -337,32 +337,32 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
             if (item && className === cssClasses.SELECTED_ITEM_CLASS) {
                 item.active = false;
             } else if (item)
-                this.rndr.removeClass(this.menu._list.getItem(index)._elm.nativeElement, className);
+                this.rndr.removeClass(this.menu!._list.getItem(index)!._elm.nativeElement, className);
         }
     };
     /** @docs-private */
-    foundation: MDCSelectFoundation;
+    foundation: MDCSelectFoundation | null = null;
 
     constructor(private elm: ElementRef, private rndr: Renderer2) {
     }
 
     ngAfterContentInit() {
-        this._lastMenu = this._menus.first;
-        this._menus.changes.subscribe(() => {
-            if (this._lastMenu !== this._menus.first) {
+        this._lastMenu = this._menus!.first;
+        this._menus!.changes.subscribe(() => {
+            if (this._lastMenu !== this._menus!.first) {
                 this.onMenuChange$.next();
                 this._lastMenu?._menu.itemValuesChanged.pipe(takeUntil(this.onMenuChange$)).subscribe(() => this.onItemsChange$.next());
-                this._lastMenu = this._menus.first;
+                this._lastMenu = this._menus!.first;
                 this.setupMenuHandlers();
             }
         });
-        this._lists.changes.subscribe(() => this.initListLabel());
+        this._lists!.changes.subscribe(() => this.initListLabel());
         merge(
             this.onMenuChange$,
             // the foundation initializes with the values of the items, so if they change, the foundation must be reconstructed:
             this.onItemsChange$,
             // mdcSelectText change needs a complete re-init as well:
-            this._texts.changes
+            this._texts!.changes
         ).pipe(
             takeUntil(this.onDestroy$),
             debounceTime(1)
@@ -398,13 +398,13 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
         this.foundation.setDisabled(this._disabled);
         this.foundation.setRequired(this._required);
         // foundation only updates aria-expanded on open/close, not on initialization:
-        this.mdcAdapter.setSelectedTextAttr('aria-expanded', `${this.surface.open}`);
+        this.mdcAdapter.setSelectedTextAttr('aria-expanded', `${this.surface!.open}`);
         // TODO: it looks like the foundation doesn't update aria-expanded when the surface is
         //  opened programmatically.
     }
 
     private destroyComponent() {
-        this.foundation.destroy();
+        this.foundation?.destroy();
         this.foundation = null;
     }
 
@@ -419,17 +419,17 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
             this.menu.pick.pipe(takeUntil(this.onMenuChange$)).subscribe((evt) => {
                 this.foundation?.handleMenuItemAction(evt.index);
             });
-            this.surface.afterOpened.pipe(takeUntil(this.onMenuChange$)).subscribe((evt) => {
+            this.surface!.afterOpened.pipe(takeUntil(this.onMenuChange$)).subscribe(() => {
                 this.foundation?.handleMenuOpened();
             });
-            this.surface.afterClosed.pipe(takeUntil(this.onMenuChange$)).subscribe((evt) => {
+            this.surface!.afterClosed.pipe(takeUntil(this.onMenuChange$)).subscribe(() => {
                 this.foundation?.handleMenuClosed();
             });
         }
     }
 
     private initListLabel() {
-        this._lists.forEach(list => {
+        this._lists!.forEach(list => {
             list.labelledBy = this._listLabelledBy;
         });
     }
@@ -441,12 +441,12 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
         return this._value;
     }
 
-    set value(value: string) {
+    set value(value: string | null) {
         this.updateValue(value, ValueSource.program);
     }
 
     /** @docs-private */
-    updateValue(value: string, source: ValueSource) {
+    updateValue(value: string | null, source: ValueSource) {
         const oldSource = this._valueSource;
         try {
             if (!this._valueSource)
@@ -460,7 +460,7 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
                 });
             } else if (value !== this.value) {
                 if (this.foundation) {
-                    this.foundation.setValue(value);
+                    this.foundation.setValue(value!); // foundation should also accept null value
                     // foundation will do a nested call for this function with source===foundation
                     // there we will handle the value change and emit to observers (see the if block preceding this)
                 } else {
@@ -485,10 +485,12 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
         return this._disabled;
     }
 
-    set disabled(value: any) {
+    set disabled(value: boolean) {
         this._disabled = asBoolean(value);
         this.foundation?.setDisabled(this._disabled);
     }
+
+    static ngAcceptInputType_disabled: boolean | '';
 
     /**
      * To make the select a required input, set this input to a value other then false.
@@ -498,10 +500,12 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
         return this._required;
     }
 
-    set required(value: any) {
+    set required(value: boolean) {
         this._required = asBoolean(value);
         this.foundation?.setRequired(this._required);
     }
+
+    static ngAcceptInputType_required: boolean | '';
 
     /** @docs-private */
     @HostBinding('class.mdc-select--outlined') get outlined() {
@@ -514,7 +518,7 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
     }
 
     /** @docs-private */
-    setListLabelledBy(id: string) {
+    setListLabelledBy(id: string | null) {
         this._listLabelledBy = id;
         this.initListLabel();
     }

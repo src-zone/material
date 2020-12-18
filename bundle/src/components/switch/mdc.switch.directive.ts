@@ -21,7 +21,7 @@ export class MdcSwitchInputDirective extends AbstractMdcInput implements OnInit,
     @Output() readonly _checkedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
     @Output() readonly _disabledChange: EventEmitter<boolean> = new EventEmitter<boolean>();
     @Output() readonly _change: EventEmitter<Event> = new EventEmitter<Event>();
-    private _id: string;
+    private _id: string | null = null;
     private _disabled = false;
     private _checked = false;
 
@@ -30,7 +30,7 @@ export class MdcSwitchInputDirective extends AbstractMdcInput implements OnInit,
     }
 
     ngOnInit() {
-        this._cntr?.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe((value) => {
+        this._cntr?.valueChanges!.pipe(takeUntil(this.onDestroy$)).subscribe((value) => {
             this.updateValue(value, true);
         });
     }
@@ -46,17 +46,17 @@ export class MdcSwitchInputDirective extends AbstractMdcInput implements OnInit,
         return this._id;
     }
   
-    set id(value: string) {
+    set id(value: string | null) {
         this._id = value;
     }
 
     /** @docs-private */
     @HostBinding()
     @Input() get disabled() {
-        return this._cntr ? this._cntr.disabled : this._disabled;
+        return this._cntr ? !!this._cntr.disabled : this._disabled;
     }
 
-    set disabled(value: any) {
+    set disabled(value: boolean) {
         const newVal = asBoolean(value);
         if (newVal != this._disabled) {
             this._disabled = asBoolean(newVal);
@@ -64,15 +64,19 @@ export class MdcSwitchInputDirective extends AbstractMdcInput implements OnInit,
         }
     }
 
+    static ngAcceptInputType_disabled: boolean | '';
+
     /** @docs-private */
     @HostBinding()
-    @Input() get checked(): any {
+    @Input() get checked(): boolean {
         return this._checked;
     }
 
-    set checked(value: any) {
+    set checked(value: boolean) {
         this.updateValue(value, false);
     }
+
+    static ngAcceptInputType_checked: boolean | '';
 
     @HostListener('change', ['$event']) _onChange(event: Event) {
         // update checked value, but not via this.checked, so we bypass events being sent to:
@@ -94,7 +98,7 @@ export class MdcSwitchInputDirective extends AbstractMdcInput implements OnInit,
             this._checkedChange.emit(newVal);
         }
         if (!fromControl && this._cntr && newVal !== this._cntr.value) {
-            this._cntr.control.setValue(newVal);
+            this._cntr.control!.setValue(newVal);
         }
     }
 }
@@ -141,7 +145,7 @@ export class MdcSwitchDirective {
     @HostBinding('class.mdc-switch') _cls = true;
     private onDestroy$: Subject<any> = new Subject();
     private onInputChange$: Subject<any> = new Subject();
-    @ContentChildren(MdcSwitchInputDirective, {descendants: true}) _inputs: QueryList<MdcSwitchInputDirective>;
+    @ContentChildren(MdcSwitchInputDirective, {descendants: true}) _inputs?: QueryList<MdcSwitchInputDirective>;
     private mdcAdapter: MDCSwitchAdapter = {
         addClass: (className: string) => {
             this.rndr.addClass(this.root.nativeElement, className);
@@ -149,11 +153,11 @@ export class MdcSwitchDirective {
         removeClass: (className: string) => {
             this.rndr.removeClass(this.root.nativeElement, className);
         },
-        setNativeControlAttr: (attr: string, value: string) => this.rndr.setAttribute(this._input._elm.nativeElement, attr, value),
+        setNativeControlAttr: (attr: string, value: string) => this.rndr.setAttribute(this._input!._elm.nativeElement, attr, value),
         setNativeControlChecked: () => undefined, // nothing to do, checking/unchecking is done directly on the input
         setNativeControlDisabled: () => undefined // nothing to do, enabling/disabling is done directly on the input
     };
-    private foundation: MDCSwitchFoundation = null;
+    private foundation: MDCSwitchFoundation | null = null;
 
     constructor(private rndr: Renderer2, private root: ElementRef) {
         this.addTrack();
@@ -163,7 +167,7 @@ export class MdcSwitchDirective {
         if (this._input) {
             this.initFoundation();
         }
-        this._inputs.changes.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+        this._inputs!.changes.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
             if (this.foundation)
                 this.foundation.destroy();
             if (this._input)
@@ -189,8 +193,8 @@ export class MdcSwitchDirective {
         this.foundation.init();
         // The foundation doesn't correctly set the aria-checked attribute and the checked/disabled styling
         // on initialization. So let's help it to not forget that:
-        this.foundation.setChecked(this._input.checked);
-        this.foundation.setDisabled(this._input.disabled);
+        this.foundation.setChecked(this._input!.checked);
+        this.foundation.setDisabled(this._input!.disabled);
     }
 
     private addTrack() {

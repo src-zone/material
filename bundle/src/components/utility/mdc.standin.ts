@@ -13,8 +13,8 @@ export interface ElementProvider {
 */
 export abstract class MdcStandIn<T extends ElementProvider> {
     private _initialized = false;
-    private _standIn: ElementRef;
-    private _actor: T;
+    private _standIn: ElementRef | null = null;
+    private _actor: T | null = null;
 
     /**
      * @param elements The query-list for actor components, that require a standin ElementRef if the list is empty.
