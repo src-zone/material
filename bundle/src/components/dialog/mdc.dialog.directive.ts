@@ -213,30 +213,30 @@ export class MdcDialogDirective implements AfterContentInit, OnDestroy {
      * Event emitted when the user accepts the dialog, e.g. by pressing enter or clicking the button
      * with `mdcDialogTrigger="accept"`.
      */
-    @Output() accept: EventEmitter<void> = new EventEmitter();
+    @Output() readonly accept: EventEmitter<void> = new EventEmitter();
     /**
      * Event emitted when the user cancels the dialog, e.g. by clicking outside the dialog, pressing the escape key,
      * or clicking an element with `mdcDialogTrigger="close"`.
      */
-    @Output() cancel: EventEmitter<void> = new EventEmitter();
+    @Output() readonly cancel: EventEmitter<void> = new EventEmitter();
     /**
      * Event emitted when the dialog starts opening.
      */
-    @Output() opening: EventEmitter<void> = new EventEmitter();
+    @Output() readonly opening: EventEmitter<void> = new EventEmitter();
     /**
      * Event emitted when the dialog is opened.
      */
-    @Output() opened: EventEmitter<void> = new EventEmitter();
+    @Output() readonly opened: EventEmitter<void> = new EventEmitter();
     /**
      * Event emitted when the dialog starts closing. The 'action' field contains the reason for closing, see
      * `mdcDialogTrigger` for more information.
      */
-    @Output() closing: EventEmitter<{action: string}> = new EventEmitter();
+    @Output() readonly closing: EventEmitter<{action: string}> = new EventEmitter();
     /**
      * Event emitted when the dialog is closed. The 'action' field contains the reason for closing, see
      * `mdcDialogTrigger` for more information.
      */
-    @Output() closed: EventEmitter<{action: string}> = new EventEmitter();
+    @Output() readonly closed: EventEmitter<{action: string}> = new EventEmitter();
     private _onDocumentKeydown = (event: KeyboardEvent) => this.onDocumentKeydown(event);
     private focusTrapHandle: FocusTrapHandle | null = null;
     private mdcAdapter: MDCDialogAdapter = {

@@ -74,7 +74,7 @@ export class MdcMenuDirective implements AfterContentInit, OnInit, OnDestroy {
      * (set to the <code>value</code> of the selected list item), and an index
      * (set to the index of the selected list item).
      */
-    @Output() pick: EventEmitter<MdcMenuSelection> = new EventEmitter();
+    @Output() readonly pick: EventEmitter<MdcMenuSelection> = new EventEmitter();
     @ContentChildren(MdcListDirective) _listQuery?: QueryList<MdcListDirective>;
     private mdcAdapter: MDCMenuAdapter = {
         addClassToElementAtIndex: (index, className) => {

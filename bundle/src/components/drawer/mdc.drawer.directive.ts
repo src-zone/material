@@ -116,17 +116,17 @@ export class MdcDrawerDirective implements AfterContentInit, OnDestroy {
      * drawer is closed. (When this event is triggered, the drawer is starting to open/close,
      * but the animation may not have fully completed yet)
      */
-    @Output() openChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @Output() readonly openChange: EventEmitter<boolean> = new EventEmitter<boolean>();
     /**
      * Event emitted after the drawer has fully opened. When this event is emitted the full
      * opening animation has completed, and the drawer is visible.
      */
-    @Output() afterOpened: EventEmitter<void> = new EventEmitter();
+    @Output() readonly afterOpened: EventEmitter<void> = new EventEmitter();
     /**
      * Event emitted after the drawer has fully closed. When this event is emitted the full
      * closing animation has completed, and the drawer is not visible anymore.
      */
-    @Output() afterClosed: EventEmitter<void> = new EventEmitter();
+    @Output() readonly afterClosed: EventEmitter<void> = new EventEmitter();
     
     constructor(public _elm: ElementRef, protected _rndr: Renderer2, @Inject(DOCUMENT) doc: any,
         @Optional() @Self() private _focusTrap: AbstractMdcFocusTrap) {

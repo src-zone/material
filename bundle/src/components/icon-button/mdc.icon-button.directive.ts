@@ -95,7 +95,7 @@ export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterCont
      * Event emitted when the state of the icon toggle changes (for example when a user clicks
      * the icon). 
      */
-    @Output() onChange: EventEmitter<boolean> = new EventEmitter();
+    @Output() readonly onChange: EventEmitter<boolean> = new EventEmitter();
     private _onChange: (value: any) => void = () => {};
     private _onTouched: () => any = () => {};
     private _on = false;
