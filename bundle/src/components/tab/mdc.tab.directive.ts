@@ -73,7 +73,7 @@ export abstract class AbstractMdcTabDirective extends AbstractMdcRipple implemen
     /**
      * Event called when the tab is activated.
      */
-    @Output() activate: EventEmitter<MdcTabChange> = new EventEmitter();
+    @Output() readonly activate: EventEmitter<MdcTabChange> = new EventEmitter();
     private activationRequest: Subject<boolean> = new ReplaySubject<boolean>(1);
     protected _adapter: MDCTabAdapter = {
         addClass: (className) => this._rndr.addClass(this._root.nativeElement, className),

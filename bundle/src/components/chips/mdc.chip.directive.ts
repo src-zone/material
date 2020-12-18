@@ -31,7 +31,7 @@ export class MdcChipIconDirective {
     /**
      * Event emitted for trailing icon user interactions.
      */
-    @Output() interact: EventEmitter<void> = new EventEmitter();
+    @Output() readonly interact: EventEmitter<void> = new EventEmitter();
     @HostBinding('class.mdc-chip__icon--trailing') _trailing = false;
     private __tabindex: number | null = null;
     private __role: string | null = null;
@@ -140,26 +140,26 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
     /**
      * Event emitted for user interaction with the chip.
      */
-    @Output() interact: EventEmitter<void> = new EventEmitter();
+    @Output() readonly interact: EventEmitter<void> = new EventEmitter();
     /**
      * Event emitted when the user has removed (by clicking the trailing icon) the chip.
      * This event must be implemented when the chip has a trailing icon, and the implementation
      * must remove the chip from the set. Without such implementation the directive will
      * animate the chip out of vision, but will not remove the chip from the DOM.
      */
-    @Output() remove: EventEmitter<void> = new EventEmitter();
+    @Output() readonly remove: EventEmitter<void> = new EventEmitter();
     /**
      * Event emitted when a navigation event has occured.
      */
-    @Output() navigation: EventEmitter<{key: string, source: ChipEventSource}> = new EventEmitter();
+    @Output() readonly navigation: EventEmitter<{key: string, source: ChipEventSource}> = new EventEmitter();
     /**
      * Event emitted when the chip changes from not-selected to selected state or vice versa
      * (for filter and choice chips).
      */
-    @Output() selectedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @Output() readonly selectedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
     // Like selectedChange, but only the events that should go to the chipset (i.e. not including the ones initiated by the chipset)
-    @Output() _selectedForChipSet: EventEmitter<boolean> = new EventEmitter();
-    @Output() _notifyRemoval: EventEmitter<{removedAnnouncement: string | null}> = new EventEmitter();
+    @Output() readonly _selectedForChipSet: EventEmitter<boolean> = new EventEmitter();
+    @Output() readonly _notifyRemoval: EventEmitter<{removedAnnouncement: string | null}> = new EventEmitter();
     _set: MdcChipSetDirective | null = null;
     private _checkmark: HTMLElement | null = null;
     private _leadingIcon: MdcChipIconDirective | null = null;
