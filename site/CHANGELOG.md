@@ -1,3 +1,8 @@
+<a name="1.0.0-beta.3"></a>
+# [1.0.0-beta.3](https://github.com/src-zone/material/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2020-12-18)
+
+
+
 <a name="1.0.0-beta.2"></a>
 # [1.0.0-beta.2](https://github.com/src-zone/material/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2020-12-18)
 
