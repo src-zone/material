@@ -36,13 +36,13 @@
       [prominent]="prominent" [dense]="dense">
     <div mdcTopAppBarRow>
       <section mdcTopAppBarSection alignStart>
-        <a href="javascript:void(0)" mdcTopAppBarNavIcon class="material-icons">menu</a>
+        <a href="javascript:void(0)" mdcTopAppBarNavIcon mdcIconButton class="material-icons">menu</a>
         <span mdcTopAppBarTitle>Toolbar</span>
       </section>
       <section mdcTopAppBarSection alignEnd>
-        <a href="javascript:void(0)" mdcTopAppBarAction class="material-icons" label="Download">file_download</a>
-        <a *ngIf="type !== 'short'" href="javascript:void(0)" mdcTopAppBarAction class="material-icons" label="Print this page">print</a>
-        <a *ngIf="type !== 'short'" href="javascript:void(0)" mdcTopAppBarAction class="material-icons" label="Bookmark this page">more_vert</a>
+        <button mdcTopAppBarAction mdcIconButton class="material-icons" label="Download">file_download</button>
+        <button *ngIf="type !== 'short'" mdcTopAppBarAction mdcIconButton class="material-icons" label="Print this page">print</button>
+        <button *ngIf="type !== 'short'" mdcTopAppBarAction mdcIconButton class="material-icons" label="Bookmark this page">more_vert</button>
       </section>
     </div>
   </header>

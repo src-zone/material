@@ -29,4 +29,4 @@ export * from './snippet.tab.simple.component';
 export * from './snippet.text-field.component';
 export * from './snippet.text-field.icon.component';
 export * from './snippet.text-field.textarea.component';
-// export * from './snippet.top-app-bar.component';
+export * from './snippet.top-app-bar.component';

@@ -13,7 +13,7 @@ import { AbstractSnippetComponent } from '../abstract.snippet.component';
     styleUrls: ['./snippet.top-app-bar.component.scss']
 })
 export class SnippetTopAppBarComponent/*snip:skip*/extends AbstractSnippetComponent/*snip:endskip*/ {
-    type = 'default';
+    type: 'short' | 'fixed' | 'default' = 'default';
     prominent = false;
     dense = false;
 

@@ -32,8 +32,7 @@ import {
   SnippetTabScrollerComponent,
   SnippetTabSimpleComponent,
   SnippetTextFieldComponent, SnippetTextFieldIconComponent, SnippetTextFieldTextareaComponent,
-  // SnippetToolbarComponent, SnippetToolbarFlexibleComponent,
-  // SnippetTopAppBarComponent
+  SnippetTopAppBarComponent
 } from './components/components';
 
 @NgModule({
@@ -73,8 +72,7 @@ import {
     SnippetTabScrollerComponent,
     SnippetTabSimpleComponent,
     SnippetTextFieldComponent, SnippetTextFieldIconComponent, SnippetTextFieldTextareaComponent,
-    // SnippetToolbarComponent, SnippetToolbarFlexibleComponent,
-    // SnippetTopAppBarComponent
+    SnippetTopAppBarComponent
   ]
 })
 export class ComponentsModule {}
