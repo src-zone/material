@@ -1,3 +1,26 @@
+<a name="1.0.0-beta.2"></a>
+# [1.0.0-beta.2](https://github.com/src-zone/material/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2020-12-18)
+
+
+### Bug Fixes
+
+* **chip:** make sure handleInteraction is called on keypress ([85afc44](https://github.com/src-zone/material/commit/85afc44fdc1deab333d759ed32b70902a2982377))
+* **chip:** value is never null ([2569787](https://github.com/src-zone/material/commit/2569787e7c33611fb6c9a2b0bffc95b5cf836071))
+* **slider:** don't throw exception when discrete/markers is set on slider ([#698](https://github.com/src-zone/material/issues/698)) ([3c5d67b](https://github.com/src-zone/material/commit/3c5d67b2b2d39af4bfbd89b45ccc7a26ce8e17a7))
+
+
+### Build System
+
+* upgrade dependencies, including angular to version 11 ([0793ad7](https://github.com/src-zone/material/commit/0793ad77e715ef6f0073447bec22471fe5aab06e))
+
+
+### BREAKING CHANGES
+
+* - material now requires at least angular@10
+- material now requires the Ivy engine (which is already the default from angular 10 onwards)
+
+
+
 # Change Log
 
 All notable changes to this project will be documented in this file.
