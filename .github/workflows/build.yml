@@ -54,7 +54,7 @@ jobs:
   publish-bundle:
     runs-on: ubuntu-latest
     needs: build-bundle
-    if: github.event_name == 'push' && contains(github.ref, 'refs/tags/v')
+#    if: github.event_name == 'push' && contains(github.ref, 'refs/tags/v')
     steps:
       - uses: actions/checkout@v2
       - name: Set up Use Node.js 14.15
