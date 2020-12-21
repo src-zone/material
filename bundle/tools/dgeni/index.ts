@@ -65,7 +65,8 @@ apiDocsPackage.config((computePathsProcessor: any) => {
 // Configure custom JsDoc tags.
 apiDocsPackage.config((parseTagsProcessor: any) => {
   parseTagsProcessor.tagDefinitions = parseTagsProcessor.tagDefinitions.concat([
-    {name: 'docs-private'}
+    {name: 'docs-private'},
+    {name: 'internal'}
   ]);
 });
 

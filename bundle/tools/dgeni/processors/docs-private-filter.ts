@@ -21,10 +21,7 @@ const INTERNAL_METHODS = [
   'setDisabledState',
 
   // Don't ever need to document constructors
-  'constructor',
-
-  // tabIndex exists on all elements, no need to document it
-  'tabIndex',
+  'constructor'
 ];
 
 /**
@@ -40,7 +37,7 @@ export class DocsPrivateFilter implements Processor {
 
   /** Marks the given API doc with a property that describes its public state. */
   private isPublicDoc(doc: ApiDoc) {
-    if (this.hasDocsPrivateTag(doc) || doc.name.startsWith('_')) {
+    if (this.hasInternalTag(doc) || doc.name.startsWith('_')) {
       return false;
     } else if (doc instanceof MemberDoc) {
       return !this.isInternalMember(doc);
@@ -55,9 +52,9 @@ export class DocsPrivateFilter implements Processor {
     return INTERNAL_METHODS.includes(memberDoc.name);
   }
 
-  /** Whether the given doc has a @docs-private tag set. */
-  private hasDocsPrivateTag(doc: any) {
+  /** Whether the given doc has a @docs-private or @internal tag set. */
+  private hasInternalTag(doc: any) {
     const tags = doc.tags && doc.tags.tags;
-    return tags ? tags.find((d: any) => d.tagName == 'docs-private') : false;
+    return tags ? tags.find((d: any) => d.tagName === 'docs-private' || d.tagName === 'internal') : false;
   }
 }

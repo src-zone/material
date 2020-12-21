@@ -15,7 +15,8 @@ import { asBoolean, asBooleanOrNull } from '../../utils/value.utils';
     selector: '[mdcTopAppBarRow]'
 })
 export class MdcTopAppBarRowDirective {
-    @HostBinding('class.mdc-top-app-bar__row') _hostClass = true;
+    /** @internal */
+    @HostBinding('class.mdc-top-app-bar__row') readonly _cls = true;
 
     constructor(public _elm: ElementRef) {
     }
@@ -30,7 +31,8 @@ export class MdcTopAppBarRowDirective {
     selector: '[mdcTopAppBarSection]'
 })
 export class MdcTopAppBarSectionDirective {
-    @HostBinding('class.mdc-top-app-bar__section') _hostClass = true;
+    /** @internal */
+    @HostBinding('class.mdc-top-app-bar__section') readonly _cls = true;
     private _alignEnd = false;
     private _alignStart = false;
 
@@ -71,7 +73,8 @@ export class MdcTopAppBarSectionDirective {
     selector: '[mdcTopAppBarTitle]'
 })
 export class MdcTopAppBarTitleDirective {
-    @HostBinding('class.mdc-top-app-bar__title') _hostClass = true;
+    /** @internal */
+    @HostBinding('class.mdc-top-app-bar__title') readonly _cls = true;
 
     constructor(public _elm: ElementRef) {
     }
@@ -88,7 +91,8 @@ export class MdcTopAppBarTitleDirective {
     selector: '[mdcTopAppBarNavIcon]'
 })
 export class MdcTopAppBarNavIconDirective {
-    @HostBinding('class.mdc-top-app-bar__navigation-icon') _hostClass = true;
+    /** @internal */
+    @HostBinding('class.mdc-top-app-bar__navigation-icon') readonly _cls = true;
 
     constructor(public _elm: ElementRef) {
     }
@@ -104,7 +108,8 @@ export class MdcTopAppBarNavIconDirective {
     selector: '[mdcTopAppBarAction]'
 })
 export class MdcTopAppBarActionDirective {
-    @HostBinding('class.mdc-top-app-bar__action-item') _hostClass = true;
+    /** @internal */
+    @HostBinding('class.mdc-top-app-bar__action-item') readonly _cls = true;
     /**
      * A label for the action item. The value will be applied to both the
      * <code>aria-label</code>, and <code>alt</code> attribute of the item.
@@ -123,7 +128,9 @@ export class MdcTopAppBarActionDirective {
     selector: '[mdcTopAppBar]'
 })
 export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-top-app-bar') _hostClass = true;
+    /** @internal */
+    @HostBinding('class.mdc-top-app-bar') readonly _cls = true;
+    /** @internal */
     @ContentChildren(MdcTopAppBarActionDirective, {descendants: true}) _actionItems?: QueryList<MdcTopAppBarActionDirective>;
     private handleScroll = () => {
         if (this.viewport && (this._type === 'short' || this._type === 'fixed'))
@@ -368,23 +375,28 @@ export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
         }
     }
 
+    /** @internal */
     @HostBinding('class.mdc-top-app-bar--short-has-action-item') get _hasActionItems() {
         return this._type === 'short' && this._actionItems!.length > 0;
     }
 
+    /** @internal */
     _updateViewPort = () => {
         // simulate 'fixed' relative to view position of parent:
         this._elm.nativeElement.style.top = this._viewport!.scrollTop + 'px';
     }
 
+    /** @internal */
     @HostBinding('class.mdc-top-app-bar--fixed') get _fixed() {
         return this._type === 'fixed';
     }
 
+    /** @internal */
     @HostBinding('class.mdc-top-app-bar--short') get _short() {
         return this._type === 'short';
     }
 
+    /** @internal */
     @HostBinding('style.position') get _position() {
         return this._viewport ? 'absolute' : null;
     }

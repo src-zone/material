@@ -11,7 +11,7 @@ import { AbstractMdcFocusTrap, AbstractMdcFocusInitial, FocusTrapHandle } from '
     providers: [{provide: AbstractMdcFocusInitial, useExisting: forwardRef(() => MdcFocusInitialDirective) }]
 })
 export class MdcFocusInitialDirective extends AbstractMdcFocusInitial {
-    /** @docs-private */ readonly priority = 100;
+    /** @internal */ readonly priority = 100;
 
     constructor(public _elm: ElementRef) {
         super();
@@ -69,6 +69,7 @@ class FocusTrapHandleImpl implements FocusTrapHandle {
     providers: [{provide: AbstractMdcFocusTrap, useExisting: forwardRef(() => MdcFocusTrapDirective) }]
 })
 export class MdcFocusTrapDirective extends AbstractMdcFocusTrap implements OnDestroy {
+    /** @internal */
     @ContentChildren(AbstractMdcFocusInitial, {descendants: true}) _focusInitials?: QueryList<AbstractMdcFocusInitial>;
     private trap: FocusTrapHandle | null = null;
     

@@ -2,7 +2,8 @@
   "extends": "./tsconfig-base.json",
   "compilerOptions": {
     "outDir": "build",
-    "strict": true
+    "strict": true,
+    "stripInternal": true
   },
   "files": [
     "src/material.module.ts"

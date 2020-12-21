@@ -16,11 +16,17 @@ const CLASS_REVERSED = 'mdc-linear-progress--reversed';
     selector: '[mdcLinearProgress]'
 })
 export class MdcLinearProgressDirective implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-linear-progress') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-linear-progress') readonly _cls = true;
+    /** @internal */
     @HostBinding('attr.role') _role: string = 'progressbar';
+    /** @internal */
     @HostBinding('attr.aria-valuemin') _min = 0;
+    /** @internal */
     @HostBinding('attr.aria-valuemax') _max = 1;
+    /** @internal */
     @HostBinding('class.' + CLASS_INDETERMINATE) _indeterminate = false;
+    /** @internal */
     @HostBinding('class.' + CLASS_REVERSED) _reverse = false;
     private _progress = 0;
     private _buffer = 1;

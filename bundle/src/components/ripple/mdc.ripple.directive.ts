@@ -34,12 +34,12 @@ export class MdcRippleDirective extends AbstractMdcRipple implements AfterConten
         this.destroyRipple();
     }
 
-    /** @docs-private */
+    /** @internal */
     protected isRippleSurfaceDisabled() {
         return this._disabled == null ? super.isRippleSurfaceDisabled() : this._disabled;
     }
 
-    /** @docs-private */
+    /** @internal */
     protected computeRippleBoundingRect() {
         if (this._dim == null)
             return super.computeRippleBoundingRect();
@@ -91,6 +91,7 @@ export class MdcRippleDirective extends AbstractMdcRipple implements AfterConten
 
     static ngAcceptInputType_unbounded: boolean | '';
 
+    /** @internal */
     @HostBinding('attr.data-mdc-ripple-is-unbounded') get _attrUnbounded() {
         return this.unbounded ? "" : null;
     }

@@ -59,11 +59,12 @@ let nextId = 1;
 export class MdcMenuDirective implements AfterContentInit, OnInit, OnDestroy {
     private onDestroy$: Subject<any> = new Subject();
     private onListChange$: Subject<any> = new Subject();
-    /** @docs-private */
+    /** @internal */
     @Output() readonly itemsChanged: EventEmitter<void> = new EventEmitter();
-    /** @docs-private */
+    /** @internal */
     @Output() readonly itemValuesChanged: EventEmitter<void> = new EventEmitter();
-    @HostBinding('class.mdc-menu') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-menu') readonly _cls = true;
     private _id: string | null = null;
     private cachedId: string | null = null;
     private _function = MdcListFunction.menu;
@@ -75,6 +76,7 @@ export class MdcMenuDirective implements AfterContentInit, OnInit, OnDestroy {
      * (set to the index of the selected list item).
      */
     @Output() readonly pick: EventEmitter<MdcMenuSelection> = new EventEmitter();
+    /** @internal */
     @ContentChildren(MdcListDirective) _listQuery?: QueryList<MdcListDirective>;
     private mdcAdapter: MDCMenuAdapter = {
         addClassToElementAtIndex: (index, className) => {
@@ -209,6 +211,7 @@ export class MdcMenuDirective implements AfterContentInit, OnInit, OnDestroy {
         this._id = value || this._newId();
     }
 
+    /** @internal */
     _newId(): string {
         this.cachedId = this.cachedId || `mdc-menu-${nextId++}`;
         return this.cachedId;
@@ -235,21 +238,24 @@ export class MdcMenuDirective implements AfterContentInit, OnInit, OnDestroy {
         this.surface.open = true;
     }
 
-    /** @docs-private */
+    /** @internal */
     doClose() {
         this.surface.open = false;
     }
 
+    /** @internal */
     set _listFunction(val: MdcListFunction) {
         this._function = val;
         if (this._lastList) // otherwise this will happen in ngAfterContentInit
             this._list._setFunction(val);
     }
 
+    /** @internal */
     get _list(): MdcListDirective {
         return this._listQuery!.first;
     }
 
+    /** @internal */
     @HostListener('keydown', ['$event']) _onKeydown(event: KeyboardEvent) {
         this.foundation?.handleKeydown(event);
     }
@@ -279,6 +285,7 @@ export class MdcMenuDirective implements AfterContentInit, OnInit, OnDestroy {
     selector: '[mdcMenuTrigger]',
 })
 export class MdcMenuTriggerDirective {
+    /** @internal */
     @HostBinding('attr.role') _role: string | null = 'button';
     private _mdcMenuTrigger: MdcMenuDirective | null = null;
     private down = {
@@ -291,7 +298,7 @@ export class MdcMenuTriggerDirective {
             this._role = null;
     }
 
-    /** @docs-private */
+    /** @internal */
     @HostListener('click') onClick() {
         if (this.down.enter || this.down.space)
             this._mdcMenuTrigger?.openAndFocus(FocusOnOpen.first);
@@ -299,7 +306,7 @@ export class MdcMenuTriggerDirective {
             this._mdcMenuTrigger?.openAndFocus(FocusOnOpen.root);
     }
 
-    /** @docs-private */
+    /** @internal */
     @HostListener('keydown', ['$event']) onKeydown(event: KeyboardEvent) {
         this.setDown(event, true);
         const {key, keyCode} = event;
@@ -309,19 +316,22 @@ export class MdcMenuTriggerDirective {
             this._mdcMenuTrigger?.openAndFocus(FocusOnOpen.first);
     }
 
-    /** @docs-private */
+    /** @internal */
     @HostListener('keyup', ['$event']) onKeyup(event: KeyboardEvent) {
         this.setDown(event, false);
     }
 
+    /** @internal */
     @HostBinding('attr.aria-haspopup') get _hasPopup() {
         return this._mdcMenuTrigger ? 'menu' : null;
     }
 
+    /** @internal */
     @HostBinding('attr.aria-expanded') get _expanded() {
         return this._mdcMenuTrigger?.open ? 'true' : null;
     }
 
+    /** @internal */
     @HostBinding('attr.aria-controls') get _ariaControls() {
         return this._mdcMenuTrigger?.id;
     }

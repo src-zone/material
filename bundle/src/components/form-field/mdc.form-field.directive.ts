@@ -59,10 +59,14 @@ export class MdcFormFieldLabelDirective extends AbstractMdcLabel {
     selector: '[mdcFormField]'
 })
 export class MdcFormFieldDirective implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-form-field') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-form-field') readonly _cls = true;
     private _alignEnd = false;
+    /** @internal */
     @ContentChild(AbstractMdcRipple) rippleChild?: AbstractMdcRipple;
+    /** @internal */
     @ContentChild(AbstractMdcInput) mdcInput?: AbstractMdcInput;
+    /** @internal */
     @ContentChild(AbstractMdcLabel) mdcLabel?: AbstractMdcLabel;
 
     private mdcAdapter: MDCFormFieldAdapter = {

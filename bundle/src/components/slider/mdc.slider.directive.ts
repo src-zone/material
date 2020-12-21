@@ -21,7 +21,9 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
     selector: '[mdcSlider]'
 })
 export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnChanges, OnDestroy {
-    @HostBinding('class.mdc-slider') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-slider') readonly _cls = true;
+    /** @internal */
     @HostBinding('attr.role') _role: string = 'slider';
     /**
      * Event emitted when the value changes. The value may change because of user input,
@@ -159,6 +161,7 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
         this._onChanges(changes);
     }
 
+    /** @internal */
     _onChanges(changes: SimpleChanges) {
         if (this.foundation) {
             if (this.isChanged('discrete', changes) || this.isChanged('markers', changes)) {
@@ -296,12 +299,12 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
         this._onChange(this._value);
     }
 
-    /** @docs-private */
+    /** @internal */
     registerOnChange(onChange: (value: any) => void) {
         this._onChange = onChange;
     }
 
-    /** @docs-private */
+    /** @internal */
     registerOnTouched(onTouched: () => any) {
         this._onTouched = onTouched;
     }
@@ -416,12 +419,12 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
 
     static ngAcceptInputType_disabled: boolean | '';
 
-    /** @docs-private */
+    /** @internal */
     @HostListener('blur') _onBlur() {
         this._onTouched();
     }
 
-    /** @docs-private */
+    /** @internal */
     asNumber(value: number | string): number | null { // TODO null return values are not accounted for
         if (value == null)
             return <number>value;
@@ -447,24 +450,24 @@ export class MdcFormsSliderDirective implements ControlValueAccessor {
     constructor(@Self() private mdcSlider: MdcSliderDirective) {
     }
 
-    /** @docs-private */
+    /** @internal */
     writeValue(obj: any) {
         let change = new SimpleChange(this.mdcSlider.value, this.mdcSlider.asNumber(obj), false);
         this.mdcSlider.value = obj;
         this.mdcSlider._onChanges({value: change});
     }
 
-    /** @docs-private */
+    /** @internal */
     registerOnChange(onChange: (value: any) => void) {
         this.mdcSlider.registerOnChange(onChange);
     }
 
-    /** @docs-private */
+    /** @internal */
     registerOnTouched(onTouched: () => any) {
         this.mdcSlider.registerOnTouched(onTouched);
     }
 
-    /** @docs-private */
+    /** @internal */
     setDisabledState(disabled: boolean) {
         this.mdcSlider.disabled = disabled;
     }

@@ -26,15 +26,19 @@ export enum ChipEventSource {
     selector: '[mdcChipIcon]'
 })
 export class MdcChipIconDirective {
-    @HostBinding('class.mdc-chip__icon') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-chip__icon') readonly _cls = true;
+    /** @internal */
     @HostBinding('class.mdc-chip__icon--leading') _leading = false;
     /**
      * Event emitted for trailing icon user interactions.
      */
     @Output() readonly interact: EventEmitter<void> = new EventEmitter();
+    /** @internal */
     @HostBinding('class.mdc-chip__icon--trailing') _trailing = false;
     private __tabindex: number | null = null;
     private __role: string | null = null;
+    /** @internal */
     _chip: MdcChipDirective | null = null;
 
     constructor(public _elm: ElementRef, private _rndr: Renderer2, public _cdRef: ChangeDetectorRef) {
@@ -46,23 +50,27 @@ export class MdcChipIconDirective {
         this._chip = null;
     }
 
+    /** @internal */
     @HostBinding('attr.tabindex') get _tabindex() {
         if (this.__tabindex)
             return this.__tabindex;
         return this._trailing ? 0 : null;
     }
 
+    /** @internal */
     @HostBinding('attr.role') get _role() {
         if (this.__role)
             return this.__role;
         return this._trailing ? 'button' : null;
     }
 
+    /** @internal */
     @HostListener('click', ['$event']) _handleClick(event: MouseEvent) {
         if (this._chip && this._trailing)
             this._chip._foundation?.handleTrailingIconInteraction(event);
     }
 
+    /** @internal */
     @HostListener('keydown', ['$event']) _handleInteraction(event: KeyboardEvent) {
         if (this._chip && this._trailing)
             this._chip._foundation?.handleTrailingIconInteraction(event);
@@ -77,7 +85,7 @@ export class MdcChipIconDirective {
     selector: '[mdcChipText]'
 })
 export class MdcChipTextDirective {
-    @HostBinding('class.mdc-chip__text') _cls = true;
+    @HostBinding('class.mdc-chip__text') readonly _cls = true;
 
     constructor(public _elm: ElementRef) {}
 }
@@ -90,18 +98,22 @@ export class MdcChipTextDirective {
     selector: '[mdcChipPrimaryAction]'
 })
 export class MdcChipPrimaryActionDirective {
-    @HostBinding('class.mdc-chip__primary-action') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-chip__primary-action') readonly _cls = true;
     private __tabindex: number | null = null;
+    /** @internal */
     __role: string = 'button';
 
     constructor(public _elm: ElementRef) {
         this.__tabindex = this._elm.nativeElement.getAttribute('tabindex');
     }
 
+    /** @internal */
     @HostBinding('attr.role') get _role() {
         return this.__role;
     }
 
+    /** @internal */
     @HostBinding('attr.tabindex') get _tabindex() {
         return this.__tabindex ? this.__tabindex : 0;
     }
@@ -115,6 +127,7 @@ export class MdcChipPrimaryActionDirective {
     selector: '[mdcChipCell]'
 })
 export class MdcChipCellDirective {
+    /** @internal */
     @HostBinding('attr.role') _role = 'gridcell';
 
     constructor(public _elm: ElementRef) {}
@@ -129,8 +142,11 @@ export class MdcChipCellDirective {
     selector: '[mdcChip]'
 })
 export class MdcChipDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
+    /** @internal */
     static nextValue = 1; // for computing a unique value, if no value was provided
-    @HostBinding('class.mdc-chip') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-chip') readonly _cls = true;
+    /** @internal */
     @HostBinding('attr.role') _role = 'row';
     private initialized = false;
     private selectedMem = false;
@@ -158,15 +174,22 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
      */
     @Output() readonly selectedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
     // Like selectedChange, but only the events that should go to the chipset (i.e. not including the ones initiated by the chipset)
+    /** @internal */
     @Output() readonly _selectedForChipSet: EventEmitter<boolean> = new EventEmitter();
+    /** @internal */
     @Output() readonly _notifyRemoval: EventEmitter<{removedAnnouncement: string | null}> = new EventEmitter();
+    /** @internal */
     _set: MdcChipSetDirective | null = null;
     private _checkmark: HTMLElement | null = null;
     private _leadingIcon: MdcChipIconDirective | null = null;
     private _trailingIcon: MdcChipIconDirective | null = null;
+    /** @internal */
     @ContentChildren(MdcChipIconDirective, {descendants: true}) _icons?: QueryList<MdcChipIconDirective>;
+    /** @internal */
     @ContentChildren(MdcChipTextDirective, {descendants: true}) _texts?: QueryList<MdcChipTextDirective>;
+    /** @internal */
     @ContentChildren(MdcChipPrimaryActionDirective, {descendants: true}) _primaryActions?: QueryList<MdcChipPrimaryActionDirective>;
+    /** @internal */
     @ContentChildren(MdcChipCellDirective) _chipCells?: QueryList<MdcChipCellDirective>;
     private _adapter: MDCChipAdapter = {
         addClass: (className: string) => {
@@ -210,6 +233,7 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
         focusTrailingAction: () => this._trailingIcon?._elm.nativeElement.focus(),
         isRTL: () => getComputedStyle(this._elm.nativeElement).getPropertyValue('direction') === 'rtl'
     };
+    /** @internal */
     _foundation: MDCChipFoundation = new MDCChipFoundation(this._adapter);
 
     constructor(private _elm: ElementRef, rndr: Renderer2, registry: MdcEventRegistry) {
@@ -241,6 +265,7 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
         this._foundation.destroy();
     }
 
+    /** @internal */
     _reInit() {
         // if icons have changed, the foundation must be reinitialized, because
         // trailingIconInteractionHandler might have to be removed and/or attached
@@ -426,14 +451,17 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
         return this._foundation.getDimensions();
     }
 
+    /** @internal */
     @HostListener('click', ['$event']) _handleInteraction(event: MouseEvent) {
         this._foundation?.handleInteraction(event);
     }
 
+    /** @internal */
     @HostListener('transitionend', ['$event']) _handleTransitionEnd(event: TransitionEvent) {
         this._foundation?.handleTransitionEnd(event);
     }
 
+    /** @internal */
     @HostListener('keydown', ['$event']) _handleKeydown(event: KeyboardEvent) {
         this._foundation?.handleKeydown(event);
         this._foundation?.handleInteraction(event);
@@ -447,12 +475,17 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
     selector: '[mdcChipSet]'
 })
 export class MdcChipSetDirective implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-chip-set') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-chip-set') readonly _cls = true;
+    /** @internal */
     @HostBinding('attr.role') _role = 'grid';
+    /** @internal */
     @ContentChildren(MdcChipDirective, {descendants: true}) _chips?: QueryList<MdcChipDirective>;
     private _subscriptions: Subscription[] = [];
     private _initialized = false;
+    /** @internal */
     _type: 'choice' | 'filter' | 'input' | 'action' = 'action';
+    /** @internal */
     _adapter: MDCChipSetAdapter = {
         hasClass: (className: string) => this._elm.nativeElement.classList.contains(className),
         removeChipAtIndex: (index: number) => {
@@ -469,6 +502,7 @@ export class MdcChipSetDirective implements AfterContentInit, OnDestroy {
         getChipListCount: () => this._chips!.length,
         announceMessage: (message: string) => announce(message)
     };
+    /** @internal */
     _foundation: MDCChipSetFoundation | null = new MDCChipSetFoundation(this._adapter);
 
     constructor(private _elm: ElementRef) {}
@@ -554,19 +588,20 @@ export class MdcChipSetDirective implements AfterContentInit, OnDestroy {
         return this._chips!.toArray().findIndex(chip => chip.value === chipValue);
     }
 
+    /** @internal */
     @HostBinding('class.mdc-chip-set--choice') get _choice() {
         return this._type === 'choice';
     }
 
+    /** @internal */
     @HostBinding('class.mdc-chip-set--filter') get _filter() {
         return this._type === 'filter';
     }
 
+    /** @internal */
     @HostBinding('class.mdc-chip-set--input') get _input() {
         return this._type === 'input';
     }
-
-
 }
 
 export const CHIP_DIRECTIVES = [

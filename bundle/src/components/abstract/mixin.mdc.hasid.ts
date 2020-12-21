@@ -11,6 +11,7 @@ export class HasId {
     private _idChange: Subject<string> = new Subject<string>();
     // TODO: member assignments above are never executed...
 
+    /** @internal */
     initId() {
         // Force setter to be called in case id was not specified.
         this.id = this.id;
@@ -25,20 +26,21 @@ export class HasId {
     @Input() get id() {
         return this._id;
     }
-  
+
     set id(value: string | null) {
         this._id = value || this._newId();
         if (this._idChange)
             this._idChange.next();
     }
 
+    /** @internal */
     _newId(): string {
         this.cachedId = this.cachedId || `mdc-u-id-${nextId++}`;
         return this.cachedId;
     }
 
     /**
-     * @docs-private
+     * @internal
      * 
      * Subscribe to this observable to be informed of id changes.
      */

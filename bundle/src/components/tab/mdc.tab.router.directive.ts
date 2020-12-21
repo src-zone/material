@@ -18,7 +18,9 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
     providers: [{provide: AbstractMdcTabDirective, useExisting: forwardRef(() => MdcTabRouterDirective) }]
 })
 export class MdcTabRouterDirective extends AbstractMdcTabDirective {
+    /** @internal */
     @ContentChildren(RouterLink, {descendants: true}) _links?: QueryList<RouterLink>;
+    /** @internal */
     @ContentChildren(RouterLinkWithHref, {descendants: true}) _linksWithHrefs?: QueryList<RouterLinkWithHref>;
     private routerActive: RouterActiveDetector | null = null;
 
@@ -44,12 +46,12 @@ export class MdcTabRouterDirective extends AbstractMdcTabDirective {
         this.routerActive?.update();
     }
 
-    /** @docs-private */
+    /** @internal */
     isRouterActive() {
         return this.isActive();
     }
 
-    /** @docs-private */
+    /** @internal */
     setRouterActive(activate: boolean) {
         this.triggerActivation(activate);
     }

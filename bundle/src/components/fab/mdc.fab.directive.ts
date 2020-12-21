@@ -11,7 +11,7 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
     selector: '[mdcFabIcon]'
 })
 export class MdcFabIconDirective {
-    @HostBinding('class.mdc-fab__icon') _cls = true;
+    @HostBinding('class.mdc-fab__icon') readonly _cls = true;
 }
 
 /**
@@ -24,7 +24,7 @@ export class MdcFabIconDirective {
     selector: '[mdcFabLabel]'
 })
 export class MdcFabLabelDirective {
-    @HostBinding('class.mdc-fab__label') _cls = true;
+    @HostBinding('class.mdc-fab__label') readonly _cls = true;
 }
 
 /**
@@ -38,8 +38,10 @@ export class MdcFabLabelDirective {
     providers: [{provide: AbstractMdcRipple, useExisting: forwardRef(() => MdcFabDirective) }]
 })
 export class MdcFabDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-fab') _cls = true;
-    @ContentChild(MdcFabLabelDirective) private label?: MdcFabLabelDirective;
+    /** @internal */
+    @HostBinding('class.mdc-fab') readonly _cls = true;
+    /** @internal */
+    @ContentChild(MdcFabLabelDirective) _label?: MdcFabLabelDirective;
     private _mini = false;
     private _exited = false;
 
@@ -73,7 +75,7 @@ export class MdcFabDirective extends AbstractMdcRipple implements AfterContentIn
 
     /** @docs-private */
     @HostBinding('class.mdc-fab--extended') get extended() {
-        return !!this.label;
+        return !!this._label;
     }
 
     /**

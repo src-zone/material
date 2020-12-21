@@ -9,7 +9,8 @@ import { MDCNotchedOutlineFoundation, MDCNotchedOutlineAdapter } from '@material
     selector: '[mdcNotchedOutlineNotch]'
 })
 export class MdcNotchedOutlineNotchDirective {
-    @HostBinding('class.mdc-notched-outline__notch') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-notched-outline__notch') readonly _cls = true;
 
     constructor(public _elm: ElementRef) {
     }
@@ -25,7 +26,9 @@ export class MdcNotchedOutlineNotchDirective {
     selector: '[mdcNotchedOutline]'
 })
 export class MdcNotchedOutlineDirective implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-notched-outline') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-notched-outline') readonly _cls = true;
+    /** @internal */
     @ContentChildren(MdcNotchedOutlineNotchDirective) _notches?: QueryList<MdcNotchedOutlineNotchDirective>;
     private notchWidth: number | null = null;
     private mdcAdapter: MDCNotchedOutlineAdapter = {

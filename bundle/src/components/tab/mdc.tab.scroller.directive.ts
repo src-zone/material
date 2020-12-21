@@ -16,7 +16,8 @@ import { AbstractMdcTabDirective } from './mdc.tab.directive';
     selector: '[mdcTabScrollerContent]'
 })
 export class MdcTabScrollerContentDirective {
-    @HostBinding('class.mdc-tab-scroller__scroll-content') _hostClass = true;
+    /** @internal */
+    @HostBinding('class.mdc-tab-scroller__scroll-content') readonly _cls = true;
 
     constructor(public _el: ElementRef) {}
 }
@@ -29,7 +30,8 @@ export class MdcTabScrollerContentDirective {
     selector: '[mdcTabScrollerArea]'
 })
 export class MdcTabScrollerAreaDirective {
-    @HostBinding('class.mdc-tab-scroller__scroll-area') _hostClass = true;
+    /** @internal */
+    @HostBinding('class.mdc-tab-scroller__scroll-area') readonly _cls = true;
 
     constructor(public _el: ElementRef) {}
 }
@@ -42,10 +44,14 @@ export class MdcTabScrollerAreaDirective {
     selector: '[mdcTabScroller]'
 })
 export class MdcTabScrollerDirective implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-tab-scroller') _hostClass = true;
+    /** @internal */
+    @HostBinding('class.mdc-tab-scroller') readonly _cls = true;
     private onDestroy$: Subject<any> = new Subject();
+    /** @internal */
     @ContentChildren(MdcTabScrollerAreaDirective) _areas?: QueryList<MdcTabScrollerAreaDirective>;
+    /** @internal */
     @ContentChildren(MdcTabScrollerContentDirective, {descendants: true}) _contents?: QueryList<MdcTabScrollerContentDirective>;
+    /** @internal */
     @ContentChildren(AbstractMdcTabDirective, {descendants: true}) _tabs?: QueryList<AbstractMdcTabDirective>;
     private document: Document;
     private _adapter: MDCTabScrollerAdapter = {
@@ -64,6 +70,7 @@ export class MdcTabScrollerDirective implements AfterContentInit, OnDestroy {
         computeScrollContentClientRect: () => this._content!._el.nativeElement.getBoundingClientRect(),
         computeHorizontalScrollbarHeight: () => util.computeHorizontalScrollbarHeight(this.document)
     };
+    /** @internal */
     _foundation: MDCTabScrollerFoundation | null = null;
 
     constructor(private _rndr: Renderer2, private _el: ElementRef, private registry: MdcEventRegistry, @Inject(DOCUMENT) doc: any) {
@@ -118,6 +125,7 @@ export class MdcTabScrollerDirective implements AfterContentInit, OnDestroy {
     private _handleInteraction = () => this._foundation!.handleInteraction();
     private _handleTransitionEnd = (evt: Event) => this._foundation!.handleTransitionEnd(evt);
 
+    /** @internal */
     _getScrollContentWidth() {
         return this._adapter.getScrollContentOffsetWidth();
     }

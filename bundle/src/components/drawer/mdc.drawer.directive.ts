@@ -16,14 +16,16 @@ export type MdcDrawerType = 'permanent' | 'dismissible' | 'modal';
     selector: '[mdcDrawerTitle]'
 })
 export class MdcDrawerTitleDirective {
-    @HostBinding('class.mdc-drawer__title') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-drawer__title') readonly _cls = true;
 }
 
 @Directive({
     selector: '[mdcDrawerSubtitle]'
 })
 export class MdcDrawerSubtitleDirective {
-    @HostBinding('class.mdc-drawer__subtitle') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-drawer__subtitle') readonly _cls = true;
 }
 
 /**
@@ -38,7 +40,8 @@ export class MdcDrawerSubtitleDirective {
     selector: '[mdcDrawerHeader]'
 })
 export class MdcDrawerHeaderDirective {
-    @HostBinding('class.mdc-drawer__header') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-drawer__header') readonly _cls = true;
 }
 
 /**
@@ -49,14 +52,16 @@ export class MdcDrawerHeaderDirective {
     selector: '[mdcDrawerContent]'
 })
 export class MdcDrawerContentDirective {
-    @HostBinding('class.mdc-drawer__content') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-drawer__content') readonly _cls = true;
 }
 
 @Directive({
     selector: '[mdcDrawerScrim]'
 })
 export class MdcDrawerScrimDirective {
-    @HostBinding('class.mdc-drawer-scrim') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-drawer-scrim') readonly _cls = true;
 }
 
 /**
@@ -72,7 +77,9 @@ export class MdcDrawerScrimDirective {
     selector: '[mdcDrawer]'
 })
 export class MdcDrawerDirective implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-drawer') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-drawer') readonly _cls = true;
+    /** @internal */
     @ContentChildren(MdcListItemDirective, {descendants: true}) _items?: QueryList<MdcListItemDirective>;
     private _onDocumentClick = (event: MouseEvent) => this.onDocumentClick(event);
     private focusTrapHandle: FocusTrapHandle | null = null;
@@ -192,10 +199,12 @@ export class MdcDrawerDirective implements AfterContentInit, OnDestroy {
         }
     }
 
+    /** @internal */
     @HostBinding('class.mdc-drawer--modal') get _isModal() {
         return this.type === 'modal';
     }
 
+    /** @internal */
     @HostBinding('class.mdc-drawer--dismissible') get _isDismisible() {
         return this.type === 'dismissible';
     }
@@ -270,17 +279,17 @@ export class MdcDrawerDirective implements AfterContentInit, OnDestroy {
         }
     }
 
-    /** @docs-private */
+    /** @internal */
     @HostListener('keydown', ['$event']) onKeydown(event: KeyboardEvent) {
         this.foundation?.handleKeydown(event);
     }
 
-    /** @docs-private */
+    /** @internal */
     @HostListener('transitionend', ['$event']) handleTransitionEnd(event: TransitionEvent) {
         this.foundation?.handleTransitionEnd(event);
     }
 
-    /** @docs-private */
+    /** @internal */
     onDocumentClick(event: MouseEvent) {
         if (this.type === 'modal') {
             // instead of listening to click event on mdcDrawerScrim (which would require wiring between
@@ -304,6 +313,7 @@ export class MdcDrawerDirective implements AfterContentInit, OnDestroy {
     selector: '[mdcDrawerAppContent]'
 })
 export class MdcDrawerAppContent {
+    /** @internal */
     @HostBinding('class.mdc-drawer-app-content') _cls = true;
 
     /**
