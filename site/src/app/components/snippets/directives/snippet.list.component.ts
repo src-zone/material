@@ -24,9 +24,12 @@ export class SnippetListComponent/*snip:skip*/extends AbstractSnippetComponent/*
     //snip:skip
     constructor() {
         super({
-          'html': require('!raw-loader!./snippet.list.component.html'),
-          'scss': require('!raw-loader!./snippet.list.component.scss'),
-          'typescript': require('!raw-loader!./snippet.list.component.ts')
+            'html': require('!raw-loader!./snippet.list.component.html'),
+            'scss': require('!raw-loader!./snippet.list.component.scss'),
+            'typescript': require('!raw-loader!./snippet.list.component.ts')
+        }, {
+            '../../../../assets/img/mdc-demos/animal1.svg': require('!file-loader!../../../../assets/img/mdc-demos/animal1.svg').default,
+            '../../../../assets/img/mdc-demos/animal2.svg': require('!file-loader!../../../../assets/img/mdc-demos/animal2.svg').default
         });
     }
     //snip:endskip

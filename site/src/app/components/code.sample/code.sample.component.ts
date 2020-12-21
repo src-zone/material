@@ -115,12 +115,11 @@ export class CodeSampleComponent implements AfterContentInit {
                         .replace(/\$\{mainComponent\}/g, this.snippet.mainComponent)
                         .replace(/\$\{mainImport\}/g, this.snippet.mainImport)
             };
-            files[mainSourceName] = this.snippet.code['typescript'];
-            files[templateSourceName] = this.fixAssets(this.snippet.code['html'], 'html', assets, this.snippet.cacheAssets);
+            files[mainSourceName] = this.fixAssetsInTs(this.snippet.code['typescript'], this.snippet.cacheAssets);
+            files[templateSourceName] = this.fixAssets(this.snippet.code['html'], assets, this.snippet.cacheAssets);
             if (this.snippet.code['scss'])
                 files[styleSourceName] = this.fixAssets(
                     this.snippet.code['scss'].replace(/\@material/g, '~@material'),
-                    'scss',
                     assets,
                     this.snippet.cacheAssets).replace(/(\s*)(.*)stackblitz-skip-line(\s*:\s*)?(.*)/g, '$1// skip on stackblitz $2 $4');
 
@@ -165,7 +164,16 @@ export class CodeSampleComponent implements AfterContentInit {
         }
     }
 
-    fixAssets(code: string, type: 'html' | 'scss', assets: string[], cacheAssets: {[key: string]: string}) {
+    fixAssetsInTs(code: string, cacheAssets: {[key: string]: string}) {
+        for (let asset of Object.keys(cacheAssets)) {
+            const requireAsset = `require('!file-loader!${asset}').default`;
+            const location = `"${document.location.origin}/${cacheAssets[asset]}"`;
+            code = code.split(requireAsset).join(location);
+        }
+        return code;
+    }
+
+    fixAssets(code: string, assets: string[], cacheAssets: {[key: string]: string}) {
         for (let asset of assets) {
             if (cacheAssets[asset]) {
                 const location = `${document.location.origin}/${cacheAssets[asset]}`;
