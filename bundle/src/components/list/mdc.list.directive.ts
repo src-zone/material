@@ -1,5 +1,5 @@
 import { AfterContentInit, ContentChildren, Directive, ElementRef, HostBinding,
-  Input, OnDestroy, QueryList, Renderer2, Output, EventEmitter, HostListener } from '@angular/core';
+  Input, OnDestroy, QueryList, Renderer2, Output, EventEmitter, HostListener, ChangeDetectorRef } from '@angular/core';
 import { MDCListFoundation, MDCListAdapter, strings, cssClasses } from '@material/list';
 import { asBoolean } from '../../utils/value.utils';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
@@ -161,7 +161,7 @@ export class MdcListItemDirective extends AbstractMdcRipple implements AfterCont
 
     /**
      * If set to a value other than false, the item will be disabled. This affects styling
-     * and selactability, and may affect keyboard navigation.
+     * and selectability, and may affect keyboard navigation.
      * This input is ignored for lists where the selection is controlled by embedded checkbox
      * or radio inputs. In those cases the disabled state of the input will be used instead.
      */
@@ -462,7 +462,7 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
     /** @docs-private */
     foundation?: MDCListFoundation | null;
     
-    constructor(public _elm: ElementRef, private rndr: Renderer2) {
+    constructor(public _elm: ElementRef, private rndr: Renderer2, private cdRef: ChangeDetectorRef) {
     }
 
     ngAfterContentInit() {
@@ -543,6 +543,9 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
                     this.rndr.removeAttribute(item._elm.nativeElement, 'tabindex');
                 this.rndr.setAttribute(item._elm.nativeElement, 'tabindex', item === firstTabbable ? '0' : '-1');
             });
+            // child components were updated (in updateItems above)
+            // let angular know to prevent ExpressionChangedAfterItHasBeenCheckedError:
+            this.cdRef.detectChanges();
         }
     }
 

@@ -181,7 +181,7 @@ describe('mdcMenu', () => {
         expect(list.getAttribute('tabindex')).toBe('-1');
 
         testComponent.firstList = false;
-        fixture.detectChanges(); tick(); fixture.detectChanges();
+        fixture.detectChanges(); tick();
 
         list = fixture.nativeElement.querySelector('ul');
         items = [...fixture.nativeElement.querySelectorAll('li')];
@@ -191,6 +191,50 @@ describe('mdcMenu', () => {
         expect(list.getAttribute('tabindex')).toBe('-1');
 
         validateOpenBy(fixture, () => trigger.click(), TestChangeListComponent);
+    }));
+
+    @Component({
+        template: `
+            <div mdcMenuAnchor>
+                <button [mdcMenuTrigger]="menu">Open Menu</button>
+                <div mdcMenu #menu="mdcMenu">
+                    <ul mdcList>
+                        <li *ngFor="let item of items" mdcListItem [value]="item.value">
+                            <span mdcListItemText>{{item.text}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        `
+    })
+    class TestListItemNgForComponent {
+        items = [
+            {value: 'item1', text: 'First Item'},
+            {value: 'item2', text: 'Second Item'}
+        ];
+    }
+    it('menu items in ngFor', fakeAsync(() => {
+        let { fixture, list, items, trigger, testComponent } = setup(TestListItemNgForComponent);
+        
+        expect(list.getAttribute('role')).toBe('menu');
+        expect(items.length).toBe(2);
+        items.forEach(item => expect(item.getAttribute('role')).toBe('menuitem'));
+        expect(list.getAttribute('tabindex')).toBe('-1');
+
+        testComponent.items.push({value: 'item3', text: 'Third Item'});
+        // this would previously throw ExpressionChangedAfterItHasBeenCheckedError;
+        // fixed by calling ChangeDetectorRef.detectChanges after child components are
+        // updated in MdcListDirective.ngAfterContentInit:
+        fixture.detectChanges(); tick();
+
+        list = fixture.nativeElement.querySelector('ul');
+        items = [...fixture.nativeElement.querySelectorAll('li')];
+        expect(list.getAttribute('role')).toBe('menu');
+        expect(items.length).toBe(3);
+        items.forEach(item => expect(item.getAttribute('role')).toBe('menuitem'));
+        expect(list.getAttribute('tabindex')).toBe('-1');
+
+        validateOpenBy(fixture, () => trigger.click(), TestListItemNgForComponent);
     }));
 
     function validateOpenBy(fixture, doOpen: () => void, compType: Type<any> = TestComponent) {
@@ -213,7 +257,7 @@ describe('mdcMenu', () => {
         const fixture = TestBed.configureTestingModule({
             declarations: [...LIST_DIRECTIVES, ...MENU_SURFACE_DIRECTIVES, ...MENU_DIRECTIVES, ...LIST_DIRECTIVES, compType]
         }).createComponent(compType);
-        fixture.detectChanges(); tick(); fixture.detectChanges();
+        fixture.detectChanges(); tick();
         return getElements(fixture, compType);
     }
     

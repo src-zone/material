@@ -5,7 +5,7 @@ import { MDCMenuFoundation, MDCMenuAdapter, cssClasses, strings, DefaultFocusSta
 import { MdcMenuSurfaceDirective } from '../menu-surface/mdc.menu-surface.directive';
 import { MdcListDirective, MdcListFunction } from '../list/mdc.list.directive';
 import { Subject } from 'rxjs';
-import { takeUntil, first } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 /**
  * Data send by the <code>pick</code> event of <code>MdcMenuDirective</code>.
