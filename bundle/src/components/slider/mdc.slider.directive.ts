@@ -450,24 +450,24 @@ export class MdcFormsSliderDirective implements ControlValueAccessor {
     constructor(@Self() private mdcSlider: MdcSliderDirective) {
     }
 
-    /** @internal */
+    /** @docs-private */
     writeValue(obj: any) {
         let change = new SimpleChange(this.mdcSlider.value, this.mdcSlider.asNumber(obj), false);
         this.mdcSlider.value = obj;
         this.mdcSlider._onChanges({value: change});
     }
 
-    /** @internal */
+    /** @docs-private */
     registerOnChange(onChange: (value: any) => void) {
         this.mdcSlider.registerOnChange(onChange);
     }
 
-    /** @internal */
+    /** @docs-private */
     registerOnTouched(onTouched: () => any) {
         this.mdcSlider.registerOnTouched(onTouched);
     }
 
-    /** @internal */
+    /** @docs-private */
     setDisabledState(disabled: boolean) {
         this.mdcSlider.disabled = disabled;
     }

@@ -605,22 +605,22 @@ export class MdcFormsSelectDirective implements ControlValueAccessor {
     constructor(@Self() private mdcSelect: MdcSelectDirective) {
     }
 
-    /** @internal */
+    /** @docs-private */
     writeValue(obj: any) {
         this.mdcSelect.updateValue(obj, ValueSource.control);
     }
 
-    /** @internal */
+    /** @docs-private */
     registerOnChange(onChange: (value: any) => void) {
         this.mdcSelect.registerOnChange(onChange);
     }
 
-    /** @internal */
+    /** @docs-private */
     registerOnTouched(onTouched: () => any) {
         this.mdcSelect.registerOnTouched(onTouched);
     }
 
-    /** @internal */
+    /** @docs-private */
     setDisabledState(disabled: boolean) {
         this.mdcSelect.disabled = disabled;
     }

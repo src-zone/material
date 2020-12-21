@@ -218,22 +218,22 @@ export class MdcFormsIconButtonDirective implements ControlValueAccessor {
     constructor(@Self() private mdcIconButton: MdcIconToggleDirective) {
     }
 
-    /** @internal */
+    /** @docs-private */
     writeValue(obj: any) {
         this.mdcIconButton.writeValue(obj);
     }
 
-    /** @internal */
+    /** @docs-private */
     registerOnChange(onChange: (value: any) => void) {
         this.mdcIconButton.registerOnChange(onChange);
     }
 
-    /** @internal */
+    /** @docs-private */
     registerOnTouched(onTouched: () => any) {
         this.mdcIconButton.registerOnTouched(onTouched);
     }
 
-    /** @internal */
+    /** @docs-private */
     setDisabledState(disabled: boolean) {
         this.mdcIconButton.setDisabledState(disabled);
     }
