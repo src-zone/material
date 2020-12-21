@@ -21,7 +21,8 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
     ]
 })
 export class MdcIconButtonDirective extends AbstractMdcIcon implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-icon-button') _hostClass = true;
+    /** @internal */
+    @HostBinding('class.mdc-icon-button') readonly _cls = true;
 
     constructor(_elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry) {
         super(_elm, renderer, registry);
@@ -44,7 +45,9 @@ export class MdcIconButtonDirective extends AbstractMdcIcon implements AfterCont
     selector: '[mdcIcon]'
 })
 export class MdcIconDirective  {
-    @HostBinding('class.mdc-icon-button__icon') _hostClass = true;
+    /** @internal */
+    @HostBinding('class.mdc-icon-button__icon') readonly _cls = true;
+    /** @internal */
     @HostBinding('class.mdc-icon-button__icon--on') _on = false;
 
     /**
@@ -75,7 +78,8 @@ export class MdcIconDirective  {
     ]
 })
 export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterContentInit {
-    @HostBinding('class.mdc-icon-button') _hostClass = true;
+    /** @internal */
+    @HostBinding('class.mdc-icon-button') readonly _cls = true;
     /**
      * The aria-label to assign to the icon toggle. You can override the value for the
      * on respectively off state by assigning to property `labelOn` or `labelOff`.
@@ -130,22 +134,22 @@ export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterCont
         this.toggleFoundation = null;
     }
 
-    /** @docs-private */
+    /** @internal */
     writeValue(obj: any) {
         this.on = !!obj;
     }
 
-    /** @docs-private */
+    /** @internal */
     registerOnChange(onChange: (value: any) => void) {
         this._onChange = onChange;
     }
 
-    /** @docs-private */
+    /** @internal */
     registerOnTouched(onTouched: () => any) {
         this._onTouched = onTouched;
     }
 
-    /** @docs-private */
+    /** @internal */
     setDisabledState(disabled: boolean) {
         this._disabled = disabled;
     }
@@ -168,14 +172,17 @@ export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterCont
 
     static ngAcceptInputType_on: boolean | '';
 
+    /** @internal */
     @HostBinding('attr.aria-label') get _label() {
         return this._on ? (this.labelOn || this.label) : (this.labelOff || this.label);
     }
     
+    /** @internal */
     @HostListener('click') _onClick() {
         this.toggleFoundation?.handleClick();
     }
 
+    /** @internal */
     @HostListener('blur') _onBlur() {
         this._onTouched();
     }

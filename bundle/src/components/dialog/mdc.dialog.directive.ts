@@ -24,7 +24,8 @@ applyMixins(MdcDialogTitleDirectiveBase, [HasId]);
     selector: '[mdcDialogTitle]'
 })
 export class MdcDialogTitleDirective extends MdcDialogTitleDirectiveBase implements OnInit {
-    @HostBinding('class.mdc-dialog__title') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-dialog__title') readonly _cls = true;
 
     ngOnInit() {
         this.initId();
@@ -43,7 +44,8 @@ applyMixins(MdcDialogContentDirectiveBase, [HasId]);
     selector: '[mdcDialogContent]'
 })
 export class MdcDialogContentDirective extends MdcDialogContentDirectiveBase implements OnInit {
-    @HostBinding('class.mdc-dialog__content') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-dialog__content') readonly _cls = true;
 
     constructor(public _elm: ElementRef) {
         super();
@@ -67,7 +69,9 @@ export class MdcDialogContentDirective extends MdcDialogContentDirectiveBase imp
     selector: '[mdcDialogActions]',
 })
 export class MdcDialogActionsDirective implements AfterContentInit {
-    @HostBinding('class.mdc-dialog__actions') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-dialog__actions') readonly _cls = true;
+    /** @internal */
     @ContentChildren(MdcButtonDirective, {descendants: true}) _buttons?: QueryList<MdcButtonDirective>;
 
     constructor(private _rndr: Renderer2) {
@@ -125,7 +129,7 @@ export class MdcDialogTriggerDirective {
     providers: [{provide: AbstractMdcFocusInitial, useExisting: forwardRef(() => MdcDialogDefaultDirective) }]
 })
 export class MdcDialogDefaultDirective extends AbstractMdcFocusInitial {
-    /** @docs-private */ readonly priority = 0; // must be lower than prio of MdcFocusInitialDirective
+    /** @internal */ readonly priority = 0; // must be lower than prio of MdcFocusInitialDirective
 
     constructor(public _elm: ElementRef) {
         super();
@@ -149,12 +153,19 @@ export class MdcDialogDefaultDirective extends AbstractMdcFocusInitial {
     selector: '[mdcDialogSurface]'
 })
 export class MdcDialogSurfaceDirective {
-    @HostBinding('class.mdc-dialog__surface') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-dialog__surface') readonly _cls = true;
+    /** @internal */
     @HostBinding('attr.role') _role = 'alertdialog';
+    /** @internal */
     @HostBinding('attr.aria-modal') _modal = 'true';
+    /** @internal */
     @HostBinding('attr.aria-labelledby') _labelledBy: string | null = null;
+    /** @internal */
     @HostBinding('attr.aria-describedby') _describedBy: string | null = null;
+    /** @internal */
     @ContentChildren(MdcDialogTitleDirective) _titles?: QueryList<MdcDialogTitleDirective>;
+    /** @internal */
     @ContentChildren(MdcDialogContentDirective) _contents?: QueryList<MdcDialogContentDirective>;
 
     ngAfterContentInit() {
@@ -176,7 +187,8 @@ export class MdcDialogSurfaceDirective {
     selector: '[mdcDialogContainer]'
 })
 export class MdcDialogContainerDirective {
-    @HostBinding('class.mdc-dialog__container') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-dialog__container') readonly _cls = true;
 }
 
 /**
@@ -187,7 +199,8 @@ export class MdcDialogContainerDirective {
     selector: '[mdcDialogScrim]'
 })
 export class MdcDialogScrimDirective {
-    @HostBinding('class.mdc-dialog__scrim') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-dialog__scrim') readonly _cls = true;
 }
 
 /**
@@ -203,11 +216,17 @@ export class MdcDialogScrimDirective {
     exportAs: 'mdcDialog'
 })
 export class MdcDialogDirective implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-dialog') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-dialog') readonly _cls = true;
+    /** @internal */
     @ContentChild(MdcDialogSurfaceDirective) _surface: MdcDialogSurfaceDirective | null = null;
+    /** @internal */
     @ContentChildren(MdcDialogTriggerDirective, {descendants: true}) _triggers?: QueryList<MdcDialogTriggerDirective>;
+    /** @internal */
     @ContentChildren(MdcDialogContentDirective, {descendants: true}) _contents?: QueryList<MdcDialogContentDirective>;
+    /** @internal */
     @ContentChildren(MdcDialogActionsDirective, {descendants: true}) _footers?: QueryList<MdcDialogActionsDirective>;
+    /** @internal */
     @ContentChildren(MdcDialogDefaultDirective, {descendants: true}) _defaultActions?: QueryList<MdcDialogDefaultDirective>;
     /**
      * Event emitted when the user accepts the dialog, e.g. by pressing enter or clicking the button
@@ -339,17 +358,17 @@ export class MdcDialogDirective implements AfterContentInit, OnDestroy {
         }
     }
 
-    /** @docs-private */
+    /** @internal */
     @HostListener('click', ['$event']) onClick(event: MouseEvent) {
         this.foundation?.handleClick(event);
     }
 
-    /** @docs-private */
+    /** @internal */
     @HostListener('keydown', ['$event']) onKeydown(event: KeyboardEvent) {
         this.foundation?.handleKeydown(event);
     }
 
-    /** @docs-private */
+    /** @internal */
     onDocumentKeydown(event: KeyboardEvent) {
         this.foundation?.handleDocumentKeydown(event);
     }

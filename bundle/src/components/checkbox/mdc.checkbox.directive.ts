@@ -17,14 +17,18 @@ import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
     providers: [{provide: AbstractMdcInput, useExisting: forwardRef(() => MdcCheckboxInputDirective) }]
 })
 export class MdcCheckboxInputDirective extends AbstractMdcInput implements OnInit, OnDestroy {
-    @HostBinding('class.mdc-checkbox__native-control') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-checkbox__native-control') readonly _cls = true;
     private onDestroy$: Subject<any> = new Subject();
     private _id: string | null = null;
     private _disabled = false;
     private _checked = false;
     private _indeterminate = false;
+    /** @internal */
     @Output() readonly _checkedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+    /** @internal */
     @Output() readonly _indeterminateChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+    /** @internal */
     @Output() readonly _disabledChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     constructor(public _elm: ElementRef, @Optional() @Self() public _cntr: NgControl) {
@@ -141,9 +145,11 @@ export class MdcCheckboxInputDirective extends AbstractMdcInput implements OnIni
     selector: '[mdcCheckbox]'
 })
 export class MdcCheckboxDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-checkbox') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-checkbox') readonly _cls = true;
     private onDestroy$: Subject<any> = new Subject();
     private onInputChange$: Subject<any> = new Subject();
+    /** @internal */
     @ContentChildren(MdcCheckboxInputDirective) _inputs?: QueryList<MdcCheckboxInputDirective>;
     private mdcAdapter: MDCCheckboxAdapter = {
         addClass: (className: string) => this._renderer.addClass(this.root.nativeElement, className),
@@ -157,6 +163,7 @@ export class MdcCheckboxDirective extends AbstractMdcRipple implements AfterCont
         isIndeterminate: () => this._input!._elm.nativeElement.indeterminate,
         setNativeControlDisabled: (disabled: boolean) => this._input!.disabled = disabled
     };
+    /** @internal */
     _foundation: MDCCheckboxFoundation | null = null;
 
     constructor(renderer: Renderer2, private root: ElementRef, registry: MdcEventRegistry) {
@@ -220,17 +227,18 @@ export class MdcCheckboxDirective extends AbstractMdcRipple implements AfterCont
         renderer.appendChild(elm.nativeElement, bg);
     }
 
-    /** @docs-private */
+    /** @internal */
     protected getRippleInteractionElement() {
         return this._input?._elm;
     }
 
-    /** @docs-private */
+    /** @internal */
     @HostListener('animationend')
     onAnimationEnd() {
         this._foundation?.handleAnimationEnd();
     }
 
+    /** @internal */
     get _input() {
         return this._inputs && this._inputs.length > 0 ? this._inputs.first : null;
     }

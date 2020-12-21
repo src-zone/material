@@ -24,8 +24,11 @@ let nextId = 1;
     providers: [{provide: AbstractMdcInput, useExisting: forwardRef(() => MdcTextFieldInputDirective) }]
 })
 export class MdcTextFieldInputDirective extends AbstractMdcInput implements OnInit, OnDestroy {
-    @HostBinding('class.mdc-text-field__input') _hostClass = true;
+    /** @internal */
+    @HostBinding('class.mdc-text-field__input') readonly _cls = true;
+    /** @internal */
     @HostBinding('attr.aria-labelledby') _labeledBy: string | null = null;
+    /** @internal */
     @Output() readonly _valueChange: EventEmitter<string | null> = new EventEmitter<string | null>();
     private onDestroy$: Subject<any> = new Subject();
     private _id: string | null = null;
@@ -84,7 +87,7 @@ export class MdcTextFieldInputDirective extends AbstractMdcInput implements OnIn
 
     static ngAcceptInputType_disabled: boolean | '';
 
-    /** @docs-private */
+    /** @internal */
     @Input() get type() {
         return this._type;
     }
@@ -102,12 +105,12 @@ export class MdcTextFieldInputDirective extends AbstractMdcInput implements OnIn
         }
     }
 
-    /** @docs-private */
+    /** @internal */
     @Input() get value() {
         return this._value;
     }
 
-    /** @docs-private */
+    /** @internal */
     set value(value: string) {
         this.updateValue(value, false);
     }
@@ -123,24 +126,28 @@ export class MdcTextFieldInputDirective extends AbstractMdcInput implements OnIn
         }
     }
 
+    /** @internal */
     @HostListener('input') _onInput() {
         if (!this._cntr)
             this.updateValue(this._elm.nativeElement.value, false);
     }
 
-    /** @docs-private */
+    /** @internal */
     get valid(): boolean {
         return this._cntr ? !!this._cntr.valid : (this._elm.nativeElement as HTMLInputElement).validity.valid;
     }
 
+    /** @internal */
     _isBadInput() {
         return (this._elm.nativeElement as HTMLInputElement).validity.badInput;
     }
 
+    /** @internal */
     _isTextarea() {
         return this._elm.nativeElement.nodeName.toLowerCase() === 'textarea';
     }
 
+    /** @internal */
     _newId(): string {
         this.cachedId = this.cachedId || `mdc-input-${nextId++}`;
         return this.cachedId;
@@ -157,18 +164,22 @@ export class MdcTextFieldInputDirective extends AbstractMdcInput implements OnIn
     selector: '[mdcTextFieldIcon]'
 })
 export class MdcTextFieldIconDirective implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-text-field__icon') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-text-field__icon') readonly _cls = true;
     /**
      * Event emitted for icon interactions (a click or an 'enter' keypress). When this output is assigned,
      * the icon will also set the `role=button` and `tabindex=0` attributes, unless you give them another
      * explicit value.
      */
     @Output() readonly interact: EventEmitter<void> = new EventEmitter();
+    /** @internal */
     @HostBinding('class.mdc-text-field__icon--leading') _leading = false;
+    /** @internal */
     @HostBinding('class.mdc-text-field__icon--trailing') _trailing = false;
     private _tabIndex: number | null = null;
     private _role: string | null = null;
     
+    /** @internal */
     _mdcAdapter: MDCTextFieldIconAdapter = {
         getAttr: (name: string) => this._el.nativeElement.getAttribute(name),
         setAttr: (name: string, value: string) => this._rndr.setAttribute(this._el.nativeElement, name, value),
@@ -178,6 +189,7 @@ export class MdcTextFieldIconDirective implements AfterContentInit, OnDestroy {
         deregisterInteractionHandler: (evtType, handler) => this._reg.unlisten(evtType, handler),
         notifyIconAction: () => this.interact.emit()
     };
+    /** @internal */
     _foundation: MDCTextFieldIconFoundation | null = new MDCTextFieldIconFoundation(this._mdcAdapter);
 
     constructor(private _rndr: Renderer2, public _el: ElementRef, private _reg: MdcEventRegistry) {
@@ -233,7 +245,8 @@ export class MdcTextFieldIconDirective implements AfterContentInit, OnDestroy {
     selector: '[mdcTextFieldHelperLine]',
 })
 export class MdcTextFieldHelperLineDirective {
-    @HostBinding('class.mdc-text-field-helper-line') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-text-field-helper-line') readonly _cls = true;
 }
 
 /**
@@ -249,9 +262,11 @@ export class MdcTextFieldHelperLineDirective {
     exportAs: 'mdcHelperText'
 })
 export class MdcTextFieldHelperTextDirective implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-text-field-helper-text') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-text-field-helper-text') readonly _cls = true;
     private _validation = false;
     private _persistent = false;
+    /** @internal */
     _mdcAdapter: MDCTextFieldHelperTextAdapter = {
         addClass: (className: string) => this._rndr.addClass(this._elm.nativeElement, className),
         removeClass: (className: string) => this._rndr.removeClass(this._elm.nativeElement, className),
@@ -265,6 +280,7 @@ export class MdcTextFieldHelperTextDirective implements AfterContentInit, OnDest
             throw new Error("MdcTextFieldHelperTextAdapter.setContent not supported");
         }
     };
+    /** @internal */
     _foundation: MDCTextFieldHelperTextFoundation | null = null;
 
     constructor(private _rndr: Renderer2, public _elm: ElementRef) {
@@ -333,10 +349,15 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
     private onDestroy$: Subject<any> = new Subject();
     private onInputChange$: Subject<any> = new Subject();
     private onHelperTextChange$: Subject<any> = new Subject();
-    @HostBinding('class.mdc-text-field') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-text-field') readonly _cls = true;
+    /** @internal */
     @ContentChildren(MdcTextFieldIconDirective) _icons?: QueryList<MdcTextFieldIconDirective>;
+    /** @internal */
     @ContentChildren(MdcTextFieldInputDirective) _inputs?: QueryList<MdcTextFieldInputDirective>;
+    /** @internal */
     @ContentChildren(MdcFloatingLabelDirective, {descendants: true}) _floatingLabels?: QueryList<MdcFloatingLabelDirective>;
+    /** @internal */
     @ContentChildren(MdcNotchedOutlineDirective) _outlines?: QueryList<MdcNotchedOutlineDirective>;
     private _leadingIcon: MdcTextFieldIconDirective | null = null;
     private _trailingIcon: MdcTextFieldIconDirective | null = null;
@@ -555,7 +576,7 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
         });
     }
 
-    /** @docs-private */
+    /** @internal */
     protected getRippleInteractionElement() {
         return this._input!._elm;
     }
@@ -590,26 +611,29 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
 
     static ngAcceptInputType_valid: boolean | '';
 
+    /** @internal */
     @HostBinding('class.mdc-text-field--textarea') get _textArea(): boolean {
         return this._input!._isTextarea();
     }
 
-    /** @docs-private */
+    /** @internal */
     @HostBinding('class.mdc-text-field--outlined')
     get outlined() {
         return !!this._outline;
     }
 
-    /** @docs-private */
+    /** @internal */
     @HostBinding('class.mdc-text-field--no-label')
     get noLabel() {
         return !this._floatingLabel;
     }
 
+    /** @internal */
     @HostBinding('class.mdc-text-field--with-leading-icon') get _leading(): boolean {
         return !!this._leadingIcon;
     }
 
+    /** @internal */
     @HostBinding('class.mdc-text-field--with-trailing-icon') get _trailing(): boolean {
         return !!this._trailingIcon;
     }
@@ -628,6 +652,7 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
         this.onHelperTextChange$.next();
     }
 
+    /** @internal */
     @HostBinding('class.mdc-text-field--disabled') get _disabled() {
         // TODO: this mirrors what the text-field can update itself from adapter.getNativeInput
         //  is there a way to trigger the textfield to re-read that when the disabled state of

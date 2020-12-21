@@ -39,8 +39,11 @@ export abstract class MdcSnackbarRef {
 
 // internal representation of the snackbar
 class MdcSnackbarInfo extends MdcSnackbarRef {
+    /** @internal */
     public _action: Subject<void> = new Subject();
+    /** @internal */
     public _opened: Subject<void> = new Subject();
+    /** @internal */
     public _closed: Subject<string> = new Subject();
 
     constructor(public message: MdcSnackbarMessage) {
@@ -131,7 +134,7 @@ export class MdcSnackbarService {
         }
     }
 
-    /** @docs-private */
+    /** @internal */
     onDestroy() {
         this.onDestroy$.next();
         this.onDestroy$.complete();

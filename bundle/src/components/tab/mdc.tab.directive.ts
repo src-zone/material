@@ -32,7 +32,9 @@ export interface MdcTabChange {
     selector: '[mdcTabIcon]'
 })
 export class MdcTabIconDirective {
-    @HostBinding('class.mdc-tab__icon') _hostClass = true;
+    /** @internal */
+    @HostBinding('class.mdc-tab__icon') readonly _cls = true;
+    /** @internal */
     @HostBinding('attr.aria-hidden') _ariaHidden = true;
 }
 
@@ -45,7 +47,8 @@ export class MdcTabIconDirective {
     selector: '[mdcTabLabel]'
 })
 export class MdcTabLabelDirective {
-    @HostBinding('class.mdc-tab__text-label') _hostClass = true;
+    /** @internal */
+    @HostBinding('class.mdc-tab__text-label') readonly _cls = true;
 }
 
 /**
@@ -57,24 +60,31 @@ export class MdcTabLabelDirective {
     selector: '[mdcTabContent]'
 })
 export class MdcTabContentDirective {
-    @HostBinding('class.mdc-tab__content') _hostClass = true;
+    /** @internal */
+    @HostBinding('class.mdc-tab__content') readonly _cls = true;
 
     constructor(public _root: ElementRef) {}
 }
 
 @Directive()
 export abstract class AbstractMdcTabDirective extends AbstractMdcRipple implements OnDestroy, AfterContentInit {
-    @HostBinding('class.mdc-tab') _hostClass = true;
+    /** @internal */
+    @HostBinding('class.mdc-tab') readonly _cls = true;
     private onDestroy$: Subject<any> = new Subject();
+    /** @internal */
     protected _active: ClientRect | boolean = false;
+    /** @internal */
     @HostBinding('attr.role') _role = 'tab';
+    /** @internal */
     @ContentChildren(MdcTabContentDirective) _contents?: QueryList<MdcTabContentDirective>;
+    /** @internal */
     @ContentChildren(MdcTabIndicatorDirective, {descendants: true}) _indicators?: QueryList<MdcTabIndicatorDirective>;
     /**
      * Event called when the tab is activated.
      */
     @Output() readonly activate: EventEmitter<MdcTabChange> = new EventEmitter();
     private activationRequest: Subject<boolean> = new ReplaySubject<boolean>(1);
+    /** @internal */
     protected _adapter: MDCTabAdapter = {
         addClass: (className) => this._rndr.addClass(this._root.nativeElement, className),
         removeClass: (className) => this._rndr.removeClass(this._root.nativeElement, className),
@@ -89,6 +99,7 @@ export abstract class AbstractMdcTabDirective extends AbstractMdcRipple implemen
         getContentOffsetWidth: () => this._content!._root.nativeElement.offsetWidth,
         focus: () => this._root.nativeElement.focus()
     };
+    /** @internal */
     _foundation: MDCTabFoundation | null = null;
 
     constructor(protected _rndr: Renderer2, public _root: ElementRef, protected _registry: MdcEventRegistry) {
@@ -137,11 +148,12 @@ export abstract class AbstractMdcTabDirective extends AbstractMdcRipple implemen
         }
     }
 
-    /** @docs-private */
+    /** @internal */
     protected getRippleStylingElement() {
         return this.rippleSurface;
     }
 
+    /** @internal */
     _activate(tabIndex: number, previousIndicatorClientRect?: ClientRect) {
         this._active = previousIndicatorClientRect || true;
         if (this._foundation)
@@ -149,30 +161,34 @@ export abstract class AbstractMdcTabDirective extends AbstractMdcRipple implemen
         this.activate.emit({tab: this, tabIndex});
     }
 
+    /** @internal */
     _deactivate() {
         this._active = false;
         if (this._foundation)
             this._foundation.deactivate();
     }
 
+    /** @internal */
     _focus() {
         this._adapter.focus();
     }
 
+    /** @internal */
     _computeIndicatorClientRect() {
         return this._indicator?._computeContentClientRect();
     }
     
+    /** @internal */
     _computeDimensions() {
         return this._foundation?.computeDimensions();
     }
 
-    /** @docs-private */
+    /** @internal */
     isActive() {
         return !!this._active;
     } 
 
-    /** @docs-private */
+    /** @internal */
     triggerActivation(value: boolean = true) {
         // Note: this should not set the _active property. It just notifies the tab-bar
         // that it wants to be activated. The tab-bar will deactivate the previous tab, and activate
@@ -180,20 +196,23 @@ export abstract class AbstractMdcTabDirective extends AbstractMdcRipple implemen
         this.activationRequest.next(value);
     }
 
-    /** @docs-private */
+    /** @internal */
     get activationRequest$() {
         return this.activationRequest.asObservable();
     }
 
+    /** @internal */
     @HostListener('click') _onClick() {
         if (this._foundation)
             this._foundation.handleClick();
     }
 
+    /** @internal */
     private get _indicator() {
         return this._indicators && this._indicators.length > 0 ? this._indicators.first : null;
     }
 
+    /** @internal */
     private get _content() {
         return this._contents && this._contents.length > 0 ? this._contents.first : null;
     }

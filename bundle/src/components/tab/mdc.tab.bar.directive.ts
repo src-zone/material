@@ -12,10 +12,13 @@ import { takeUntil } from 'rxjs/operators';
     selector: '[mdcTabBar]'
 })
 export class MdcTabBarDirective implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-tab-bar') _hostClass = true;
+    /** @internal */
+    @HostBinding('class.mdc-tab-bar') readonly _cls = true;
+    /** @internal */
     @HostBinding('attr.role') _role = 'tablist';
     private onDestroy$: Subject<any> = new Subject();
     private onTabsChange$: Subject<any> = new Subject();
+    /** @internal */
     @ContentChildren(MdcTabScrollerDirective) _scrollers?: QueryList<MdcTabScrollerDirective>;
     /**
      * Event emitted when the active tab changes.
@@ -121,6 +124,7 @@ export class MdcTabBarDirective implements AfterContentInit, OnDestroy {
         }
     }
 
+    /** @internal */
     @HostListener('keydown', ['$event']) _handleInteraction(event: KeyboardEvent) {
         if (this._foundation)
             this._foundation.handleKeyDown(event);

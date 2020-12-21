@@ -15,11 +15,16 @@ import { takeUntil } from 'rxjs/operators';
     providers: [{provide: AbstractMdcInput, useExisting: forwardRef(() => MdcSwitchInputDirective) }]
 })
 export class MdcSwitchInputDirective extends AbstractMdcInput implements OnInit, OnDestroy {
-    @HostBinding('class.mdc-switch__native-control') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-switch__native-control') readonly _cls = true;
+    /** @internal */
     @HostBinding('attr.role') _role = 'switch';
     private onDestroy$: Subject<any> = new Subject();
+    /** @internal */
     @Output() readonly _checkedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+    /** @internal */
     @Output() readonly _disabledChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+    /** @internal */
     @Output() readonly _change: EventEmitter<Event> = new EventEmitter<Event>();
     private _id: string | null = null;
     private _disabled = false;
@@ -78,6 +83,7 @@ export class MdcSwitchInputDirective extends AbstractMdcInput implements OnInit,
 
     static ngAcceptInputType_checked: boolean | '';
 
+    /** @internal */
     @HostListener('change', ['$event']) _onChange(event: Event) {
         // update checked value, but not via this.checked, so we bypass events being sent to:
         // - _checkedChange -> foundation is already updated via _change
@@ -111,7 +117,8 @@ export class MdcSwitchInputDirective extends AbstractMdcInput implements OnInit,
     selector: '[mdcSwitchThumb]'
 })
 export class MdcSwitchThumbDirective {
-    @HostBinding('class.mdc-switch__thumb-underlay') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-switch__thumb-underlay') readonly _cls = true;
 
     constructor(private elm: ElementRef, private rndr: Renderer2) {
         this.addThumb();
@@ -142,9 +149,11 @@ export class MdcSwitchThumbDirective {
     selector: '[mdcSwitch]'
 })
 export class MdcSwitchDirective {
-    @HostBinding('class.mdc-switch') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-switch') readonly _cls = true;
     private onDestroy$: Subject<any> = new Subject();
     private onInputChange$: Subject<any> = new Subject();
+    /** @internal */
     @ContentChildren(MdcSwitchInputDirective, {descendants: true}) _inputs?: QueryList<MdcSwitchInputDirective>;
     private mdcAdapter: MDCSwitchAdapter = {
         addClass: (className: string) => {

@@ -21,8 +21,11 @@ import { takeUntil, debounceTime } from 'rxjs/operators';
     selector: '[mdcListDivider]'
 })
 export class MdcListDividerDirective {
-    @HostBinding('class.mdc-list-divider') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-list-divider') readonly _cls = true;
+    /** @internal */
     @HostBinding('attr.role') _role: string | null = 'separator';
+    /** @internal */
     @HostBinding('attr.disabled') _disabled = false;
     private _inset = false;
     private _padded = false;
@@ -105,10 +108,15 @@ export class MdcListDividerDirective {
     selector: '[mdcListItem]'
 })
 export class MdcListItemDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-list-item') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-list-item') readonly _cls = true;
+    /** @internal */
     @HostBinding('attr.role') public _role: string | null = null;
+    /** @internal */
     @ContentChildren(MdcRadioDirective, {descendants: true}) _radios?: QueryList<MdcRadioDirective>;
+    /** @internal */
     @ContentChildren(MdcCheckboxDirective, {descendants: true}) _checkBoxes?: QueryList<MdcCheckboxDirective>;
+    /** @internal */
     _ariaActive: 'current' | 'selected' | 'checked' | null = null;
     private _initialized = false;
     private _interactive = true;
@@ -147,6 +155,7 @@ export class MdcListItemDirective extends AbstractMdcRipple implements AfterCont
         this.destroyRipple();
     }
 
+    /** @internal */
     _setInteractive(interactive: boolean) {
         if (this._interactive !== interactive) {
             this._interactive = interactive;
@@ -197,34 +206,40 @@ export class MdcListItemDirective extends AbstractMdcRipple implements AfterCont
         }
     }
 
+    /** @internal */
     @HostBinding('class.mdc-list-item--selected')
     get _selected() {
         return this._ariaActive === 'selected' && this._active;
     }
 
+    /** @internal */
     @HostBinding('class.mdc-list-item--activated')
     get _activated() {
         return this._ariaActive === 'current' && this._active;
     }
 
+    /** @internal */
     @HostBinding('attr.aria-disabled') get _ariaDisabled() {
         if (this.disabled) // checks checkbox/radio disabled state when appropriate
             return 'true';
         return null;
     }
 
+    /** @internal */
     @HostBinding('attr.aria-current') get _ariaCurrent() {
         if (this._ariaActive === 'current')
             return this._active ? 'true' : 'false';
         return null;
     }
 
+    /** @internal */
     @HostBinding('attr.aria-selected') get _ariaSelected() {
         if (this._ariaActive === 'selected')
             return this._active ? 'true' : 'false';
         return null;
     }
 
+    /** @internal */
     @HostBinding('attr.aria-checked') get _ariaChecked() {
         if (this._ariaActive === 'checked')
             // (this.active: returns checked value of embedded input if appropriate)
@@ -232,7 +247,7 @@ export class MdcListItemDirective extends AbstractMdcRipple implements AfterCont
         return null;
     }
 
-    /** @docs-private */
+    /** @internal */
     get active() {
         if (this._ariaActive === 'checked') {
             const input = this._getInput();
@@ -241,6 +256,7 @@ export class MdcListItemDirective extends AbstractMdcRipple implements AfterCont
         return this._active;
     }
 
+    /** @internal */
     set active(value: boolean) {
         if (value !== this._active) {
             this._active = value;
@@ -248,14 +264,17 @@ export class MdcListItemDirective extends AbstractMdcRipple implements AfterCont
         }
     }
 
+    /** @internal */
     _getRadio() {
         return this._radios?.first;
     }
 
+    /** @internal */
     _getCheckbox() {
         return this._checkBoxes?.first;
     }
 
+    /** @internal */
     _getInput() {
         return (this._getCheckbox() || this._getRadio())?._input;
     }
@@ -270,7 +289,8 @@ export class MdcListItemDirective extends AbstractMdcRipple implements AfterCont
     selector: '[mdcListItemText]'
 })
 export class MdcListItemTextDirective {
-    @HostBinding('class.mdc-list-item__text') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-list-item__text') readonly _cls = true;
 }
 
 /**
@@ -282,7 +302,8 @@ export class MdcListItemTextDirective {
     selector: '[mdcListItemPrimaryText]'
 })
 export class MdcListItemPrimaryTextDirective {
-    @HostBinding('class.mdc-list-item__primary-text') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-list-item__primary-text') readonly _cls = true;
 }
 
 /**
@@ -294,7 +315,8 @@ export class MdcListItemPrimaryTextDirective {
     selector: '[mdcListItemSecondaryText]',
 })
 export class MdcListItemSecondaryTextDirective {
-    @HostBinding('class.mdc-list-item__secondary-text') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-list-item__secondary-text') readonly _cls = true;
 }
 
 /**
@@ -305,7 +327,8 @@ export class MdcListItemSecondaryTextDirective {
     selector: '[mdcListItemGraphic]',
 })
 export class MdcListItemGraphicDirective {
-    @HostBinding('class.mdc-list-item__graphic') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-list-item__graphic') readonly _cls = true;
 }
 
 /**
@@ -316,7 +339,8 @@ export class MdcListItemGraphicDirective {
     selector: '[mdcListItemMeta]',
 })
 export class MdcListItemMetaDirective {
-    @HostBinding('class.mdc-list-item__meta') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-list-item__meta') readonly _cls = true;
 }
 
 /** @docs-private */
@@ -358,29 +382,40 @@ const ANGULAR_ITEM_CLASSES = [
 })
 export class MdcListDirective implements AfterContentInit, OnDestroy {
     private onDestroy$: Subject<any> = new Subject();
-    @HostBinding('class.mdc-list') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-list') readonly _cls = true;
+    /** @internal */
     @ContentChildren(MdcListItemDirective) _items?: QueryList<MdcListItemDirective>;
+    /** @internal */
     @ContentChildren(MdcListItemPrimaryTextDirective, {descendants: true}) _primaryTexts?: QueryList<MdcListItemTextDirective>;
+    /** @internal */
     @ContentChildren(MdcCheckboxDirective, {descendants: true}) _checkboxes?: QueryList<MdcListItemTextDirective>;
+    /** @internal */
     @ContentChildren(MdcRadioDirective, {descendants: true}) _radios?: QueryList<MdcListItemTextDirective>;
-    /** @docs-private */
+    /** @internal */
     @Output() readonly itemsChanged: EventEmitter<void> = new EventEmitter();
-    /** @docs-private */
+    /** @internal */
     @Output() readonly itemValuesChanged: EventEmitter<void> = new EventEmitter();
-    /** @docs-private */
+    /** @internal */
     @Output() readonly itemAction: EventEmitter<{index: number, value: string | null}> = new EventEmitter();
+    /** @internal */
     @HostBinding('class.mdc-list--two-line') _twoLine = false;
     /**
      * Label announcing the purpose of the list. Should be set for lists that embed checkbox inputs
      * for activation/selection. The label is reflected in the `aria-label` attribute value.
+     * 
+     * @internal
      */
     @HostBinding('attr.aria-label') @Input() label: string | null = null;
     /**
      * Link to the id of an element that announces the purpose of the list. This will be set automatically
      * to the id of the `mdcFloatingLabel` when the list is part of an `mdcSelect`.
+     * 
+     * @internal
      */
     @HostBinding('attr.aria-labelledBy') @Input() labelledBy: string | null = null;
     private _function: MdcListFunction = MdcListFunction.plain;
+    /** @internal */
     _hidden = false;
     private _dense = false;
     private _avatar = false;
@@ -459,7 +494,7 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
             return this._elm.nativeElement.contains(document.activeElement);
         },
     };
-    /** @docs-private */
+    /** @internal */
     foundation?: MDCListFoundation | null;
     
     constructor(public _elm: ElementRef, private rndr: Renderer2, private cdRef: ChangeDetectorRef) {
@@ -581,13 +616,14 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
         return -1;
     }
 
-    /** @docs-private */
+    /** @internal */
     getSelectedItem() {
         if (this._role === 'listbox' || this._role === 'radiogroup' || this._role === 'menu')
             return this._items!.find(i => i.active);
         return null;
     }
 
+    /** @internal */
     @HostBinding('attr.role') get _role() {
         if (this._function === MdcListFunction.menu)
             return 'menu';
@@ -602,23 +638,28 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
         return null;
     }
 
+    /** @internal */
     @HostBinding('attr.aria-hidden') get _ariaHidden() {
         return (this._hidden && this._function === MdcListFunction.menu) ? 'true' : null;
     }
 
+    /** @internal */
     @HostBinding('attr.aria-orientation') get _ariaOrientation() {
         return this._function === MdcListFunction.menu ? 'vertical' : null;
     }
 
+    /** @internal */
     @HostBinding('class.mdc-menu__items') get _isMenu() {
         return this._function === MdcListFunction.menu;
     }
 
+    /** @internal */
     @HostBinding('tabindex') get _tabindex() {
         // the root of a menu should be focusable
         return this._function === MdcListFunction.menu ? "-1" : null;
     }
 
+    /** @internal */
     _setFunction(val: MdcListFunction) {
         this._function = val;
         this.foundation?.setSingleSelection(this._role === 'listbox');
@@ -724,6 +765,7 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
 
     static ngAcceptInputType_avatarList: boolean | '';
 
+    /** @internal */
     @HostListener('focusin', ['$event']) _onFocusIn(event: FocusEvent) {
         if (this.foundation && !this._nonInteractive) {
             this.foundation.setSelectedIndex(this.getSelection());
@@ -732,6 +774,7 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
         }
     }
 
+    /** @internal */
     @HostListener('focusout', ['$event']) _onFocusOut(event: FocusEvent) {
         if (this.foundation && !this._nonInteractive) {
             this.foundation.setSelectedIndex(this.getSelection());
@@ -740,6 +783,7 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
         }
     }
 
+    /** @internal */
     @HostListener('keydown', ['$event']) _onKeydown(event: KeyboardEvent) {
         if (this.foundation && !this._nonInteractive) {
             this.foundation.setSelectedIndex(this.getSelection());
@@ -750,6 +794,7 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
         }
     }
 
+    /** @internal */
     @HostListener('click', ['$event']) _onClick(event: MouseEvent) {
         if (this.foundation && !this._nonInteractive) {
             this.foundation.setSelectedIndex(this.getSelection());
@@ -763,19 +808,19 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
         }
     }
 
-    /** @docs-private */
+    /** @internal */
     getItem(index: number): MdcListItemDirective | null {
         if (index >= 0 && index < this._items!.length)
             return this._items!.toArray()[index];
         return null;
     }
 
-    /** @docs-private */
+    /** @internal */
     getItems(): MdcListItemDirective[] {
         return this._items?.toArray() || [];
     }
 
-    /** @docs-private */
+    /** @internal */
     getItemByElement(element: Element): MdcListItemDirective | null {
         return this._items?.find(i => i._elm.nativeElement === element) || null;
     }
@@ -800,7 +845,8 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
     selector: '[mdcListGroupSubHeader]'
 })
 export class MdcListGroupSubHeaderDirective {
-    @HostBinding('class.mdc-list-group__subheader') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-list-group__subheader') readonly _cls = true;
 }
 
 
@@ -813,7 +859,8 @@ export class MdcListGroupSubHeaderDirective {
     selector: '[mdcListGroup]'
 })
 export class MdcListGroupDirective {
-    @HostBinding('class.mdc-list-group') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-list-group') readonly _cls = true;
 }
 
 export const LIST_DIRECTIVES = [

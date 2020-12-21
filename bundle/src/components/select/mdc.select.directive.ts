@@ -43,9 +43,13 @@ applyMixins(MdcSelectTextDirectiveBase, [HasId]);
     selector: '[mdcSelectText]'
 })
 export class MdcSelectTextDirective extends MdcSelectTextDirectiveBase implements OnInit {
-    @HostBinding('class.mdc-select__selected-text') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-select__selected-text') readonly _cls = true;
+    /** @internal */
     @HostBinding('attr.role') _role = 'button';
+    /** @internal */
     @HostBinding('attr.aria-haspopup') _haspop = 'listbox';
+    /** @internal */
     @HostBinding('attr.aria-labelledby') _labelledBy: string | null = null;
 
     constructor(public _elm: ElementRef, @Host() @SkipSelf() @Inject(forwardRef(() => MdcSelectDirective)) private select: MdcSelectDirective) {
@@ -56,18 +60,22 @@ export class MdcSelectTextDirective extends MdcSelectTextDirectiveBase implement
         this.initId();
     }
 
+    /** @internal */
     @HostListener('focus') _onFocus() {
         this.select.foundation?.handleFocus();
     }
 
+    /** @internal */
     @HostListener('blur') _onBlur() {
         this.select.onBlur();
     }
 
+    /** @internal */
     @HostListener('keydown', ['$event']) _onKeydown(event: KeyboardEvent) {
         this.select.foundation?.handleKeydown(event);
     }
 
+    /** @internal */
     @HostListener('click', ['$event']) _onClick(event: MouseEvent | TouchEvent) {
         this.select.foundation?.handleClick(this.getNormalizedXCoordinate(event));
     }
@@ -90,12 +98,16 @@ export class MdcSelectTextDirective extends MdcSelectTextDirectiveBase implement
 export class MdcSelectAnchorDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
     private onDestroy$: Subject<any> = new Subject();
     private onLabelsChange$: Subject<any> = new Subject();
-    @HostBinding('class.mdc-select__anchor') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-select__anchor') readonly _cls = true;
+    /** @internal */
     @ContentChildren(MdcFloatingLabelDirective, {descendants: true}) _floatingLabels?: QueryList<MdcFloatingLabelDirective>;
+    /** @internal */
     @ContentChildren(MdcNotchedOutlineDirective) _outlines?: QueryList<MdcNotchedOutlineDirective>;
+    /** @internal */
     @ContentChildren(MdcSelectTextDirective) _texts?: QueryList<MdcSelectTextDirective>;
     private _bottomLineElm: HTMLElement | null = null;
-    /** @docs-private */
+    /** @internal */
     bottomLineFoundation: MDCLineRippleFoundation | null = null;
     private mdcLineRippleAdapter: MDCLineRippleAdapter = {
         addClass: (className) => this.rndr.addClass(this._bottomLineElm, className),
@@ -201,14 +213,17 @@ export class MdcSelectAnchorDirective extends AbstractMdcRipple implements After
         this.select.setListLabelledBy(labelId || null); // the list should only use the id of the label
     }
 
+    /** @internal */
     get _outline() {
         return this._outlines?.first;
     }
 
+    /** @internal */
     get _label() {
         return this._floatingLabels?.first;
     }
 
+    /** @internal */
     get _text() {
         return this._texts?.first;
     }
@@ -223,7 +238,8 @@ export class MdcSelectAnchorDirective extends AbstractMdcRipple implements After
     selector: '[mdcSelectMenu]'
 })
 export class MdcSelectMenuDirective {
-    @HostBinding('class.mdc-select__menu') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-select__menu') readonly _cls = true;
 
     constructor(@Self() public _menu: MdcMenuDirective, @Self() public _surface: MdcMenuSurfaceDirective) {}
 }
@@ -251,7 +267,8 @@ enum ValueSource {
     selector: '[mdcSelect]'
 })
 export class MdcSelectDirective implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-select') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-select') readonly _cls = true;
     private onDestroy$: Subject<any> = new Subject();
     private onMenuChange$: Subject<any> = new Subject();
     private onItemsChange$: Subject<any> = new Subject();
@@ -267,9 +284,13 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
      * emits the value of the item when the selected item changes
      */
     @Output() readonly valueChange: EventEmitter<string | null> = new EventEmitter();
+    /** @internal */
     @ContentChildren(MdcSelectAnchorDirective) _anchors?: QueryList<MdcSelectAnchorDirective>;
+    /** @internal */
     @ContentChildren(MdcSelectMenuDirective) _menus?: QueryList<MdcSelectMenuDirective>;
+    /** @internal */
     @ContentChildren(MdcListDirective, {descendants: true}) _lists?: QueryList<MdcListDirective>;
+    /** @internal */
     @ContentChildren(MdcSelectTextDirective, {descendants: true}) _texts?: QueryList<MdcSelectTextDirective>;
     private mdcAdapter: MDCSelectAdapter = {
         addClass: (className) =>  this.rndr.addClass(this.elm.nativeElement, className),
@@ -340,7 +361,7 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
                 this.rndr.removeClass(this.menu!._list.getItem(index)!._elm.nativeElement, className);
         }
     };
-    /** @docs-private */
+    /** @internal */
     foundation: MDCSelectFoundation | null = null;
 
     constructor(private elm: ElementRef, private rndr: Renderer2) {
@@ -445,7 +466,7 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
         this.updateValue(value, ValueSource.program);
     }
 
-    /** @docs-private */
+    /** @internal */
     updateValue(value: string | null, source: ValueSource) {
         const oldSource = this._valueSource;
         try {
@@ -507,23 +528,23 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
 
     static ngAcceptInputType_required: boolean | '';
 
-    /** @docs-private */
+    /** @internal */
     @HostBinding('class.mdc-select--outlined') get outlined() {
         return !!this.anchor?._outline;
     }
 
-    /** @docs-private */
+    /** @internal */
     @HostBinding('class.mdc-select--no-label') get labeled() {
         return !this.anchor?._label;
     }
 
-    /** @docs-private */
+    /** @internal */
     setListLabelledBy(id: string | null) {
         this._listLabelledBy = id;
         this.initListLabel();
     }
 
-    /** @docs-private */
+    /** @internal */
     get expanded() {
         return !!this.surface?.open;
     }
@@ -552,17 +573,17 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
         return this.menu?._list?.getSelectedItem();
     }
 
-    /** @docs-private */
+    /** @internal */
     registerOnChange(onChange: (value: any) => void) {
         this._onChange = onChange;
     }
 
-    /** @docs-private */
+    /** @internal */
     registerOnTouched(onTouched: () => any) {
         this._onTouched = onTouched;
     }
 
-    /** @docs-private */
+    /** @internal */
     onBlur() {
         this.foundation?.handleBlur();
         this._onTouched();

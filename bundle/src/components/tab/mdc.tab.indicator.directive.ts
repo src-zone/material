@@ -12,7 +12,9 @@ import { Subject } from 'rxjs';
     selector: '[mdcTabIndicatorContent]'
 })
 export class MdcTabIndicatorContentDirective {
-    @HostBinding('class.mdc-tab-indicator__content') _hostClass = true;
+    /** @internal */
+    @HostBinding('class.mdc-tab-indicator__content') readonly _cls = true;
+    /** @internal */
     _type: 'underline' | 'icon' = 'underline';
 
     constructor(public _root: ElementRef) {}
@@ -49,9 +51,12 @@ export class MdcTabIndicatorContentDirective {
     selector: '[mdcTabIndicator]'
 })
 export class MdcTabIndicatorDirective implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-tab-indicator') _hostClass = true;
+    /** @internal */
+    @HostBinding('class.mdc-tab-indicator') readonly _cls = true;
     private onDestroy$: Subject<any> = new Subject();
+    /** @internal */
     @ContentChildren(MdcTabIndicatorContentDirective) _contents?: QueryList<MdcTabIndicatorContentDirective>;
+    /** @internal */
     _type: 'slide' | 'fade' = 'slide';
     private active: ClientRect | boolean = false;
     
@@ -126,20 +131,21 @@ export class MdcTabIndicatorDirective implements AfterContentInit, OnDestroy {
 
     static ngAcceptInputType_mdcTabIndicator: 'slide' | 'fade' | '';
 
-    /** @docs-private */
+    /** @internal */
     activate(previousIndicatorClientRect: ClientRect | undefined) {
         this.active = previousIndicatorClientRect || true;
         if (this.foundation)
             this.foundation.activate(previousIndicatorClientRect);
     }
 
-    /** @docs-private */
+    /** @internal */
     deactivate() {
         this.active = false;
         if (this.foundation)
             this.foundation.deactivate();
     }
 
+    /** @internal */
     @HostBinding('class.mdc-tab-indicator--fade') get _slide() {
         return this._type === 'fade';
     }
@@ -148,6 +154,7 @@ export class MdcTabIndicatorDirective implements AfterContentInit, OnDestroy {
         return this._contents && this._contents.length > 0 ? this._contents.first : null;
     }
 
+    /** @internal */
     _computeContentClientRect() {
         return this.foundation?.computeContentClientRect();
     }

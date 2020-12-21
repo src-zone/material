@@ -35,12 +35,14 @@ export abstract class AbstractMdcRipple {
         getWindowPageOffset: () => ({x: window.pageXOffset, y: window.pageYOffset})
     }
 
+    /** @internal */
     protected _rippleFoundation: MDCRippleFoundation | null = null;
     private _unbounded = false;
     private _rippleSurface: HTMLElement | null = null;
 
     constructor(protected _rippleElm: ElementRef, protected _renderer: Renderer2, protected _registry: MdcEventRegistry) {}
 
+    /** @internal */
     protected initRipple(unbounded = false) {
         if (this._rippleFoundation)
             throw new Error('initRipple() is called multiple times');
@@ -49,6 +51,7 @@ export abstract class AbstractMdcRipple {
         this._rippleFoundation.init();
     }
 
+    /** @internal */
     protected destroyRipple() {
         if (this._rippleFoundation) {
             this._rippleFoundation.destroy();
@@ -56,6 +59,7 @@ export abstract class AbstractMdcRipple {
         }
     }
 
+    /** @internal */
     protected reinitRipple() {
         if (this._rippleFoundation) {
             this.destroyRipple();
@@ -63,10 +67,12 @@ export abstract class AbstractMdcRipple {
         }
     }
 
+    /** @internal */
     protected isRippleInitialized() {
         return this._rippleFoundation != null;
     }
 
+    /** @internal */
     protected addRippleSurface(clazz: string, firstElement = false) {
         this.destroyRippleSurface();
         this._rippleSurface = this._renderer.createElement('div');
@@ -79,6 +85,7 @@ export abstract class AbstractMdcRipple {
         return this._rippleSurface;
     }
 
+    /** @internal */
     protected destroyRippleSurface() {
         if (this._rippleSurface) {
             this._renderer.removeChild(this._rippleElm.nativeElement, this._rippleSurface);
@@ -117,6 +124,7 @@ export abstract class AbstractMdcRipple {
         return this._unbounded;
     }
 
+    /** @internal */
     protected setRippleUnbounded(value: boolean) {
         if (!!value !== this._unbounded) {
             this._unbounded = !!value;
@@ -143,10 +151,12 @@ export abstract class AbstractMdcRipple {
         return !!interactionElm && !!interactionElm.nativeElement.attributes.getNamedItem('disabled');
     }
 
+    /** @internal */
     protected addClassToRipple(name: string) {
         this._renderer.addClass(this.getRippleStylingElement().nativeElement, name);
     }
 
+    /** @internal */
     protected removeClassFromRipple(name: string) {
         this._renderer.removeClass(this.getRippleStylingElement().nativeElement, name);
     }
@@ -155,11 +165,13 @@ export abstract class AbstractMdcRipple {
         return this._rippleElm.nativeElement.getBoundingClientRect();
     }
 
+    /** @internal */
     @HostListener('focusin') onFocus() {
         if (this._rippleFoundation)
             this._rippleFoundation.handleFocus();
     }
 
+    /** @internal */
     @HostListener('focusout') onBlur() {
         if (this._rippleFoundation)
             this._rippleFoundation.handleBlur();

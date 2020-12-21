@@ -12,7 +12,9 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
     selector: '[mdcButtonIcon]'
 })
 export class MdcButtonIconDirective {
-    @HostBinding('class.mdc-button__icon') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-button__icon') readonly _cls = true;
+    /** @internal */
     @HostBinding('attr.aria-hidden') _ariaHidden = true;
 }
 
@@ -24,7 +26,8 @@ export class MdcButtonIconDirective {
     selector: '[mdcButtonLabel]'
 })
 export class MdcButtonLabelDirective {
-    @HostBinding('class.mdc-button__label') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-button__label') readonly _cls = true;
 }
 
 /**
@@ -45,7 +48,8 @@ export class MdcButtonLabelDirective {
     providers: [{provide: AbstractMdcRipple, useExisting: forwardRef(() => MdcButtonDirective) }]
 })
 export class MdcButtonDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-button') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-button') readonly _cls = true;
     private _raised = false;
     private _unelevated = false;
     private _outlined = false;

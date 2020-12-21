@@ -23,19 +23,20 @@ export class RouterActiveDetector {
         });
     }
 
-    /** @docs-private */
+    /** @internal */
     init(): void {
         this.links.changes.subscribe(_ => this.update());
         this.linksWithHrefs.changes.subscribe(_ => this.update());
         this.update();
     }
 
-    /** @docs-private */
+    /** @internal */
     destroy() {
         this.onDestroy$.next();
         this.onDestroy$.complete();
     }
 
+    /** @internal */
     public update(): void {
         if (!this.links || !this.linksWithHrefs || !this.router.navigated) return;
         Promise.resolve().then(() => {

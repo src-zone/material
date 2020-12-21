@@ -27,9 +27,10 @@ applyMixins(MdcFloatingLabelDirectiveBase, [HasId]);
     providers: [{provide: AbstractMdcLabel, useExisting: forwardRef(() => MdcFloatingLabelDirective) }]
 })
 export class MdcFloatingLabelDirective extends MdcFloatingLabelDirectiveBase implements AfterContentInit, OnDestroy, OnInit {
-    /** @docs-private */
+    /** @internal */
     @HostBinding('attr.for') for: string | null = null;
-    @HostBinding('class.mdc-floating-label') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-floating-label') readonly _cls = true;
     private _mdcAdapter: MDCFloatingLabelAdapter = {
         addClass: (className: string) => {
             this._rndr.addClass(this._elm.nativeElement, className);

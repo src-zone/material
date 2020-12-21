@@ -17,15 +17,18 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
     selector: '[mdcCardMedia]',
 })
 export class MdcCardMediaDirective {
-    @HostBinding('class.mdc-card__media') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-card__media') readonly _cls = true;
     private _size: 'cover' | '16:9' | 'square' = 'cover';
         
     constructor() {}
 
+    /** @internal */
     @HostBinding('class.mdc-card__media--square') get _square() {
         return this._size === 'square';
     }
 
+    /** @internal */
     @HostBinding('class.mdc-card__media--16-9') get _size2() {
         return this._size === '16:9';
     }
@@ -53,7 +56,8 @@ export class MdcCardMediaDirective {
     selector: '[mdcCardMediaContent]'
 })
 export class MdcCardMediaContentDirective {
-    @HostBinding('class.mdc-card__media-content') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-card__media-content') readonly _cls = true;
 }
 
 /**
@@ -65,7 +69,8 @@ export class MdcCardMediaContentDirective {
     selector: '[mdcCardActionButtons]'
 })
 export class MdcCardActionButtonsDirective {
-    @HostBinding('class.mdc-card__action-buttons') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-card__action-buttons') readonly _cls = true;
 }
 
 /**
@@ -77,7 +82,8 @@ export class MdcCardActionButtonsDirective {
     selector: '[mdcCardActionIcons]'
 })
 export class MdcCardActionIconsDirective {
-    @HostBinding('class.mdc-card__action-icons') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-card__action-icons') readonly _cls = true;
 }
 
 /**
@@ -90,8 +96,11 @@ export class MdcCardActionIconsDirective {
     selector: '[mdcCardActions]',
 })
 export class MdcCardActionsDirective implements AfterContentInit {
-    @HostBinding('class.mdc-card__actions') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-card__actions') readonly _cls = true;
+    /** @internal */
     @ContentChildren(MdcButtonDirective, {descendants: true}) _buttons?: QueryList<MdcButtonDirective>;
+    /** @internal */
     @ContentChildren(AbstractMdcIcon, {descendants: true}) _icons?: QueryList<AbstractMdcIcon>;
     private _initialized = false;
     private _fullBleed = false;
@@ -152,7 +161,8 @@ export class MdcCardActionsDirective implements AfterContentInit {
     selector: '[mdcCardPrimaryAction]',
 })
 export class MdcCardPrimaryActionDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-card__primary-action') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-card__primary-action') readonly _cls = true;
 
     constructor(private elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry) {
         super(elm, renderer, registry);
@@ -178,7 +188,8 @@ export class MdcCardPrimaryActionDirective extends AbstractMdcRipple implements 
     selector: '[mdcCard]'
 })
 export class MdcCardDirective {
-    @HostBinding('class.mdc-card') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-card') readonly _cls = true;
     private _outlined = false;
 
     /**

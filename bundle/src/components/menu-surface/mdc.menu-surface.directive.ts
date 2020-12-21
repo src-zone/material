@@ -14,10 +14,12 @@ import { simulateKey } from '../../testutils/page.test';
     selector: '[mdcMenuSurface],[mdcMenu],[mdcSelectMenu]'
 })
 export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-menu-surface') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-menu-surface') readonly _cls = true;
     private _open = false;
     private _openFrom: 'tl' | 'tr' | 'bl' | 'br' | 'ts' | 'te' | 'bs' | 'be' = 'ts';
     // the anchor to use if no menuAnchor is provided (a direct parent MdcMenuAnchor if available):
+    /** @internal */
     _parentAnchor: MdcMenuAnchorDirective | null = null;
     /**
      * Assign an (optional) element or `mdcMenuAnchor`. If set the menu
@@ -168,7 +170,7 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
 
     static ngAcceptInputType_open: boolean | '';
 
-    /** @docs-private */
+    /** @internal */
     closeWithoutFocusRestore() {
         if (this._open) {
             this._open = false;
@@ -214,7 +216,7 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
         this.foundation?.setAnchorCorner(corner);
     }
 
-    /** @docs-private */
+    /** @internal */
     setFoundationAnchorCorner(corner: Corner) {
         this.foundation?.setAnchorCorner(corner);
     }
@@ -260,7 +262,7 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
     static ngAcceptInputType_fixed: boolean | '';
 
     // listened after notifyOpen, listening stopped after notifyClose
-    /** @docs-private */
+    /** @internal */
     handleBodyClick(event: MouseEvent) {
         if (this.foundation) {
             this.foundation.handleBodyClick(event);
@@ -271,7 +273,7 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
         }
     }
 
-    /** @docs-private */
+    /** @internal */
     @HostListener('keydown', ['$event'])
     handleKeydow(event: KeyboardEvent) {
         if (this.foundation) {
@@ -292,7 +294,9 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
     selector: '[mdcMenuAnchor]'
 })
 export class MdcMenuAnchorDirective implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-menu-surface--anchor') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-menu-surface--anchor') readonly _cls = true;
+    /** @internal */
     @ContentChildren(MdcMenuSurfaceDirective) private surfaces?: QueryList<MdcMenuSurfaceDirective>;
 
     constructor(public _elm: ElementRef) {}
@@ -314,7 +318,7 @@ export class MdcMenuAnchorDirective implements AfterContentInit, OnDestroy {
         });
     }
 
-    /** @docs-private */
+    /** @internal */
     public getBoundingClientRect() {
         return this._elm.nativeElement.getBoundingClientRect();
     }

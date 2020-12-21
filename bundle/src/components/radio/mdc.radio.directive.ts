@@ -15,7 +15,8 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
     providers: [{provide: AbstractMdcInput, useExisting: forwardRef(() => MdcRadioInputDirective) }]
 })
 export class MdcRadioInputDirective extends AbstractMdcInput {
-    @HostBinding('class.mdc-radio__native-control') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-radio__native-control') readonly _cls = true;
     private _id: string | null = null;
     private _disabled = false;
 
@@ -63,7 +64,9 @@ export class MdcRadioInputDirective extends AbstractMdcInput {
     selector: '[mdcRadio]'
 })
 export class MdcRadioDirective extends AbstractMdcRipple implements AfterContentInit, OnDestroy {
-    @HostBinding('class.mdc-radio') _cls = true;
+    /** @internal */
+    @HostBinding('class.mdc-radio') readonly _cls = true;
+    /** @internal */
     @ContentChildren(MdcRadioInputDirective) _inputs?: QueryList<MdcRadioInputDirective>;
     private mdcAdapter: MDCRadioAdapter = {
         // We can just ignore all adapter calls, since we have a HostBinding for the
@@ -106,12 +109,12 @@ export class MdcRadioDirective extends AbstractMdcRipple implements AfterContent
         this.renderer.appendChild(this.root.nativeElement, bg);
     }
 
-    /** @docs-private */
+    /** @internal */
     protected getRippleInteractionElement() {
         return this._input?._elm;
     }
 
-    /** @docs-private */
+    /** @internal */
     isRippleSurfaceActive() {
         // This is what the @material/radio MDCRadio component does, with the following comment:
         // "Radio buttons technically go 'active' whenever there is *any* keyboard interaction.
@@ -121,10 +124,12 @@ export class MdcRadioDirective extends AbstractMdcRipple implements AfterContent
 
     // instead of calling foundation.setDisabled on disabled state changes, we just
     // bind the class to the property:
+    /** @internal */
     @HostBinding('class.mdc-radio--disabled') get _disabled() {
         return this._input == null || this._input.disabled;
     }
 
+    /** @internal */
     get _input() {
         return this._inputs && this._inputs.length > 0 ? this._inputs.first : null;
     }
