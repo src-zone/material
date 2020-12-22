@@ -24,7 +24,7 @@ export class SnippetTopAppBarComponent/*snip:skip*/extends AbstractSnippetCompon
           'html': require('!raw-loader!./snippet.top-app-bar.component.html'),
           'scss': require('!raw-loader!./snippet.top-app-bar.component.scss'), // why? it's already in the default stylesheet...
           'typescript': require('!raw-loader!./snippet.top-app-bar.component.ts')
-        });
+        }, {}, 'typescript', {noBodyMargins: true});
     }
     //snip:endskip
 }

@@ -7,7 +7,7 @@ import { AbstractSnippetComponent } from '../snippets/abstract.snippet.component
   templateUrl: './code.sample.component.html'
 })
 export class CodeSampleComponent implements AfterContentInit {
-    @ContentChild(AbstractSnippetComponent) snippet;
+    @ContentChild(AbstractSnippetComponent) snippet: AbstractSnippetComponent;
     readonly snippetNames: string[] = [];
     active: string;
     hasSource = false;
@@ -89,7 +89,10 @@ export class CodeSampleComponent implements AfterContentInit {
                 'src/main.ts': require('raw-loader!../../../stackblitz.template/src/main.ts.template').default,
                 'src/styles.scss': require('raw-loader!../../../stackblitz.template/src/styles.scss.template').default,
                 'src/index.html': require('raw-loader!../../../stackblitz.template/src/index.html.template').default
-            };            
+            };
+            if (this.snippet.options.noBodyMargins)
+                files['src/styles.scss'] = files['src/styles.scss'].replace('body {', 'body {\n  margin: 0;');
+
             for (let name in this.snippet.code) {
                 if (this.snippet.code.hasOwnProperty(name) && name.indexOf('.') !== -1)
                     files[`src/app/${name}`] = this.snippet.code[name];
