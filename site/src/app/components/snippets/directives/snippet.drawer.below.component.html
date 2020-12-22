@@ -33,7 +33,7 @@ snippet-skip-line -->
     </aside>
     <div mdcDrawerScrim *ngIf="drawerType === 'modal'"></div>
 
-    <main [mdcDrawerAppContent]="drawerType === 'dismissible'" #content class="blox-demo-main">
+    <main [mdcDrawerAppContent]="drawerType === 'dismissible'" class="blox-demo-main">
       <h1>{{drawerType | titlecase}} Drawer</h1>
       <p>Click the menu icon above to {{open ? 'close' : 'open'}} the drawer, or use the controls below:</p>
       <div mdcFormField>

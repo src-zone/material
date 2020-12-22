@@ -25,3 +25,13 @@
     box-sizing: border-box;
     padding-left: 16px;
 }
+
+//snip:skip
+// TODO IE 11:
+// - in IE11 the demo's have the scrim is only visible on viewport,
+// and position it wrong when you scroll the page.
+// - we can make the scrim position over the viewport for all browsers
+// if we set "position: absolute" on the scrim, but that requires some more tuning
+// for the drawer.below.component demo to behave nicely, and make the scrim fill
+// the entire viewport.
+//snip:endskip
