@@ -1,9 +1,9 @@
-<div mdcMenuAnchor #anchor>
+<div mdcMenuAnchor>
   <button mdcIconButton class="material-icons"
     title="Change theme"
     [disabled]="!themes.length"
     [mdcMenuTrigger]="changeTheme">format_color_fill</button>
-  <div mdcMenu #changeTheme="mdcMenu" [menuAnchor]="anchor" (pick)="setTheme($event.value)">
+  <div mdcMenu #changeTheme="mdcMenu" (pick)="setTheme($event.value)">
     <ul mdcList>
       <li *ngFor="let key of themes" mdcListItem [value]="key">
         <div mdcRadio>

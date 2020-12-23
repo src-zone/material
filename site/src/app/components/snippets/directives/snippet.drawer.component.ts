@@ -22,7 +22,7 @@ export class SnippetDrawerComponent/*snip:skip*/extends AbstractSnippetComponent
             'html': require('!raw-loader!./snippet.drawer.component.html'),
             'scss': require('!raw-loader!./snippet.drawer.component.scss'),
             'typescript': require('!raw-loader!./snippet.drawer.component.ts')
-        });
+        }, {}, 'typescript', {noBodyMargins: true});
     }
     //snip:endskip
 

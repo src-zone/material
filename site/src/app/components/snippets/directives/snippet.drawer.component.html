@@ -1,5 +1,8 @@
 <fieldset class="blox-snippet snippet-skip-line">
-<div #viewport class="blox-snippet-page">
+<!-- snippet-skip-line
+<div class="blox-snippet-page">
+snippet-skip-line -->
+<div #viewport class="blox-snippet-page snippet-skip-line">
   <aside [mdcDrawer]="drawerType" [(open)]="open">
     <div mdcDrawerHeader *ngIf="header">
       <h3 mdcDrawerTitle>Header Title</h3>
@@ -31,7 +34,10 @@
   <div mdcDrawerScrim *ngIf="drawerType === 'modal'"></div>
 
   <div [mdcDrawerAppContent]="drawerType === 'dismissible'" class="blox-demo-content">
-    <header mdcTopAppBar [viewport]="viewport" [fixedAdjust]="content">
+<!-- snippet-skip-line
+    <header mdcTopAppBar [fixedAdjust]="content">
+snippet-skip-line -->
+    <header mdcTopAppBar [viewport]="viewport" [fixedAdjust]="content" class="snippet-skip-line">
       <div mdcTopAppBarRow>
         <section mdcTopAppBarSection alignStart>
           <button mdcIconButton mdcTopAppBarNavIcon class="material-icons" (click)="toggleDrawer()">menu</button>

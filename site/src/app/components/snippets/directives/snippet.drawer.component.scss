@@ -1,26 +1,37 @@
 // Place drawer and content side by side:
 .blox-snippet-page {
     display: flex;
-    flex-direction: row;
-    height: 400px;
+    height: 400px; /* snippet-skip-line
+    height: 100vh;
+    snippet-skip-line */
 }
 
+//snip:skip
 .mdc-drawer--modal {
-    // the default position is fixed, but in this demo we want to position the drawer
+    // the default position is fixed, but in the demo we need to position the drawer
     // inside its parent, not fixed to the viewport:
     position: absolute;
 }
+//snip:endskip
 
 // Stack toolbar and main on top of each other:
 .blox-demo-content {
-    display: inline-flex;
-    flex-direction: column;
-    flex-grow: 1;
-    height: 100%;
-    box-sizing: border-box;
+    flex: auto;
+    overflow: auto;
     position: relative;
 }
 
 .blox-demo-main {
+    box-sizing: border-box;
     padding-left: 16px;
 }
+
+//snip:skip
+// TODO IE 11:
+// - in IE11 the demo's have the scrim is only visible on viewport,
+// and position it wrong when you scroll the page.
+// - we can make the scrim position over the viewport for all browsers
+// if we set "position: absolute" on the scrim, but that requires some more tuning
+// for the drawer.below.component demo to behave nicely, and make the scrim fill
+// the entire viewport.
+//snip:endskip

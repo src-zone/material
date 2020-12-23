@@ -1,38 +1,10 @@
 <div class="blox-snippet snippet-skip-line">
-<div mdcFormField>
-  <div mdcRadio>
-    <input mdcRadioInput type="radio" name="type" value="default" [(ngModel)]="type" />
-  </div>
-  <label mdcFormFieldLabel>Default</label>
-</div>
-<div mdcFormField>
-  <div mdcRadio>
-    <input mdcRadioInput type="radio" name="type" value="fixed" [(ngModel)]="type" />
-  </div>
-  <label mdcFormFieldLabel>Fixed</label>
-</div>
-<div mdcFormField>
-  <div mdcRadio>
-    <input mdcRadioInput type="radio" name="type" value="short" [(ngModel)]="type" />
-  </div>
-  <label mdcFormFieldLabel>Short</label>
-</div>
-
-<div mdcFormField>
-  <div mdcCheckbox>
-    <input mdcCheckboxInput type="checkbox" [(ngModel)]="prominent"/>
-  </div>
-  <label mdcFormFieldLabel>Prominent</label>
-</div>
-<div mdcFormField>
-  <div mdcCheckbox>
-    <input mdcCheckboxInput type="checkbox" [(ngModel)]="dense"/>
-  </div>
-  <label mdcFormFieldLabel>Dense</label>
-</div>
-
-<div #viewport class="blox-snippet-page">
-  <header [mdcTopAppBar]="type" [viewport]="viewport" [fixedAdjust]="fixedAdjust"
+<!-- snippet-skip-line
+<div class="blox-snippet-page">
+  <header [mdcTopAppBar]="type" [fixedAdjust]="fixedAdjust"
+snippet-skip-line -->
+<div #viewport class="blox-snippet-page snippet-skip-line">
+  <header [mdcTopAppBar]="type" [viewport]="viewport" [fixedAdjust]="fixedAdjust" class="snippet-skip-line"
       [prominent]="prominent" [dense]="dense">
     <div mdcTopAppBarRow>
       <section mdcTopAppBarSection alignStart>
@@ -47,6 +19,37 @@
     </div>
   </header>
   <main #fixedAdjust>
+    <div mdcFormField>
+      <div mdcRadio>
+        <input mdcRadioInput type="radio" name="type" value="default" [(ngModel)]="type" />
+      </div>
+      <label mdcFormFieldLabel>Default</label>
+    </div>
+    <div mdcFormField>
+      <div mdcRadio>
+        <input mdcRadioInput type="radio" name="type" value="fixed" [(ngModel)]="type" />
+      </div>
+      <label mdcFormFieldLabel>Fixed</label>
+    </div>
+    <div mdcFormField>
+      <div mdcRadio>
+        <input mdcRadioInput type="radio" name="type" value="short" [(ngModel)]="type" />
+      </div>
+      <label mdcFormFieldLabel>Short</label>
+    </div>
+    
+    <div mdcFormField>
+      <div mdcCheckbox>
+        <input mdcCheckboxInput type="checkbox" [(ngModel)]="prominent"/>
+      </div>
+      <label mdcFormFieldLabel>Prominent</label>
+    </div>
+    <div mdcFormField>
+      <div mdcCheckbox>
+        <input mdcCheckboxInput type="checkbox" [(ngModel)]="dense"/>
+      </div>
+      <label mdcFormFieldLabel>Dense</label>
+    </div>
     <p *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]" class="blox-demo-paragraph">
       Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
       Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.

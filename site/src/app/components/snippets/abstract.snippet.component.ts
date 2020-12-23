@@ -5,7 +5,8 @@ export class AbstractSnippetComponent {
     public disableStackblitz = false;
     public cacheAssets: {[key: string]: string};
 
-    constructor(public code: {[key: string]: string}, cacheAssets: {[key: string]: string} = {}, rootTs = 'typescript') {
+    constructor(public code: {[key: string]: string}, cacheAssets: {[key: string]: string} = {}, rootTs = 'typescript',
+            public options: {noBodyMargins?: boolean} = {}) {
         for (let name in code) {
             if (code.hasOwnProperty(name))
                 code[name] = this.rewrite(code[name]);
@@ -14,6 +15,7 @@ export class AbstractSnippetComponent {
         this.mainComponent = this.extract(code[rootTs], /export\s+class\s+([a-zA-Z0-9_]+Component)/);
         this.mainImport = this.extract(code[rootTs], /templateUrl\s*\:\s*['"]\.\/([^'"]+)\.html['"]/);
         this.cacheAssets = cacheAssets;
+        this.options = options;
     }
 
     rewrite(value: string | {default}): string {

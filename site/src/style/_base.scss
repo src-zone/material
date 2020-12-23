@@ -63,6 +63,7 @@ span.blox-inline-svg {
 }
 
 // don't show all sample drawers above the scrim if we have one active modal drawer:
+// (this makes the scrim also go under the page header, no way around this)
 .blox-main .mdc-drawer {
   z-index: initial;
 
