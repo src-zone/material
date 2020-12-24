@@ -1,5 +1,5 @@
 import { AfterViewInit, Directive, ElementRef, Injectable, Input, SimpleChanges } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -7,6 +7,16 @@ import { Observable, ReplaySubject } from 'rxjs';
 export class HighlightjsService {
     highlight(code: string, lang: string): Observable<string> {
         let result = new ReplaySubject<string>(1);
+        if (![].includes) {
+            import(/* webpackChunkName: "ie11polyf" */'core-js/modules/es.array.includes').then(() => {
+                this.importHighlightJs(code, lang, result);
+            });
+        } else
+            this.importHighlightJs(code, lang, result);
+        return result.asObservable();
+    }
+
+    importHighlightJs(code: string, lang: string, result: Subject<string>) {
         import(/* webpackChunkName: "hljs" */'highlight.js/lib/core').then(mod => {
             const hljs = mod.default;
             const langTs = require('highlight.js/lib/languages/typescript');
@@ -23,7 +33,6 @@ export class HighlightjsService {
             result.next(prettyCode);
             result.complete();
         });
-        return result.asObservable();
     }
 }
 
