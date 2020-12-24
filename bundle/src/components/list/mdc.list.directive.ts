@@ -193,7 +193,7 @@ export class MdcListItemDirective extends AbstractMdcRipple implements AfterCont
 
     /**
      * Assign this field with a value that should be reflected in the `value` property of
-     * a selectionMode=single|active or and `mdcMenu` or `mdcSelect` for the active property.
+     * a `selectionMode=single|active` or and `mdcMenu` or `mdcSelect` for the active property.
      * Ignored for lists that don't offer a selection, and for lists that use checkbox/radio
      * inputs for selection.
      */
@@ -727,7 +727,7 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
     static ngAcceptInputType_dense: boolean | '';
 
     /**
-     * When set to `single` or 'active', the list will act as a single-selection-list.
+     * When set to `single` or `active`, the list will act as a single-selection-list.
      * This enables the enter and space keys for selecting/deselecting a list item,
      * and sets the appropriate accessibility options.
      * When not set, the list will not act as a single-selection-list.
@@ -782,7 +782,7 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
 
     /**
      * When this input is defined and does not have value false, focus will wrap from last to
-     * first and vice versa when using keyboard naviagtion through list items.
+     * first and vice versa when using keyboard navigation through list items.
      */
     @Input()
     get wrapFocus() {
