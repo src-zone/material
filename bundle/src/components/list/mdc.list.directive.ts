@@ -210,7 +210,7 @@ export class MdcListItemDirective extends AbstractMdcRipple implements AfterCont
 
     /**
      * This input can be used to change the active or selected state of the item. This should *not* be used for lists
-     * inside an mdcSelect, or for lists that use checkbox/radio inputs for selection.
+     * inside an `mdcSelect`/`mdcMenu`, or for lists that use checkbox/radio inputs for selection.
      * Depending on the `selectionMode` of the list this will update the `selected` or `active` state of the item.
      */
     @Input() set selected(val: boolean) {
