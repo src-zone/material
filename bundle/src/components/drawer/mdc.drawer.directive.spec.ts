@@ -1,7 +1,7 @@
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { FOCUS_TRAP_DIRECTIVES } from '../focus-trap/mdc.focus-trap.directive';
-import { DRAWER_DIRECTIVES, MdcDrawerType } from './mdc.drawer.directive';
+import { DRAWER_DIRECTIVES } from './mdc.drawer.directive';
 import { LIST_DIRECTIVES } from '../list/mdc.list.directive';
 import { simulateKey } from '../../testutils/page.test';
 
@@ -44,7 +44,7 @@ describe('MdcDrawerDirective', () => {
         }
     }
 
-    function setup(type: MdcDrawerType, open = false) {
+    function setup(type: 'permanent' | 'dismissible' | 'modal', open = false) {
         const fixture = TestBed.configureTestingModule({
             declarations: [...DRAWER_DIRECTIVES, ...FOCUS_TRAP_DIRECTIVES, ...LIST_DIRECTIVES, TestComponent]
         }).createComponent(TestComponent);
@@ -184,8 +184,37 @@ describe('MdcDrawerDirective', () => {
         ]);
     }));
 
+    it('change type from dismissible to modal when open', fakeAsync(() => {
+        const { fixture, testComponent, drawer } = setup('dismissible', true);
+        validateDom(drawer, {
+            type: 'dismissible'
+        });
+        document.body.focus(); // make sure the drawer is not focused (trapFocus must be called and focus it when changin type)
+        expect(document.activeElement).toBe(document.body);
+        testComponent.type = 'modal';
+        fixture.detectChanges(); animationCycle(drawer);
+        validateDom(drawer, {
+            type: 'modal'
+        });
+    }));
+
+    it('change type from permanent to modal when open is set', fakeAsync(() => {
+        const { fixture, testComponent, drawer } = setup('permanent', true);
+        validateDom(drawer, {
+            type: 'permanent'
+        });
+        document.body.focus(); // make sure the drawer is not focused (trapFocus must be called and focus it when changin type)
+        expect(document.activeElement).toBe(document.body);
+        testComponent.type = 'modal';
+        fixture.detectChanges(); animationCycle(drawer);
+        validateDom(drawer, {
+            type: 'modal',
+            open: true
+        });
+    }));
+
     function validateDom(drawer, options: Partial<{
-        type: MdcDrawerType,
+        type: 'permanent' | 'dismissible' | 'modal',
         open: boolean,
         list: boolean
     }> = {}) {
@@ -224,6 +253,18 @@ describe('MdcDrawerDirective', () => {
             expect(content.children.length).toBe(1);
             const list = content.children[0];
             expect(list.classList).toContain('mdc-list');
+        }
+        if (options.open && options.type === 'modal') {
+            let drawerIsActive = false;
+            let active = document.activeElement;
+            while (active) {
+                if (active === drawer) {
+                    drawerIsActive = true;
+                    break;
+                }
+                active = active.parentElement;
+            }
+            expect(drawerIsActive).toBeTrue();
         }
     }
 

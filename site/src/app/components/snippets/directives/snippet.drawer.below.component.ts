@@ -29,8 +29,4 @@ export class SnippetDrawerBelowComponent/*snip:skip*/extends AbstractSnippetComp
     toggleDrawer() {
         this.open = !this.open;
     }
-
-    get changeTypeDisabled() {
-        return this.drawerType !== 'permanent' && this.open;
-    }
 }

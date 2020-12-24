@@ -40,7 +40,8 @@ snippet-skip-line -->
     <header mdcTopAppBar [viewport]="viewport" [fixedAdjust]="content" class="snippet-skip-line">
       <div mdcTopAppBarRow>
         <section mdcTopAppBarSection alignStart>
-          <button mdcIconButton mdcTopAppBarNavIcon class="material-icons" (click)="toggleDrawer()">menu</button>
+          <button *ngIf="drawerType !== 'permanent'" mdcIconButton mdcTopAppBarNavIcon
+              class="material-icons" (click)="toggleDrawer()">menu</button>
           <span mdcTopAppBarTitle>{{drawerType | titlecase}} Drawer</span>
         </section>
       </div>
@@ -51,26 +52,26 @@ snippet-skip-line -->
       <p>Click the menu icon above to {{open ? 'close' : 'open'}} the drawer, or use the controls below:</p>
       <div mdcFormField>
         <div mdcCheckbox>
-          <input mdcCheckboxInput type="checkbox" [(ngModel)]="open" [disabled]="drawerType === 'permanent'" />
+          <input mdcCheckboxInput type="checkbox" [(ngModel)]="open" />
         </div>
-        <label mdcFormFieldLabel>Open drawer</label>
+        <label mdcFormFieldLabel>Open drawer<span *ngIf="drawerType === 'permanent'">&ngsp;(ignored for permanent drawer)</span></label>
       </div>
       <br/>
       <div mdcFormField>
         <div mdcRadio>
-          <input mdcRadioInput type="radio" name="drawerType" value="dismissible" [(ngModel)]="drawerType" [disabled]="changeTypeDisabled" />
+          <input mdcRadioInput type="radio" name="drawerType" value="dismissible" [(ngModel)]="drawerType" />
         </div>
         <label mdcFormFieldLabel>Dismissible Drawer</label>
       </div>
       <div mdcFormField>
         <div mdcRadio>
-          <input mdcRadioInput type="radio" name="drawerType" value="modal" [(ngModel)]="drawerType" [disabled]="changeTypeDisabled" />
+          <input mdcRadioInput type="radio" name="drawerType" value="modal" [(ngModel)]="drawerType" />
         </div>
         <label mdcFormFieldLabel>Modal Drawer</label>
       </div>
       <div mdcFormField>
         <div mdcRadio>
-          <input mdcRadioInput type="radio" name="drawerType" value="permanent" [(ngModel)]="drawerType" [disabled]="changeTypeDisabled" />
+          <input mdcRadioInput type="radio" name="drawerType" value="permanent" [(ngModel)]="drawerType" />
         </div>
         <label mdcFormFieldLabel>Permanent Drawer</label>
       </div>
