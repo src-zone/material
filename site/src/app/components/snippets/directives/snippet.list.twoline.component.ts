@@ -20,6 +20,7 @@ export class SnippetListTwolineComponent/*snip:skip*/extends AbstractSnippetComp
     avatar = false;
     dense = false;
     interactive = true;
+    selectionMode: 'single' | 'active' | '' = '';
 
     //snip:skip
     constructor() {

@@ -1,7 +1,7 @@
 <fieldset class="blox-snippet snippet-skip-line">
 <div mdcListGroup>
   <h3 mdcListGroupSubHeader>Connectivity</h3>
-  <ul mdcList [dense]="dense" [nonInteractive]="!interactive">
+  <ul mdcList [dense]="dense" [nonInteractive]="!interactive" [selectionMode]="selectionMode">
     <li mdcListItem>
       <i *ngIf="startDetail" mdcListItemGraphic class="material-icons">network_wifi</i>
       <span mdcListItemText>Wi-Fi</span>
@@ -20,7 +20,7 @@
     <li mdcListDivider [inset]="startDetail"></li>
   </ul>
   <h3 mdcListGroupSubHeader>Folders</h3>
-  <ul mdcList [avatarList]="avatar" [dense]="dense"  [nonInteractive]="!interactive">
+  <ul mdcList [avatarList]="avatar" [dense]="dense" [nonInteractive]="!interactive" [selectionMode]="selectionMode">
     <li mdcListItem>
       <i *ngIf="startDetail && !avatar" mdcListItemGraphic class="material-icons">insert_drive_file</i>
       <img *ngIf="avatar" mdcListItemGraphic [src]="srcAvatar1">
@@ -65,5 +65,25 @@
     <input mdcCheckboxInput type="checkbox" [(ngModel)]="interactive" />
   </div>
   <label mdcFormFieldLabel>Interactive</label>
-</div>    
+</div>
+<br/>
+<p>Selection mode:</p>
+<div mdcFormField>
+  <div mdcRadio>
+    <input mdcRadioInput type="radio" name="selMode" value="" [(ngModel)]="selectionMode" />
+  </div>
+  <label mdcFormFieldLabel>None</label>
+</div>
+<div mdcFormField>
+  <div mdcRadio>
+    <input mdcRadioInput type="radio" name="selMode" value="single" [(ngModel)]="selectionMode" />
+  </div>
+  <label mdcFormFieldLabel>Single</label>
+</div>
+<div mdcFormField>
+  <div mdcRadio>
+    <input mdcRadioInput type="radio" name="selMode" value="active" [(ngModel)]="selectionMode" />
+  </div>
+  <label mdcFormFieldLabel>Active</label>
+</div>
 </fieldset><div class="snippet-skip-line"></div>
