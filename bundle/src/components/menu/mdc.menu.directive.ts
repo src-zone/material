@@ -265,13 +265,11 @@ export class MdcMenuDirective implements AfterContentInit, OnInit, OnDestroy {
  * 
  * # Accessibility
  * 
- * 
- *  * * `Enter`, `Space`, and `Down Arrow` keys open the menu and place focus on the first item.
+ * * `Enter`, `Space`, and `Down Arrow` keys open the menu and place focus on the first item.
  * * `Up Arrow` opens the menu and places focus on the last item
  * * Click/Touch events set focus to the mdcList root element
  * 
- * 
- * * Attribute `role=button` will be set if the element is not aleready a button element.
+ * * Attribute `role=button` will be set if the element is not already a button element.
  * * Attribute `aria-haspopup=menu` will be set if an `mdcMenu` is attached.
  * * Attribute `aria-expanded` will be set while the attached menu is open
  * * Attribute `aria-controls` will be set to the id of the attached menu. (And a unique id will be generated,

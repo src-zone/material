@@ -10,7 +10,7 @@ describe('mdcList', () => {
         template: `
             <ul mdcList [selectionMode]="selectionMode" [nonInteractive]="nonInteractive">
                 <li *ngFor="let item of items; let i = index" mdcListItem [disabled]="disabled === i"
-                    (action)="action(i)" (activeChange)="active($event, i)">
+                    (action)="action(i)" (selectedChange)="active($event, i)">
                     <span mdcListItemText>{{item}}</span>
                 </li>
             </ul>
@@ -18,7 +18,7 @@ describe('mdcList', () => {
     })
     class TestComponent {
         actions: number[] = [];
-        activeChange: {index: number, value: boolean}[] = [];
+        selectedChange: {index: number, value: boolean}[] = [];
         items = ['item 1', 'item 2', 'item 3'];
         nonInteractive = false;
         selectionMode: string = null;
@@ -27,7 +27,7 @@ describe('mdcList', () => {
             this.actions.push(i);
         }
         active(value: boolean, index: number) {
-            this.activeChange.push({index, value});
+            this.selectedChange.push({index, value});
         }
     }
 
@@ -99,7 +99,7 @@ describe('mdcList', () => {
         expectTabbable(items, -1);
         // no action events have been emitted:
         expect(testComponent.actions).toEqual([]);
-        expect(testComponent.activeChange).toEqual([]);
+        expect(testComponent.selectedChange).toEqual([]);
     }));
 
     it('disabled items are correctly styled, not actionable, and not selectable', fakeAsync(() => {
@@ -113,10 +113,10 @@ describe('mdcList', () => {
         // try to focus and activate disabled item:
         focusItem(fixture, items, 1);
         expectTabbable(items, 1); // is focusable
-        expectActive(items, -11, 'selected'); // can not be activated
+        expectActive(items, -1, 'selected'); // can not be activated
         // no action events have been emitted:
         expect(testComponent.actions).toEqual([]);
-        expect(testComponent.activeChange).toEqual([]);
+        expect(testComponent.selectedChange).toEqual([]);
     }));
 
     it('selectionMode=single/current', fakeAsync(() => {
@@ -127,7 +127,7 @@ describe('mdcList', () => {
         testComponent.selectionMode = 'active';
         fixture.detectChanges(); tick();
         testComponent.actions.length = 0;
-        testComponent.activeChange.length = 0;
+        testComponent.selectedChange.length = 0;
         validateSelectionMode('current', 2);
 
         function validateSelectionMode(type, initialActive) {
@@ -140,15 +140,15 @@ describe('mdcList', () => {
             // should also emit action event:
             expect(testComponent.actions).toEqual([1]);
             if (initialActive !== -1)
-                expect(testComponent.activeChange).toEqual([
+                expect(testComponent.selectedChange).toEqual([
                     {index: initialActive, value: false},
                     {index: 1, value: true}
                 ]);
             else
-                expect(testComponent.activeChange).toEqual([
+                expect(testComponent.selectedChange).toEqual([
                     {index: 1, value: true}
                 ]);
-            testComponent.activeChange.length = 0;
+            testComponent.selectedChange.length = 0;
 
             // active on keyboard on input:
             items[1].dispatchEvent(newKeydownEvent('ArrowDown'));
@@ -160,7 +160,7 @@ describe('mdcList', () => {
             expectActive(items, 2, type);
             // should also emit action event:
             expect(testComponent.actions).toEqual([1, 2]);
-            expect(testComponent.activeChange).toEqual([
+            expect(testComponent.selectedChange).toEqual([
                 {index: 1, value: false},
                 {index: 2, value: true}
             ]);
@@ -216,6 +216,75 @@ describe('mdcList', () => {
         expect(itemDivider.classList).toContain('mdc-list-divider--padded');
     }));
 
+    @Component({
+        template: `
+            <ul mdcList [selectionMode]="selectionMode" [nonInteractive]="nonInteractive">
+                <li *ngFor="let item of items" mdcListItem [value]="item.value" [selected]="item.active" (selectedChange)="active($event, item.value)">
+                    <span mdcListItemText>{{item.value}}</span>
+                </li>
+            </ul>
+        `
+    })
+    class TestProgrammaticActivationComponent {
+        selectedChange: {value: string, active: boolean}[] = [];
+        items = [
+            {value: 'item1', active: true},
+            {value: 'item2', active: false},
+            {value: 'item3', active: false}
+        ];
+        nonInteractive = false;
+        selectionMode: string = null;
+        active(active: boolean, value: string) {
+            this.selectedChange.push({value, active});
+        }
+    }
+    it('single selection list: programmatic change of active/selected items', fakeAsync(() => {
+        const { fixture, items, testComponent } = setup(TestProgrammaticActivationComponent);
+        expectActive(items, 0, 'selected', true); // first item selected, no aria-selected, because plain list should not have aria-selected attributes
+        expect(testComponent.selectedChange).toEqual([{active: true, value: 'item1'}]);
+        // switch to single selection mode:
+        testComponent.selectionMode = 'single';
+        testComponent.selectedChange = [];
+        fixture.detectChanges(); tick();
+        expectActive(items, 0, 'selected');
+        testComponent.items[0].active = false;
+        testComponent.items[2].active = true;
+        fixture.detectChanges(); tick();
+        expectActive(items, 2, 'selected');
+        expect(testComponent.selectedChange).toEqual([
+            {active: false, value: 'item1'},
+            {active: true, value: 'item3'},
+        ]);
+
+        testComponent.selectionMode = 'active';
+        fixture.detectChanges(); tick();
+        expectActive(items, 2, 'current');
+        testComponent.items[1].active = true;
+        fixture.detectChanges(); tick();
+        expectActive(items, 1, 'current'); // only the first of the two 'active' items selected
+    }));
+
+    it('simple list: programmatic change of active/selected items', fakeAsync(() => {
+        const { fixture, items, testComponent } = setup(TestProgrammaticActivationComponent);
+        expectActive(items, 0, 'selected', true);
+        expect(testComponent.selectedChange).toEqual([{active: true, value: 'item1'}]);
+        testComponent.selectedChange = [];
+        // activate all items:
+        testComponent.items[1].active = true;
+        testComponent.items[2].active = true;
+        fixture.detectChanges(); tick();
+        expectActive(items, [0, 1, 2], 'selected', true);
+        expect(testComponent.selectedChange).toEqual([
+            {active: true, value: 'item2'},
+            {active: true, value: 'item3'},
+        ]);
+
+        testComponent.nonInteractive = true;
+        testComponent.items[0].active = false;
+        fixture.detectChanges(); tick();
+        expectActive(items, [1, 2], 'selected', true);
+    }));
+
     function expectTabbable(items: HTMLElement[], index: number) {
         const expected = Array.apply(null, Array(items.length)).map((_, i) => i === index ? '0' : '-1');
         expect(items.map(it => it.getAttribute('tabindex'))).toEqual(expected);
@@ -225,21 +294,22 @@ describe('mdcList', () => {
         items.forEach(item => expect(item.getAttribute('role')).toBe(role));
     }
 
-    function expectActive(items: HTMLElement[], index: number, type: 'current' | 'selected' | 'checked') {
-        const expectSelected = Array.apply(null, Array(items.length)).map((_, i) => i === index && type === 'selected');
-        const expectActived = Array.apply(null, Array(items.length)).map((_, i) => i === index && type === 'current');
-        const expectAriaSelected = Array.apply(null, Array(items.length)).map((_, i) => ariaValueForType('selected', i));
-        const expectAriaCurrent = Array.apply(null, Array(items.length)).map((_, i) => ariaValueForType('current', i));
-        const expectAriaChecked = Array.apply(null, Array(items.length)).map((_, i) => ariaValueForType('checked', i));
+    function expectActive(items: HTMLElement[], index: number | number[], type: 'current' | 'selected' | 'checked' | null, noAria = false) {
+        const indexes = typeof index === 'number' ? [index] : index;
+        const expectSelected = Array.apply(null, Array(items.length)).map((_, i) => indexes.indexOf(i) !== -1 && type === 'selected');
+        const expectActived = Array.apply(null, Array(items.length)).map((_, i) => indexes.indexOf(i) !== -1 && type === 'current');
+        const expectAriaSelected = Array.apply(null, Array(items.length)).map((_, i) => ariaValueForType('selected', i, noAria));
+        const expectAriaCurrent = Array.apply(null, Array(items.length)).map((_, i) => ariaValueForType('current', i, noAria));
+        const expectAriaChecked = Array.apply(null, Array(items.length)).map((_, i) => ariaValueForType('checked', i, noAria));
         expect(items.map(it => it.classList.contains('mdc-list-item--selected'))).toEqual(expectSelected);
         expect(items.map(it => it.classList.contains('mdc-list-item--activated'))).toEqual(expectActived);
         expect(items.map(it => it.getAttribute('aria-selected'))).toEqual(expectAriaSelected);
         expect(items.map(it => it.getAttribute('aria-current'))).toEqual(expectAriaCurrent);
         expect(items.map(it => it.getAttribute('aria-checked'))).toEqual(expectAriaChecked);
 
-        function ariaValueForType(forType: 'current' | 'selected' | 'checked', i) {
-            if (type === forType)
-                return  i === index ? 'true' : 'false';
+        function ariaValueForType(forType: 'current' | 'selected' | 'checked', i, noAria) {
+            if (!noAria && type === forType)
+                return  indexes.indexOf(i) !== -1 ? 'true' : 'false';
             return null;
         }
     }
