@@ -6,12 +6,6 @@ import { DOCUMENT } from '@angular/common';
 import { AbstractMdcFocusTrap, FocusTrapHandle } from '../focus-trap/abstract.mdc.focus-trap';
 import { MdcListItemDirective } from '../list/mdc.list.directive';
 
-/**
- * @docs-private
- * Represents the different types of drawers that are supported: permanent, dismissible, and modal.
- */
-export type MdcDrawerType = 'permanent' | 'dismissible' | 'modal';
-
 @Directive({
     selector: '[mdcDrawerTitle]'
 })
@@ -83,7 +77,7 @@ export class MdcDrawerDirective implements AfterContentInit, OnDestroy {
     @ContentChildren(MdcListItemDirective, {descendants: true}) _items?: QueryList<MdcListItemDirective>;
     private _onDocumentClick = (event: MouseEvent) => this.onDocumentClick(event);
     private focusTrapHandle: FocusTrapHandle | null = null;
-    private type: MdcDrawerType = 'permanent';
+    private type: 'permanent' | 'dismissible' | 'modal' = 'permanent';
     private previousFocus: Element | HTMLOrSVGElement | null = null;
     private _open: boolean | null = null;
     private document: Document;
@@ -149,6 +143,13 @@ export class MdcDrawerDirective implements AfterContentInit, OnDestroy {
     }
 
     private destroyDrawer() {
+        // when foundation is reconstructed and then .open() is called,
+        // if these classes are still available the foundation assumes open was already called,
+        // and it won't do anything:
+        this._rndr.removeClass(this._elm.nativeElement, 'mdc-drawer--animate');
+        this._rndr.removeClass(this._elm.nativeElement, 'mdc-drawer--closing');
+        this._rndr.removeClass(this._elm.nativeElement, 'mdc-drawer--open');
+        this._rndr.removeClass(this._elm.nativeElement, 'mdc-drawer--opening');
         if (this.foundation) {
             this.document.removeEventListener('click', this._onDocumentClick);
             this.foundation.destroy();
@@ -192,10 +193,10 @@ export class MdcDrawerDirective implements AfterContentInit, OnDestroy {
             }(this.mdcAdapter);
         // else: permanent drawer -> doesn't need a foundation, just styling
         if (newFoundation) {
+            this.foundation = newFoundation;
             newFoundation.init();
             if (this._open)
                 newFoundation.open();
-            this.foundation = newFoundation;
         }
     }
 
@@ -216,11 +217,11 @@ export class MdcDrawerDirective implements AfterContentInit, OnDestroy {
      * drawer is created by not wrapping your <code>mdcDrawer</code> in a
      * <code>mdcDrawerContainer</code>.
      */
-    @Input() get mdcDrawer(): MdcDrawerType {
+    @Input() get mdcDrawer(): 'permanent' | 'dismissible' | 'modal' {
         return this.type;
     }
 
-    set mdcDrawer(value: MdcDrawerType) {
+    set mdcDrawer(value: 'permanent' | 'dismissible' | 'modal') {
         if (value !== 'dismissible' && value !== 'modal')
             value = 'permanent';
         if (value !== this.type) {
@@ -244,8 +245,10 @@ export class MdcDrawerDirective implements AfterContentInit, OnDestroy {
         if (newValue !== this._open) {
             if (this.foundation) {
                 newValue ? this.foundation.open() : this.foundation.close();
-            } else
+            } else {
+                this._open = newValue;
                 this.openChange.emit(newValue);
+            }
         }
     }
 
