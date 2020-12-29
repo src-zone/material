@@ -12,7 +12,11 @@ import { AbstractSnippetComponent } from '../abstract.snippet.component';
     templateUrl: './snippet.chips.input.component.html'
 })
 export class SnippetChipsInputComponent/*snip:skip*/extends AbstractSnippetComponent/*snip:endskip*/ {
-    chips = [ 'claire', 'pete', 'anne' ];
+    readonly chips = [
+        {name: 'claire'},
+        {name: 'pete'},
+        {name: 'anne'}
+    ];
     newChip: string;
 
     //snip:skip
@@ -28,9 +32,9 @@ export class SnippetChipsInputComponent/*snip:skip*/extends AbstractSnippetCompo
         if (this.newChip) {
             let value = this.newChip.trim();
             if (value.length)
-                this.chips.push(value);
+                this.chips.push({name: value});
         }
-        this.newChip = null;
+        this.newChip = '';
     }
 
     removeChip(index: number) {

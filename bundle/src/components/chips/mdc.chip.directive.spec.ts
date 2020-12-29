@@ -2,7 +2,7 @@ import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Component } from '@angular/core';
 import { MdcChipSetDirective, MdcChipDirective, MdcChipIconDirective, CHIP_DIRECTIVES } from './mdc.chip.directive';
-import { hasRipple } from '../../testutils/page.test';
+import { hasRipple, simulateKey } from '../../testutils/page.test';
 
 describe('MdcChipDirective', () => {
     @Component({
@@ -68,8 +68,11 @@ describe('MdcChipDirective', () => {
         expect(chipSet.classList).toContain('mdc-chip-set');
         const chips = chipSet.querySelectorAll('.mdc-chip');
         expect(chips.length).toBe(3);
+        // only one chip/interactionIcon should be tabbable at a time:
+        expect(chipSet.querySelectorAll('[tabindex]:not([tabindex="-1"])').length).toBe(1);
         for (let i = 0; i !== chips.length; ++i) {
-            let icons = chips.item(i).querySelectorAll('i');
+            expect(chips.item(i).classList.contains('mdc-chip--deletable')).toBe(true);
+            const icons = chips.item(i).querySelectorAll('i');
             expect(icons.length).toBe(0);
         }
         testComponent.includeLeadingIcon = true;
@@ -124,18 +127,27 @@ describe('MdcChipDirective', () => {
         expect(chipSet.getAttribute('class')).toBe('mdc-chip-set');
     }));
 
-    it('trailing icons get a tabindex and role=button', (() => {
+    it('trailing icons get a role=button and are navigatable', fakeAsync(() => {
         const { fixture, testComponent } = setup();
-        testComponent.chips = ['chip'];
+        testComponent.chips = ['chip1', 'chip2'];
         testComponent.includeLeadingIcon = true;
         testComponent.includeTrailingIcon = true;
-        fixture.detectChanges();
-        let icons = fixture.nativeElement.querySelectorAll('i');
-        expect(icons.length).toBe(2);
-        expect(icons[0].tabIndex).toBe(-1);
-        expect(icons[0].hasAttribute('role')).toBe(false);
-        expect(icons[1].tabIndex).toBe(0);
-        expect(icons[1].getAttribute('role')).toBe('button');
+        fixture.detectChanges(); tick();
+        let primaryActions = [...fixture.nativeElement.querySelectorAll('.mdc-chip__primary-action')];
+        expect(primaryActions.length).toBe(2);
+        expect(primaryActions.map(a => a.tabIndex)).toEqual([0, -1]);
+        let icons = [...fixture.nativeElement.querySelectorAll('i')];
+        expect(icons.length).toBe(4);
+        expect(icons.map(i => i.tabIndex)).toEqual([-1, -1, -1, -1]);
+        expect(icons.map(i => i.getAttribute('role'))).toEqual([null, 'button', null, 'button']);
+
+        // ArrowRight/ArrowLeft changes focus and tabbable item:
+        primaryActions[0].focus();
+        simulateKey(primaryActions[0], 'ArrowRight');
+        // trailing action of first chip now is tabbable and has focus:
+        expect(document.activeElement).toBe(icons[1]);
+        expect(primaryActions.map(a => a.tabIndex)).toEqual([-1, -1]);
+        expect(icons.map(i => i.tabIndex)).toEqual([-1, 0, -1, -1]);
 
         // role/tabIndex changes must be undone when the icon is not a trailing icon anymore:
         const trailingIcon = fixture.debugElement.queryAll(By.directive(MdcChipIconDirective))[1].injector.get(MdcChipIconDirective);
@@ -188,6 +200,47 @@ describe('MdcChipDirective', () => {
         tick(20); // wait for requestAnimationFrame
         (<any>chipComponent._foundation).handleTransitionEnd({target: chip, propertyName: 'width'});
         expect(testComponent.chips).toEqual([]);
+    }));
+
+    it('after chip removal, next remaining chip has focus and is tabbable', fakeAsync(() => {
+        const { fixture, testComponent } = setup();
+        testComponent.type = 'input';
+        testComponent.chips = ['chip1', 'chip2', 'chip3'];
+        testComponent.includeTrailingIcon = true;
+        fixture.detectChanges();
+        const chips: HTMLElement[] = [...fixture.nativeElement.querySelectorAll('.mdc-chip')];
+        const trailingIcons: HTMLElement[] = chips.map(c => c.querySelector('i:last-child'));
+        const chipComponents = fixture.debugElement.queryAll(By.directive(MdcChipDirective)).map(d => d.injector.get(MdcChipDirective));
+        
+        trailingIcons[1].focus();
+        trailingIcons[1].click();
+        expect(testComponent.interactions).toEqual([]);
+        expect(testComponent.trailingIconInteractions).toEqual(['chip2']);
+        // simulate transitionend event for exit transition of chip:
+        (<any>chipComponents[1]._foundation).handleTransitionEnd({target: chips[1], propertyName: 'opacity'});
+        tick(20); // wait for requestAnimationFrame
+        (<any>chipComponents[1]._foundation).handleTransitionEnd({target: chips[1], propertyName: 'width'});
+        expect(testComponent.chips).toEqual(['chip1', 'chip3']);
+        expect([...fixture.nativeElement.querySelectorAll('.mdc-chip__primary-action')].map(a => a.tabIndex)).toEqual([-1, -1]);
+        expect([...fixture.nativeElement.querySelectorAll('.mdc-chip')]
+            .map(c => c.querySelector('i:last-child').tabIndex)).toEqual([-1, 0]);
+    }));
+
+    it('after chip list changes, always exactly one chip or trailingIcon should be tabbable', fakeAsync(() => {
+        const { fixture, testComponent } = setup();
+        testComponent.type = 'input';
+        testComponent.chips = ['chip1', 'chip2', 'chip3'];
+        testComponent.includeTrailingIcon = true;
+        fixture.detectChanges();
+
+        while (testComponent.chips.length) {
+            expect(fixture.nativeElement.querySelectorAll('.mdc-chip').length).toBe(testComponent.chips.length);
+            expect(fixture.nativeElement.querySelectorAll('[tabindex]:not([tabindex="-1"])').length).toBe(1);
+            testComponent.chips.splice(0, 1);
+            fixture.detectChanges();
+        }
+        expect(fixture.nativeElement.querySelectorAll('.mdc-chip').length).toBe(0);
+        expect(fixture.nativeElement.querySelectorAll('[tabindex]:not([tabindex="-1"])').length).toBe(0);
     }));
 
     it('filter chips get a checkmark icon on selection', (() => {
@@ -455,18 +508,18 @@ describe('MdcChipDirective', () => {
     })
     class TestTabbingComponent {
     }
-    it('chips actions are tabbable by default, but this can be overridden', (() => {
+    it('chips trailing icons tabIndex is controlled by chipset, other icons tabindex can be overridden', (() => {
         const { fixture } = setup(TestTabbingComponent);
         let actions = fixture.nativeElement.querySelectorAll('.mdc-chip__primary-action');
-        expect(actions[0].tabIndex).toBe(0);
+        expect(actions[0].tabIndex).toBe(-1); // initial -1, because last chip was initialized with a tabIndex, so that is taken as the first focusable chip
         expect(actions[1].tabIndex).toBe(-1);
         expect(actions[2].tabIndex).toBe(99);
         let trailingIcons = fixture.nativeElement.querySelectorAll('.mdc-chip__icon--trailing');
-        expect(trailingIcons[0].tabIndex).toBe(0);
+        expect(trailingIcons[0].tabIndex).toBe(-1);
         expect(trailingIcons[1].tabIndex).toBe(-1);
-        expect(trailingIcons[2].tabIndex).toBe(100);
+        expect(trailingIcons[2].tabIndex).toBe(-1); // because primaryAction is already tabbable
         let leadingIcons = fixture.nativeElement.querySelectorAll('.leading');
-        expect(leadingIcons[0].tabIndex).toBe(0);
+        expect(leadingIcons[0].tabIndex).toBe(0); // untouched, because leading icon
         expect(leadingIcons[1].tabIndex).toBe(-1);
         expect(leadingIcons[2].tabIndex).toBe(-1);
     }));
@@ -532,12 +585,13 @@ describe('MdcChipDirective', () => {
 
     it('removable property must prevent removal', fakeAsync(() => {
         const { fixture, testComponent } = setup(TestNotRemobvableComponent);
-        const chips = fixture.nativeElement.querySelectorAll('.mdc-chip');
+        const chips: HTMLElement[] = [...fixture.nativeElement.querySelectorAll('.mdc-chip')];
         const trailingIcons = fixture.nativeElement.querySelectorAll('.mdc-chip i:last-child');
         // for some weird reason this returns every MdcChipDirective twice, hence the construct to remove duplicates:
         const chipComponents = fixture.debugElement.queryAll(By.directive(MdcChipDirective)).map(de => de.injector.get(MdcChipDirective))
             .reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []);
         expect(testComponent.trailingIconInteractions).toEqual([]);
+        expect(chips.map(c => c.classList.contains('mdc-chip--deletable'))).toEqual([false, false, false]);
         
         trailingIcons[1].click();
         // simulate transitionend event for exit transition of chip:

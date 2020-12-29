@@ -36,14 +36,19 @@ export class MdcChipIconDirective {
     @Output() readonly interact: EventEmitter<void> = new EventEmitter();
     /** @internal */
     @HostBinding('class.mdc-chip__icon--trailing') _trailing = false;
-    private __tabindex: number | null = null;
+    private _originalTabindex: number | null = null;
+    private __tabindex: number = -1;
     private __role: string | null = null;
     /** @internal */
     _chip: MdcChipDirective | null = null;
 
     constructor(public _elm: ElementRef, private _rndr: Renderer2, public _cdRef: ChangeDetectorRef) {
         this.__role = _elm.nativeElement.getAttribute('role');
-        this.__tabindex = _elm.nativeElement.getAttribute('tabindex');
+        let tabIndex = _elm.nativeElement.getAttribute('tabindex');
+        if (tabIndex) {
+            this._originalTabindex = +tabIndex;
+            this.__tabindex = +tabIndex;
+        }
     }
 
     ngOnDestroy() {
@@ -52,9 +57,12 @@ export class MdcChipIconDirective {
 
     /** @internal */
     @HostBinding('attr.tabindex') get _tabindex() {
-        if (this.__tabindex)
-            return this.__tabindex;
-        return this._trailing ? 0 : null;
+        return this._trailing ? this.__tabindex : this._originalTabindex;
+    }
+
+    /** @internal */
+    set _tabindex(val: number | null) {
+        this.__tabindex = val;
     }
 
     /** @internal */
@@ -100,12 +108,12 @@ export class MdcChipTextDirective {
 export class MdcChipPrimaryActionDirective {
     /** @internal */
     @HostBinding('class.mdc-chip__primary-action') readonly _cls = true;
-    private __tabindex: number | null = null;
+    private __tabindex: number = -1;
     /** @internal */
     __role: string = 'button';
 
     constructor(public _elm: ElementRef) {
-        this.__tabindex = this._elm.nativeElement.getAttribute('tabindex');
+        this.__tabindex = +(this._elm.nativeElement.getAttribute('tabindex') || -1);
     }
 
     /** @internal */
@@ -115,7 +123,12 @@ export class MdcChipPrimaryActionDirective {
 
     /** @internal */
     @HostBinding('attr.tabindex') get _tabindex() {
-        return this.__tabindex ? this.__tabindex : 0;
+        return this.__tabindex;
+    }
+
+    /** @internal */
+    set _tabindex(val: number) {
+        this.__tabindex = val;
     }
 }
 
@@ -159,9 +172,10 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
     @Output() readonly interact: EventEmitter<void> = new EventEmitter();
     /**
      * Event emitted when the user has removed (by clicking the trailing icon) the chip.
-     * This event must be implemented when the chip has a trailing icon, and the implementation
-     * must remove the chip from the set. Without such implementation the directive will
-     * animate the chip out of vision, but will not remove the chip from the DOM.
+     * This event must be implemented when the `removable` property is set, and the chip
+     * has a trailing icon. The implementation must remove the chip from the set.
+     * Without such implementation the directive will animate the chip out of vision,
+     * but will not remove the chip from the DOM.
      */
     @Output() readonly remove: EventEmitter<void> = new EventEmitter();
     /**
@@ -431,6 +445,11 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
 
     static ngAcceptInputType_selected: boolean | '';
 
+    /**
+     * If set to a value other than `false`, clicking the trailing icon will animate the
+     * chip out of view, and then emit the `remove` output.
+     */
+    @HostBinding('class.mdc-chip--deletable')
     @Input() get removable(): boolean {
         return this.initialized ? this._foundation.getShouldRemoveOnTrailingIconClick() : this.removableMem;
     }
@@ -466,6 +485,32 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
         this._foundation?.handleKeydown(event);
         this._foundation?.handleInteraction(event);
     }
+
+    /** @internal */
+    _untabbable() {
+        if (this._primaryAction)
+            this._primaryAction._tabindex = -1;
+        if (this._trailingIcon)
+            this._trailingIcon._tabindex = -1;
+    }
+
+    /** @internal */
+    _allowtabbable() {
+        let result = !!this._primaryAction && this._primaryAction._tabindex !== -1;
+        if (result && this._trailingIcon)
+            this._trailingIcon._tabindex = -1;
+        if (!result)
+            result = !!this._trailingIcon && this._trailingIcon._tabindex != null && this._trailingIcon._tabindex !== -1;
+        return result;
+    }
+
+    /** @internal */
+    _forceTabbable() {
+        if (this._primaryAction)
+            this._primaryAction._tabindex = 0;
+        else if (this._trailingIcon)
+            this._trailingIcon._tabindex = 0;
+    }
 }
 
 /**
@@ -490,6 +535,9 @@ export class MdcChipSetDirective implements AfterContentInit, OnDestroy {
         hasClass: (className: string) => this._elm.nativeElement.classList.contains(className),
         removeChipAtIndex: (index: number) => {
             this.chip(index)!.remove.emit();
+            // needed so that when focusChipTrailingActionAtIndex is called the
+            // chip has already been removed from the DOM:
+            this.cdRef.detectChanges();
         },
         selectChipAtIndex: (index: number, selected: boolean, shouldNotifyClients: boolean) => {
             this.chip(index)?._foundation.setSelectedFromChipSet(selected, shouldNotifyClients);
@@ -505,7 +553,7 @@ export class MdcChipSetDirective implements AfterContentInit, OnDestroy {
     /** @internal */
     _foundation: MDCChipSetFoundation | null = new MDCChipSetFoundation(this._adapter);
 
-    constructor(private _elm: ElementRef) {}
+    constructor(private _elm: ElementRef, private cdRef: ChangeDetectorRef) {}
 
     ngAfterContentInit() {
         this._chips!.changes.subscribe(() => {
@@ -548,12 +596,20 @@ export class MdcChipSetDirective implements AfterContentInit, OnDestroy {
     static ngAcceptInputType_mdcChipSet: 'choice' | 'filter' | 'input' | 'action' | '';
 
     private initChips(force = false) {
+        let hasTabbableItem = false;
         this._chips!.forEach(chip => {
             if (force || chip._set !== this) {        
                 chip._set = this;
                 chip._reInit();
             }
+            if (hasTabbableItem)
+                chip._untabbable();
+            else
+                hasTabbableItem = chip._allowtabbable();
         });
+        if (!hasTabbableItem && this._chips!.length > 0)
+            this._chips.first._forceTabbable();
+        this.cdRef.detectChanges();
     }
 
     private destroySubscriptions() {
