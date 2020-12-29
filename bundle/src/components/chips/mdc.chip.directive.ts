@@ -62,7 +62,7 @@ export class MdcChipIconDirective {
 
     /** @internal */
     set _tabindex(val: number | null) {
-        this.__tabindex = val;
+        this.__tabindex = val == null ? -1 : val;
     }
 
     /** @internal */
@@ -608,7 +608,7 @@ export class MdcChipSetDirective implements AfterContentInit, OnDestroy {
                 hasTabbableItem = chip._allowtabbable();
         });
         if (!hasTabbableItem && this._chips!.length > 0)
-            this._chips.first._forceTabbable();
+            this._chips!.first!._forceTabbable();
         this.cdRef.detectChanges();
     }
 
