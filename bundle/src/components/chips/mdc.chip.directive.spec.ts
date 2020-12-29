@@ -223,6 +223,7 @@ describe('MdcChipDirective', () => {
         (<any>chipComponents[1]._foundation).handleTransitionEnd({target: chips[1], propertyName: 'opacity'});
         tick(20); // wait for requestAnimationFrame
         (<any>chipComponents[1]._foundation).handleTransitionEnd({target: chips[1], propertyName: 'width'});
+        console.log(testComponent.chips);
         expect(testComponent.chips).toEqual(['chip1', 'chip3']);
         expect([...fixture.nativeElement.querySelectorAll('.mdc-chip__primary-action')].map(a => a.tabIndex)).toEqual([-1, -1]);
         expect([...fixture.nativeElement.querySelectorAll('.mdc-chip')]
