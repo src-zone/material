@@ -45,6 +45,7 @@ describe('MdcChipDirective', () => {
             this.trailingIconInteractions = [];
         }
         remove(i: number) {
+            console.log('remove', i, this.chips[i]);
             this.chips.splice(i, 1);
         }
         valueChange(chip: string, value: boolean) {
@@ -211,7 +212,11 @@ describe('MdcChipDirective', () => {
         const chips: HTMLElement[] = [...fixture.nativeElement.querySelectorAll('.mdc-chip')];
         const primaryActions: HTMLElement[] = chips.map(c => c.querySelector('.mdc-chip__primary-action'));
         const trailingIcons: HTMLElement[] = chips.map(c => c.querySelector('i:last-child'));
-        const chipComponents = fixture.debugElement.queryAll(By.directive(MdcChipDirective)).map(d => d.injector.get(MdcChipDirective));
+        // for some weird reason this returns every MdcChipDirective twice when executed on Github Actions,
+        // (it doesn't when run locally with test/test:watch/test:ci, and also doesn't on circleci...),
+        // hence the construct to remove duplicates:
+        const chipComponents = fixture.debugElement.queryAll(By.directive(MdcChipDirective)).map(de => de.injector.get(MdcChipDirective))
+            .reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []);
         
         expect(primaryActions[0].tabIndex).toBe(0);
         simulateKey(primaryActions[0], 'ArrowRight');
