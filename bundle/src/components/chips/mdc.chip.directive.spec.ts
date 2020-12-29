@@ -202,7 +202,7 @@ describe('MdcChipDirective', () => {
         expect(testComponent.chips).toEqual([]);
     }));
 
-    fit('after chip removal, next remaining chip has focus and is tabbable', fakeAsync(() => {
+    it('after chip removal, next remaining chip has focus and is tabbable', fakeAsync(() => {
         const { fixture, testComponent } = setup();
         testComponent.type = 'input';
         testComponent.chips = ['chip1', 'chip2', 'chip3'];
@@ -281,7 +281,7 @@ describe('MdcChipDirective', () => {
         ]);
     }));
 
-    it('choice chips selected value changes on clicks and clicks of other choices', (() => {
+    fit('choice chips selected value changes on clicks and clicks of other choices', (() => {
         const { fixture, testComponent } = setup();
         testComponent.type = 'choice';
         fixture.detectChanges();
