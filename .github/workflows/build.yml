@@ -65,9 +65,9 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node2-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node3-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node2-
+            ${{ runner.os }}-node3-
       - name: install dependencies
         run: cd bundle && npm ci && cd ../site && npm ci
       - name: Download bundle build artifacts
@@ -97,9 +97,9 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node2-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node3-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node2-
+            ${{ runner.os }}-node3-
       - name: Download bundle build artifacts
         uses: actions/download-artifact@v2
         with:

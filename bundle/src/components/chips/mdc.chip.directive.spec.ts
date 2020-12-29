@@ -281,7 +281,7 @@ describe('MdcChipDirective', () => {
         ]);
     }));
 
-    fit('choice chips selected value changes on clicks and clicks of other choices', (() => {
+    it('choice chips selected value changes on clicks and clicks of other choices', (() => {
         const { fixture, testComponent } = setup();
         testComponent.type = 'choice';
         fixture.detectChanges();
