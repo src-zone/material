@@ -611,7 +611,7 @@ export class MdcChipSetDirective implements AfterContentInit, OnDestroy {
                 hasTabbableItem = chip._allowtabbable();
         });
         if (!hasTabbableItem && this._chips!.length > 0)
-            this._chips.first._forceTabbable();
+            this._chips!.first!._forceTabbable();
     }
 
     private destroySubscriptions() {
