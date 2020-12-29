@@ -209,11 +209,25 @@ describe('MdcChipDirective', () => {
         testComponent.includeTrailingIcon = true;
         fixture.detectChanges();
         const chips: HTMLElement[] = [...fixture.nativeElement.querySelectorAll('.mdc-chip')];
+        const primaryActions: HTMLElement[] = chips.map(c => c.querySelector('.mdc-chip__primary-action'));
         const trailingIcons: HTMLElement[] = chips.map(c => c.querySelector('i:last-child'));
-        const chipComponents = fixture.debugElement.queryAll(By.directive(MdcChipDirective)).map(d => d.injector.get(MdcChipDirective));
+        // for some weird reason this returns every MdcChipDirective twice when executed on Github Actions,
+        // (it doesn't when run locally with test/test:watch/test:ci, and also doesn't on circleci...),
+        // hence the construct to remove duplicates:
+        const chipComponents = fixture.debugElement.queryAll(By.directive(MdcChipDirective)).map(de => de.injector.get(MdcChipDirective))
+            .reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []);
+        expect(chipComponents.length).toBe(3);
         
-        trailingIcons[1].focus();
+        expect(primaryActions[0].tabIndex).toBe(0);
+        simulateKey(primaryActions[0], 'ArrowRight');
+        expect(trailingIcons[0].tabIndex).toBe(0);
+        simulateKey(trailingIcons[0], 'ArrowRight');
+        expect(primaryActions[1].tabIndex).toBe(0);
+        simulateKey(primaryActions[1], 'ArrowRight');
+        expect(trailingIcons[1].tabIndex).toBe(0);
+        expect(document.activeElement).toBe(trailingIcons[1]);
         trailingIcons[1].click();
+
         expect(testComponent.interactions).toEqual([]);
         expect(testComponent.trailingIconInteractions).toEqual(['chip2']);
         // simulate transitionend event for exit transition of chip:
@@ -224,6 +238,8 @@ describe('MdcChipDirective', () => {
         expect([...fixture.nativeElement.querySelectorAll('.mdc-chip__primary-action')].map(a => a.tabIndex)).toEqual([-1, -1]);
         expect([...fixture.nativeElement.querySelectorAll('.mdc-chip')]
             .map(c => c.querySelector('i:last-child').tabIndex)).toEqual([-1, 0]);
+        expect(document.activeElement).toBe([...fixture.nativeElement.querySelectorAll('.mdc-chip')]
+            .map(c => c.querySelector('i:last-child'))[1]);
     }));
 
     it('after chip list changes, always exactly one chip or trailingIcon should be tabbable', fakeAsync(() => {

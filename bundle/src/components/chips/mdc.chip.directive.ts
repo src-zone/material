@@ -31,7 +31,8 @@ export class MdcChipIconDirective {
     /** @internal */
     @HostBinding('class.mdc-chip__icon--leading') _leading = false;
     /**
-     * Event emitted for trailing icon user interactions.
+     * Event emitted for trailing icon user interactions. Please note that chip removal should be
+     * handled by the `remove` output of the chip, *not* by a handler for this output.
      */
     @Output() readonly interact: EventEmitter<void> = new EventEmitter();
     /** @internal */
@@ -62,7 +63,7 @@ export class MdcChipIconDirective {
 
     /** @internal */
     set _tabindex(val: number | null) {
-        this.__tabindex = val;
+        this.__tabindex = val == null ? -1 : val;
     }
 
     /** @internal */
@@ -559,11 +560,13 @@ export class MdcChipSetDirective implements AfterContentInit, OnDestroy {
         this._chips!.changes.subscribe(() => {
             this.initSubscriptions();
             this.initChips();
+            this.cdRef.detectChanges();
         });
         this.initSubscriptions();
         this.initChips();
         this._foundation!.init();
         this._initialized = true;
+        this.cdRef.detectChanges();
     }
 
     ngOnDestroy() {
@@ -609,7 +612,6 @@ export class MdcChipSetDirective implements AfterContentInit, OnDestroy {
         });
         if (!hasTabbableItem && this._chips!.length > 0)
             this._chips.first._forceTabbable();
-        this.cdRef.detectChanges();
     }
 
     private destroySubscriptions() {
