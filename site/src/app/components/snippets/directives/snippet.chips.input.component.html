@@ -1,10 +1,10 @@
 <fieldset class="blox-snippet snippet-skip-line">
 <div mdcChipSet="input">
-  <div *ngFor="let chip of chips; let i = index" mdcChip (remove)="removeChip(i)">
+<div *ngFor="let chip of chips; let i = index" mdcChip (remove)="removeChip(i)">
     <i mdcChipIcon class="material-icons">face</i>
     <span mdcChipCell>
       <span mdcChipPrimaryAction>
-        <div mdcChipText>{{chip}}</div>
+        <div mdcChipText>{{chip.name}}</div>
       </span>
     </span>
     <span mdcChipCell>
