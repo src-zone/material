@@ -209,16 +209,25 @@ describe('MdcChipDirective', () => {
         testComponent.includeTrailingIcon = true;
         fixture.detectChanges();
         const chips: HTMLElement[] = [...fixture.nativeElement.querySelectorAll('.mdc-chip')];
+        const primaryActions: HTMLElement[] = chips.map(c => c.querySelector('.mdc-chip__primary-action'));
         const trailingIcons: HTMLElement[] = chips.map(c => c.querySelector('i:last-child'));
         const chipComponents = fixture.debugElement.queryAll(By.directive(MdcChipDirective)).map(d => d.injector.get(MdcChipDirective));
         
-        trailingIcons[1].focus();
+        expect(primaryActions[0].tabIndex).toBe(0);
+        simulateKey(primaryActions[0], 'ArrowRight');
+        expect(trailingIcons[0].tabIndex).toBe(0);
+        simulateKey(trailingIcons[0], 'ArrowRight');
+        expect(primaryActions[1].tabIndex).toBe(0);
+        simulateKey(primaryActions[1], 'ArrowRight');
+        expect(trailingIcons[1].tabIndex).toBe(0);
         expect(document.activeElement).toBe(trailingIcons[1]);
         trailingIcons[1].click();
+
         expect(testComponent.interactions).toEqual([]);
         expect(chips.map(t => t.textContent)).toEqual(['chip1cancel', 'chip2cancel', 'chip3cancel']);
         expect(trailingIcons.map(t => t.textContent)).toEqual(['cancel', 'cancel', 'cancel']);
         expect(testComponent.trailingIconInteractions).toEqual(['chip2']);
+        expect(chipComponents.length).toBe(3);
         // simulate transitionend event for exit transition of chip:
         (<any>chipComponents[1]._foundation).handleTransitionEnd({target: chips[1], propertyName: 'opacity'});
         tick(20); // wait for requestAnimationFrame
