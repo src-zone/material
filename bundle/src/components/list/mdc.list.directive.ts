@@ -699,7 +699,7 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
     }
 
     /** @internal */
-    @HostBinding('tabindex') get _tabindex() {
+    @HostBinding('attr.tabindex') get _tabindex() {
         // the root of a menu should be focusable
         return this._function === MdcListFunction.menu ? "-1" : null;
     }
@@ -752,9 +752,11 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
             else
                 this._selectionMode = null;
             this.updateItems();
-            this.foundation?.setSingleSelection(this._role === 'listbox');
-            this.foundation?.setSelectedIndex(this.getSelection());
-            this.updateItemSelections(this.getSelection(false));
+            if (this.foundation) {
+                this.foundation.setSingleSelection(this._role === 'listbox');
+                this.foundation.setSelectedIndex(this.getSelection());
+                this.updateItemSelections(this.getSelection(false));
+            }
         }
     }
 
