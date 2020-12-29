@@ -213,8 +213,11 @@ describe('MdcChipDirective', () => {
         const chipComponents = fixture.debugElement.queryAll(By.directive(MdcChipDirective)).map(d => d.injector.get(MdcChipDirective));
         
         trailingIcons[1].focus();
+        expect(document.activeElement).toBe(trailingIcons[1]);
         trailingIcons[1].click();
         expect(testComponent.interactions).toEqual([]);
+        expect(chips.map(t => t.textContent)).toEqual(['chip1cancel', 'chip2cancel', 'chip3cancel']);
+        expect(trailingIcons.map(t => t.textContent)).toEqual(['cancel', 'cancel', 'cancel']);
         expect(testComponent.trailingIconInteractions).toEqual(['chip2']);
         // simulate transitionend event for exit transition of chip:
         (<any>chipComponents[1]._foundation).handleTransitionEnd({target: chips[1], propertyName: 'opacity'});
@@ -224,6 +227,8 @@ describe('MdcChipDirective', () => {
         expect([...fixture.nativeElement.querySelectorAll('.mdc-chip__primary-action')].map(a => a.tabIndex)).toEqual([-1, -1]);
         expect([...fixture.nativeElement.querySelectorAll('.mdc-chip')]
             .map(c => c.querySelector('i:last-child').tabIndex)).toEqual([-1, 0]);
+        expect(document.activeElement).toBe([...fixture.nativeElement.querySelectorAll('.mdc-chip')]
+            .map(c => c.querySelector('i:last-child'))[1]);
     }));
 
     it('after chip list changes, always exactly one chip or trailingIcon should be tabbable', fakeAsync(() => {
