@@ -109,7 +109,7 @@ describe('MdcChipDirective', () => {
         expect(chipComponents[2].value).toBe('three');
     }));
 
-    it('chipset type is one of choice, filter, input, or action', (() => {
+    xit('chipset type is one of choice, filter, input, or action', (() => {
         const { fixture, testComponent, chipSetComponent, chipSet } = setup();
         expect(chipSetComponent.mdcChipSet).toBe('action');
         expect(chipSet.getAttribute('class')).toBe('mdc-chip-set');
