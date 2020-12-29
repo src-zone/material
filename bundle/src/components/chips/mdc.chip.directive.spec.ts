@@ -109,7 +109,7 @@ describe('MdcChipDirective', () => {
         expect(chipComponents[2].value).toBe('three');
     }));
 
-    xit('chipset type is one of choice, filter, input, or action', (() => {
+    it('chipset type is one of choice, filter, input, or action', (() => {
         const { fixture, testComponent, chipSetComponent, chipSet } = setup();
         expect(chipSetComponent.mdcChipSet).toBe('action');
         expect(chipSet.getAttribute('class')).toBe('mdc-chip-set');
@@ -202,7 +202,7 @@ describe('MdcChipDirective', () => {
         expect(testComponent.chips).toEqual([]);
     }));
 
-    xit('after chip removal, next remaining chip has focus and is tabbable', fakeAsync(() => {
+    it('after chip removal, next remaining chip has focus and is tabbable', fakeAsync(() => {
         const { fixture, testComponent } = setup();
         testComponent.type = 'input';
         testComponent.chips = ['chip1', 'chip2', 'chip3'];

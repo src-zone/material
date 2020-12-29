@@ -559,11 +559,13 @@ export class MdcChipSetDirective implements AfterContentInit, OnDestroy {
         this._chips!.changes.subscribe(() => {
             this.initSubscriptions();
             this.initChips();
+            this.cdRef.detectChanges();
         });
         this.initSubscriptions();
         this.initChips();
         this._foundation!.init();
         this._initialized = true;
+        this.cdRef.detectChanges();
     }
 
     ngOnDestroy() {
@@ -609,7 +611,6 @@ export class MdcChipSetDirective implements AfterContentInit, OnDestroy {
         });
         if (!hasTabbableItem && this._chips!.length > 0)
             this._chips!.first!._forceTabbable();
-        this.cdRef.detectChanges();
     }
 
     private destroySubscriptions() {
