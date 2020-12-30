@@ -27,3 +27,9 @@
 @use "components-list";
 @use "docs-api";
 @use "theme-switcher.scss";
+
+// workaround for missing opacity from disabled select items
+// TODO this can probably be removed after upgrade to MCW > 7.0,
+// as it seems related to select using old structure of lists,
+// missing span.mdc-select__menu:  
+.mdc-select__menu .mdc-list-item.mdc-list-item--disabled {opacity: 0.38;}
