@@ -287,6 +287,8 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
     /** @internal */
     @ContentChildren(MdcSelectAnchorDirective) _anchors?: QueryList<MdcSelectAnchorDirective>;
     /** @internal */
+    @ContentChildren(MdcNotchedOutlineDirective, {descendants: true}) _outlines?: QueryList<MdcNotchedOutlineDirective>;
+    /** @internal */
     @ContentChildren(MdcSelectMenuDirective) _menus?: QueryList<MdcSelectMenuDirective>;
     /** @internal */
     @ContentChildren(MdcListDirective, {descendants: true}) _lists?: QueryList<MdcListDirective>;
@@ -383,7 +385,9 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
             // the foundation initializes with the values of the items, so if they change, the foundation must be reconstructed:
             this.onItemsChange$,
             // mdcSelectText change needs a complete re-init as well:
-            this._texts!.changes
+            this._texts!.changes,
+            // when an outline is added/removed, a re-init is needed as well:
+            this._outlines!.changes
         ).pipe(
             takeUntil(this.onDestroy$),
             debounceTime(1)

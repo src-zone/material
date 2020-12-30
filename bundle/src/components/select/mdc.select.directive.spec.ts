@@ -76,6 +76,23 @@ describe('MdcSelectDirective', () => {
         selectAndCheck(fixture, 3, 0, '');
     }));
 
+    it('label remains floating when switching between outlined and without outline', fakeAsync(() => {
+        const { fixture, testComponent } = setup(TestSwitchOutlinedComponent);
+        const root = fixture.nativeElement.querySelector('.mdc-select');
+        checkFloating(fixture, false);
+        setAndCheck(fixture, 'vegetables', TestSwitchOutlinedComponent);
+        checkFloating(fixture, true);
+        validateDom(root, {outlined: true, selected: 2});
+        testComponent.outlined = false;
+        fixture.detectChanges(); tick(20);
+        validateDom(root, {outlined: false, selected: 2});
+        checkFloating(fixture, true);
+        testComponent.outlined = true;
+        fixture.detectChanges(); tick(20);
+        validateDom(root, {outlined: true, selected: 2});
+        checkFloating(fixture, true);
+    }));
+
     function setAndCheck(fixture: ComponentFixture<any>, value: any, type = TestComponent) {
         const testComponent = fixture.debugElement.injector.get(type);
         const mdcSelect = fixture.debugElement.query(By.directive(MdcSelectDirective))?.injector.get(MdcSelectDirective);
@@ -193,6 +210,37 @@ describe('MdcSelectDirective', () => {
         value: any = null;
         labeled = true;
         disabled = false;
+    }
+
+    @Component({
+        template: `
+            <div mdcSelect [(value)]="value" [disabled]="disabled">
+                <div mdcSelectAnchor>
+                    <div mdcSelectText>{{value}}</div>
+                    <span *ngIf="outlined; else notOutlined" mdcNotchedOutline>
+                        <span mdcNotchedOutlineNotch>
+                            <span mdcFloatingLabel>Pick a Food Group</span>
+                        </span>
+                    </span>
+                    <ng-template #notOutlined>
+                        <span mdcFloatingLabel>Pick a Food Group</span>
+                    </ng-template>
+                </div>            
+                <div mdcSelectMenu>
+                    <ul mdcList>
+                        <li mdcListItem value="" aria-selected="true"></li>
+                        <li mdcListItem value="grains">Bread, Cereal, Rice, and Pasta</li>
+                        <li mdcListItem value="vegetables">Vegetables</li>
+                        <li mdcListItem value="fruit">Fruit</li>
+                    </ul>
+                </div>
+            </div>
+            <div>selected: {{value}}</div>
+        `
+    })
+    class TestSwitchOutlinedComponent {
+        value: any = null;
+        outlined = true;
     }
 
     function setup(compType: Type<any> = TestComponent) {
