@@ -1,5 +1,5 @@
 import { AfterContentInit, ContentChildren, Directive, ElementRef, forwardRef, HostBinding,
-  HostListener, Input, OnDestroy, OnInit, Optional, QueryList, Renderer2, Self, Output, EventEmitter, Attribute } from '@angular/core';
+  HostListener, Input, OnDestroy, OnInit, Optional, QueryList, Renderer2, Self, Output, EventEmitter } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { MDCTextFieldFoundation, MDCTextFieldAdapter } from '@material/textfield';
 import { MDCLineRippleFoundation, MDCLineRippleAdapter } from '@material/line-ripple';
@@ -11,8 +11,10 @@ import { asBoolean, asNumberOrNull } from '../../utils/value.utils';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 import { MdcNotchedOutlineDirective } from '../notched-outline/mdc.notched-outline.directive';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
-import { Subject, merge } from 'rxjs';
+import { Subject, merge, Observable } from 'rxjs';
 import { takeUntil, debounceTime } from 'rxjs/operators';
+import { HasId } from '../abstract/mixin.mdc.hasid';
+import { applyMixins } from '../../utils/mixins';
 
 let nextId = 1;
 
@@ -28,6 +30,10 @@ export class MdcTextFieldInputDirective extends AbstractMdcInput implements OnIn
     @HostBinding('class.mdc-text-field__input') readonly _cls = true;
     /** @internal */
     @HostBinding('attr.aria-labelledby') _labeledBy: string | null = null;
+    /** @internal */
+    @HostBinding('attr.aria-controls') _controls: string | null = null;
+    /** @internal */
+    @HostBinding('attr.aria-describedby') _describedBy: string | null = null;
     /** @internal */
     @Output() readonly _valueChange: EventEmitter<string | null> = new EventEmitter<string | null>();
     private onDestroy$: Subject<any> = new Subject();
@@ -249,6 +255,10 @@ export class MdcTextFieldHelperLineDirective {
     @HostBinding('class.mdc-text-field-helper-line') readonly _cls = true;
 }
 
+@Directive()
+class MdcTextFieldHelperTextDirectiveBase {}
+interface MdcTextFieldHelperTextDirectiveBase extends HasId {}
+applyMixins(MdcTextFieldHelperTextDirectiveBase, [HasId]);
 /**
  * Directive for an optional helper-text to show supplemental information or validation
  * messages for an <code>mdcTextField</code>. This directive should be wrapped inside an
@@ -261,7 +271,7 @@ export class MdcTextFieldHelperLineDirective {
     selector: '[mdcTextFieldHelperText]',
     exportAs: 'mdcHelperText'
 })
-export class MdcTextFieldHelperTextDirective implements AfterContentInit, OnDestroy {
+export class MdcTextFieldHelperTextDirective extends MdcTextFieldHelperTextDirectiveBase implements OnInit, AfterContentInit, OnDestroy {
     /** @internal */
     @HostBinding('class.mdc-text-field-helper-text') readonly _cls = true;
     private _validation = false;
@@ -284,6 +294,11 @@ export class MdcTextFieldHelperTextDirective implements AfterContentInit, OnDest
     _foundation: MDCTextFieldHelperTextFoundation | null = null;
 
     constructor(private _rndr: Renderer2, public _elm: ElementRef) {
+        super();
+    }
+
+    ngOnInit() {
+        this.initId();
     }
 
     ngAfterContentInit() {
@@ -452,6 +467,7 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
             this.initLineRipple();
         }
         this.attachLabelToInput();
+        this.attachHelperTextToInput();
         this.initIcons();
         this.foundation = new MDCTextFieldFoundation(this.mdcAdapter, {
             helperText: this.helperText?._foundation ? this.helperText._foundation : undefined,
@@ -460,6 +476,12 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
         });
         this.foundation.init();
         this.subscribeInputChanges();
+        if (this._helperText) {
+            this._helperText.idChange().pipe(
+                takeUntil(this.onDestroy$),
+                takeUntil(this.onHelperTextChange$)
+            ).subscribe(() => this.attachHelperTextToInput());
+        }
     }
 
     private destroyComponent() {
@@ -565,6 +587,16 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
         first = true;
         this._floatingLabels?.forEach(label => {
             label.for = (first && !needLabeledBy && this._floatingLabel?.isLabelElement()) ? this._input?.id || null : null;
+            first = false;
+        });
+    }
+
+    private attachHelperTextToInput() {
+        let first = true;
+        this._inputs!.forEach(input => {
+            const assign = first ? this._helperText?.id || null : null;
+            input._controls = assign;
+            input._describedBy = assign;
             first = false;
         });
     }

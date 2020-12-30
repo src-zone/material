@@ -121,11 +121,15 @@ describe('MdcTextFieldDirective', () => {
     }));
 
     it('helper text', fakeAsync(() => {
-        const { fixture, testComponent } = setup(TestWithHelperTextComponent);
+        const { fixture, testComponent, element } = setup(TestWithHelperTextComponent);
         testComponent.withHelperText = true;
-        const helperText = fixture.nativeElement.querySelector('.mdc-text-field-helper-text');
+        const helperText: HTMLElement = fixture.nativeElement.querySelector('.mdc-text-field-helper-text');
+        expect(helperText.id).toMatch(/mdc-u-id-[0-9]+/);
+        const helperId = helperText.id;
         expect(helperText.classList).not.toContain('mdc-text-field-helper-text--persistent');
         expect(helperText.classList).not.toContain('mdc-text-field-helper-text--validation-msg');
+        expect(element.getAttribute('aria-controls')).toBe(helperId);
+        expect(element.getAttribute('aria-describedby')).toBe(helperId);
         testComponent.persistent = true;
         fixture.detectChanges(); flush();
         expect(helperText.classList).toContain('mdc-text-field-helper-text--persistent');
@@ -135,6 +139,20 @@ describe('MdcTextFieldDirective', () => {
         fixture.detectChanges(); flush();
         expect(helperText.classList).not.toContain('mdc-text-field-helper-text--persistent');
         expect(helperText.classList).toContain('mdc-text-field-helper-text--validation-msg');
+    }));
+
+    it('helper text dynamic ids', fakeAsync(() => {
+        const { fixture, testComponent, element } = setup(TestWithHelperTextDynamicIdComponent);
+        testComponent.withHelperText = true;
+        const helperText: HTMLElement = fixture.nativeElement.querySelector('.mdc-text-field-helper-text');
+        expect(helperText.id).toBe('someId');
+        expect(element.getAttribute('aria-controls')).toBe('someId');
+        expect(element.getAttribute('aria-describedby')).toBe('someId');
+        testComponent.helperId = 'otherId';
+        fixture.detectChanges(); flush();
+        expect(helperText.id).toBe('otherId');
+        expect(element.getAttribute('aria-controls')).toBe('otherId');
+        expect(element.getAttribute('aria-describedby')).toBe('otherId');
     }));
 
     it('icons', fakeAsync(() => {
@@ -279,6 +297,25 @@ describe('MdcTextFieldDirective', () => {
         }
     }
 
+    @Component({
+        template: `
+          <label mdcTextField [helperText]="help">
+            <input mdcTextFieldInput type="text" [value]="value" (input)="onInput($event)">
+            <span mdcFloatingLabel>Floating Label</span>
+          </label>
+          <div mdcTextFieldHelperLine>
+            <div mdcTextFieldHelperText [id]="helperId" #help="mdcHelperText">helper text</div>
+          </div>
+        `
+    })
+    class TestWithHelperTextDynamicIdComponent {
+        value: any = null;
+        helperId = 'someId';
+        onInput(e) {
+            this.value = e.target.value;
+        }
+    }
+
     function setup(compType: Type<any> = TestComponent) {
         const fixture = TestBed.configureTestingModule({
             declarations: [
@@ -291,7 +328,7 @@ describe('MdcTextFieldDirective', () => {
         fixture.detectChanges(); flush();
         const testComponent = fixture.debugElement.injector.get(compType);
         const input = fixture.debugElement.query(By.directive(MdcTextFieldInputDirective))?.injector.get(MdcTextFieldInputDirective);
-        const element = fixture.nativeElement.querySelector('.mdc-text-field__input');
+        const element: HTMLInputElement = fixture.nativeElement.querySelector('.mdc-text-field__input');
         return { fixture, testComponent, input, element };
     }
 });
