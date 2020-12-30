@@ -35,6 +35,7 @@ describe('mdcList', () => {
         const { list, items } = setup();
         expect(list).toBeDefined();
         expect(list.getAttribute('role')).toBeNull();
+        expect(list.getAttribute('tabindex')).toBeNull();
         expect(items.length).toBe(3);
         // by default items are set to be focusable, but only the first item is tabbable (tabindex=-1):
         expectTabbable(items, 0);

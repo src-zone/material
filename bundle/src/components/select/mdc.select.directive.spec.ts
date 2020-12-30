@@ -301,7 +301,7 @@ function validateDom(select, options: Partial<{
     expect(list.classList).toContain('mdc-list');
     expect(list.getAttribute('role')).toBe('listbox');
     expect(list.getAttribute('aria-labelledBy')).toBe(floatingLabel ? floatingLabel.id : null);
-    expect(list.getAttribute('tabindex')).toBe('0');
+    expect(list.getAttribute('tabindex')).toBeNull();
     const items = [...list.querySelectorAll('li')];
     let index = 0;
     items.forEach(item => {
