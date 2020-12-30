@@ -11,7 +11,7 @@ import { asBoolean, asNumberOrNull } from '../../utils/value.utils';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 import { MdcNotchedOutlineDirective } from '../notched-outline/mdc.notched-outline.directive';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
-import { Subject, merge, Observable } from 'rxjs';
+import { Subject, merge } from 'rxjs';
 import { takeUntil, debounceTime } from 'rxjs/operators';
 import { HasId } from '../abstract/mixin.mdc.hasid';
 import { applyMixins } from '../../utils/mixins';
@@ -184,16 +184,20 @@ export class MdcTextFieldIconDirective implements AfterContentInit, OnDestroy {
     @HostBinding('class.mdc-text-field__icon--trailing') _trailing = false;
     private _tabIndex: number | null = null;
     private _role: string | null = null;
+    /** @internal */
+    _textField: MdcTextFieldDirective | null = null;
     
     /** @internal */
     _mdcAdapter: MDCTextFieldIconAdapter = {
-        getAttr: (name: string) => this._el.nativeElement.getAttribute(name),
+        // by returning null for 'tabindex', the foundation will not set tabindex/role attributes when
+        // disabled state changes. We want that, because we handle tabindex/role ourselves:
+        getAttr: (name: string) => name === 'tabindex' ? null : this._el.nativeElement.getAttribute(name),
         setAttr: (name: string, value: string) => this._rndr.setAttribute(this._el.nativeElement, name, value),
         removeAttr: (name: string) => this._rndr.removeAttribute(this._el.nativeElement, name),
         setContent: (content: string) => this._el.nativeElement.textContent = content,
         registerInteractionHandler: (evtType, handler) => this._reg.listen(this._rndr, evtType, handler, this._el),
         deregisterInteractionHandler: (evtType, handler) => this._reg.unlisten(evtType, handler),
-        notifyIconAction: () => this.interact.emit()
+        notifyIconAction: () => !this._textField?._disabled && this.interact.emit()
     };
     /** @internal */
     _foundation: MDCTextFieldIconFoundation | null = new MDCTextFieldIconFoundation(this._mdcAdapter);
@@ -216,7 +220,7 @@ export class MdcTextFieldIconDirective implements AfterContentInit, OnDestroy {
      * binding. You can override this default, by setting a non-null value for this property.
      */
     @HostBinding('attr.tabindex') @Input() get tabindex() {
-        if (this.interact.observers.length > 0 && this._tabIndex == null)
+        if (this.interact.observers.length > 0 && this._tabIndex == null && !this._textField?._disabled)
             return 0;
         return this._tabIndex;
     }
@@ -233,7 +237,7 @@ export class MdcTextFieldIconDirective implements AfterContentInit, OnDestroy {
      * binding. You can override this default, by setting a non-null value for this property.
      */
     @HostBinding('attr.role') @Input() get role() {
-        if (this.interact.observers.length > 0 && this._role == null)
+        if (this.interact.observers.length > 0 && this._role == null && !this._textField?._disabled)
             return 'button';
         return this._role;
     }
@@ -529,6 +533,7 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
         this._leadingIcon = this.computeLeadingIcon();
         this._trailingIcon = this.computeTrailingIcon(this._leadingIcon);
         this._icons!.forEach(icon => {
+            icon._textField = this;
             icon._leading = icon === this._leadingIcon;
             icon._trailing = icon === this._trailingIcon;
         });

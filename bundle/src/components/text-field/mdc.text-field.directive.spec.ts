@@ -184,6 +184,12 @@ describe('MdcTextFieldDirective', () => {
         expect(trailIcon.getAttribute('role')).toBe('button');
         expect(leadIcon.tabIndex).toBe(-1); // no interaction -> no tabIndex
         expect(trailIcon.tabIndex).toBe(0);
+        testComponent.disabled = true;
+        fixture.detectChanges(); tick(5); fixture.detectChanges();
+        expect(trailIcon.getAttribute('role')).toBeNull(); // disabled -> no role
+        expect(trailIcon.tabIndex).toBe(-1); // disabled -> no tabIndex
+        testComponent.disabled = false;
+        fixture.detectChanges(); tick(5); fixture.detectChanges();
 
         // interactions:
         expect(testComponent.trailingIconInteractions).toBe(0);
