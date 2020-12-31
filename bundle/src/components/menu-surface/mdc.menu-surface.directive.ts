@@ -3,7 +3,6 @@ import { AfterContentInit, ContentChildren, Directive, ElementRef, HostBinding,
 import { MDCMenuSurfaceFoundation, MDCMenuSurfaceAdapter, util, cssClasses, Corner } from '@material/menu-surface';
 import { asBoolean } from '../../utils/value.utils';
 import { DOCUMENT } from '@angular/common';
-import { simulateKey } from '../../testutils/page.test';
 
 /**
  * The `mdcMenuSurface` is a reusable surface that appears above the content of the page
@@ -90,15 +89,15 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
             };
         },
         getWindowDimensions: () => ({
-            width: this.viewport ? this.viewport.clientWidth : window.innerWidth,
-            height: this.viewport ? this.viewport.clientHeight : window.innerHeight
+            width: this.viewport ? this.viewport.clientWidth : this.document.defaultView!.innerWidth,
+            height: this.viewport ? this.viewport.clientHeight : this.document.defaultView!.innerHeight
         }),
         getBodyDimensions: () => ({
             width: this.viewport ? this.viewport.scrollWidth : this.document.body.clientWidth,
             height: this.viewport ? this.viewport.scrollHeight : this.document.body.clientHeight}),
         getWindowScroll: () => ({
-            x: this.viewport ? this.viewport.scrollLeft : window.pageXOffset,
-            y: this.viewport ? this.viewport.scrollTop : window.pageYOffset
+            x: this.viewport ? this.viewport.scrollLeft : this.document.defaultView!.pageXOffset,
+            y: this.viewport ? this.viewport.scrollTop : this.document.defaultView!.pageYOffset
         }),
         setPosition: (position) => {
             let el = this._elm.nativeElement;
@@ -109,7 +108,7 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
         },
         setMaxHeight: (height: string) => this._elm.nativeElement.style.maxHeight = height,
         setTransformOrigin: (origin: string) => this.rndr.setStyle(this._elm.nativeElement,
-            `${util.getTransformPropertyName(window)}-origin`, origin),
+            `${util.getTransformPropertyName(this.document.defaultView!)}-origin`, origin),
         saveFocus: () => this._prevFocus = this.document.activeElement,
         restoreFocus: () => this._elm.nativeElement.contains(this.document.activeElement) && this._prevFocus
             && (this._prevFocus as any)['focus'] && (this._prevFocus as any)['focus'](),
@@ -142,7 +141,7 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
   
     ngOnDestroy() {
         // when we're destroying a closing surface, the event listener may not be removed yet:
-        document.removeEventListener('click', this._handleBodyClick);
+        this.document.removeEventListener('click', this._handleBodyClick);
         this.foundation?.destroy();
         this.foundation = null;
     }

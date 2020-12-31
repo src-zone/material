@@ -8,7 +8,7 @@ import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 @Directive()
 export abstract class AbstractMdcRipple {
     private mdcRippleAdapter: MDCRippleAdapter = {
-        browserSupportsCssVars: () => util.supportsCssVariables(window),
+        browserSupportsCssVars: () => util.supportsCssVariables(this.document.defaultView!),
         isUnbounded: () => this._unbounded,
         isSurfaceActive: () => this.isRippleSurfaceActive(),
         isSurfaceDisabled: () => this.isRippleSurfaceDisabled(),
@@ -22,17 +22,17 @@ export abstract class AbstractMdcRipple {
         deregisterInteractionHandler: (type, handler) => {
             this._registry.unlisten(type, handler);
         },
-        registerDocumentInteractionHandler: (type, handler) => this._registry.listenElm(this._renderer, type, handler, document, events.applyPassive()),
+        registerDocumentInteractionHandler: (type, handler) => this._registry.listenElm(this._renderer, type, handler, this.document, events.applyPassive()),
         deregisterDocumentInteractionHandler: (type, handler) => this._registry.unlisten(type, handler),
         registerResizeHandler: (handler) => {
-            this._registry.listenElm(this._renderer, 'resize', handler, window);
+            this._registry.listenElm(this._renderer, 'resize', handler, this.document.defaultView!);
         },
         deregisterResizeHandler: (handler) => {
             this._registry.unlisten('resize', handler);
         },
         updateCssVariable: (name, value) => { this.getRippleStylingElement().nativeElement.style.setProperty(name, value); },
         computeBoundingRect: () => this.computeRippleBoundingRect(),
-        getWindowPageOffset: () => ({x: window.pageXOffset, y: window.pageYOffset})
+        getWindowPageOffset: () => ({x: this.document.defaultView!.pageXOffset, y: this.document.defaultView!.pageYOffset})
     }
 
     /** @internal */
@@ -40,7 +40,9 @@ export abstract class AbstractMdcRipple {
     private _unbounded = false;
     private _rippleSurface: HTMLElement | null = null;
 
-    constructor(protected _rippleElm: ElementRef, protected _renderer: Renderer2, protected _registry: MdcEventRegistry) {}
+    constructor(protected _rippleElm: ElementRef, protected _renderer: Renderer2, protected _registry: MdcEventRegistry,
+        protected document: Document) {
+    }
 
     /** @internal */
     protected initRipple(unbounded = false) {

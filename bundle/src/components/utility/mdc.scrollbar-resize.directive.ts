@@ -1,10 +1,11 @@
-import { Directive, Input, OnDestroy } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Directive, Inject, Input, OnDestroy } from '@angular/core';
 import { asBoolean } from '../../utils/value.utils';
 
 let scrollbarResizeListenerId: string | null = null;
 let scrollbarResizeDirectives = 0;
 
-function initScrollbarResizeListener() {
+function initScrollbarResizeListener(document: Document) {
     if (scrollbarResizeListenerId)
         return;
     // create an invisible iframe, covering the full width of the window:
@@ -16,8 +17,8 @@ function initScrollbarResizeListener() {
     iframe.onload = function() {
       iframe.contentWindow!.addEventListener('resize', function() {
         try {
-          let evt = new UIEvent('resize', {view: window, cancelable: false, bubbles: true});
-          window.dispatchEvent(evt);
+          let evt = new UIEvent('resize', {view: document.defaultView!, cancelable: false, bubbles: true});
+          document.defaultView!.dispatchEvent(evt);
         } catch(e) {}
       });
     };
@@ -25,7 +26,7 @@ function initScrollbarResizeListener() {
     document.body.appendChild(iframe);
 }
 
-function destroyScrollbarResizeListener() {
+function destroyScrollbarResizeListener(document: Document) {
     if (scrollbarResizeListenerId != null) {
         let iframe = document.getElementById(scrollbarResizeListenerId);
         if (iframe)
@@ -53,9 +54,11 @@ function destroyScrollbarResizeListener() {
     selector: '[mdcScrollbarResize]'
 })
 export class MdcScrollbarResizeDirective implements OnDestroy {
+    private document: Document;
     private _scrollbarResize = false;
 
-    constructor() {
+    constructor(@Inject(DOCUMENT) doc: any) {
+        this.document = doc as Document;
     }
 
     ngOnDestroy() {
@@ -63,7 +66,7 @@ export class MdcScrollbarResizeDirective implements OnDestroy {
             this._scrollbarResize = false;
             --scrollbarResizeDirectives;
             if (scrollbarResizeDirectives <= 0)
-                destroyScrollbarResizeListener();
+                destroyScrollbarResizeListener(this.document);
         }
     }
 
@@ -82,11 +85,11 @@ export class MdcScrollbarResizeDirective implements OnDestroy {
             this._scrollbarResize = newValue;
             if (newValue) {
                 ++scrollbarResizeDirectives;
-                initScrollbarResizeListener();
+                initScrollbarResizeListener(this.document);
             } else {
                 --scrollbarResizeDirectives;
                 if (scrollbarResizeDirectives <= 0)
-                    destroyScrollbarResizeListener();
+                    destroyScrollbarResizeListener(this.document);
             }
         }
     }

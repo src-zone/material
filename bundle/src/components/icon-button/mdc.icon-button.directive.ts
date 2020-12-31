@@ -1,5 +1,6 @@
 import { AfterContentInit, Directive, ElementRef, EventEmitter, forwardRef, HostBinding,
-    HostListener, Input, OnDestroy, Output, Renderer2, Self } from '@angular/core';
+    HostListener, Inject, Input, OnDestroy, Output, Renderer2, Self } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MDCIconButtonToggleFoundation, MDCIconButtonToggleAdapter, MDCIconButtonToggleEventDetail } from '@material/icon-button';
 import { asBoolean } from '../../utils/value.utils';
@@ -24,8 +25,8 @@ export class MdcIconButtonDirective extends AbstractMdcIcon implements AfterCont
     /** @internal */
     @HostBinding('class.mdc-icon-button') readonly _cls = true;
 
-    constructor(_elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry) {
-        super(_elm, renderer, registry);
+    constructor(_elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry, @Inject(DOCUMENT) doc: any) {
+        super(_elm, renderer, registry, doc as Document);
     }
 
     ngAfterContentInit() {
@@ -118,8 +119,8 @@ export class MdcIconToggleDirective extends AbstractMdcIcon implements AfterCont
     };
     private toggleFoundation: MDCIconButtonToggleFoundation | null = null;
 
-    constructor(_elm: ElementRef, rndr: Renderer2, registry: MdcEventRegistry) {
-        super(_elm, rndr, registry);
+    constructor(_elm: ElementRef, rndr: Renderer2, registry: MdcEventRegistry, @Inject(DOCUMENT) doc: any) {
+        super(_elm, rndr, registry, doc as Document);
     }
   
     ngAfterContentInit() {

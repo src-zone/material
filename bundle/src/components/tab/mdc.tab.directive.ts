@@ -1,5 +1,6 @@
 import { AfterContentInit, ContentChildren, EventEmitter, forwardRef, Directive, ElementRef,
-    HostBinding, Input, OnDestroy, Output, Renderer2, QueryList, HostListener } from '@angular/core';
+    HostBinding, Input, OnDestroy, Output, Renderer2, QueryList, HostListener, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { MDCTabFoundation, MDCTabAdapter } from '@material/tab';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 import { asBoolean } from '../../utils/value.utils';
@@ -102,8 +103,8 @@ export abstract class AbstractMdcTabDirective extends AbstractMdcRipple implemen
     /** @internal */
     _foundation: MDCTabFoundation | null = null;
 
-    constructor(protected _rndr: Renderer2, public _root: ElementRef, protected _registry: MdcEventRegistry) {
-        super(_root, _rndr, _registry);
+    constructor(protected _rndr: Renderer2, public _root: ElementRef, protected _registry: MdcEventRegistry, @Inject(DOCUMENT) doc: any) {
+        super(_root, _rndr, _registry, doc as Document);
     }
 
     ngAfterContentInit() {
@@ -229,8 +230,8 @@ export abstract class AbstractMdcTabDirective extends AbstractMdcRipple implemen
     providers: [{provide: AbstractMdcTabDirective, useExisting: forwardRef(() => MdcTabDirective) }]
 })
 export class MdcTabDirective extends AbstractMdcTabDirective {
-    constructor(rndr: Renderer2, root: ElementRef, registry: MdcEventRegistry) {
-        super(rndr, root, registry);
+    constructor(rndr: Renderer2, root: ElementRef, registry: MdcEventRegistry, @Inject(DOCUMENT) doc: any) {
+        super(rndr, root, registry, doc as Document);
     }
 
     /**

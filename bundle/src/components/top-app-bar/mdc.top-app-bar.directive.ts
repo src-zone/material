@@ -1,5 +1,6 @@
-import { AfterContentInit, ContentChildren, Directive, ElementRef, HostBinding, Input,
+import { AfterContentInit, ContentChildren, Directive, ElementRef, HostBinding, Inject, Input,
     NgZone, OnDestroy, QueryList, Renderer2 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { MDCTopAppBarAdapter, MDCTopAppBarBaseFoundation,
     MDCTopAppBarFoundation, MDCFixedTopAppBarFoundation, MDCShortTopAppBarFoundation } from '@material/top-app-bar';
 import { events } from '@material/dom';
@@ -130,6 +131,7 @@ export class MdcTopAppBarActionDirective {
 export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
     /** @internal */
     @HostBinding('class.mdc-top-app-bar') readonly _cls = true;
+    private document: Document;
     /** @internal */
     @ContentChildren(MdcTopAppBarActionDirective, {descendants: true}) _actionItems?: QueryList<MdcTopAppBarActionDirective>;
     private handleScroll = () => {
@@ -181,12 +183,13 @@ export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
         setStyle: (property, value) => this._rndr.setStyle(this._elm.nativeElement, property, value),
         getTopAppBarHeight: () => this._elm.nativeElement.clientHeight,
         notifyNavigationIconClicked: () => {}, // not a special event in our implementation
-        getViewportScrollY: () => this._viewport ? this._viewport.scrollTop : window.pageYOffset,
+        getViewportScrollY: () => this._viewport ? this._viewport.scrollTop : this.document.defaultView!.pageYOffset,
         getTotalActionItems: () => this._actionItems!.length
     };
     private foundation: MDCTopAppBarBaseFoundation | null = null;
     
-    constructor(private _rndr: Renderer2, private _elm: ElementRef, private zone: NgZone) {
+    constructor(private _rndr: Renderer2, private _elm: ElementRef, private zone: NgZone, @Inject(DOCUMENT) doc: any) {
+        this.document = doc as Document;
     }
 
     ngAfterContentInit() {
@@ -219,9 +222,9 @@ export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
         this.initFixedAdjust();
 
         this.zone.runOutsideAngular(() => {
-            (this._viewport || window).addEventListener('scroll', this.handleScroll, events.applyPassive());
-            (this._viewport || window).addEventListener('touchmove', this.updateViewport, events.applyPassive());
-            window.addEventListener('resize', this.handleResize, events.applyPassive());
+            (this._viewport || this.document.defaultView!).addEventListener('scroll', this.handleScroll, events.applyPassive());
+            (this._viewport || this.document.defaultView!).addEventListener('touchmove', this.updateViewport, events.applyPassive());
+            this.document.defaultView!.addEventListener('resize', this.handleResize, events.applyPassive());
         });
         if (this.viewport && (this._type === 'short' || this._type === 'fixed'))
             this._updateViewPort();
@@ -250,9 +253,9 @@ export class MdcTopAppBarDirective implements AfterContentInit, OnDestroy {
     }
 
     private removeScrollListeners() {
-        (this._viewport || window).removeEventListener('scroll', this.handleScroll, events.applyPassive());
-        (this._viewport || window).removeEventListener('touchmove', this.updateViewport, events.applyPassive());
-        window.removeEventListener('resize', this.handleResize, events.applyPassive());
+        (this._viewport || this.document.defaultView!).removeEventListener('scroll', this.handleScroll, events.applyPassive());
+        (this._viewport || this.document.defaultView!).removeEventListener('touchmove', this.updateViewport, events.applyPassive());
+        this.document.defaultView!.removeEventListener('resize', this.handleResize, events.applyPassive());
     }
 
     /**

@@ -1,4 +1,6 @@
-import { ContentChildren, EventEmitter, QueryList, Directive, ElementRef, HostBinding, Output, Renderer2, HostListener, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
+import { ContentChildren, EventEmitter, QueryList, Directive, ElementRef, HostBinding, Output, HostListener,
+    AfterContentInit, OnDestroy, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { Subject, Subscription } from 'rxjs';
 import { MDCTabBarFoundation, MDCTabBarAdapter } from '@material/tab-bar';
 import { AbstractMdcTabDirective, MdcTabChange } from './mdc.tab.directive';
@@ -14,6 +16,7 @@ import { takeUntil } from 'rxjs/operators';
 export class MdcTabBarDirective implements AfterContentInit, OnDestroy {
     /** @internal */
     @HostBinding('class.mdc-tab-bar') readonly _cls = true;
+    private document: Document;
     /** @internal */
     @HostBinding('attr.role') _role = 'tablist';
     private onDestroy$: Subject<any> = new Subject();
@@ -38,7 +41,7 @@ export class MdcTabBarDirective implements AfterContentInit, OnDestroy {
         getTabIndicatorClientRectAtIndex: (index) => this._tabs!.toArray()[index]._computeIndicatorClientRect()!,
         getTabDimensionsAtIndex: (index) => this._tabs!.toArray()[index]._computeDimensions()!,
         getPreviousActiveTabIndex: () => this._tabs!.toArray().findIndex(e => e.isActive()),
-        getFocusedTabIndex: () => this._tabs!.map(t => t._root.nativeElement).indexOf(document.activeElement),
+        getFocusedTabIndex: () => this._tabs!.map(t => t._root.nativeElement).indexOf(this.document.activeElement),
         getIndexOfTabById: () => -1, // we're not using the id's, and nothing should call getIndexOfTabById
         getTabListLength: () => this._tabs!.length,
         notifyTabActivated: (tabIndex) => this.tabChange.emit({tab: this._tabs!.toArray()[tabIndex], tabIndex})
@@ -46,7 +49,9 @@ export class MdcTabBarDirective implements AfterContentInit, OnDestroy {
     private _subscriptions: Subscription[] = [];
     private _foundation: MDCTabBarFoundation | null = null;
 
-    constructor(public _el: ElementRef) {}
+    constructor(public _el: ElementRef, @Inject(DOCUMENT) doc: any) {
+        this.document = doc as Document;
+    }
 
     ngAfterContentInit() {
         let scrollersObservable$ = this._scrollers!.changes.pipe(takeUntil(this.onDestroy$));
