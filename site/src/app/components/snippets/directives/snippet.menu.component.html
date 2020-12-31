@@ -3,14 +3,13 @@
 <div class="snippet-container">
 snippet-skip-line -->
 <div class="snippet-container snippet-skip-line" #viewport>
-  <div mdcMenuAnchor #anchor [style.top]="pTop" [style.bottom]="pBottom" [style.left]="pLeft" [style.right]="pRight">
+  <div mdcMenuAnchor [style.top]="pTop" [style.bottom]="pBottom" [style.left]="pLeft" [style.right]="pRight">
     <button mdcButton raised [mdcMenuTrigger]="menu">Reveal Menu</button>
 <!-- snippet-skip-line
     <div mdcMenu #menu="mdcMenu"
 snippet-skip-line -->
     <div mdcMenu #menu="mdcMenu" [viewport]="viewport" class="snippet-skip-line"
         [(open)]="open"
-        [menuAnchor]="anchor"
         (pick)="select($event.value)">
       <ul mdcList>
         <li mdcListItem value="back"><span mdcListItemText>Back</span></li>
