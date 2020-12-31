@@ -1,6 +1,7 @@
-import { AfterContentInit, ContentChild, Directive, ElementRef, forwardRef, HostBinding,
+import { AfterContentInit, Directive, ElementRef, forwardRef, HostBinding,
   Input, OnDestroy, OnInit, Renderer2, Self, ContentChildren, QueryList, Host, SkipSelf,
   HostListener, Inject, Output, EventEmitter } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { MDCLineRippleFoundation, MDCLineRippleAdapter } from '@material/line-ripple';
 import { MDCSelectFoundation, MDCSelectAdapter, cssClasses, strings } from '@material/select';
 import { Subject, merge } from 'rxjs';
@@ -119,8 +120,9 @@ export class MdcSelectAnchorDirective extends AbstractMdcRipple implements After
     };
     
     constructor(public _elm: ElementRef, private rndr: Renderer2, registry: MdcEventRegistry,
-        @Host() @SkipSelf() @Inject(forwardRef(() => MdcSelectDirective)) private select: MdcSelectDirective) {
-        super(_elm, rndr, registry);
+        @Host() @SkipSelf() @Inject(forwardRef(() => MdcSelectDirective)) private select: MdcSelectDirective,
+        @Inject(DOCUMENT) doc: any) {
+        super(_elm, rndr, registry, doc as Document);
     }
 
     ngAfterContentInit() {
@@ -272,6 +274,7 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
     private onDestroy$: Subject<any> = new Subject();
     private onMenuChange$: Subject<any> = new Subject();
     private onItemsChange$: Subject<any> = new Subject();
+    private document: Document;
     private _onChange: (value: any) => void = () => {};
     private _onTouched: () => any = () => {};
     private _lastMenu: MdcSelectMenuDirective | null = null;
@@ -311,7 +314,7 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
         notifyChange: (value) => this.updateValue(value, ValueSource.foundation),
         // setSelectedText does nothing, library consumer should set the text; gives them more freedom to e.g. also use markup:
         setSelectedText: () => undefined,
-        isSelectedTextFocused: () => !!(document.activeElement && document.activeElement === this.text?._elm.nativeElement),
+        isSelectedTextFocused: () => !!(this.document.activeElement && this.document.activeElement === this.text?._elm.nativeElement),
         getSelectedTextAttr: (attr) => this.text?._elm.nativeElement.getAttribute(attr),
         setSelectedTextAttr: (attr, value) => this.text ? this.rndr.setAttribute(this.text._elm.nativeElement, attr, value) : undefined,
         openMenu: () => this.menu!.openAndFocus(<any>null),
@@ -366,7 +369,8 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
     /** @internal */
     foundation: MDCSelectFoundation | null = null;
 
-    constructor(private elm: ElementRef, private rndr: Renderer2) {
+    constructor(private elm: ElementRef, private rndr: Renderer2, @Inject(DOCUMENT) doc: any) {
+        this.document = doc as Document;
     }
 
     ngAfterContentInit() {

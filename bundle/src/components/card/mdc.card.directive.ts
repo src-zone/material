@@ -1,5 +1,6 @@
-import { AfterContentInit, ContentChildren, Directive, ElementRef, HostBinding, Input, OnDestroy,
+import { AfterContentInit, ContentChildren, Directive, ElementRef, HostBinding, Inject, Input, OnDestroy,
     QueryList, Renderer2 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { asBoolean } from '../../utils/value.utils';
 import { AbstractMdcIcon } from '../icon-button/abstract.mdc.icon';
 import { MdcButtonDirective } from '../button/mdc.button.directive';
@@ -164,8 +165,8 @@ export class MdcCardPrimaryActionDirective extends AbstractMdcRipple implements 
     /** @internal */
     @HostBinding('class.mdc-card__primary-action') readonly _cls = true;
 
-    constructor(private elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry) {
-        super(elm, renderer, registry);
+    constructor(private elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry, @Inject(DOCUMENT) doc: any) {
+        super(elm, renderer, registry, doc as Document);
     }
 
     ngAfterContentInit() {

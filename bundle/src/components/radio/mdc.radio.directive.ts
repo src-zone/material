@@ -1,5 +1,6 @@
 import { AfterContentInit, Directive, ElementRef, HostBinding,
-  Input, OnDestroy, Optional, Renderer2, Self, forwardRef, ContentChildren, QueryList } from '@angular/core';
+  Input, OnDestroy, Optional, Renderer2, Self, forwardRef, ContentChildren, QueryList, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { NgControl } from '@angular/forms';
 import { MDCRadioFoundation, MDCRadioAdapter } from '@material/radio';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
@@ -77,8 +78,8 @@ export class MdcRadioDirective extends AbstractMdcRipple implements AfterContent
     };
     private foundation: MDCRadioFoundation | null = new MDCRadioFoundation(this.mdcAdapter);
 
-    constructor(private renderer: Renderer2, private root: ElementRef, registry: MdcEventRegistry) {
-        super(root, renderer, registry);
+    constructor(private renderer: Renderer2, private root: ElementRef, registry: MdcEventRegistry, @Inject(DOCUMENT) doc: any) {
+        super(root, renderer, registry, doc as Document);
     }
 
     ngAfterContentInit() {

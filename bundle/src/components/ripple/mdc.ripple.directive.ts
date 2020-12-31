@@ -1,4 +1,5 @@
 import { AfterContentInit, Directive, ElementRef, HostBinding, Input, OnDestroy, Renderer2, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { asBoolean, asBooleanOrNull } from '../../utils/value.utils';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
@@ -20,8 +21,8 @@ export class MdcRippleDirective extends AbstractMdcRipple implements AfterConten
     private _surface: boolean | 'primary' | 'accent' = false;
     private _dim: number | null = null;
 
-    constructor(public _elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry) {
-        super(_elm, renderer, registry);
+    constructor(public _elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry, @Inject(DOCUMENT) doc: any) {
+        super(_elm, renderer, registry, doc as Document);
     }
   
     ngAfterContentInit() {

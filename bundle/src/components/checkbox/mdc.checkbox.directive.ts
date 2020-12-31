@@ -1,5 +1,6 @@
 import { AfterContentInit, Directive, ElementRef, HostBinding, Input, OnDestroy, OnInit, Optional, Renderer2,
-    Self, forwardRef, HostListener, Output, EventEmitter, ContentChildren, QueryList } from '@angular/core';
+    Self, forwardRef, HostListener, Output, EventEmitter, ContentChildren, QueryList, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { NgControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -166,8 +167,8 @@ export class MdcCheckboxDirective extends AbstractMdcRipple implements AfterCont
     /** @internal */
     _foundation: MDCCheckboxFoundation | null = null;
 
-    constructor(renderer: Renderer2, private root: ElementRef, registry: MdcEventRegistry) {
-        super(root, renderer, registry);
+    constructor(renderer: Renderer2, private root: ElementRef, registry: MdcEventRegistry, @Inject(DOCUMENT) doc: any) {
+        super(root, renderer, registry, doc as Document);
         this.addRippleSurface('mdc-checkbox__ripple');
     }
 

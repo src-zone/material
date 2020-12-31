@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Inject, Injectable } from '@angular/core';
 import { MDCSnackbarAdapter, MDCSnackbarFoundation, numbers } from '@material/snackbar';
 import { announce } from '@material/snackbar/util';
 import { Observable, Subject } from 'rxjs';
@@ -95,36 +96,39 @@ export class MdcSnackbarService {
     private handleKeyDown = (evt: KeyboardEvent) => this.foundation!.handleKeyDown(evt);
     private foundation: MDCSnackbarFoundation | null = null;
     private queue: MdcSnackbarInfo[] = [];
+    private document: Document;
 
-    constructor() {}
+    constructor(@Inject(DOCUMENT) doc: any) {
+        this.document = doc as Document;
+    }
 
     private init() {
         if (!this.foundation) {
-            this.root = document.createElement('div');
+            this.root = this.document.createElement('div');
             this.root.classList.add('mdc-snackbar');
-            let surface = document.createElement('div');
+            let surface = this.document.createElement('div');
             surface.classList.add('mdc-snackbar__surface');
             this.root.appendChild(surface);
-            this.label = document.createElement('div');
+            this.label = this.document.createElement('div');
             this.label.setAttribute('role', 'status');
             this.label.setAttribute('aria-live', 'polite');
             this.label.classList.add('mdc-snackbar__label');
             surface.appendChild(this.label);
-            let actions = document.createElement('div');
+            let actions = this.document.createElement('div');
             actions.classList.add('mdc-snackbar__actions');
             surface.appendChild(actions);
-            this.actionButton = document.createElement('button');
+            this.actionButton = this.document.createElement('button');
             this.actionButton.classList.add('mdc-button');
             this.actionButton.classList.add('mdc-snackbar__action');
             this.actionButton.setAttribute('type', 'button');
             actions.appendChild(this.actionButton);
-            let ripple = document.createElement('div');
+            let ripple = this.document.createElement('div');
             ripple.classList.add('mdc-button__ripple');
             this.actionButton.appendChild(ripple);
-            this.actionLabel = document.createElement('span');
+            this.actionLabel = this.document.createElement('span');
             this.actionLabel.classList.add('mdc-button__label');
             this.actionButton.appendChild(this.actionLabel);
-            document.body.appendChild(this.root);
+            this.document.body.appendChild(this.root);
             this.foundation = new MDCSnackbarFoundation(this.adapter);
 
             this.actionButton.addEventListener('click', this.handleActionClick);

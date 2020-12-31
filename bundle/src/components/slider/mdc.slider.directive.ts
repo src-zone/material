@@ -92,7 +92,7 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
         deregisterThumbContainerInteractionHandler: (evtType, handler) => this._registry.unlisten(evtType, handler),
         registerBodyInteractionHandler: (evtType, handler) => this._registry.listenElm(this._rndr, evtType, handler, this.document.body),
         deregisterBodyInteractionHandler: (evtType, handler) => this._registry.unlisten(evtType, handler),
-        registerResizeHandler: (handler) => this._registry.listenElm(this._rndr, 'resize', handler, window),
+        registerResizeHandler: (handler) => this._registry.listenElm(this._rndr, 'resize', handler, this.document.defaultView!),
         deregisterResizeHandler: (handler) => this._registry.unlisten('resize', handler),
         notifyInput: () => {
             let newValue = this.asNumber(this.foundation!.getValue());

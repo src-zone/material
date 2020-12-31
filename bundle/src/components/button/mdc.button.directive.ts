@@ -1,4 +1,5 @@
-import { AfterContentInit, Directive, ElementRef, HostBinding, Input, OnDestroy, Renderer2, forwardRef } from '@angular/core';
+import { AfterContentInit, Directive, ElementRef, HostBinding, Input, OnDestroy, Renderer2, forwardRef, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { asBoolean } from '../../utils/value.utils';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
@@ -54,8 +55,8 @@ export class MdcButtonDirective extends AbstractMdcRipple implements AfterConten
     private _unelevated = false;
     private _outlined = false;
 
-    constructor(public _elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry) {
-        super(_elm, renderer, registry);
+    constructor(public _elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry, @Inject(DOCUMENT) doc: any) {
+        super(_elm, renderer, registry, doc as Document);
         this.addRippleSurface('mdc-button__ripple');
     }
 

@@ -1,5 +1,6 @@
-import { AfterContentInit, ContentChildren, Directive, ElementRef, HostBinding,
-  Input, OnDestroy, QueryList, Renderer2, Output, EventEmitter, HostListener, ChangeDetectorRef } from '@angular/core';
+import { AfterContentInit, ContentChildren, Directive, ElementRef, HostBinding, Input, OnDestroy,
+    QueryList, Renderer2, Output, EventEmitter, HostListener, ChangeDetectorRef, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { MDCListFoundation, MDCListAdapter, strings, cssClasses } from '@material/list';
 import { asBoolean } from '../../utils/value.utils';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
@@ -143,8 +144,8 @@ export class MdcListItemDirective extends AbstractMdcRipple implements AfterCont
     @Output() readonly selectedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
     private _value: string | null = null;
 
-    constructor(public _elm: ElementRef, rndr: Renderer2, registry: MdcEventRegistry) {
-        super(_elm, rndr, registry)
+    constructor(public _elm: ElementRef, rndr: Renderer2, registry: MdcEventRegistry, @Inject(DOCUMENT) doc: any) {
+        super(_elm, rndr, registry, doc as Document);
     }
 
     ngAfterContentInit() {
@@ -398,6 +399,7 @@ const ANGULAR_ITEM_CLASSES = [
 })
 export class MdcListDirective implements AfterContentInit, OnDestroy {
     private onDestroy$: Subject<any> = new Subject();
+    private document: Document;
     /** @internal */
     @HostBinding('class.mdc-list') readonly _cls = true;
     /** @internal */
@@ -445,7 +447,7 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
             return this.getItem(index)?._elm.nativeElement.getAttribute(attr);
         },
         getListItemCount: () => this._items!.length,
-        getFocusedElementIndex: () => this._items!.toArray().findIndex(i => i._elm.nativeElement === document.activeElement!),
+        getFocusedElementIndex: () => this._items!.toArray().findIndex(i => i._elm.nativeElement === this.document.activeElement!),
         setAttributeForElementIndex: (index, attribute, value) => {
             // ignore attributes we maintain ourselves
             if (!ANGULAR_ITEM_ATTRIBUTES.find(a => a === attribute)) {
@@ -480,7 +482,7 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
         hasRadioAtIndex: () => this._role === 'radiogroup',
         hasCheckboxAtIndex: () => this._role === 'group',
         isCheckboxCheckedAtIndex: (index) => !!this.getItem(index)?._getCheckbox()?._input?.checked,
-        isRootFocused: () => document.activeElement === this._elm.nativeElement,
+        isRootFocused: () => this.document.activeElement === this._elm.nativeElement,
         listItemAtIndexHasClass: (index, className) => {
             if (className === cssClasses.LIST_ITEM_DISABLED_CLASS)
                 return !!this.getItem(index)?.disabled;
@@ -492,7 +494,7 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
             if (input) {
                 input.checked = isChecked;
                 // simulate user interaction, as this is triggered from a user interaction:
-                const event = document.createEvent('Event');
+                const event = this.document.createEvent('Event');
                 event.initEvent('change', true, true);
                 input.dispatchEvent(event);
                 // checkbox input listens to clicks, not changed events, so let it know about the change:
@@ -507,13 +509,14 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
             }
         },
         isFocusInsideList: () => {
-            return this._elm.nativeElement.contains(document.activeElement);
+            return this._elm.nativeElement.contains(this.document.activeElement);
         },
     };
     /** @internal */
     foundation?: MDCListFoundation | null;
     
-    constructor(public _elm: ElementRef, private rndr: Renderer2, private cdRef: ChangeDetectorRef) {
+    constructor(public _elm: ElementRef, private rndr: Renderer2, private cdRef: ChangeDetectorRef, @Inject(DOCUMENT) doc: any) {
+        this.document = doc as Document; // work around ngc issue https://github.com/angular/angular/issues/20351
     }
 
     ngAfterContentInit() {
@@ -558,7 +561,7 @@ export class MdcListDirective implements AfterContentInit, OnDestroy {
         this.foundation = new MDCListFoundation(this.mdcAdapter);
         this.foundation.init();
         this.updateLayout();
-        const focus = this.getListItemIndex({target: document.activeElement as EventTarget});
+        const focus = this.getListItemIndex({target: this.document.activeElement as EventTarget});
         if (focus !== -1) // only way to restore focus when a list item already had focus:
             (<any>this.foundation)['focusedItemIndex_'] = focus;
         this.updateFoundationSelections();

@@ -1,5 +1,6 @@
 import { AfterContentInit, ContentChildren, Directive, ElementRef, forwardRef, HostBinding,
-  HostListener, Input, OnDestroy, OnInit, Optional, QueryList, Renderer2, Self, Output, EventEmitter } from '@angular/core';
+  HostListener, Input, OnDestroy, OnInit, Optional, QueryList, Renderer2, Self, Output, EventEmitter, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { NgControl } from '@angular/forms';
 import { MDCTextFieldFoundation, MDCTextFieldAdapter } from '@material/textfield';
 import { MDCLineRippleFoundation, MDCLineRippleAdapter } from '@material/line-ripple';
@@ -437,8 +438,8 @@ export class MdcTextFieldDirective extends AbstractMdcRipple implements AfterCon
     private bottomLineFoundation: MDCLineRippleFoundation | null = null;
     private foundation: MDCTextFieldFoundation | null = null;
 
-    constructor(private renderer: Renderer2, private root: ElementRef, private registry: MdcEventRegistry) {
-        super(root, renderer, registry);
+    constructor(private renderer: Renderer2, private root: ElementRef, private registry: MdcEventRegistry, @Inject(DOCUMENT) doc: any) {
+        super(root, renderer, registry, doc as Document);
     }
 
     ngAfterContentInit() {        

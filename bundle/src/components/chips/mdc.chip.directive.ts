@@ -1,5 +1,6 @@
 import { AfterContentInit, ContentChildren, Directive, ElementRef, EventEmitter, HostBinding, Input,
-    OnDestroy,Output, QueryList, Renderer2, ChangeDetectorRef, HostListener } from '@angular/core';
+    OnDestroy,Output, QueryList, Renderer2, ChangeDetectorRef, HostListener, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { MDCChipAdapter, MDCChipSetAdapter, MDCChipFoundation, MDCChipSetFoundation } from '@material/chips';
 import { EventSource} from '@material/chips/chip/constants';
 import { announce } from '@material/dom/announce';
@@ -251,8 +252,8 @@ export class MdcChipDirective extends AbstractMdcRipple implements AfterContentI
     /** @internal */
     _foundation: MDCChipFoundation = new MDCChipFoundation(this._adapter);
 
-    constructor(private _elm: ElementRef, rndr: Renderer2, registry: MdcEventRegistry) {
-        super(_elm, rndr, registry);
+    constructor(private _elm: ElementRef, rndr: Renderer2, registry: MdcEventRegistry, @Inject(DOCUMENT) doc: any) {
+        super(_elm, rndr, registry, doc as Document);
         this._uniqueValue = `mdc-chip-${MdcChipDirective.nextValue++}`;
     }
 

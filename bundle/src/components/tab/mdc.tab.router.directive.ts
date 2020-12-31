@@ -1,4 +1,5 @@
-import { ContentChildren, forwardRef, QueryList, Directive, ElementRef, Optional, Renderer2 } from '@angular/core';
+import { ContentChildren, forwardRef, QueryList, Directive, ElementRef, Optional, Renderer2, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { Router, RouterLink, RouterLinkWithHref } from '@angular/router';
 import { AbstractMdcTabDirective } from './mdc.tab.directive';
 import { RouterActiveDetector } from '../utility/router.active.detector';
@@ -25,8 +26,9 @@ export class MdcTabRouterDirective extends AbstractMdcTabDirective {
     private routerActive: RouterActiveDetector | null = null;
 
     constructor(rndr: Renderer2, root: ElementRef, registry: MdcEventRegistry, private router: Router,
+        @Inject(DOCUMENT) doc: any,
         @Optional() private link?: RouterLink, @Optional() private linkWithHref?: RouterLinkWithHref) {
-        super(rndr, root, registry);
+        super(rndr, root, registry, doc as Document);
     }
 
     ngOnDestroy() {

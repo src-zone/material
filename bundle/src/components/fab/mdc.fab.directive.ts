@@ -1,4 +1,5 @@
-import { AfterContentInit, Directive, ElementRef, HostBinding, Input, OnDestroy, Renderer2, forwardRef, ContentChild, ContentChildren } from '@angular/core';
+import { AfterContentInit, Directive, ElementRef, HostBinding, Input, OnDestroy, Renderer2, forwardRef, ContentChild, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { asBoolean } from '../../utils/value.utils';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
@@ -45,8 +46,8 @@ export class MdcFabDirective extends AbstractMdcRipple implements AfterContentIn
     private _mini = false;
     private _exited = false;
 
-    constructor(public _elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry) {
-        super(_elm, renderer, registry);
+    constructor(public _elm: ElementRef, renderer: Renderer2, registry: MdcEventRegistry, @Inject(DOCUMENT) doc: any) {
+        super(_elm, renderer, registry, doc as Document);
         this.addRippleSurface('mdc-fab__ripple');
     }
 
