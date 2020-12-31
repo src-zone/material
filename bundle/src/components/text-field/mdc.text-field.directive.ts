@@ -20,7 +20,7 @@ import { applyMixins } from '../../utils/mixins';
 let nextId = 1;
 
 /**
- * Directive for the native input of an `mdcTextField`. 
+ * Directive for the native input of an `mdcTextField`.
  */
 @Directive({
     selector: 'input[mdcTextFieldInput], textarea[mdcTextFieldInput]',
@@ -268,9 +268,14 @@ applyMixins(MdcTextFieldHelperTextDirectiveBase, [HasId]);
  * Directive for an optional helper-text to show supplemental information or validation
  * messages for an <code>mdcTextField</code>. This directive should be wrapped inside an
  * `mdcTextFieldHelperLine` that comes directly after the `mdcTextField` it belongs to.
- * Additionally, you must export it as a <code>mdcHelperText</code>, and
+ * Additionally, you must export it as an <code>mdcHelperText</code>, and
  * assign the exported object to the <code>helperText</code> property of the
  * <code>mdcHelperText</code>. See the examples for hints on how to do this.
+ * 
+ * The `mdcTextFieldInput` of the textfield will get `aria-controls` and `aria-describedby`
+ * accessibility attributes that point to the `id` of this helpertext element. If no `id` has
+ * been assigned, a unique `id` attribute will automatically be assigned. If the `id` attribute
+ * is changed, the aria attributes on the `mdcTextFieldInput` will be updated accordingly.
  */
 @Directive({
     selector: '[mdcTextFieldHelperText]',
