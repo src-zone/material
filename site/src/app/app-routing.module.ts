@@ -23,6 +23,7 @@ const routes: Routes = [
 @NgModule({
     imports: [RouterModule.forRoot(routes, {
         scrollPositionRestoration: 'enabled',
+        anchorScrolling: 'enabled',
         preloadingStrategy: PreloadAllModules,
         relativeLinkResolution: 'legacy'
     })],

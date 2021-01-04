@@ -11,6 +11,7 @@ import { IconButtonDirectivesComponent } from './icon-button.directives.componen
 import { LinearProgressDirectivesComponent } from './linear-progress.directives.component';
 import { ListDirectivesComponent } from './list.directives.component';
 import { MenuDirectivesComponent } from './menu.directives.component';
+import { MenuSurfaceDirectivesComponent } from './menu-surface.directives.component';
 import { RadioDirectivesComponent } from './radio.directives.component';
 import { RippleDirectivesComponent } from './ripple.directives.component';
 import { SelectDirectivesComponent } from './select.directives.component';
@@ -35,6 +36,7 @@ export * from './icon-button.directives.component';
 export * from './linear-progress.directives.component';
 export * from './list.directives.component';
 export * from './menu.directives.component';
+export * from './menu-surface.directives.component';
 export * from './radio.directives.component';
 export * from './ripple.directives.component';
 export * from './select.directives.component';
@@ -60,6 +62,7 @@ export const MDC_DIRECTIVE_DOC_COMPONENTS = [
     LinearProgressDirectivesComponent,
     ListDirectivesComponent,
     MenuDirectivesComponent,
+    MenuSurfaceDirectivesComponent,
     RadioDirectivesComponent,
     RippleDirectivesComponent,
     SelectDirectivesComponent,
