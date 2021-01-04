@@ -45,12 +45,12 @@ export class MdcMenuSurfaceDirective implements AfterContentInit, OnDestroy {
      * Event emitted after the menu has fully opened. When this event is emitted the full
      * opening animation has completed, and the menu is visible.
      */
-    @Output() readonly afterOpened: EventEmitter<boolean> = new EventEmitter();
+    @Output() readonly afterOpened: EventEmitter<void> = new EventEmitter();
     /**
      * Event emitted after the menu has fully closed. When this event is emitted the full
      * closing animation has completed, and the menu is not visible anymore.
      */
-    @Output() readonly afterClosed: EventEmitter<boolean> = new EventEmitter();
+    @Output() readonly afterClosed: EventEmitter<void> = new EventEmitter();
     private _prevFocus: Element | null = null;
     private _hoisted = false;
     private _fixed = false;

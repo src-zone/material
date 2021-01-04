@@ -39,6 +39,10 @@ let nextId = 1;
  * Directive for a spec aligned material design Menu.
  * This directive should wrap an `mdcList`. The `mdcList` contains the menu items (and possible separators).
  * 
+ * An `mdcMenu` element will also match with the selector of the menu surface directive, documented
+ * <a href="/components/menu-surface#mdcMenuSurface">here: mdcMenuSurface</a>. The
+ * <a href="/components/menu-surface#mdcMenuAnchor">mdcMenuAnchor API</a> is documented on the same page.
+ * 
  * # Accessibility
  * 
  * * For `role` and `aria-*` attributes on the list, see documentation for `mdcList`.

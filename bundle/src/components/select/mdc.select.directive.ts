@@ -235,6 +235,9 @@ export class MdcSelectAnchorDirective extends AbstractMdcRipple implements After
  * Directive for the options list of an `mdcSelect`. This directive should be the second (last) child
  * of an `mdcSelect`, and should wrap an `mdcList` with all selection options.
  * See the examples for the required structure of these directives.
+ * 
+ * An `mdcSelectMenu` element will also match with the selector of the menu surface directive, documented
+ * <a href="/components/menu-surface#mdcMenuSurface">here: mdcMenuSurface API</a>.
  */
 @Directive({
     selector: '[mdcSelectMenu]'
