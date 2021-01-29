@@ -1,3 +1,18 @@
+<a name="1.0.0-beta.4"></a>
+# [1.0.0-beta.4](https://github.com/src-zone/material/compare/v1.0.0-beta.3...v1.0.0-beta.4) (2021-01-29)
+
+
+### Bug Fixes
+
+* **chip:** only one chip of a set should be tabbable at any time ([#716](https://github.com/src-zone/material/issues/716)) ([2a10d96](https://github.com/src-zone/material/commit/2a10d96c953dcb60963ed26b502ef235741e7705))
+* **drawer:** fix open-state and focus of drawer when changing type to modal on an already open drawer ([0be9442](https://github.com/src-zone/material/commit/0be94424b67cb4a56c32b5b0090bf9d1fd65d249))
+* **list:** tabindex of a list must not be set (unless it's part of a menu) ([#718](https://github.com/src-zone/material/issues/718)) ([16244f0](https://github.com/src-zone/material/commit/16244f0e197912a8bdbba17a3041df9e1d570e91))
+* **menu:** fix ExpressionChangedAfterItHasBeenCheckedError for menu items in ngFor loop ([48b1f4e](https://github.com/src-zone/material/commit/48b1f4e0c6968b3b140aa3bd5f2ac364f3780362))
+* **select:** keep label floating when switching between outlined and default structure/style ([6590358](https://github.com/src-zone/material/commit/65903582d2567562db95c7655da40d7a8d048892))
+* **text-field:** trailing icon must not allow interactions when input is disabled ([f3c433e](https://github.com/src-zone/material/commit/f3c433e8494c11d11757ca5731131224752fec3a))
+
+
+
 <a name="1.0.0-beta.3"></a>
 # [1.0.0-beta.3](https://github.com/src-zone/material/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2020-12-18)
 

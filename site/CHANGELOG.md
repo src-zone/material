@@ -1,3 +1,16 @@
+<a name="1.0.0-beta.4"></a>
+# [1.0.0-beta.4](https://github.com/src-zone/material/compare/v1.0.0-beta.3...v1.0.0-beta.4) (2021-01-29)
+
+
+### Bug Fixes
+
+* styling for disabled select items ([1ea1b44](https://github.com/src-zone/material/commit/1ea1b447b0dc3f1c6c86826501b7caab01665390))
+* **chip:** only one chip of a set should be tabbable at any time ([#716](https://github.com/src-zone/material/issues/716)) ([2a10d96](https://github.com/src-zone/material/commit/2a10d96c953dcb60963ed26b502ef235741e7705))
+* **docs:** fix highlight.js code highlighting for IE11 ([5e83320](https://github.com/src-zone/material/commit/5e8332005d2a53f3b19858b87176993f55429578))
+* **drawer:** fix open-state and focus of drawer when changing type to modal on an already open drawer ([0be9442](https://github.com/src-zone/material/commit/0be94424b67cb4a56c32b5b0090bf9d1fd65d249))
+
+
+
 <a name="1.0.0-beta.3"></a>
 # [1.0.0-beta.3](https://github.com/src-zone/material/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2020-12-18)
 
