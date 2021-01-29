@@ -1,3 +1,20 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+
+
+<a name="1.0.0-beta.5"></a>
+# [1.0.0-beta.5](https://github.com/src-zone/material/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2021-01-29)
+
+
+### Bug Fixes
+
+* resolve issues with angular 11.1 by generating code for ViewEngine (instead of Ivy). ([3b987cf](https://github.com/src-zone/material/commit/3b987cfb052e32d019020e198436314c01ac25bb))
+
+
+
 <a name="1.0.0-beta.4"></a>
 # [1.0.0-beta.4](https://github.com/src-zone/material/compare/v1.0.0-beta.3...v1.0.0-beta.4) (2021-01-29)
 
@@ -43,13 +60,6 @@
 
 * - material now requires at least angular@10
 - material now requires the Ivy engine (which is already the default from angular 10 onwards)
-
-
-
-# Change Log
-
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
 
 
