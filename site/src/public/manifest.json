@@ -1,5 +1,7 @@
 {
-    "name": "blox material",
+    "name": "Blox Material",
+    "short_name": "Blox Material",
+    "start_url": "/",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
@@ -13,6 +15,6 @@
         }
     ],
     "theme_color": "#ffffff",
-    "background_color": "#ffffff",
+    "background_color": "#212121",
     "display": "standalone"
 }
