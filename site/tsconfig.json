@@ -17,7 +17,7 @@
       "dom"
     ],
     "paths": {
-      "@blox/material": ["../../bundle"]
+      "@blox/material": ["../../bundle/dist"]
     },
     "typeRoots": [
       "node_modules/@types"

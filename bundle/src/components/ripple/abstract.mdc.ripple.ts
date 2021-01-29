@@ -39,9 +39,12 @@ export abstract class AbstractMdcRipple {
     protected _rippleFoundation: MDCRippleFoundation | null = null;
     private _unbounded = false;
     private _rippleSurface: HTMLElement | null = null;
+    protected document: Document;
 
     constructor(protected _rippleElm: ElementRef, protected _renderer: Renderer2, protected _registry: MdcEventRegistry,
-        protected document: Document) {
+        doc: any) {
+        // workaround compiler bug when using ViewEngine. Type Document fails compilation
+        this.document = doc as Document
     }
 
     /** @internal */

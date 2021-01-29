@@ -1,8 +1,0 @@
-/tools/
-/build/
-/compiled/
-/apidocs/
-/coverage/
-/rollup.config.js
-/tsconfig*.json
-/karma.*

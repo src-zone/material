@@ -72,7 +72,7 @@ export class MdcScrollbarResizeDirective implements OnDestroy {
 
     /**
      * Set to false to disable triggering resize events because of addition/deletion of a scrollbar.
-     * The <code>mdcScrollbarResize</code> behavior is removed after <strong>all</strong>&ngsp;
+     * The <code>mdcScrollbarResize</code> behavior is removed after <strong>all</strong>&nbsp;
      * <code>mdcScrollbarResize</code> directives on the page are removed or have the value false.
      */
     @Input() get mdcScrollbarResize() {
