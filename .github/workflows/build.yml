@@ -78,9 +78,8 @@ jobs:
       - name: Set release tag
         id: tag
         run: echo ::set-output name=npm_tag::$(echo ${{ github.ref }} | grep -oP "(?<=\-)[a-zA-Z_]+[a-zA-Z0-9_]*" || echo latest)
-      - run: echo ${{ steps.tag.outputs.npm_tag }}
       - name: Publish @blox/material npm package
-        run: cd bundle && npm publish dist --tag beta
+        run: cd bundle && npm publish dist --tag ${{ steps.tag.outputs.npm_tag }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   build-site:
