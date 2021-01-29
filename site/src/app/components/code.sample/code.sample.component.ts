@@ -135,6 +135,7 @@ export class CodeSampleComponent implements AfterContentInit {
                     template: 'angular-cli',
                     tags: ['blox-material', 'material-components-web', 'angular'],
                     dependencies: {
+                        "@angular/animations": angularVersion,
                         "@angular/common": angularVersion,
                         "@angular/compiler": angularVersion,
                         "@angular/core": angularVersion,
