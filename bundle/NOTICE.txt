@@ -6,6 +6,11 @@
    (http://the.src.zone/), licensed under the Apache
    License Version 2.0.
 
+   The announce utility used in mdcChipSet is derived from
+   https://github.com/material-components/material-components-web/blob/master/packages/mdc-dom/announce.ts
+   This code is Copyright 2020 by Google Inc, and licensed
+   under the MIT-License. See src/utils/thirdparty.announce.ts
+
    Portions of the code in tools/dgeni are derived from
    https://github.com/angular/material2/tree/2.0.0-beta.12/tools/dgeni
    Those portions are Copyright 2017 Google LLC, and licensed
