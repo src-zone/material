@@ -3,7 +3,7 @@ import { AfterContentInit, ContentChildren, Directive, ElementRef, EventEmitter,
 import { DOCUMENT } from '@angular/common';
 import { MDCChipAdapter, MDCChipSetAdapter, MDCChipFoundation, MDCChipSetFoundation } from '@material/chips';
 import { EventSource} from '@material/chips/chip/constants';
-import { announce } from '@material/dom/announce';
+import { announce } from '../../utils/thirdparty.announce';
 import { AbstractMdcRipple } from '../ripple/abstract.mdc.ripple';
 import { MdcEventRegistry } from '../../utils/mdc.event.registry';
 import { asBoolean } from '../../utils/value.utils';

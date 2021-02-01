@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
 import { MDCSnackbarAdapter, MDCSnackbarFoundation, numbers } from '@material/snackbar';
-import { announce } from '@material/snackbar/util';
+import { util } from '@material/snackbar';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MdcSnackbarMessage } from './mdc.snackbar.message';
@@ -79,7 +79,7 @@ export class MdcSnackbarService {
     private actionLabel: HTMLElement | null = null;
     private adapter: MDCSnackbarAdapter = {
         addClass: (name) => this.root!.classList.add(name),
-        announce: () => announce(this.label!, this.label!),
+        announce: () => util.announce(this.label!, this.label!),
         notifyClosed: (reason) => this.closed.next(reason),
         notifyClosing: () => {},
         notifyOpened: () => this.current?._opened.next(),

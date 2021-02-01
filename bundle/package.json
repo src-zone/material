@@ -18,8 +18,7 @@
     "clean": "rimraf build dist apidocs coverage",
     "apidocs": "ts-node --project tools/dgeni/tsconfig.json tools/dgeni/index.ts",
     "package": "ng-packagr -p package.json -c tsconfig-lib.json",
-    "copy-dist-docs": "cpy ../README.md LICENSE.txt NOTICE.txt dist/",
-    "build-noclean": "npm run package && npm run copy-dist-docs && npm run apidocs",
+    "build-noclean": "npm run package && npm run apidocs",
     "build": "ngcc && npm run clean && npm run build-noclean",
     "test": "karma start",
     "test:ci": "karma start",
@@ -87,6 +86,11 @@
     "zone.js": "^0.11.3"
   },
   "ngPackage": {
+    "assets": [
+      "../README.md",
+      "LICENSE.txt",
+      "NOTICE.txt"
+    ],
     "lib": {
       "entryFile": "src/material.module.ts",
       "umdId": "blox.material",
@@ -96,7 +100,6 @@
         "@material/chips": "mdc.chips",
         "@material/dialog": "mdc.dialog",
         "@material/dom": "mdc.dom",
-        "@material/dom/announce": "mdc.dom",
         "@material/drawer": "mdc.drawer",
         "@material/floating-label": "mdc.floatingLabel",
         "@material/form-field": "mdc.formField",
@@ -115,7 +118,6 @@
         "@material/slider": "mdc.slider",
         "@material/switch": "mdc.switch",
         "@material/snackbar": "mdc.snackbar",
-        "@material/snackbar/util": "mdc.snackbar",
         "@material/textfield": "mdc.textfield",
         "@material/toolbar": "mdc.toolbar",
         "@material/top-app-bar": "mdc.topAppBar",
