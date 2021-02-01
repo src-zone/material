@@ -19,7 +19,6 @@ export class ThemeService {
     private _themeStyle: ReplaySubject<string> = new ReplaySubject<string>(1);
     private _oldLink: HTMLLinkElement; // when we change theme we remove the old link once the new one is loaded
     private _link: HTMLLinkElement;
-    private _thColor: Element;
     private onLoadListener = () => {
         if (this._oldLink) {
             this._oldLink.parentElement.removeChild(this._oldLink);
@@ -29,7 +28,6 @@ export class ThemeService {
     };
 
     constructor() {
-        this._thColor = document.querySelector('meta[name="theme-color"]');
         document.querySelectorAll('link[rel=stylesheet]').forEach(link => {
             const href = link.getAttribute('href');
             if (href.match(/dark\.([a-f0-9]{18,}\.)?css/)) {
@@ -97,8 +95,13 @@ export class ThemeService {
 
     private setThemeColor() {
         const header = document.querySelector('header.blox-header');
-        if (header && this._thColor && window.getComputedStyle) {
-            this._thColor.setAttribute('content', asHexColor(window.getComputedStyle(header, null).getPropertyValue('background-color')));
+        if (header && window.getComputedStyle) {
+            const color = asHexColor(window.getComputedStyle(header, null).getPropertyValue('background-color'));
+            document.querySelector('meta[name="theme-color"]').setAttribute('content', color);
+            document.querySelector('meta[name="msapplication-TileColor"]').setAttribute('content', color);
+            document.querySelector('link[rel="mask-icon"]').setAttribute('color', color);
+
+
         } else
             console.log('unable to set theme color');
     }
