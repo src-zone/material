@@ -6,6 +6,10 @@ import { DOCUMENT } from '@angular/common';
 import { AbstractMdcFocusTrap, FocusTrapHandle } from '../focus-trap/abstract.mdc.focus-trap';
 import { MdcListItemDirective } from '../list/mdc.list.directive';
 
+/**
+ * Directive for the title of a drawer. The use of this directive is optional.
+ * If used, it should be placed as first element inside an `mdcDrawerHeader`
+ */
 @Directive({
     selector: '[mdcDrawerTitle]'
 })
@@ -14,6 +18,11 @@ export class MdcDrawerTitleDirective {
     @HostBinding('class.mdc-drawer__title') readonly _cls = true;
 }
 
+/**
+ * Directive for the subtitle of a drawer. The use of this directive is optional.
+ * If used, it should be placed as a sibling element of `mdcDrawerTitle`
+ * inside an `mdcDrawerHeader`
+ */
 @Directive({
     selector: '[mdcDrawerSubtitle]'
 })
@@ -23,12 +32,12 @@ export class MdcDrawerSubtitleDirective {
 }
 
 /**
- * A toolbar header is an optional first child of an <code>mdcDrawer</code>.
- * A toolbar header adds space to create a 16:9 drawer header.
- * It's often used for user account selection or profile information.
+ * A toolbar header is an optional first child of an `mdcDrawer`.
+ * The header will not scroll with the rest of the drawer content, so is a
+ * good place to place titles and account switchers.
  * 
- * To place content inside a toolbar header, add a child element with the
- * <code>mdcDrawerHeaderContent</code> directive.
+ * Directives that are typically used inside an `mdcDrawerHeader`:
+ * `mdcDrawerTitle`, and `mdcDrawerSubTitle`
  */
 @Directive({
     selector: '[mdcDrawerHeader]'
@@ -39,8 +48,8 @@ export class MdcDrawerHeaderDirective {
 }
 
 /**
- * Directive for the drawer content. You would typically also apply the <code>mdcList</code>
- * or <code>mdcListGroup</code> directive to the drawer content (see the examples).
+ * Directive for the drawer content. You would typically also apply the `mdcList`
+ * or `mdcListGroup` directive to the drawer content (see the examples).
  */
 @Directive({
     selector: '[mdcDrawerContent]'
@@ -59,13 +68,18 @@ export class MdcDrawerScrimDirective {
 }
 
 /**
- * A standalone <code>mdcDrawer</code> is a <i>permanent</i> drawer. A <i>permanent</i>
- * drawer is always open, sitting to the side of the content. It is appropriate for any
- * display size larger than mobile.
+ * Directive for a (navigation) drawer. The following drawer types are
+ * supported:
+ * * `permanent`: the default type if none was specified.
+ * * `dismissible`: the drawer is hidden by default, and can slide into view.
+ *   Typically used when navigation is not common, and the main app content is
+ *   prioritized.
+ * * `modal`: the drawer is hidden by default. When activated, the drawer is elevated
+ *   above the UI of the app. It uses a scrim to block interaction with the rest of
+ *   the app with a scrim.
  * 
- * To make a drawer that can be opened/closed, wrap the <code>mdcDrawer</code> inside an
- * <code>mdcDrawerContainer</code>. That makes the drawer a <i>persistent</i> or
- * <i>temporary</i> drawer. See <code>MdcDrawerContainerDirective</code> for more information.
+ * Drawers may contain an `mdcDrawerHeader`, and should contain an `mdcDrawerContent`
+ * directive.
  */
 @Directive({
     selector: '[mdcDrawer]'
@@ -113,7 +127,7 @@ export class MdcDrawerDirective implements AfterContentInit, OnDestroy {
     private foundation: MDCDismissibleDrawerFoundation | null = null; // MDCModalDrawerFoundation extends MDCDismissibleDrawerFoundation
     /**
      * Event emitted when the drawer is opened or closed. The event value will be
-     * <code>true</code> when the drawer is opened, and <code>false</code> when the
+     * `true` when the drawer is opened, and `false` when the
      * drawer is closed. (When this event is triggered, the drawer is starting to open/close,
      * but the animation may not have fully completed yet)
      */
@@ -212,10 +226,7 @@ export class MdcDrawerDirective implements AfterContentInit, OnDestroy {
 
     /**
      * Set the type of drawer. Either `permanent`, `dismissible`, or `modal`.
-     * The default (when no value given) is `persistent`. Please note that
-     * a third type of drawer exists: the <code>permanent</code> drawer. But a permanent
-     * drawer is created by not wrapping your <code>mdcDrawer</code> in a
-     * <code>mdcDrawerContainer</code>.
+     * The default type is `permanent`.
      */
     @Input() get mdcDrawer(): 'permanent' | 'dismissible' | 'modal' {
         return this.type;
@@ -233,7 +244,7 @@ export class MdcDrawerDirective implements AfterContentInit, OnDestroy {
     static ngAcceptInputType_mdcDrawer: 'permanent' | 'dismissible' | 'modal' | '';
 
     /**
-     * Input to open (assign value <code>true</code>) or close (assign value <code>false</code>)
+     * Input to open (assign value `true`) or close (assign value `false`)
      * the drawer.
      */
     @Input() get open() {
