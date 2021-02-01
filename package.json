@@ -8,8 +8,8 @@
         "@commitlint/cli": "^11.0.0",
         "conventional-changelog-angular": "^5.0.12",
         "conventional-changelog-cli": "^2.1.1",
-        "conventional-recommended-bump": "^6.0.11",
-        "husky": "^4.3.6",
+        "conventional-recommended-bump": "^6.1.0",
+        "husky": "^4.3.8",
         "shelljs": "^0.8.4",
         "simple-git": "^2.31.0"
     }
