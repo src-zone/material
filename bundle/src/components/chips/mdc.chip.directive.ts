@@ -16,12 +16,13 @@ export enum ChipEventSource {
 };
 
 /**
- * Directive for the (optional) leading or trailing icon of an <code>mdcChip</code>.
- * Depenending on the position within the <code>mdcChip</code> the icon will determine
+ * Directive for the (optional) leading or trailing icon of an `mdcChip`.
+ * Depending on the position within the `mdcChip` the icon will determine
  * whether it is a leading or trailing icon.
  * Trailing icons must implement the functionality to remove the chip from the set, and
- * must only be added to input chips (<code>mdcChipSet="input"</code>). Chips with a trailing
- * icon must implement the <code>remove</code> event.
+ * must only be added to input chips (`mdcChipSet="input"`). Chips with a trailing
+ * icon must implement the `remove` event. Trailing icons should be wrapped
+ * inside an `mdcChipCell`.
  */
 @Directive({
     selector: '[mdcChipIcon]'
@@ -135,8 +136,10 @@ export class MdcChipPrimaryActionDirective {
 }
 
 /**
- * Directive for the main content of a chip. This directive mus contain
- * the `mdcChipPrimaryActione` directive, and must be the child of an `mdcChip`.
+ * Directive for the main content of a chip, or for an optional trailing
+ * action on `input` chips. This directive must contain an
+ * `mdcChipPrimaryActione` or an `mdcChipIcon` (when used for the trailing action).
+ * An `mdcChipCell` must always be the direct child of an `mdcChip`.
  */
 @Directive({
     selector: '[mdcChipCell]'
