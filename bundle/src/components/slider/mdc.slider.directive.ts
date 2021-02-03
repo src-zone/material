@@ -258,7 +258,7 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
                 Promise.resolve().then(() => {this.maxValueChange.emit(this._max); });
             }
         }
-        let currValue = changes['value'] ? changes['value'].currentValue : this._value;
+        let currValue = this.asNumber(changes['value'] ? changes['value'].currentValue : this._value);
         if (this._value < this._min)
             this._value = this._min;
         if (this._value > this._max)
@@ -280,9 +280,9 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
         }
         this.foundation!.setValue(this._value);
         // value may have changed during setValue(), due to step settings:
-        this._value = (this._value == null ? null : this.asNumber(this.foundation!.getValue()))!; // TODO
+        this._value = this.asNumber(this.foundation!.getValue());
         // compare with '!=' as null and undefined are considered the same (for initialisation sake):
-        if (currValue != this._value && !(isNaN(currValue) && isNaN(this._value)))
+        if (currValue !== this._value)
             Promise.resolve().then(() => {this.notifyValueChanged(); });
     }
 
@@ -351,7 +351,7 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
     }
 
     set value(value: number) {
-        this._value = this.asNumber(value)!;
+        this._value = this.asNumber(value);
     }
 
     static ngAcceptInputType_value: string | number;
@@ -365,7 +365,7 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
     }
 
     set minValue(value: number) {
-        this._min = this.asNumber(value)!;
+        this._min = this.asNumber(value);
     }
 
     static ngAcceptInputType_minValue: string | number;
@@ -379,7 +379,7 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
     }
 
     set maxValue(value: number) {
-        this._max = this.asNumber(value)!;
+        this._max = this.asNumber(value);
     }
 
     static ngAcceptInputType_maxValue: string | number;
@@ -400,7 +400,7 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
     }
 
     set stepValue(value: number) {
-        this._step = this.asNumber(value)!;
+        this._step = this.asNumber(value);
     }
 
     static ngAcceptInputType_stepValue: string | number;
@@ -425,12 +425,12 @@ export class MdcSliderDirective implements AfterContentInit, AfterViewInit, OnCh
     }
 
     /** @internal */
-    asNumber(value: number | string): number | null { // TODO null return values are not accounted for
+    asNumber(value: number | string | null): number {
         if (value == null)
-            return <number>value;
+            return 0;
         let result = +value;
         if (isNaN(result))
-            return null;
+            return 0;
         return result;
     }
 }

@@ -107,9 +107,11 @@ describe('MdcSliderDirective', () => {
         const slider: HTMLElement = fixture.nativeElement.querySelector('.mdc-slider');
         expect(slider).toBeDefined();
         expect(slider.getAttribute('tabindex')).toBe('0');
-        expect(slider.getAttribute('aria-valuenow')).toBeNull();
-        expect(slider.getAttribute('aria-valuemin')).toBeNull();
-        expect(slider.getAttribute('aria-valuemax')).toBeNull();
+        //value/min/max will always be assigned:
+        expect(slider.getAttribute('aria-valuenow')).toBe('0');
+        expect(slider.getAttribute('aria-valuemin')).toBe('0');
+        expect(slider.getAttribute('aria-valuemax')).toBe('0');
+
         expect(slider.getAttribute('aria-disabled')).toBe('false');
         expect(slider.getAttribute('role')).toBe('slider');
     }));
@@ -120,7 +122,7 @@ describe('MdcSliderDirective', () => {
         const slider: HTMLElement = fixture.nativeElement.querySelector('.mdc-slider');
         expect(slider).toBeDefined();
         expect(slider.getAttribute('tabindex')).toBe('0');
-        expect(slider.getAttribute('aria-valuenow')).toBeNull();
+        expect(slider.getAttribute('aria-valuenow')).toBe('0'); // a value is always assigned, null is coerced to 0 (or min when min > 0)
         expect(slider.getAttribute('aria-valuemin')).toBe('0');
         expect(slider.getAttribute('aria-valuemax')).toBe('100');
         expect(slider.getAttribute('aria-disabled')).toBe('false');
