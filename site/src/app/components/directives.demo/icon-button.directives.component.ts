@@ -1,17 +1,24 @@
-import { Component } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { AbstractDemoComponent } from './abstract.demo.component';
 
 @Component({
   selector: 'blox-icon-button-directives',
   templateUrl: './icon-button.directives.component.html'
 })
-export class IconButtonDirectivesComponent {
+export class IconButtonDirectivesComponent extends AbstractDemoComponent {
     static DOC_SVG = require('!raw-loader!../../../assets/img/mdc-icons/component.svg');
     static DOC_TYPE = 'components';
     static DOC_HREF = 'icon-button';
     apiDoc: SafeHtml;
 
-    constructor(private sanitizer: DomSanitizer) {
-      this.apiDoc = this.sanitizer.bypassSecurityTrustHtml(require('!raw-loader!../../../../../bundle/apidocs/icon-button.html').default);
+    constructor(sanitizer: DomSanitizer, @Inject(DOCUMENT) doc: Document, router: Router) {
+      super(
+        sanitizer.bypassSecurityTrustHtml(require('!raw-loader!../../../../../bundle/apidocs/icon-button.html').default),
+        doc,
+        router
+      );
     }
 }
