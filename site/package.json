@@ -1,6 +1,6 @@
 {
   "name": "material-demo",
-  "version": "1.0.0-beta.5",
+  "version": "1.0.0",
   "private": true,
   "license": "Apache-2.0",
   "scripts": {

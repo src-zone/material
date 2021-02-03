@@ -1,3 +1,15 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+
+
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/src-zone/material/compare/v1.0.0-beta.5...v1.0.0) (2021-02-03)
+
+
+
 <a name="1.0.0-beta.5"></a>
 # [1.0.0-beta.5](https://github.com/src-zone/material/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2021-01-29)
 
@@ -46,11 +58,6 @@
 # [1.0.0-beta.1](https://github.com/src-zone/material/compare/v0.18.1...v1.0.0-beta.1) (2020-11-13)
 
 
-
-# Change Log
-
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
 <a name="0.18.1"></a>
 ## [0.18.1](https://github.com/src-zone/material/compare/v0.18.0...v0.18.1) (2020-07-14)
