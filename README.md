@@ -11,26 +11,24 @@ It integrates [Material Components for the Web](https://github.com/material-comp
 <a href="https://github.com/src-zone/material/actions"><img align="right" src="https://buildstats.info/github/chart/src-zone/material?branch=master&showStats=false" width="231" height="71"/></a>
 
 [![npm](https://img.shields.io/npm/v/@blox/material.svg)](https://www.npmjs.com/package/@blox/material)
-[![npm](https://img.shields.io/npm/v/@blox/material/beta.svg)](https://www.npmjs.com/package/@blox/material)
 [![License](https://img.shields.io/github/license/src-zone/material.svg)](LICENSE.txt)
-[![CircleCI](https://img.shields.io/circleci/project/github/src-zone/material.svg)](https://circleci.com/gh/src-zone/material/tree/master)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/src-zone/material/build)](https://github.com/src-zone/material/actions?query=workflow%3A%22Build%2C+Test%2C+Preview%22)
 [![Codecov](https://img.shields.io/codecov/c/github/src-zone/material)](https://codecov.io/gh/src-zone/material)
 [![Documentation](https://img.shields.io/badge/demo-website-lightgrey.svg)](https://material.src.zone/)
-* [Documention, Demo & Examples (for the beta releases)](https://material.src.zone/)
-* [Documention, Demo & Examples (for v0.x)](https://v0.material.src.zone/material)
+* [Documention, Demo & Examples](https://material.src.zone/)
+* [Old Documention, Demo & Examples (for v0.x)](https://v0.material.src.zone/material)
 * [Changelog](https://github.com/src-zone/material/blob/master/bundle/CHANGELOG.md)
 * [News (via twitter)](https://twitter.com/TheSourceZone)
+* [Guide for upgrading from v0.18.1 to v1.0.0](docs/migration/migration-0-to-1.md)
 
-## Status
+## Roadmap for 2.0.0
 
-We're currently in the progress of upgrading to the latest version of material-components-web. This
-introduces a significant amount of breaking changes. Hence the status of the master branch is beta, and we're
-publishing beta releases from that branch.
-
-The [stable_v0 branch](https://github.com/src-zone/material/tree/stable_v0) contains the branch for the latest
-non-beta builds.
-
-The documentation site for the beta release is here: [https://material.src.zone](https://material.src.zone)
+* Upgrade to material-components-web 9.0.0
+* Implement new components: `banner`, `circular-progress`, `data-table`, `segmented-button`, `tooltip`,
+  and `touch-target`
+* Add angular schematics support to help with installation
+* Add component alternatives to directives with complex structure
+* Add autocomplete input component
 
 ## Building from source
 
@@ -45,8 +43,8 @@ some tips:
   you must have built the material `bundle` first.
 * Check the `package.json` files for other commands that can be used to build, debug, test,
   release, or publish the library.
-* Publishing a new bundle is handled by circleci. The commands for publishing/releasing a new
+* Publishing a new bundle is handled by Github Actions. The commands for publishing/releasing a new
   version are in the root `package.json`. These commands create the appropriate tags and changes
-  that are picked up by the circleci build to do an actual publish/deploy/distribution of a new
+  that are picked up by a Github Action build to do an actual publish/deploy/distribution of a new
   version of the library.
 * Please use commit messages according to the [Angular Commit Message Guidelines](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-guidelines).
