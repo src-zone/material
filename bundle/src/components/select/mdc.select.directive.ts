@@ -488,7 +488,7 @@ export class MdcSelectDirective implements AfterContentInit, OnDestroy {
                 Promise.resolve().then(() => {
                     this.valueChange.emit(value);
                     if (this._valueSource !== ValueSource.control)
-                        this._onChange(value);    
+                        this._onChange(value);
                 });
             } else if (value !== this.value) {
                 if (this.foundation) {
