@@ -14,12 +14,12 @@ bumpVersion({preset: `angular`}, (error, recommendation) => {
             shell.exit(1);
         }
         console.log(`${bump} version bump requested: ${recommendation.reason}`);
-        if (bump !== 'minor' && bump !== 'patch')
-            // we don't do major releases, we want to stay in 0.x.y:
-            bump = 'minor';
+        //if (bump !== 'minor' && bump !== 'patch')
+        //    // we don't do major releases, we want to stay in 0.x.y:
+        //    bump = 'minor';
 
-        console.log('but this branch is configured as beta branch, so making the next beta release');
-        bump = 'prerelease';
+        //console.log('but this branch is configured as beta branch, so making the next beta release');
+        //bump = 'prerelease';
         
         prepare('bundle', bump);
         prepare('site', bump);
