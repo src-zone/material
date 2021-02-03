@@ -12,7 +12,7 @@ It integrates [Material Components for the Web](https://github.com/material-comp
 
 [![npm](https://img.shields.io/npm/v/@blox/material.svg)](https://www.npmjs.com/package/@blox/material)
 [![License](https://img.shields.io/github/license/src-zone/material.svg)](LICENSE.txt)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/src-zone/material/build)](https://github.com/src-zone/material/actions?query=workflow%3A%22Build%2C+Test%2C+Preview%22)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/src-zone/material/Build,%20Test,%20Preview)](https://github.com/src-zone/material/actions?query=workflow%3A%22Build%2C+Test%2C+Preview%22)
 [![Codecov](https://img.shields.io/codecov/c/github/src-zone/material)](https://codecov.io/gh/src-zone/material)
 [![Documentation](https://img.shields.io/badge/demo-website-lightgrey.svg)](https://material.src.zone/)
 * [Documention, Demo & Examples](https://material.src.zone/)
